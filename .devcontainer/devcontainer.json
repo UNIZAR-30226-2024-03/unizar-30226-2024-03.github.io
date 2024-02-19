@@ -1,0 +1,18 @@
+{
+    "name": "Psof dev",
+    "dockerFile": "Dockerfile",
+    // Set *default* container specific settings.json values on container create.
+    "settings": {
+        "terminal.integrated.profiles.linux": "/bin/zsh"
+    },
+    // Add the IDs of extensions you want installed when the container is created.
+    "extensions": [
+        "mhutchie.git-graph"
+    ],
+    // This command create an example project after the container is created.
+    "postCreateCommand": "",
+    // Use 'forwardPorts' to make a list of ports inside the container available locally.
+    //"forwardPorts": [],
+    // Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
+    "remoteUser": "vscode"
+}
