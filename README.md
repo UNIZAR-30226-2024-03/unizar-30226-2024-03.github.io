@@ -1,5 +1,5 @@
 # PlayBeat
-Repositorio correspondiente al frotend web de la asignatura Proyecto Software de la Universidad de Zaragoza
+Repositorio correspondiente al Front-end web de la asignatura Proyecto Software de la Universidad de Zaragoza
 
 ## 🚀 Project Structure
 
