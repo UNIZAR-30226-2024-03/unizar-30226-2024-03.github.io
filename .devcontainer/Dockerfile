@@ -13,20 +13,11 @@ RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 
-# RUN apt install git -y
-# RUN apt install zsh -y
-# # RUN apt install sudo -y
-# RUN sudo apt-get update
-# RUN sudo apt-get upgrade nodejs
+RUN useradd --create-home --shell /bin/zsh vscode || true
+RUN adduser vscode sudo 
 
-
-
-
-# RUN useradd --create-home --password vscode --shell /bin/zsh vscode
-
-RUN useradd -m -p "$(openssl passwd -1 vscode)" vscode --create-home --shell /bin/zsh
-
-RUN usermod -aG sudo vscode
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >>/etc/sudoers
+RUN echo "vscode:vscode" | chpasswd
 
 COPY ./.zshrc /home/vscode
 
