@@ -37,11 +37,19 @@ All commands are run from the root of the project, from a terminal:
 
 ## 👥 Contributors 
 Pablo Angusto 
+
 Miguel Aréjula 
+
 Garikoitz Arellano
+
 Alain Cascán
+
 Lucas Cauhe
+
 Álvaro de Franciso
+
 Daniel Herce
+
 Alain Villagrasa
+
 
