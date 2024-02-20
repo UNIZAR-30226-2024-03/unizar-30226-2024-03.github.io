@@ -1,7 +1,7 @@
 # PlayBeat
 Repositorio correspondiente al Front-end web de la asignatura Proyecto Software de la Universidad de Zaragoza
 
-## 🚀 Estrucutura del proyecto
+## 🚀 Estructura del proyecto
 
 Inside of your Astro project, you'll see the following folders and files:
 
