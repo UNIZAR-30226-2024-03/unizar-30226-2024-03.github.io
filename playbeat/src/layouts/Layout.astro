@@ -1,4 +1,9 @@
 ---
+import Library from '@components/Library.astro';
+import Queue from '@components/Queue.astro';
+import Player from '@components/Player.astro';
+
+
 interface Props {
 	title: string;
 }
@@ -10,42 +15,48 @@ const { title } = Astro.props;
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
+		<meta name="description" content="PlayBeat" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/logo_blanco.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 	</head>
 	<body>
-		<slot />
+		<div id="app" class="relative min-h-screen ">
+			<aside class="[grid-area:aside1] ">
+				<Library />
+			</aside>
+			<main
+			class="[grid-area:main] rounded-lg bg-zinc-900 ">
+			<slot />
+		  </main>
+		<aside class="[grid-area:aside2] ">
+			<Queue />
+		</aside>
+
+		<footer class="[grid-area:player] h-[100px]">
+			<Player client:load transition:name="media-player" transition:persist />
+		  </footer>
 	</body>
 </html>
-<style is:global>
-	:root {
-		--accent: 136, 58, 234;
-		--accent-light: 224, 204, 250;
-		--accent-dark: 49, 10, 101;
-		--accent-gradient: linear-gradient(
-			45deg,
-			rgb(var(--accent)),
-			rgb(var(--accent-light)) 30%,
-			white 60%
-		);
+
+<style>
+	#app {
+	  display: grid;
+	  grid-template-areas:
+		"aside1 main main main main aside2"
+		"player player player player player player ";
+	  grid-template-columns: auto;
+	  grid-template-rows: 1fr auto;
 	}
+  </style>
+<style is:global>
+	
+	
 	html {
 		font-family: system-ui, sans-serif;
-		background: #13151a;
+		background: #242423;
 		background-size: 224px;
 	}
-	code {
-		font-family:
-			Menlo,
-			Monaco,
-			Lucida Console,
-			Liberation Mono,
-			DejaVu Sans Mono,
-			Bitstream Vera Sans Mono,
-			Courier New,
-			monospace;
-	}
+	
 </style>
