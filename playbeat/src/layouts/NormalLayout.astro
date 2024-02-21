@@ -1,0 +1,39 @@
+---
+// import Library from '@components/Library.astro';
+// import Queue from '@components/Queue.astro';
+// import {Player} from '@components/Player';
+
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="PlayBeat" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/logo_blanco.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body>
+        <main >
+            <slot/>
+        </main>
+	</body>
+</html>
+<style is:global>
+	
+	
+	html {
+		font-family: system-ui, sans-serif;
+		background: #242423;
+		background-size: 224px;
+	}
+	
+</style>
