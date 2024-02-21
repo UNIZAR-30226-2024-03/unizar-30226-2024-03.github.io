@@ -1,12 +1,154 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
+
+const profile ={name: 'P', items:['item1111111111111','item2', 'item3']}
+const canciones = ["Cancion1", "Cancion2", "Cancion3"]
 ---
 
 <Layout title="PlayBeat">
-	<div>
-		<h1>PlayBeat</h1>
+	<div class=" flex flex-col w-full  items-center  text-white">
+		<header class=" flex flex-row justify-between items-center w-[1000px] h-16  font-bold text-3xl text-[#6985C0] px-8 fixed  bg-[#242423] bg-opacity-50">
+			<div class="flex fle-row gap-2">
+				<a href=href="#" onclick="window.history.back();">
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg>
+				</a>
+				<a href=href="#" onclick="window.history.forward();">
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>
+				</a>
+			</div>
+			<h1>PlayBeat</h1>
+			<div class="div text-lg " >
+				<button class="button solid flex items-center justify-center" >{profile.name}</button>
+				<button class="buttonOculto solid flex items-center justify-center">{profile.name}</button>
+				<div class="dropdown">
+					{profile.items.map( (item) => {
+						return <span>{item}</span>
+					})}
+				</div>
+			</div>
+		</header>
+		<div class=" w-full flex flex-col mt-16 p-6">
+			<section class="h-[340px] ">
+				<h2 class=" text-lg font-medium">Último escuchado</h2>
+				<ul class="h-full flex flex-row gap-4">
+					{canciones.map( (name) => 
+							<li class="flex flex-col items-center">
+								<div class=" w-64 h-64 bg-black">
+								</div>
+								<p>{name}</p>
+							</li>
+					)}
+				</ul>
+			</section>
+			<section class="h-[280px]">
+				<h2 class=" text-lg font-medium">Para ti</h2>
+				<ul class="h-full flex flex-row gap-4">
+					{canciones.map( (name) => 
+							<li class="flex flex-col items-center">
+								<div class=" w-52 h-52 bg-black">
+								</div>
+								<p>{name}</p>
+							</li>
+					)}
+				</ul>
+			</section>
+			<section class="h-[280px]">
+				<h2 class=" text-lg font-medium">Podcasts</h2>
+				<ul class="h-full flex flex-row gap-4">
+					{canciones.map( (name) => 
+							<li class="flex flex-col items-center">
+								<div class=" w-52 h-52 bg-black">
+								</div>
+								<p>{name}</p>
+							</li>
+					)}
+				</ul>
+			</section>
+		</div>
 	</div>
 </Layout>
 
 
+<style>
+	.button {
+    background-color: black;
+    border: 2px solid black;
+    border-radius: 30px;
+	width: 30px;
+	height: 30px;
+    border: none;
+    color: white;
+    font-weight: semibold;
+    cursor: pointer;
+    padding: 8px;
+}
+.buttonOculto {
+    background-color: black;
+    border: 2px solid black;
+    border-radius: 30px;
+	width: 30px;
+	height: 30px;
+    border: none;
+    color: white;
+    font-weight: semibold;
+    cursor: pointer;
+    padding: 8px;
+	display:none;
+}
+
+  
+  
+.div {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  background-color: #2f2f2f;
+
+  min-width: 100px;
+  border-radius: 10px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 100;
+}
+
+.dropdown span {
+  color: white;
+
+  padding: 12px 16px;
+
+  text-decoration: none;
+  display: flex;
+  cursor: pointer;
+  font-weight: normal;
+  font-size: medium;
+}
+
+.dropdown span{
+  border-top: .5px solid white;
+
+}
+.dropdown span:first-child{
+  border-top: 0px;
+  border-top-left-radius:10px;
+  border-top-right-radius:10px;
+}
+.dropdown span:last-child{
+
+  border-bottom-left-radius:10px;
+  border-bottom-right-radius:10px;
+}
+
+.dropdown span:hover {background-color: #6e6e6e;}
+
+.button:focus ~ .dropdown {display: flex; flex-direction: column;}
+.button:focus ~ .buttonOculto {display: flex; position:absolute; top: 0; left: 0;}
+
+
+
+
+
+</style>
