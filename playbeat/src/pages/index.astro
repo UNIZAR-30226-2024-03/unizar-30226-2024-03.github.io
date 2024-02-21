@@ -3,8 +3,8 @@ import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
 
 const profile ={name: 'P', items:['item1111111111111','item2', 'item3']}
-const canciones = [{name:"Ultimo escuchado", items:["Cancion1", "Cancion2", "Cancion3", "Cancion4", "Cancion5"]},
-{name:"Para ti", items:["Cancion1", "Cancion2", "Cancion3", "Cancion4", "Cancion5"]},
+const canciones = [{name:"Ultimo escuchado", items:["Cancion1", "Cancion2", "Cancion3", "Cancion4", "Cancion5", "Cancion6", "Cancion7", "Cancion8", "Cancion9", "Cancion10", "Cancion11", "Cancion12", "Cancion13", "Cancion14", "Cancion15", "Cancion16", "Cancion17", "Cancion18", "Cancion19", "Cancion20", "Cancion21", "Cancion22", "Cancion23", "Cancion24", "Cancion25", "Cancion26", "Cancion27", "Cancion28", "Cancion29", "Cancion30", "Cancion31", "Cancion32", "Cancion33", "Cancion34", "Cancion35", "Cancion36", "Cancion37", "Cancion38", "Cancion39", "Cancion40", "Cancion41", "Cancion42", "Cancion43", "Cancion44", "Cancion45", "Cancion46", "Cancion47", "Cancion48", "Cancion49", "Cancion50", "Cancion51", "Cancion52", "Cancion53", "Cancion54", "Cancion55", "Cancion56", "Cancion57", "Cancion58", "Cancion59", "Cancion60", "Cancion61", "Cancion62", "Cancion63", "Cancion64", "Cancion65", "Cancion66", "Cancion67", "Cancion68", "Cancion69", "Cancion70", "Cancion71", "Cancion72", "Cancion73", "Cancion74", "Cancion75", "Cancion76", "Cancion77", "Cancion78", "Cancion79", "Cancion80", "Cancion81", "Cancion82", "Cancion83", "Cancion84", "Cancion85", "Cancion86", "Cancion87", "Cancion88", "Cancion89", "Cancion90", "Cancion91", "Cancion92", "Cancion93"]},
+{name:"Para ti", items:["Cancion1", "Cancion2", "Cancion3", "Cancion4", "Cancion5",]},
 {name:"Podcast", items:["Cancion1", "Cancion2", "Cancion3", "Cancion4", "Cancion5"]}]
 
 ---
@@ -39,17 +39,22 @@ const canciones = [{name:"Ultimo escuchado", items:["Cancion1", "Cancion2", "Can
 						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-right ml-2" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>
 					</header>
 					<div class="flex flex-row items-center mt-2">
-						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-compact-left " width="60" height="60" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13 20l-3 -8l3 -8" /></svg>
-						<ul class="h-full flex flex-row gap-10 overflow-x-hidden snap-x snap-mandatory scroll-smooth  carrusel">
+						<div class=" w-16">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-compact-left " width="60" height="60" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13 20l-3 -8l3 -8" /></svg>
+						</div>
+						<ul class="h-full flex w-full flex-row gap-10 overflow-x-auto snap-x snap-mandatory scroll-smooth  carrusel">
 							{element.items.map( (name) => 
-									<li class="flex flex-col items-center snap-center">
-										<div class=" w-52 h-52 bg-black rounded-md">
+									<li class="flex flex-col w-full items-center snap-start cards">
+										<div class=" w-[200px] h-[200px] bg-black rounded-md">
 										</div>
 										<p>{name}</p>
 									</li>
 							)}
 						</ul>
-						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-compact-right " width="60" height="60" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11 4l3 8l-3 8" /></svg>
+						<div class=" w-16">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-compact-right " width="60" height="60" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11 4l3 8l-3 8" /></svg>
+
+						</div>
 						
 					</div>
 				</section>
@@ -66,26 +71,13 @@ const canciones = [{name:"Ultimo escuchado", items:["Cancion1", "Cancion2", "Can
 		
 		    for(let i = 0; i < carrusel.length; i++) {
 				let count = 0;
-
+				let width = carrusel[i].offsetWidth;
 				leftArrow[i].addEventListener('click', () => {
-				// Desplaza el carrusel hacia la izquierda
-					let scrollWidth = carrusel[i].scrollWidth;
-					if(scrollWidth > 0){
-						count > 0 ? count=-200 : count-=200;
-						carrusel[i].style.overflowX = 'auto';
-						
-						carrusel[i].scrollBy({ left: count, behavior: 'smooth' });
-
-						console.log(count, scrollWidth);
-					}
+					carrusel[i].scrollBy({ left: -width, behavior: 'smooth' });
 				});
 			
 				rightArrow[i].addEventListener('click', () => {
-				// Desplaza el carrusel hacia la derecha
-				
-					count < 0 ? count=+200 : count+=200;
-					carrusel[i].scrollBy({ left: count, behavior: 'smooth' });
-					console.log(count)
+					carrusel[i].scrollBy({ left: width, behavior: 'smooth' });
 				});
 			}
 		}
@@ -97,8 +89,8 @@ const canciones = [{name:"Ultimo escuchado", items:["Cancion1", "Cancion2", "Can
 
 .carrusel{
 	scrollbar-width: none;
-	transform: 2s all;
 }
+
 
 
 .button {
