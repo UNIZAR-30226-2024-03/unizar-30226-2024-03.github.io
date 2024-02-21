@@ -36,7 +36,7 @@ export const CancionActual = ({image, title,artists}) => {
     <div
       className={`flex items-center gap-5 relative overflow-hidden
       `}>
-        <picture className="w-16 h-16 bg-zinc-800 rounded-sm shadow-lg overflow-hidden">
+        <picture className="ml-2 w-12 h-12 bg-zinc-800 rounded-sm shadow-lg overflow-hidden">
           <img src={image} alt={title} />
         </picture>
 
