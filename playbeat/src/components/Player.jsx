@@ -120,7 +120,7 @@ export function Player () {
     }
     
   return (
-    <div className="bg-[#4A4A4A] h-full w-full flex flex-row justify-between p-2">
+    <div className="bg-[#3f3f3f] h-full w-full flex flex-row justify-between p-2">
 
         <div className="flex flex-row items-center text-white w-[200px]">
              {/* Add the song name and artist here */}
