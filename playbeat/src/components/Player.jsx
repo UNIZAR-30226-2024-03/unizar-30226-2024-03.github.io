@@ -25,11 +25,20 @@ export const VolumeMute = ({classname}) => (
 )
 
 export const VolumeMid = ({classname}) => (
-  <svg xmlns="http://www.w3.org/2000/svg" class={classname} width="20" height="20" viewBox="0 0 24 24" strokeWidth="1.5" stroke="white" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 8a5 5 0 0 1 0 8" /><path d="M6 15h-2a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1h2l3.5 -4.5a.8 .8 0 0 1 1.5 .5v14a.8 .8 0 0 1 -1.5 .5l-3.5 -4.5" /></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" className={classname} width="20" height="20" viewBox="0 0 24 24" strokeWidth="1.5" stroke="white" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 8a5 5 0 0 1 0 8" /><path d="M6 15h-2a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1h2l3.5 -4.5a.8 .8 0 0 1 1.5 .5v14a.8 .8 0 0 1 -1.5 .5l-3.5 -4.5" /></svg>
 )
 export const VolumeHigh = ({classname}) => (
-  <svg xmlns="http://www.w3.org/2000/svg" class={classname} width="20" height="20" viewBox="0 0 24 24" strokeWidth="1.5" stroke="white" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 8a5 5 0 0 1 0 8" /><path d="M17.7 5a9 9 0 0 1 0 14" /><path d="M6 15h-2a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1h2l3.5 -4.5a.8 .8 0 0 1 1.5 .5v14a.8 .8 0 0 1 -1.5 .5l-3.5 -4.5" /></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" className={classname} width="20" height="20" viewBox="0 0 24 24" strokeWidth="1.5" stroke="white" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 8a5 5 0 0 1 0 8" /><path d="M17.7 5a9 9 0 0 1 0 14" /><path d="M6 15h-2a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1h2l3.5 -4.5a.8 .8 0 0 1 1.5 .5v14a.8 .8 0 0 1 -1.5 .5l-3.5 -4.5" /></svg>
   )
+
+
+export const Shuffle = ({classname, color}) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={classname} width="24" height="24" viewBox="0 0 24 24" strokeWidth="1.5" stroke={color} fill="none" stroke-linecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 4l3 3l-3 3" /><path d="M18 20l3 -3l-3 -3" /><path d="M3 7h3a5 5 0 0 1 5 5a5 5 0 0 0 5 5h5" /><path d="M21 7h-5a4.978 4.978 0 0 0 -3 1m-4 8a4.984 4.984 0 0 1 -3 1h-3" /></svg>
+)
+
+export const Loop = ({classname, color}) => (
+    <svg xmlns="http://www.w3.org/2000/svg" class={classname} width="24" height="24" viewBox="0 0 24 24" strokeWidth="1.5" stroke={color} fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 12v-3a3 3 0 0 1 3 -3h13m-3 -3l3 3l-3 3" /><path d="M20 12v3a3 3 0 0 1 -3 3h-13m3 3l-3 -3l3 -3" /></svg>
+)
 
 export const CancionActual = ({image, title,artists}) => {
   return (
@@ -70,18 +79,23 @@ export const SongBar = () => {
 }
 
 export const VolumeControl = ({audio}) => {
+
   return (
     <div className="text-white flex flex-row items-center w-[200px]">
              {/* Add the volume control here */}
-            <div className="flex flex-row items-center gap-2">
+            <div className="flex flex-row items-center gap-3">
               <button>
-              {/* {audio.current.volume > 0.5 ? (
-                  <VolumeHigh className={"hover:opacity-100 opacity-70 transition"} />
-                ) : audio.current.volume > 0.2 ? (
-                  <VolumeMid className={"hover:opacity-100 opacity-70 transition"} />
-                ) : (
-                  <VolumeMute className={"hover:opacity-100 opacity-70 transition"} />
-                )} */}
+                {/* Habra que silenciar al pulsar en el botón */}
+
+                {/* {volumenActual > 50 ? (
+                    <VolumeHigh className={"hover:opacity-100 opacity-70 transition"} />
+                    ) : volumenActual > 20 ? (
+                    <VolumeMid className={"hover:opacity-100 opacity-70 transition"} />
+                    ) : (
+                    <VolumeMute className={"hover:opacity-100 opacity-70 transition"} />
+                    )} */}
+                    <VolumeHigh className={"hover:opacity-100 opacity-70 transition"} />
+                
               </button>
               <Slider 
               defaultValue={[100]}
@@ -91,6 +105,7 @@ export const VolumeControl = ({audio}) => {
               onValueChange={(value) => {
                 const [nuevoVol] = value
                  audio.current.volume = nuevoVol / 100
+                 console.log(audio.current.volume)
               }}
 
               />
@@ -104,6 +119,8 @@ export function Player () {
     const [play, setPlay] = useState(false)
     const [currSong, setCurrSong] = useState(null)
     const audio = useRef()
+    const [shuffle, setShuffle] = useState(false)
+    const [loop, setLoop] = useState(false)
 
 
     const onClickHandlerPlay = () => {
@@ -149,7 +166,18 @@ export function Player () {
         </div>
 
       </div>
+      <div className="flex flex-row items-center gap-3 w-[200px]">
+      <button onClick={()=> setLoop(!loop)}>
+           {loop ? <Loop classname={" hover:opacity-100 opacity-70 transition"} color={"#6985C0"}/> : <Loop classname={" hover:opacity-100 opacity-70 transition"} color={"white"}/>}
+        </button>
+        <button onClick={()=> setShuffle(!shuffle)}>
+           {shuffle ? <Shuffle classname={" hover:opacity-100 opacity-70 transition"} color={"#6985C0"}/> : <Shuffle classname={" hover:opacity-100 opacity-70 transition"} color={"white"}/>}
+        </button>
+
+        
+      
        <VolumeControl audio={audio}/>
+       </div>
         
     </div>
   )
