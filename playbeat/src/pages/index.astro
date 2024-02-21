@@ -3,19 +3,22 @@ import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
 
 const profile ={name: 'P', items:['item1111111111111','item2', 'item3']}
-const canciones = ["Cancion1", "Cancion2", "Cancion3"]
+const canciones = [{name:"Ultimo escuchado", items:["Cancion1", "Cancion2", "Cancion3", "Cancion4", "Cancion5"]},
+{name:"Para ti", items:["Cancion1", "Cancion2", "Cancion3", "Cancion4", "Cancion5"]},
+{name:"Podcast", items:["Cancion1", "Cancion2", "Cancion3", "Cancion4", "Cancion5"]}]
+
 ---
 
 <Layout title="PlayBeat">
 	<div class=" flex flex-col w-full  items-center  text-white">
 		<header class=" flex flex-row justify-between items-center w-4/6 h-16  font-bold text-3xl text-[#6985C0] px-8 fixed  bg-[#242423] bg-opacity-70">
 			<div class="flex fle-row gap-2">
-				<a href=href="#" onclick="window.history.back();">
+				<button onclick="window.history.back();">
 					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg>
-				</a>
-				<a href=href="#" onclick="window.history.forward();">
+				</button>
+				<button  onclick="window.history.forward();">
 					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>
-				</a>
+				</button>
 			</div>
 			<h1>PlayBeat</h1>
 			<div class="div text-lg " >
@@ -29,49 +32,76 @@ const canciones = ["Cancion1", "Cancion2", "Cancion3"]
 			</div>
 		</header>
 		<div class=" w-full flex flex-col mt-16 p-6">
-			<section class="h-[340px] ">
-				<h2 class=" text-lg font-medium">Último escuchado</h2>
-				<ul class="h-full flex flex-row gap-4">
-					{canciones.map( (name) => 
-							<li class="flex flex-col items-center">
-								<div class=" w-64 h-64 bg-black">
-								</div>
-								<p>{name}</p>
-							</li>
-					)}
-				</ul>
-			</section>
-			<section class="h-[280px]">
-				<h2 class=" text-lg font-medium">Para ti</h2>
-				<ul class="h-full flex flex-row gap-4">
-					{canciones.map( (name) => 
-							<li class="flex flex-col items-center">
-								<div class=" w-52 h-52 bg-black">
-								</div>
-								<p>{name}</p>
-							</li>
-					)}
-				</ul>
-			</section>
-			<section class="h-[280px]">
-				<h2 class=" text-lg font-medium">Podcasts</h2>
-				<ul class="h-full flex flex-row gap-4">
-					{canciones.map( (name) => 
-							<li class="flex flex-col items-center">
-								<div class=" w-52 h-52 bg-black">
-								</div>
-								<p>{name}</p>
-							</li>
-					)}
-				</ul>
-			</section>
+			{canciones.map( (element) =>
+				<section class="h-[340px] ">
+					<header class="flex flex-row items-center ">
+						<h2 class=" text-lg font-medium">{element.name}</h2>
+						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-right ml-2" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>
+					</header>
+					<div class="flex flex-row items-center mt-2">
+						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-compact-left " width="60" height="60" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13 20l-3 -8l3 -8" /></svg>
+						<ul class="h-full flex flex-row gap-10 overflow-x-hidden snap-x snap-mandatory scroll-smooth  carrusel">
+							{element.items.map( (name) => 
+									<li class="flex flex-col items-center snap-center">
+										<div class=" w-52 h-52 bg-black rounded-md">
+										</div>
+										<p>{name}</p>
+									</li>
+							)}
+						</ul>
+						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-compact-right " width="60" height="60" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11 4l3 8l-3 8" /></svg>
+						
+					</div>
+				</section>
+			)}	
+			
 		</div>
 	</div>
+	<script>
+		// Selecciona los elementos SVG y el carrusel
+		const leftArrow = document.querySelectorAll('.icon-tabler-chevron-compact-left');
+		const rightArrow = document.querySelectorAll('.icon-tabler-chevron-compact-right');
+		const carrusel = document.querySelectorAll('.carrusel') as NodeListOf<HTMLElement>;
+		if(leftArrow && rightArrow && carrusel){
+		
+		    for(let i = 0; i < carrusel.length; i++) {
+				let count = 0;
+
+				leftArrow[i].addEventListener('click', () => {
+				// Desplaza el carrusel hacia la izquierda
+					let scrollWidth = carrusel[i].scrollWidth;
+					if(scrollWidth > 0){
+						count > 0 ? count=-200 : count-=200;
+						carrusel[i].style.overflowX = 'auto';
+						
+						carrusel[i].scrollBy({ left: count, behavior: 'smooth' });
+
+						console.log(count, scrollWidth);
+					}
+				});
+			
+				rightArrow[i].addEventListener('click', () => {
+				// Desplaza el carrusel hacia la derecha
+				
+					count < 0 ? count=+200 : count+=200;
+					carrusel[i].scrollBy({ left: count, behavior: 'smooth' });
+					console.log(count)
+				});
+			}
+		}
+	  </script>
 </Layout>
 
 
 <style>
-	.button {
+
+.carrusel{
+	scrollbar-width: none;
+	transform: 2s all;
+}
+
+
+.button {
     background-color: black;
     border: 2px solid black;
     border-radius: 30px;
@@ -146,7 +176,6 @@ const canciones = ["Cancion1", "Cancion2", "Cancion3"]
 
 .button:focus ~ .dropdown {display: flex; flex-direction: column;}
 .button:focus ~ .buttonOculto {display: flex; position:absolute; top: 0; left: 0;}
-
 
 
 
