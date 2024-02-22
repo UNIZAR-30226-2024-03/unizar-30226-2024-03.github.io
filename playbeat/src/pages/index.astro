@@ -1,8 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Carrousel from '../components/Carrousel.astro';
-
-const profile ={name: 'P', items:['item1111111111111','item2', 'item3']}
+import Header from '../components/Header.astro';
 const canciones = [{name:"Ultimo escuchado", items:[{cancion:"Cancion1", descripcion:"Artista1"}, {cancion:"Cancion2", descripcion:"Artista2"}, {cancion:"Cancion3", descripcion:"Artista3"}, {cancion:"Cancion4", descripcion:"Artista4"}, {cancion:"Cancion5", descripcion:"Artista5"}, {cancion:"Cancion6", descripcion:"Artista6"}, {cancion:"Cancion7", descripcion:"Artista7"}, {cancion:"Cancion8", descripcion:"Artista8"}, {cancion:"Cancion9", descripcion:"Artista9"}, {cancion:"Cancion10", descripcion:"Artista10"}, {cancion:"Cancion11", descripcion:"Artista11"}, {cancion:"Cancion12", descripcion:"Artista12"}, {cancion:"Cancion13", descripcion:"Artista13"}, {cancion:"Cancion14", descripcion:"Artista14"}, {cancion:"Cancion15", descripcion:"Artista15"}, {cancion:"Cancion16", descripcion:"Artista16"}, {cancion:"Cancion17", descripcion:"Artista17"}, {cancion:"Cancion18", descripcion:"Artista18"}, {cancion:"Cancion19", descripcion:"Artista19"}, {cancion:"Cancion20", descripcion:"Artista20"}, {cancion:"Cancion21", descripcion:"Artista21"}, {cancion:"Cancion22", descripcion:"Artista22"}, {cancion:"Cancion23", descripcion:"Artista23"}, {cancion:"Cancion24", descripcion:"Artista24"}, {cancion:"Cancion25", descripcion:"Artista25"}, {cancion:"Cancion26", descripcion:"Artista26"}, {cancion:"Cancion27", descripcion:"Artista27"}, {cancion:"Cancion28", descripcion:"Artista28"}, {cancion:"Cancion29", descripcion:"Artista29"}, {cancion:"Cancion30", descripcion:"Artista30"}, {cancion:"Cancion31", descripcion:"Artista31"}, {cancion:"Cancion32", descripcion:"Artista32"}]},
 {name:"Para ti", items:[{cancion:"Cancion1", descripcion:"Artista1"}, {cancion:"Cancion2", descripcion:"Artista2"}, {cancion:"Cancion3", descripcion:"Artista3"}, {cancion:"Cancion4", descripcion:"Artista4"}, {cancion:"Cancion5", descripcion:"Artista5"}, {cancion:"Cancion6", descripcion:"Artista6"}, {cancion:"Cancion7", descripcion:"Artista7"}, {cancion:"Cancion8", descripcion:"Artista8"}, {cancion:"Cancion9", descripcion:"Artista9"}, {cancion:"Cancion10", descripcion:"Artista10"}, {cancion:"Cancion11", descripcion:"Artista11"}, {cancion:"Cancion12", descripcion:"Artista12"}, {cancion:"Cancion13", descripcion:"Artista13"}, {cancion:"Cancion14", descripcion:"Artista14"}, {cancion:"Cancion15", descripcion:"Artista15"}, {cancion:"Cancion16", descripcion:"Artista16"}, {cancion:"Cancion17", descripcion:"Artista17"}, {cancion:"Cancion18", descripcion:"Artista18"}, {cancion:"Cancion19", descripcion:"Artista19"}, {cancion:"Cancion20", descripcion:"Artista20"}, {cancion:"Cancion21", descripcion:"Artista21"}, {cancion:"Cancion22", descripcion:"Artista22"}, {cancion:"Cancion23", descripcion:"Artista23"}, {cancion:"Cancion24", descripcion:"Artista24"}, {cancion:"Cancion25", descripcion:"Artista25"}, {cancion:"Cancion26", descripcion:"Artista26"}, {cancion:"Cancion27", descripcion:"Artista27"}, {cancion:"Cancion28", descripcion:"Artista28"}, {cancion:"Cancion29", descripcion:"Artista29"}, {cancion:"Cancion30", descripcion:"Artista30"}, {cancion:"Cancion31", descripcion:"Artista31"}, {cancion:"Cancion32", descripcion:"Artista32"}]},
 {name:"Podcast", items:[{cancion:"Cancion1", descripcion:"Artista1"}, {cancion:"Cancion2", descripcion:"Artista2"}, {cancion:"Cancion3", descripcion:"Artista3"}, {cancion:"Cancion4", descripcion:"Artista4"}, {cancion:"Cancion5", descripcion:"Artista5"}, {cancion:"Cancion6", descripcion:"Artista6"}, {cancion:"Cancion7", descripcion:"Artista7"}, {cancion:"Cancion8", descripcion:"Artista8"}, {cancion:"Cancion9", descripcion:"Artista9"}, {cancion:"Cancion10", descripcion:"Artista10"}, {cancion:"Cancion11", descripcion:"Artista11"}, {cancion:"Cancion12", descripcion:"Artista12"}, {cancion:"Cancion13", descripcion:"Artista13"}, {cancion:"Cancion14", descripcion:"Artista14"}, {cancion:"Cancion15", descripcion:"Artista15"}, {cancion:"Cancion16", descripcion:"Artista16"}, {cancion:"Cancion17", descripcion:"Artista17"}, {cancion:"Cancion18", descripcion:"Artista18"}, {cancion:"Cancion19", descripcion:"Artista19"}, {cancion:"Cancion20", descripcion:"Artista20"}, {cancion:"Cancion21", descripcion:"Artista21"}, {cancion:"Cancion22", descripcion:"Artista22"}, {cancion:"Cancion23", descripcion:"Artista23"}, {cancion:"Cancion24", descripcion:"Artista24"}, {cancion:"Cancion25", descripcion:"Artista25"}, {cancion:"Cancion26", descripcion:"Artista26"}, {cancion:"Cancion27", descripcion:"Artista27"}, {cancion:"Cancion28", descripcion:"Artista28"}, {cancion:"Cancion29", descripcion:"Artista29"}, {cancion:"Cancion30", descripcion:"Artista30"}, {cancion:"Cancion31", descripcion:"Artista31"}, {cancion:"Cancion32", descripcion:"Artista32"}]},
@@ -15,26 +14,7 @@ const canciones = [{name:"Ultimo escuchado", items:[{cancion:"Cancion1", descrip
 
 <Layout title="PlayBeat">
 	<div class=" flex flex-col w-full   text-white">
-		<header class=" flex flex-row justify-between items-center w-4/6 h-16  font-bold text-3xl text-[#6985C0] px-8 fixed  bg-[#242423] bg-opacity-70">
-			<div class="flex fle-row gap-2">
-				<button onclick="window.history.back();">
-					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg>
-				</button>
-				<button  onclick="window.history.forward();">
-					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>
-				</button>
-			</div>
-			<h1>PlayBeat</h1>
-			<div class="div text-lg " >
-				<button class="button solid flex items-center justify-center" >{profile.name}</button>
-				<button class="buttonOculto solid flex items-center justify-center">{profile.name}</button>
-				<div class="dropdown">
-					{profile.items.map( (item) => {
-						return <span>{item}</span>
-					})}
-				</div>
-			</div>
-		</header>
+		<Header/>
 		<div class=" w-full h-full flex flex-col mt-16 p-1">
 			{canciones.map( (element, index) =>
 				{
@@ -77,88 +57,3 @@ const canciones = [{name:"Ultimo escuchado", items:[{cancion:"Cancion1", descrip
 </Layout>
 
 
-<style>
-
-
-
-
-.button {
-    background-color: black;
-    border: 2px solid black;
-    border-radius: 30px;
-	width: 30px;
-	height: 30px;
-    border: none;
-    color: white;
-    font-weight: semibold;
-    cursor: pointer;
-    padding: 8px;
-}
-.buttonOculto {
-    background-color: black;
-    border: 2px solid black;
-    border-radius: 30px;
-	width: 30px;
-	height: 30px;
-    border: none;
-    color: white;
-    font-weight: semibold;
-    cursor: pointer;
-    padding: 8px;
-	display:none;
-}
-
-  
-  
-.div {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown {
-  display: none;
-  position: absolute;
-  background-color: #2f2f2f;
-
-  min-width: 100px;
-  border-radius: 10px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 100;
-}
-
-.dropdown span {
-  color: white;
-
-  padding: 12px 16px;
-
-  text-decoration: none;
-  display: flex;
-  cursor: pointer;
-  font-weight: normal;
-  font-size: medium;
-}
-
-.dropdown span{
-  border-top: .5px solid white;
-
-}
-.dropdown span:first-child{
-  border-top: 0px;
-  border-top-left-radius:10px;
-  border-top-right-radius:10px;
-}
-.dropdown span:last-child{
-
-  border-bottom-left-radius:10px;
-  border-bottom-right-radius:10px;
-}
-
-.dropdown span:hover {background-color: #6e6e6e;}
-
-.button:focus ~ .dropdown {display: flex; flex-direction: column;}
-.button:focus ~ .buttonOculto {display: flex; position:absolute; top: 0; left: 0;}
-
-
-
-
-</style>

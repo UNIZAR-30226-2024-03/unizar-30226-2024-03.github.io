@@ -44,9 +44,6 @@ const { info, num, variant} = Astro.props;
 	  <script>
 
 		window.addEventListener('resize', function() {
-            const carrusel = document.querySelector('.carrusel') as HTMLElement;
-            const num = parseInt(carrusel.dataset.num); // Accede al valor de num desde el atributo data
-            console.log(num);
             const hijos = document.querySelectorAll('.hijo') as NodeListOf<HTMLElement>;
             hijos.forEach(hijo => {
                 if (hijo.offsetWidth < 150) {
