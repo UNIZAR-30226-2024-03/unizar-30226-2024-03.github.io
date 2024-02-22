@@ -9,7 +9,7 @@ export const usePlayerState = create(set => ({
     shuffle: false,
     loop: false,
     queue: false,
-    volume: 1,
+    volume: 0.9,
     setVolume: (volume) => set((state) => ({volume})),
     setPlay: (play) => set((state) => ({play})),
     setCurrSong: (currSong) => set((state) => ({currSong})),

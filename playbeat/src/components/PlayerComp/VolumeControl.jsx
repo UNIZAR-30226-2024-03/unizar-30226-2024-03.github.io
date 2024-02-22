@@ -22,7 +22,7 @@ export const VolumeControl = ({audio}) => {
 
 
      useEffect(() => {
-       setVolume(0.1)
+       setVolume(0.5)
      
       
      }, [])
@@ -44,7 +44,7 @@ export const VolumeControl = ({audio}) => {
                   {/* Habra que silenciar al pulsar en el botón */}
   
                   {/* {volume > 0.5   ? <VolumeMute /> : <VolumeHigh />} */}
-                  {volume > 0.5 ? (
+                  {volume >= 0.5 ? (
                       <VolumeHigh className={"hover:opacity-100 opacity-70 transition"} />
                       ) : volume === 0 ? (
                         <VolumeMute className={"hover:opacity-100 opacity-70 transition"} />

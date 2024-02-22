@@ -45,14 +45,11 @@ export const ListIcon = ({classname,color}) => (
 
 export function Player () {
     
-    const {play, setPlay,volume} = usePlayerState()
+    const {play, setPlay,volume,loop,setLoop, shuffle, setShuffle, setQueue, queue, currSong, setCurrSong } = usePlayerState()
 
-    const [currSong, setCurrSong] = useState(null)
+
     const audio = useRef()
-    const [shuffle, setShuffle] = useState(false)
-    const [loop, setLoop] = useState(false)
-    const [queue, setQueue] = useState(false)
-
+  
     useEffect(() => {
         play
           ? audio.current.play()
