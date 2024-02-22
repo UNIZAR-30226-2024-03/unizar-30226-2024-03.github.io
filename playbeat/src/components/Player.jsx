@@ -112,7 +112,7 @@ export function Player () {
 
         <button onClick={()=> setQueue(!queue)}>
             
-            {queue ? <ListIcon classname={"hover:opacity-100 opacity-70 transition bg-[#6985C0] bg-opacity-50 rounded-[3px]"} color={"white"}/> : <ListIcon classname={"hover:opacity-100 opacity-70 transition "} color={"white"}/>}
+            {queue ? <ListIcon classname={"hover:opacity-100 opacity-70 transition bg-[#CDD6EA] bg-opacity-20 rounded-[3px]"} color={"#6985C0"}/> : <ListIcon classname={"hover:opacity-100 opacity-70 transition "} color={"white"}/>}
         </button>
       
        <VolumeControl audio={audio}/>
