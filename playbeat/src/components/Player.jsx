@@ -48,11 +48,15 @@ export function Player () {
     const [loop, setLoop] = useState(false)
 
 
+    useEffect(() => {
+    audio.current.src = '/public/music/better-day-186374.mp3'
+    },[])
+
     const onClickHandlerPlay = () => {
         if(play){
             audio.current.pause()
         }else{
-            audio.current.src = '/public/music/better-day-186374.mp3'
+           
             audio.current.play()
         }
 
