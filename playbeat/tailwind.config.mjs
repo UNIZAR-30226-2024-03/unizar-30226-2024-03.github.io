@@ -6,24 +6,24 @@ export default {
 		'./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',],
 	
 	theme: {
+		colors: {
+			background: '#242423',
+			grey: "#3f3f3f"
+		},
 		extend: {},
 	},
 	darkMode: 'class',
 	plugins: [nextui({
 		defaultTheme: 'dark',
 		themes: {
+			
 			dark: {
-				layout: {
-					DEFAULT: '#242423',
+				colors: {
+					
 					background: '#242423',
 				},
 			},
-			light: {
-				layout: {
-					DEFAULT: '#242423',
-					background: '#242423',
-				},
-			}
+			
 		}
 	})],
 }
