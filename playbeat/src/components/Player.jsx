@@ -118,5 +118,3 @@ export function Player () {
     </div>
   )
 }
-
-
