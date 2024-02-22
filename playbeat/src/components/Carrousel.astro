@@ -1,0 +1,69 @@
+---
+interface Info {
+    name: string;
+    items: {
+        cancion: string;
+        descripcion: string;
+    }[];
+}
+
+interface Props {
+	info: Info;
+    num: number;
+    variant?: string;
+}
+
+const { info, num, variant} = Astro.props;
+
+
+---
+
+<section>
+    <header class="flex flex-row w-max items-center hover:underline cursor-pointer ml-[44px]">
+        <h2 class=" text-lg font-medium ">{info.name}</h2>
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-right ml-2" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>
+    </header>
+    <div class="flex flex-row items-center mt-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-compact-left opacity-0 hover:opacity-100 transition-opacity cursor-pointer" width="40" height="60" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13 20l-3 -8l3 -8" /></svg>
+        <ul class=" flex flex-row w-full overflow-x-auto snap-x snap-mandatory scroll-smooth  carrusel">
+            {info.items.map( (item) => 
+                    <li class="flex flex-col p-2 snap-start text-sm h-full hijo ">
+                        <div class:list={[" w-full aspect-square bg-black rounded-md mb-1", {"aspect-[16/11]" : variant==="wide"}]}>
+                        </div>
+                        <p >{item.cancion}</p>
+                        <p class=" text-gray-400">{item.descripcion}</p>
+
+                    </li>
+            )}
+        </ul>
+
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-compact-right opacity-0 hover:opacity-100 transition-opacity cursor-pointer" width="40" height="60" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11 4l3 8l-3 8" /></svg>
+        
+    </div>
+
+	  <script>
+
+		window.addEventListener('resize', function() {
+            const hijos = document.querySelectorAll('.hijo') as NodeListOf<HTMLElement>;
+            hijos.forEach(hijo => {
+                if (hijo.offsetWidth < 150) {
+                    hijo.style.minWidth = 'calc(var(--ancho-padre) / calc(var(--num) - 1)';
+                }else{
+                    hijo.style.minWidth = 'calc(var(--ancho-padre) / var(--num)';
+                }
+            });
+		});
+	  </script>
+</section>
+
+<style define:vars={{num}}>
+    .carrusel{
+	scrollbar-width: none;
+	--ancho-padre: 100%;
+}
+.hijo{
+	min-width: calc(var(--ancho-padre) / var(--num));
+}
+
+</style>
+
