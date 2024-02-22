@@ -31,7 +31,7 @@ const canciones = [{name:"Ultimo escuchado", items:[{cancion:"Cancion1", descrip
 				</div>
 			</div>
 		</header>
-		<div class=" w-full flex flex-col mt-16 p-6">
+		<div class=" w-full h-full flex flex-col mt-16 p-6">
 			{canciones.map( (element) =>
 				<section class="h-[340px] ">
 					<header class="flex flex-row w-max items-center hover:underline cursor-pointer">
@@ -42,10 +42,10 @@ const canciones = [{name:"Ultimo escuchado", items:[{cancion:"Cancion1", descrip
 						<div class=" w-16">
 							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-compact-left opacity-0 hover:opacity-100 transition-opacity cursor-pointer" width="60" height="60" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13 20l-3 -8l3 -8" /></svg>
 						</div>
-						<ul class="h-full flex flex-row w-full gap-10 overflow-x-auto snap-x snap-mandatory scroll-smooth  carrusel">
+						<ul class="h-[280px] flex flex-row w-[900px]  overflow-x-auto snap-x snap-mandatory scroll-smooth  carrusel">
 							{element.items.map( (item) => 
-									<li class="flex flex-col snap-start text-sm">
-										<div class=" w-[185px] h-[185px] bg-black rounded-md mb-1">
+									<li class="flex flex-col p-4 snap-start text-sm hijo h-full">
+										<div class=" w-full h-full bg-black rounded-md mb-1">
 										</div>
 										<p >{item.cancion}</p>
 										<p class=" text-gray-400">{item.descripcion}</p>
@@ -91,6 +91,10 @@ const canciones = [{name:"Ultimo escuchado", items:[{cancion:"Cancion1", descrip
 
 .carrusel{
 	scrollbar-width: none;
+	--ancho-padre: 100%;
+}
+.hijo{
+	min-width: calc(var(--ancho-padre) / 4);
 }
 
 
