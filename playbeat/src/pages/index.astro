@@ -1,16 +1,20 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Card from '../components/Card.astro';
+import Carrousel from '../components/Carrousel.astro';
 
 const profile ={name: 'P', items:['item1111111111111','item2', 'item3']}
 const canciones = [{name:"Ultimo escuchado", items:[{cancion:"Cancion1", descripcion:"Artista1"}, {cancion:"Cancion2", descripcion:"Artista2"}, {cancion:"Cancion3", descripcion:"Artista3"}, {cancion:"Cancion4", descripcion:"Artista4"}, {cancion:"Cancion5", descripcion:"Artista5"}, {cancion:"Cancion6", descripcion:"Artista6"}, {cancion:"Cancion7", descripcion:"Artista7"}, {cancion:"Cancion8", descripcion:"Artista8"}, {cancion:"Cancion9", descripcion:"Artista9"}, {cancion:"Cancion10", descripcion:"Artista10"}, {cancion:"Cancion11", descripcion:"Artista11"}, {cancion:"Cancion12", descripcion:"Artista12"}, {cancion:"Cancion13", descripcion:"Artista13"}, {cancion:"Cancion14", descripcion:"Artista14"}, {cancion:"Cancion15", descripcion:"Artista15"}, {cancion:"Cancion16", descripcion:"Artista16"}, {cancion:"Cancion17", descripcion:"Artista17"}, {cancion:"Cancion18", descripcion:"Artista18"}, {cancion:"Cancion19", descripcion:"Artista19"}, {cancion:"Cancion20", descripcion:"Artista20"}, {cancion:"Cancion21", descripcion:"Artista21"}, {cancion:"Cancion22", descripcion:"Artista22"}, {cancion:"Cancion23", descripcion:"Artista23"}, {cancion:"Cancion24", descripcion:"Artista24"}, {cancion:"Cancion25", descripcion:"Artista25"}, {cancion:"Cancion26", descripcion:"Artista26"}, {cancion:"Cancion27", descripcion:"Artista27"}, {cancion:"Cancion28", descripcion:"Artista28"}, {cancion:"Cancion29", descripcion:"Artista29"}, {cancion:"Cancion30", descripcion:"Artista30"}, {cancion:"Cancion31", descripcion:"Artista31"}, {cancion:"Cancion32", descripcion:"Artista32"}]},
 {name:"Para ti", items:[{cancion:"Cancion1", descripcion:"Artista1"}, {cancion:"Cancion2", descripcion:"Artista2"}, {cancion:"Cancion3", descripcion:"Artista3"}, {cancion:"Cancion4", descripcion:"Artista4"}, {cancion:"Cancion5", descripcion:"Artista5"}, {cancion:"Cancion6", descripcion:"Artista6"}, {cancion:"Cancion7", descripcion:"Artista7"}, {cancion:"Cancion8", descripcion:"Artista8"}, {cancion:"Cancion9", descripcion:"Artista9"}, {cancion:"Cancion10", descripcion:"Artista10"}, {cancion:"Cancion11", descripcion:"Artista11"}, {cancion:"Cancion12", descripcion:"Artista12"}, {cancion:"Cancion13", descripcion:"Artista13"}, {cancion:"Cancion14", descripcion:"Artista14"}, {cancion:"Cancion15", descripcion:"Artista15"}, {cancion:"Cancion16", descripcion:"Artista16"}, {cancion:"Cancion17", descripcion:"Artista17"}, {cancion:"Cancion18", descripcion:"Artista18"}, {cancion:"Cancion19", descripcion:"Artista19"}, {cancion:"Cancion20", descripcion:"Artista20"}, {cancion:"Cancion21", descripcion:"Artista21"}, {cancion:"Cancion22", descripcion:"Artista22"}, {cancion:"Cancion23", descripcion:"Artista23"}, {cancion:"Cancion24", descripcion:"Artista24"}, {cancion:"Cancion25", descripcion:"Artista25"}, {cancion:"Cancion26", descripcion:"Artista26"}, {cancion:"Cancion27", descripcion:"Artista27"}, {cancion:"Cancion28", descripcion:"Artista28"}, {cancion:"Cancion29", descripcion:"Artista29"}, {cancion:"Cancion30", descripcion:"Artista30"}, {cancion:"Cancion31", descripcion:"Artista31"}, {cancion:"Cancion32", descripcion:"Artista32"}]},
-{name:"Podcast", items:[{cancion:"Cancion1", descripcion:"Artista1"}, {cancion:"Cancion2", descripcion:"Artista2"}, {cancion:"Cancion3", descripcion:"Artista3"}, {cancion:"Cancion4", descripcion:"Artista4"}, {cancion:"Cancion5", descripcion:"Artista5"}, {cancion:"Cancion6", descripcion:"Artista6"}, {cancion:"Cancion7", descripcion:"Artista7"}, {cancion:"Cancion8", descripcion:"Artista8"}, {cancion:"Cancion9", descripcion:"Artista9"}, {cancion:"Cancion10", descripcion:"Artista10"}, {cancion:"Cancion11", descripcion:"Artista11"}, {cancion:"Cancion12", descripcion:"Artista12"}, {cancion:"Cancion13", descripcion:"Artista13"}, {cancion:"Cancion14", descripcion:"Artista14"}, {cancion:"Cancion15", descripcion:"Artista15"}, {cancion:"Cancion16", descripcion:"Artista16"}, {cancion:"Cancion17", descripcion:"Artista17"}, {cancion:"Cancion18", descripcion:"Artista18"}, {cancion:"Cancion19", descripcion:"Artista19"}, {cancion:"Cancion20", descripcion:"Artista20"}, {cancion:"Cancion21", descripcion:"Artista21"}, {cancion:"Cancion22", descripcion:"Artista22"}, {cancion:"Cancion23", descripcion:"Artista23"}, {cancion:"Cancion24", descripcion:"Artista24"}, {cancion:"Cancion25", descripcion:"Artista25"}, {cancion:"Cancion26", descripcion:"Artista26"}, {cancion:"Cancion27", descripcion:"Artista27"}, {cancion:"Cancion28", descripcion:"Artista28"}, {cancion:"Cancion29", descripcion:"Artista29"}, {cancion:"Cancion30", descripcion:"Artista30"}, {cancion:"Cancion31", descripcion:"Artista31"}, {cancion:"Cancion32", descripcion:"Artista32"}]}]
+{name:"Podcast", items:[{cancion:"Cancion1", descripcion:"Artista1"}, {cancion:"Cancion2", descripcion:"Artista2"}, {cancion:"Cancion3", descripcion:"Artista3"}, {cancion:"Cancion4", descripcion:"Artista4"}, {cancion:"Cancion5", descripcion:"Artista5"}, {cancion:"Cancion6", descripcion:"Artista6"}, {cancion:"Cancion7", descripcion:"Artista7"}, {cancion:"Cancion8", descripcion:"Artista8"}, {cancion:"Cancion9", descripcion:"Artista9"}, {cancion:"Cancion10", descripcion:"Artista10"}, {cancion:"Cancion11", descripcion:"Artista11"}, {cancion:"Cancion12", descripcion:"Artista12"}, {cancion:"Cancion13", descripcion:"Artista13"}, {cancion:"Cancion14", descripcion:"Artista14"}, {cancion:"Cancion15", descripcion:"Artista15"}, {cancion:"Cancion16", descripcion:"Artista16"}, {cancion:"Cancion17", descripcion:"Artista17"}, {cancion:"Cancion18", descripcion:"Artista18"}, {cancion:"Cancion19", descripcion:"Artista19"}, {cancion:"Cancion20", descripcion:"Artista20"}, {cancion:"Cancion21", descripcion:"Artista21"}, {cancion:"Cancion22", descripcion:"Artista22"}, {cancion:"Cancion23", descripcion:"Artista23"}, {cancion:"Cancion24", descripcion:"Artista24"}, {cancion:"Cancion25", descripcion:"Artista25"}, {cancion:"Cancion26", descripcion:"Artista26"}, {cancion:"Cancion27", descripcion:"Artista27"}, {cancion:"Cancion28", descripcion:"Artista28"}, {cancion:"Cancion29", descripcion:"Artista29"}, {cancion:"Cancion30", descripcion:"Artista30"}, {cancion:"Cancion31", descripcion:"Artista31"}, {cancion:"Cancion32", descripcion:"Artista32"}]},
+{name:"Prueba", items:[{cancion:"Cancion1", descripcion:"Artista1"}, {cancion:"Cancion2", descripcion:"Artista2"}, {cancion:"Cancion3", descripcion:"Artista3"}, {cancion:"Cancion4", descripcion:"Artista4"}, {cancion:"Cancion5", descripcion:"Artista5"}, {cancion:"Cancion6", descripcion:"Artista6"}, {cancion:"Cancion7", descripcion:"Artista7"}, {cancion:"Cancion8", descripcion:"Artista8"}, {cancion:"Cancion9", descripcion:"Artista9"}, {cancion:"Cancion10", descripcion:"Artista10"}, {cancion:"Cancion11", descripcion:"Artista11"}, {cancion:"Cancion12", descripcion:"Artista12"}, {cancion:"Cancion13", descripcion:"Artista13"}, {cancion:"Cancion14", descripcion:"Artista14"}, {cancion:"Cancion15", descripcion:"Artista15"}, {cancion:"Cancion16", descripcion:"Artista16"}, {cancion:"Cancion17", descripcion:"Artista17"}, {cancion:"Cancion18", descripcion:"Artista18"}, {cancion:"Cancion19", descripcion:"Artista19"}, {cancion:"Cancion20", descripcion:"Artista20"}, {cancion:"Cancion21", descripcion:"Artista21"}, {cancion:"Cancion22", descripcion:"Artista22"}, {cancion:"Cancion23", descripcion:"Artista23"}, {cancion:"Cancion24", descripcion:"Artista24"}, {cancion:"Cancion25", descripcion:"Artista25"}, {cancion:"Cancion26", descripcion:"Artista26"}, {cancion:"Cancion27", descripcion:"Artista27"}, {cancion:"Cancion28", descripcion:"Artista28"}, {cancion:"Cancion29", descripcion:"Artista29"}, {cancion:"Cancion30", descripcion:"Artista30"}, {cancion:"Cancion31", descripcion:"Artista31"}, {cancion:"Cancion32", descripcion:"Artista32"}]},
+{name:"Prueba2", items:[{cancion:"Cancion1", descripcion:"Artista1"}, {cancion:"Cancion2", descripcion:"Artista2"}, {cancion:"Cancion3", descripcion:"Artista3"}, {cancion:"Cancion4", descripcion:"Artista4"}, {cancion:"Cancion5", descripcion:"Artista5"}, {cancion:"Cancion6", descripcion:"Artista6"}, {cancion:"Cancion7", descripcion:"Artista7"}, {cancion:"Cancion8", descripcion:"Artista8"}, {cancion:"Cancion9", descripcion:"Artista9"}, {cancion:"Cancion10", descripcion:"Artista10"}, {cancion:"Cancion11", descripcion:"Artista11"}, {cancion:"Cancion12", descripcion:"Artista12"}, {cancion:"Cancion13", descripcion:"Artista13"}, {cancion:"Cancion14", descripcion:"Artista14"}, {cancion:"Cancion15", descripcion:"Artista15"}, {cancion:"Cancion16", descripcion:"Artista16"}, {cancion:"Cancion17", descripcion:"Artista17"}, {cancion:"Cancion18", descripcion:"Artista18"}, {cancion:"Cancion19", descripcion:"Artista19"}, {cancion:"Cancion20", descripcion:"Artista20"}, {cancion:"Cancion21", descripcion:"Artista21"}, {cancion:"Cancion22", descripcion:"Artista22"}, {cancion:"Cancion23", descripcion:"Artista23"}, {cancion:"Cancion24", descripcion:"Artista24"}, {cancion:"Cancion25", descripcion:"Artista25"}, {cancion:"Cancion26", descripcion:"Artista26"}, {cancion:"Cancion27", descripcion:"Artista27"}, {cancion:"Cancion28", descripcion:"Artista28"}, {cancion:"Cancion29", descripcion:"Artista29"}, {cancion:"Cancion30", descripcion:"Artista30"}, {cancion:"Cancion31", descripcion:"Artista31"}, {cancion:"Cancion32", descripcion:"Artista32"}]},
+{name:"Prueba3", items:[{cancion:"Cancion1", descripcion:"Artista1"}, {cancion:"Cancion2", descripcion:"Artista2"}, {cancion:"Cancion3", descripcion:"Artista3"}, {cancion:"Cancion4", descripcion:"Artista4"}, {cancion:"Cancion5", descripcion:"Artista5"}, {cancion:"Cancion6", descripcion:"Artista6"}, {cancion:"Cancion7", descripcion:"Artista7"}, {cancion:"Cancion8", descripcion:"Artista8"}, {cancion:"Cancion9", descripcion:"Artista9"}, {cancion:"Cancion10", descripcion:"Artista10"}, {cancion:"Cancion11", descripcion:"Artista11"}, {cancion:"Cancion12", descripcion:"Artista12"}, {cancion:"Cancion13", descripcion:"Artista13"}, {cancion:"Cancion14", descripcion:"Artista14"}, {cancion:"Cancion15", descripcion:"Artista15"}, {cancion:"Cancion16", descripcion:"Artista16"}, {cancion:"Cancion17", descripcion:"Artista17"}, {cancion:"Cancion18", descripcion:"Artista18"}, {cancion:"Cancion19", descripcion:"Artista19"}, {cancion:"Cancion20", descripcion:"Artista20"}, {cancion:"Cancion21", descripcion:"Artista21"}, {cancion:"Cancion22", descripcion:"Artista22"}, {cancion:"Cancion23", descripcion:"Artista23"}, {cancion:"Cancion24", descripcion:"Artista24"}, {cancion:"Cancion25", descripcion:"Artista25"}, {cancion:"Cancion26", descripcion:"Artista26"}, {cancion:"Cancion27", descripcion:"Artista27"}, {cancion:"Cancion28", descripcion:"Artista28"}, {cancion:"Cancion29", descripcion:"Artista29"}, {cancion:"Cancion30", descripcion:"Artista30"}, {cancion:"Cancion31", descripcion:"Artista31"}, {cancion:"Cancion32", descripcion:"Artista32"}]}
+]
 
 ---
 
 <Layout title="PlayBeat">
-	<div class=" flex flex-col w-full  items-center  text-white">
+	<div class=" flex flex-col w-full   text-white">
 		<header class=" flex flex-row justify-between items-center w-4/6 h-16  font-bold text-3xl text-[#6985C0] px-8 fixed  bg-[#242423] bg-opacity-70">
 			<div class="flex fle-row gap-2">
 				<button onclick="window.history.back();">
@@ -31,35 +35,22 @@ const canciones = [{name:"Ultimo escuchado", items:[{cancion:"Cancion1", descrip
 				</div>
 			</div>
 		</header>
-		<div class=" w-full h-full flex flex-col mt-16 p-6">
-			{canciones.map( (element) =>
-				<section class="h-[340px] ">
-					<header class="flex flex-row w-max items-center hover:underline cursor-pointer">
-						<h2 class=" text-lg font-medium ">{element.name}</h2>
-						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-right ml-2" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>
-					</header>
-					<div class="flex flex-row items-center mt-2">
-						<div class=" w-16">
-							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-compact-left opacity-0 hover:opacity-100 transition-opacity cursor-pointer" width="60" height="60" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13 20l-3 -8l3 -8" /></svg>
-						</div>
-						<ul class="h-[280px] flex flex-row w-[900px]  overflow-x-auto snap-x snap-mandatory scroll-smooth  carrusel">
-							{element.items.map( (item) => 
-									<li class="flex flex-col p-4 snap-start text-sm hijo h-full">
-										<div class=" w-full h-full bg-black rounded-md mb-1">
-										</div>
-										<p >{item.cancion}</p>
-										<p class=" text-gray-400">{item.descripcion}</p>
-
-									</li>
-							)}
-						</ul>
-						<div class=" w-16">
-							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-compact-right opacity-0 hover:opacity-100 transition-opacity cursor-pointer" width="60" height="60" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11 4l3 8l-3 8" /></svg>
-
-						</div>
-						
-					</div>
-				</section>
+		<div class=" w-full h-full flex flex-col mt-16 p-1">
+			{canciones.map( (element, index) =>
+				{
+					let n = 5
+					let v = ""
+					if(index==0){
+						n = 3
+						v = "wide"
+					}else if(index == 2){
+						n=4
+						v="wide"
+					}else if(index == 4){
+						n=4
+					}
+					return <Carrousel info={element} num={n} variant={v}/>
+				}
 			)}	
 			
 		</div>
@@ -72,7 +63,6 @@ const canciones = [{name:"Ultimo escuchado", items:[{cancion:"Cancion1", descrip
 		if(leftArrow && rightArrow && carrusel){
 		
 		    for(let i = 0; i < carrusel.length; i++) {
-				let count = 0;
 				let width = carrusel[i].offsetWidth;
 				leftArrow[i].addEventListener('click', () => {
 					carrusel[i].scrollBy({ left: -width, behavior: 'smooth' });
@@ -89,13 +79,6 @@ const canciones = [{name:"Ultimo escuchado", items:[{cancion:"Cancion1", descrip
 
 <style>
 
-.carrusel{
-	scrollbar-width: none;
-	--ancho-padre: 100%;
-}
-.hijo{
-	min-width: calc(var(--ancho-padre) / 4);
-}
 
 
 
