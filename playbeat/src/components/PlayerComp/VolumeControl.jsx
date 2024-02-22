@@ -1,5 +1,7 @@
 
 import { Slider } from "./Slider"
+import {usePlayerState} from "@/globalState/playerState"
+import { useRef ,useEffect} from "react"
 
 
 export const VolumeMute = ({classname}) => (
@@ -14,33 +16,54 @@ export const VolumeMute = ({classname}) => (
       )
     
 export const VolumeControl = ({audio}) => {
+     const {volume, setVolume} = usePlayerState()
+     const volumenPrev = useRef(volume)
+
+
+
+     useEffect(() => {
+       setVolume(0.1)
+     
+      
+     }, [])
+     
+     const handleClickVolumen = () => {
+      if (volume < 0.1) {
+        setVolume(volumenPrev.current)
+      } else {
+        volumenPrev.current = volume
+        setVolume(0)
+      }
+    }
 
     return (
       <div className="text-white flex flex-row items-center w-[120px]">
                {/* Add the volume control here */}
               <div className="flex flex-row items-center gap-3">
-                <button>
+                <button onClick={handleClickVolumen}>
                   {/* Habra que silenciar al pulsar en el botón */}
   
-                  {/* {volumenActual > 50 ? (
+                  {/* {volume > 0.5   ? <VolumeMute /> : <VolumeHigh />} */}
+                  {volume > 0.5 ? (
                       <VolumeHigh className={"hover:opacity-100 opacity-70 transition"} />
-                      ) : volumenActual > 20 ? (
-                      <VolumeMid className={"hover:opacity-100 opacity-70 transition"} />
+                      ) : volume === 0 ? (
+                        <VolumeMute className={"hover:opacity-100 opacity-70 transition"} />
+
                       ) : (
-                      <VolumeMute className={"hover:opacity-100 opacity-70 transition"} />
-                      )} */}
-                      <VolumeHigh className={"hover:opacity-100 opacity-70 transition"} />
+                        <VolumeMid className={"hover:opacity-100 opacity-70 transition"} />
+                      )}   
                   
                 </button>
                 <Slider 
-                defaultValue={[100]}
+                
                 max={100}
                 min={0}
+                value={[volume * 100]}
                 className="w-20"
                 onValueChange={(value) => {
                   const [nuevoVol] = value
-                   audio.current.volume = nuevoVol / 100
-                   console.log(audio.current.volume)
+                  setVolume(nuevoVol / 100)
+                   
                 }}
   
                 />

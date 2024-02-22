@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import {SongBar} from "./PlayerComp/SongBar.jsx"
 import {VolumeControl} from "./PlayerComp/VolumeControl"
 import {CancionActual} from "./PlayerComp/CancionActual"
+import {usePlayerState} from "@/globalState/playerState"
 
 
 export const Play = ({classname}) => (
@@ -43,28 +44,31 @@ export const ListIcon = ({classname,color}) => (
 
 
 export function Player () {
-    const [play, setPlay] = useState(false)
+    
+    const {play, setPlay,volume} = usePlayerState()
+
     const [currSong, setCurrSong] = useState(null)
     const audio = useRef()
     const [shuffle, setShuffle] = useState(false)
     const [loop, setLoop] = useState(false)
     const [queue, setQueue] = useState(false)
 
+    useEffect(() => {
+        play
+          ? audio.current.play()
+          : audio.current.pause()
+      }, [play])
+
+
+      useEffect(() => {
+        audio.current.volume = volume
+      }, [volume])
 
     useEffect(() => {
     audio.current.src = '/public/music/better-day-186374.mp3'
     },[])
 
     const onClickHandlerPlay = () => {
-        if(play){
-            audio.current.pause()
-        }else{
-           
-            audio.current.play()
-        }
-
-
-        
         setPlay(!play)
     }
     
