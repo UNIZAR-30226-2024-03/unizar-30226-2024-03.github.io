@@ -16,7 +16,7 @@ export const VolumeMute = ({classname}) => (
 export const VolumeControl = ({audio}) => {
 
     return (
-      <div className="text-white flex flex-row items-center w-[200px]">
+      <div className="text-white flex flex-row items-center w-[120px]">
                {/* Add the volume control here */}
               <div className="flex flex-row items-center gap-3">
                 <button>

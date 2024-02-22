@@ -32,7 +32,9 @@ export const Loop = ({classname, color}) => (
     <svg xmlns="http://www.w3.org/2000/svg" className={classname} width="24" height="24" viewBox="0 0 24 24" strokeWidth="1.5" stroke={color} fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 12v-3a3 3 0 0 1 3 -3h13m-3 -3l3 3l-3 3" /><path d="M20 12v3a3 3 0 0 1 -3 3h-13m3 3l-3 -3l3 -3" /></svg>
 )
 
-
+export const ListIcon = ({classname,color}) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={classname} width="24" height="24" viewBox="0 0 24 24" strokeWidth="1.5" stroke={color} fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l11 0" /><path d="M9 12l11 0" /><path d="M9 18l11 0" /><path d="M5 6l0 .01" /><path d="M5 12l0 .01" /><path d="M5 18l0 .01" /></svg>
+)
 
 
 
@@ -46,6 +48,7 @@ export function Player () {
     const audio = useRef()
     const [shuffle, setShuffle] = useState(false)
     const [loop, setLoop] = useState(false)
+    const [queue, setQueue] = useState(false)
 
 
     useEffect(() => {
@@ -68,7 +71,7 @@ export function Player () {
   return (
     <div className="bg-[#3f3f3f] h-full w-full flex flex-row justify-between p-2">
 
-        <div className="flex flex-row items-center text-white w-[200px]">
+        <div className="flex flex-row items-center text-white w-[300px]">
              {/* Add the song name and artist here */}
              <CancionActual title='Better Day' artists='penguinmusic' image='/penguin.png'/>
              
@@ -95,7 +98,7 @@ export function Player () {
         </div>
 
       </div>
-      <div className="flex flex-row items-center gap-3 w-[200px]">
+      <div className="flex flex-row items-center gap-3 w-[300px] justify-end ">
       <button onClick={()=> setLoop(!loop)}>
            {loop ? <Loop classname={" hover:opacity-100 opacity-70 transition"} color={"#6985C0"}/> : <Loop classname={" hover:opacity-100 opacity-70 transition"} color={"white"}/>}
         </button>
@@ -103,7 +106,10 @@ export function Player () {
            {shuffle ? <Shuffle classname={" hover:opacity-100 opacity-70 transition"} color={"#6985C0"}/> : <Shuffle classname={" hover:opacity-100 opacity-70 transition"} color={"white"}/>}
         </button>
 
-        
+        <button onClick={()=> setQueue(!queue)}>
+            
+            {queue ? <ListIcon classname={"hover:opacity-100 opacity-70 transition bg-[#6985C0] bg-opacity-50 rounded-[3px]"} color={"white"}/> : <ListIcon classname={"hover:opacity-100 opacity-70 transition "} color={"white"}/>}
+        </button>
       
        <VolumeControl audio={audio}/>
        </div>
