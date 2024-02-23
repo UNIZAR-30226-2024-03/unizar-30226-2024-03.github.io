@@ -8,7 +8,10 @@
       ],
       "@assets/*": [
         "src/assets/*"
-      ]
+      ],
+      "@/*": [
+        "src/*"
+      ],
     },
     "jsx": "react-jsx",
     "jsxImportSource": "react"
