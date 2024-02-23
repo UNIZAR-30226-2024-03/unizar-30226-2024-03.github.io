@@ -8,7 +8,9 @@ export default {
 	theme: {
 		colors: {
 			background: '#242423',
-			grey: "#3f3f3f"
+			grey: "#3f3f3f",
+			black: "#000000",
+			white: "#ffffff",
 		},
 		extend: {},
 	},
