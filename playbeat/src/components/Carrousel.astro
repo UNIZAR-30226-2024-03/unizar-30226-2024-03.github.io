@@ -28,7 +28,7 @@ const { info, num, variant} = Astro.props;
         <ul class=" flex flex-row w-full overflow-x-auto snap-x snap-mandatory scroll-smooth  carrusel">
             {info.items.map( (item) => 
                     <li class="flex flex-col p-2 snap-start text-sm h-full hijo ">
-                        <div class:list={[" w-full aspect-square bg-black rounded-md mb-1", {"aspect-[16/11]" : variant==="wide"}]}>
+                        <div class:list={[" w-full  bg-grey rounded-md mb-1", {"aspect-[16/11]" : variant==="wide"},  {"aspect-square" : variant!=="wide"}]}>
                         </div>
                         <p >{item.cancion}</p>
                         <p class=" text-gray-400">{item.descripcion}</p>
