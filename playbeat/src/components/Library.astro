@@ -1,0 +1,48 @@
+---
+interface Info {
+    
+    items: {
+        audio: string;
+        descripcion: string;
+    }[];
+    
+}
+
+interface Props {
+	info: Info;
+    
+}
+
+const { info} = Astro.props;
+
+
+
+
+---
+
+
+<section>
+    <header class="flex flex-row w-max items-center hover:underline cursor-pointer ml-[44px]">
+        
+        <h1 class="text-3xl font-bold mt-4">Biblioteca</h1>
+    </header>
+    <div class="flex flex-row items-center ">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-compact-left opacity-0 hover:opacity-100 transition-opacity cursor-pointer" width="40" height="60" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13 20l-3 -8l3 -8" /></svg>
+        <ul class=" flex flex-row w-full   ">
+            {info.items.map( (item) => 
+                    <li class="flex flex-col p-2 snap-start text-sm h-full hijo ">
+                        <div class:list={[" w-full  bg-grey rounded-md mb-1  aspect-square" ]}>
+                        </div>
+                        <p class="text-base">{item.audio}</p>
+                        <p class=" text-gray-400">{item.descripcion}</p>
+
+                    </li>
+            )}
+        </ul>
+
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-compact-right opacity-0 hover:opacity-100 transition-opacity cursor-pointer" width="40" height="60" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11 4l3 8l-3 8" /></svg>
+        
+    </div>
+
+	  
+</section>
