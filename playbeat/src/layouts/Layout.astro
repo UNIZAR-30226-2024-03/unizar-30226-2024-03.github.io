@@ -40,17 +40,22 @@ const { title } = Astro.props;
 
 		<footer class="[grid-area:player] h-[72px]">
 			<Player client:load transition:name="media-player" transition:persist >
-				<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list queue" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l11 0" /><path d="M9 12l11 0" /><path d="M9 18l11 0" /><path d="M5 6l0 .01" /><path d="M5 12l0 .01" /><path d="M5 18l0 .01" /></svg>
+				<div class="">
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list queue transition rounded-[3px]" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l11 0" /><path d="M9 12l11 0" /><path d="M9 18l11 0" /><path d="M5 6l0 .01" /><path d="M5 12l0 .01" /><path d="M5 18l0 .01" /></svg>
+				</div>
 			</Player>
 		  </footer>
 	</body>
 	<script>
-		const queue = document.querySelector('.queue') ;
+		const queue = document.querySelector('.queue') as HTMLElement;
 		const app = document.querySelector('#app') as HTMLElement;
 		let isClicked = true;
 		if(queue && app){
+			
 			queue.addEventListener('click', () => {
 				isClicked = !isClicked;
+				queue.style.color = isClicked ? "#6985C0" : "white";
+				queue.style.backgroundColor = isClicked ? "#606060a4" : "";
 				app.style.gridTemplateColumns = isClicked ? "repeat(5, 1fr) 1fr" : "repeat(5, 1fr) 0px";
 			});
 		}
