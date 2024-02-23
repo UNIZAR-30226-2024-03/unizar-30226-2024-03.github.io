@@ -9,6 +9,12 @@
       "@assets/*": [
         "src/assets/*"
       ],
+      "@icons/*": [
+        "src/assets/icons/*"
+      ],
+      "@layouts/*": [
+        "src/layouts/*"
+      ],
       "@/*": [
         "src/*"
       ],
