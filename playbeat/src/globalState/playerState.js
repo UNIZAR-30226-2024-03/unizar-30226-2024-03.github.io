@@ -1,5 +1,5 @@
+
 import {create} from "zustand";
-import create from 'vue-zustand'
 
 
 
@@ -29,12 +29,5 @@ export const usePlayerState = create(set => ({
 }))
 
 
-// const {volume} = usePlayerState();
 
-
-export const useStore = create(set => ({
-    
-    bears: 1,
-  increase: () => set(state => ({ bears: state.bears + 1 })),
-}))
 
