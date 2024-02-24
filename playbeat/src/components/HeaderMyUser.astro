@@ -1,5 +1,11 @@
-<header>
-    <div class="  w-4/6 flex flex-row justify-between px-8 mt-2 ">
+---
+import FlechaDchHeader from "@/icons/FlechaDchHeader.astro";
+import FlechaIzqHeader from "@/icons/FlechaIzqHeader.astro";
+---
+
+
+<!-- <header  class=" h-80 w-full">
+    <div class=" w-full h-full flex flex-row justify-between px-8 mt-2 relative">
         <div class=" z-10 flex fle-row gap-2 mt-3 fixed" >
             <button onclick="window.history.back();">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg>
@@ -8,12 +14,89 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>
             </button>
         </div>
+        <div class="relative">
+            <span class="text-3xl font-bold text-white">
+                Miguel Aréjula
+            </span>
+            <span class="text-white">
+                @arejula11
+            </span>
+        </div>
+        <div class="flex flex-row justify-between">
+            <div class="flex flex-row align-middle gap-2">
+                <button class="bg-[#6985C0] flex flex-row items-center p-1 px-3  gap-1 w-max h-6 rounded-md">
+                    <span class=" font-semibold">
+                        EDIT
+                    </span>
+                </button>
+                <button class="bg-[#6985C0] flex flex-row items-center p-1 px-3  gap-1 w-6 h-6 rounded-full">
+                    <span class=" font-semibold">
+                        ...
+                    </span>
+                </button>
+            </div>
+        </div>
         
-    </div>
-    <div class="  -z-40 w-full h-80 bg-[#9A9A9A]  blur-3xl">
-        
+        <div class="  -z-40 w-full h-80 bg-[#9A9A9A]  blur-3xl"></div>
     </div>
 
 </header>
 
+ -->
+ <header class=" h-80 w-full"> 
+    <div class=" w-full h-full flex flex-row justify-between relative">
+        <div class=" z-10 flex fle-row gap-2 mt-5 fixed px-8 " >
+            <button onclick="window.history.back();">
+                <FlechaIzqHeader/>
+            </button>
+            <button  onclick="window.history.forward();">
+                <FlechaDchHeader/>
+            </button>
+        </div>
+        <div class="  -z-40 w-full h-80 bg-[#9A9A9A]  blur-3xl"></div>
+        <div class=" ml-5 flex flex-col  absolute name">
+            <span class="text-3xl font-bold text-white">
+                Miguel Aréjula
+            </span>
+            <span class="text-white opacity-60">
+                @arejula11
+            </span>
+            
+        </div>
+        <div class=" ml-5 flex flex-col  absolute photo">
+            <span class="text-3xl font-bold text-white">
+                Miguel Aréjula
+            </span>
+            <span class="text-white opacity-60">
+                @arejula11
+            </span>
+            
+        </div>
+        <div class=" ml-5 flex flex-col  absolute edit">
+            <span class="text-3xl font-bold text-white">
+                Miguel Aréjula
+            </span>
+            <span class="text-white opacity-60">
+                @arejula11
+            </span>
+            
+        </div>
+        
 
+    </div>
+</header>
+
+<style>
+    .name{
+        bottom: 1vw;
+        left: 0.5vw;
+    }
+    .photo{
+        bottom: 1vw;
+        left: 0.5vw;
+    }
+    .edit{
+        bottom: 1vw;
+        left: 0.5vw;
+    }
+</style>
