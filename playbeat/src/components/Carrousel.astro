@@ -36,7 +36,8 @@ const variant = info.vari;
                         <div class:list={[" w-full  bg-grey rounded-md mb-1", {"aspect-[16/11]" : variant==="wide"},  {"aspect-square" : variant!=="wide"}]}>
                         </div>
                         <p class="text-base">{item.audio}</p>
-                        <p class=" text-gray-400">{item.descripcion}</p>
+                        <a href="artist/artist1" ><p class=" text-gray-400 hover:underline">{item.descripcion}</p></a> 
+
 
                     </li>
             )}
