@@ -1,6 +1,9 @@
 ---
 import Layout from '../../layouts/Layout.astro'
 import Header from '../../components/Header.astro'
+import PlayIcon from '@/icons/PlayIcon.astro'
+import Heart from '@/icons/Heart.astro'
+import Shuffle from '@/icons/Shuffle.astro'
 
 const info = {
         info: "Lista publica",
@@ -86,16 +89,16 @@ const canciones = [
                 </div>
                 <div class="mt-8 flex flex-row justify-between">
                     <button class="bg-[#6985C0] flex flex-row items-center p-1 px-3  gap-1 w-max rounded-md">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-player-play-filled" width="18" height="18" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4v16a1 1 0 0 0 1.524 .852l13 -8a1 1 0 0 0 0 -1.704l-13 -8a1 1 0 0 0 -1.524 .852z" stroke-width="0" fill="currentColor" /></svg>
+                        <PlayIcon/>
                         <span class=" font-semibold">
                             PLAY
                         </span>
                     </button>
                     <button>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#6985C0" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" /></svg>
+                        <Heart/>
                     </button>
                     <button>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrows-shuffle" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#6985C0" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 4l3 3l-3 3" /><path d="M18 20l3 -3l-3 -3" /><path d="M3 7h3a5 5 0 0 1 5 5a5 5 0 0 0 5 5h5" /><path d="M21 7h-5a4.978 4.978 0 0 0 -3 1m-4 8a4.984 4.984 0 0 1 -3 1h-3" /></svg>
+                        <Shuffle/>
                     </button>
                 </div>
             </div>
