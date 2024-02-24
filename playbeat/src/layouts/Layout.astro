@@ -58,7 +58,7 @@ const { title } = Astro.props;
 				isClicked = !isClicked;
 				queue.style.color = isClicked ? "#6985C0" : "white";
 				queue.style.backgroundColor = isClicked ? "#606060a4" : "";
-				app.style.gridTemplateColumns = isClicked ? "repeat(5, 1fr) 1fr" : "repeat(5, 1fr) 0px";
+				app.style.gridTemplateColumns = isClicked ? "1fr repeat(4, 1fr) 1fr" : "1fr repeat(3, 1fr) 2fr 0px";
 			});
 		}
 	</script>
@@ -70,7 +70,7 @@ const { title } = Astro.props;
 	  grid-template-areas:
 		"aside1 main main main main aside2"
 		"player player player player player player ";
-	  grid-template-columns: repeat(5, 1fr) 1fr;
+	  grid-template-columns: 1fr repeat(3, 1fr) 2fr 0px;
 	  grid-template-rows: calc(100vh - 72px) 72px;
 	}
 	.queue{
