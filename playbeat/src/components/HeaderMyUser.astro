@@ -72,14 +72,17 @@ import FlechaIzqHeader from "@/icons/FlechaIzqHeader.astro";
             </span>
             
         </div>
-        <div class=" ml-5 flex flex-col  absolute edit">
-            <span class="text-3xl font-bold text-white">
-                Miguel Aréjula
-            </span>
-            <span class="text-white opacity-60">
-                @arejula11
-            </span>
-            
+        <div class=" ml-5 flex flex-row gap-2  absolute edit">
+            <button class="bg-[#6985C0] flex flex-row items-center p-1 px-3  gap-1 w-max h-7 rounded-md">
+                <span class=" font-semibold">
+                    EDIT
+                </span>
+            </button>
+            <button class="bg-[#6985C0] flex flex-wrap content-center justify-center p-1 px-3  gap-1 w-7 h-7 rounded-full">
+                <span class=" font-semibold">
+                    ...
+                </span>
+            </button>
         </div>
         
 
@@ -88,7 +91,7 @@ import FlechaIzqHeader from "@/icons/FlechaIzqHeader.astro";
 
 <style>
     .name{
-        bottom: 1vw;
+        mid: 1vw;
         left: 0.5vw;
     }
     .photo{
@@ -97,6 +100,6 @@ import FlechaIzqHeader from "@/icons/FlechaIzqHeader.astro";
     }
     .edit{
         bottom: 1vw;
-        left: 0.5vw;
+        right: 0.5vw;
     }
 </style>
