@@ -1,0 +1,47 @@
+---
+interface Info {
+    
+    items: {
+        audio: string;
+        descripcion: string;
+    }[];
+    
+}
+
+interface Props {
+	info: Info;
+    
+}
+
+const { info} = Astro.props;
+
+
+
+
+---
+
+
+<section>
+    <header class="flex flex-row w-max items-center ml-[44px]">
+        
+        <h1 class="text-3xl font-bold mt-4">Biblioteca</h1>
+    </header>
+    <div class="flex flex-row items-center mt-4 ">
+            
+        <ul class="grid  mb-3  grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5   mx-auto">
+            {info.items.map( (item) => 
+                    <li class="flex flex-col p-8  text-sm h-full  ">
+                        <div class:list={[" w-[200px]  bg-grey rounded-md mb-1  aspect-square " ]}>
+                        </div>
+                        <p class="text-base">{item.audio}</p>
+                        <p class=" text-gray-400">{item.descripcion}</p>
+
+                    </li>
+            )}
+        </ul>
+        
+    </div>
+
+	  
+</section>
+
