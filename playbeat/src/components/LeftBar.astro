@@ -8,6 +8,46 @@ import NotaList from "@/icons/NotaList.astro"
 
 
 
+
+const Playlists = [
+    {
+        name: "Playlist 1",
+    },
+    {
+        name: "Playlist 2",
+    },
+    {
+        name: "Playlist 3",
+    },
+    {
+        name: "Playlist 4",
+    },
+    {
+        name: "Playlist 5",
+    },
+    {
+        name: "Playlist 6",
+    },
+    {
+        name: "Playlist 7",
+    },
+    {
+        name: "Playlist 8",
+    },
+    {
+        name: "Playlist 9",
+    },
+    {
+        name: "Playlist 10",
+    },
+    {
+        name: "Playlist 11",
+    },
+    {
+        name: "Playlist 12",
+    }
+]
+
 ---
 
 <div class=" bg-[#3f3f3f]  border-b-2 border-[#242423] h-full pt-8" >
@@ -44,12 +84,15 @@ import NotaList from "@/icons/NotaList.astro"
             <Mas />
         </div>
         <ul class="flex flex-col px-3 mt-4">
-            <li class="flex flex-row gap-4">
+            {Playlists.map( (playlist) => 
+                <li class="flex flex-row gap-4 mb-2">
                 <a href="/library/playlist1" class=" text-white  font-medium flex flex-row items-center gap-4 w-full h-9">
                     <NotaList />
                     <span>Playlist 1</span>
                 </a>
             </li>
+        )}
+            
         </ul>
     </section>
 
