@@ -10,10 +10,11 @@ interface Info {
 
 interface Props {
 	info: Info;
+    title: string;
     
 }
 
-const { info} = Astro.props;
+const { info, title} = Astro.props;
 
 
 
@@ -24,7 +25,7 @@ const { info} = Astro.props;
 <section>
     <header class="flex flex-row w-max items-center ml-[44px]">
         
-        <h1 class="text-3xl font-bold mt-4">Biblioteca</h1>
+        <h1 class="text-3xl font-bold mt-4">{title}</h1>
     </header>
     <div class="flex flex-row items-center mt-4 ">
             
