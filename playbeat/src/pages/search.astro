@@ -1,0 +1,39 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+
+const categorias = [ "Pop", "Rock", "Reggaeton", "Rap", "Electrónica", "Clásica", "Jazz", "Indie", "Metal", "Hip Hop", "Trap", "Salsa", "Bachata", "Merengue", "Cumbia", "Reggae", "Folk", "Country", "Blues", "Soul", "Funk", "Disco", "R&B", "Gospel", "House", "Techno", "Dubstep", "Drum & Bass", "Hardstyle", "Trance", "Chillout", "Ambient", "Dance", "Reggaeton", "Ska", "Punk", "Grunge", "Emo", "Post-Hardcore", "Metalcore", "Deathcore", "Black Metal", "Death Metal", "Thrash Metal", "Power Metal", "Doom Metal", "Gothic Metal", "Folk Metal", "Viking Metal", "Symphonic Metal", "Progressive Metal", "Nu Metal", "Alternative Metal", "Industrial Metal", "Rap Metal", "Funk Metal", "Glam Metal", "Goregrind", "Grindcore", "Deathgrind", "Metalcore", "Mathcore", "Post-Hardcore", "Emo", "Screamo", "Pop Punk", "Hardcore Punk", "Post-Punk", "Punk Rock", "Psychobilly", "Horror Punk", "Ska Punk", "Reggae", "Ska", "Rocksteady", "2 Tone", "Third Wave Ska", "Ska Punk", "Reggae", "Dancehall", "Dub", "Lovers Rock", "Roots Reggae", "Ragga", "Reggaeton", "Reggae Fusion", "Reggae en Español", "Reggae en Inglés", 
+]
+---
+
+<Layout title="PlayBeat">
+    <Header/>
+    <div class="mt-16 p-4 px-14">
+        <form class="border-[1.5px] ml-10 border-white p-3 w-[500px] h-12 flex justify-start items-center rounded-md form">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
+            <input type="text" class=" bg-[#242423] ml-3 w-full outline-none searchInput" placeholder="Buscar"/>
+        </form>
+        <section class="ml-10 mt-10">
+            <h2 class="text-lg font-semibold">Buscar por categoría</h2>
+            <div class="flex flex-row flex-wrap gap-4 mt-4">
+                {categorias.map((categoria) => (
+                    <img src="../../public/6985c0.png" class="w-[200px] aspect-square rounded-md categories" alt={categoria}/>
+                ))}
+            </div>
+
+        </section>
+    </div> 
+    <script>
+        const searchInput = document.querySelector('.searchInput') as HTMLInputElement;
+        const form = document.querySelector('.form') as HTMLFormElement;
+        const categories = document.querySelectorAll('.categories') as NodeListOf<HTMLImageElement>;
+        for(let i = 0; i < categories.length; i++){
+            categories[i].addEventListener('click', () => {      
+                searchInput.value = categories[i].alt;
+                form.submit();
+            })
+        }
+    </script>
+    
+</Layout> 
+
