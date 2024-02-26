@@ -11,6 +11,7 @@ export default {
 			grey: "#3f3f3f",
 			black: "#000000",
 			white: "#ffffff",
+			bluePB: "#6985C0"
 		},
 		extend: {},
 	},
