@@ -7,8 +7,8 @@ export default {
 	
 	theme: {
 		colors: {
-			background: '#242423',
-			grey: "#3f3f3f",
+			background: '#121212',
+			grey: "#242424",
 			black: "#000000",
 			white: "#ffffff",
 			bluePB: "#6985C0"
@@ -23,7 +23,7 @@ export default {
 			dark: {
 				colors: {
 					
-					background: '#242423',
+					background: '#0f0f0f',
 				},
 			},
 			

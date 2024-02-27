@@ -50,7 +50,7 @@ const Playlists = [
 
 ---
 
-<div class=" bg-[#3f3f3f]  border-b-2 border-[#242423] h-full pt-8" >
+<div class=" bg-grey  border-b-3 border-background h-full pt-8 bg-opacity-70" >
     <ul class="flex flex-col  gap-2 mx-6">
         <li class="flex ml-4 mb-3  items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-background -rotate-45" width="22" height="22" viewBox="0 0 24 24" stroke-width="2" stroke="#6985C0" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 8l4 -4" /><path d="M14 4l-10 10" /><path d="M4 20l16 -16" /><path d="M20 10l-10 10" /><path d="M20 16l-4 4" /></svg>
@@ -89,8 +89,8 @@ const Playlists = [
         </div>
         <ul class="flex flex-col px-3 mt-5 overflow-y-scroll ">
             {Playlists.map( (playlist) => 
-                <li class="flex flex-row gap-4 mb-2">
-                <a href="/library/playlist1" class=" text-white  font-medium flex flex-row items-center gap-4 w-full h-9">
+                <li class="flex flex-row gap-4 mb-2 hover:bg-[#575757] rounded-md">
+                <a href="/library/playlist1" class=" text-white  font-medium flex flex-row items-center gap-4 w-full h-9  ">
                     <NotaList />
                     <span>Playlist 1</span>
                 </a>
