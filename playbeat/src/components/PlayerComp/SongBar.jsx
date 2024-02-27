@@ -18,10 +18,7 @@ export const SongBar = ({audio}) => {
 
     const  [time, setTime] = useState(0)
     const [disable, setDisable] = useState(false)
-    let duration;
-
-    useEffect(() => {
-      duration = audio?.current?.duration ?? 100},[])
+    const duration = audio.current?.duration
   
     useEffect(() => {
       audio.current.addEventListener('timeupdate', handleTimeUpdate)
