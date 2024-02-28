@@ -24,19 +24,19 @@ const Canciones = [
         <section class="flex flex-row items-center w-[500px]">
             <form class="border-[1.5px] ml-10 border-white p-3 w-full h-12 flex justify-start items-center rounded-md form">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
-                <input type="text" class=" bg-[#242423] ml-3 w-full outline-none searchInput" placeholder="Buscar"/>
+                <input type="text" class=" bg-background ml-3 w-full outline-none searchInput" placeholder="Buscar"/>
             </form>
         </section>
 
         <section class="ml-10 mt-10 default">
             <SearchTabs subject="categories" component="search"/>
         </section>
-        <section class="searching  mt-12">
+        <section class="searching hidden mt-12">
             <form class="flex flex-row justify-between w-[460px] ml-10"> 
-                {filter.map((item ) =>{
+                {filter.map((item, index) =>{
                     return (
-                        <input type="radio" id={item} name="filter" class=" inputRadio hidden" />
-                        <label for={item} class="text-white font-medium border-2 border-[#6985C0] rounded-md px-2 py-1 filter">
+                        <input type="radio" id={item} name="filter" class=" inputRadio hidden" checked={index == 0}/>
+                        <label for={item} class="text-white font-medium border-2 border-[#6985C0] rounded-md px-2 py-1 filter" >
                             <span>{item}</span>
                         </label>
                     )
@@ -55,65 +55,43 @@ const Canciones = [
 
         </section>
     </div> 
-    <script >
-        const leftArrow = document.querySelectorAll('.icon-tabler-chevron-compact-left');
-		const rightArrow = document.querySelectorAll('.icon-tabler-chevron-compact-right');
-		const carrusel = document.querySelectorAll('.carrusel') as NodeListOf<HTMLElement>;
-            console.log("Hola")
+    <script is:inline> 
+            document.addEventListener("astro:page-load",() => {
 
-		for(let i = 0; i < carrusel.length; i++) {
-                let width = carrusel[i].offsetWidth;
-                leftArrow[i].addEventListener('click', () => {
-                    console.log("adios")
+            const searchInput = document.querySelector('.searchInput') ;
+            const form = document.querySelector('.form') ;
+            const categories = document.querySelectorAll('.categories');
+            const start = document.querySelector('.default') ; // replace '.component-to-display' with the actual selector of your component
+            const searching = document.querySelector('.searching') ; // replace '.component-to-display' with the actual selector of your component
+            const filters = document.querySelectorAll('.filter') ;
 
-                    carrusel[i].scrollBy({ left: -width, behavior: 'smooth' });
-                });
-            
-                rightArrow[i].addEventListener('click', () => {
-                    console.log("adios")
+            console.log("x")
 
-                    carrusel[i].scrollBy({ left: width, behavior: 'smooth' });
-                });
-            
-		}
-    </script>
-    <script>
-        window.addEventListener("load",() => {
-            console.log("xddd")
-        })
-        const searchInput = document.querySelector('.searchInput') as HTMLInputElement;
-        const form = document.querySelector('.form') as HTMLFormElement;
-        const categories = document.querySelectorAll('.categories') as NodeListOf<HTMLImageElement>;
-        const start = document.querySelector('.default') as HTMLElement; // replace '.component-to-display' with the actual selector of your component
-        const searching = document.querySelector('.searching') as HTMLElement; // replace '.component-to-display' with the actual selector of your component
-        const filters = document.querySelectorAll('.filter') as NodeListOf<HTMLLabelElement>;
+            // Initially hide the component
+            searchInput.addEventListener('input', () => {
+                if (searchInput.value != '') {
+                    // Show the component when there's text in the input field
+                    start.style.display = 'none';
+                    searching.style.display = 'block';
+                } else {
+                    // Hide the component when the input field is empty
 
-		
-        // Initially hide the component
-        searchInput.addEventListener('input', () => {
-            if (searchInput.value != '') {
-                // Show the component when there's text in the input field
-                
-                start.style.display = 'none';
-                searching.style.display = 'block';
-            } else {
-                // Hide the component when the input field is empty
-
-                searching.style.display = 'none';
-                start.style.display = 'block';
+                    searching.style.display = 'none';
+                    start.style.display = 'block';
+                }
+            });
+            for(let i = 0; i < categories.length; i++){
+                categories[i].addEventListener('click', () => {      
+                    searchInput.value = categories[i].alt;
+                    form.submit();
+                })
             }
-        });
-        for(let i = 0; i < categories.length; i++){
-            categories[i].addEventListener('click', () => {      
-                searchInput.value = categories[i].alt;
-                form.submit();
-            })
-        }
-        for(let i = 0; i < filters.length; i++){
-            filters[i].addEventListener('click', () => {      
-                searchInput.value = filters[i].innerText;
-            })
-        }
+            for(let i = 0; i < filters.length; i++){
+                filters[i].addEventListener('click', () => {      
+                    searchInput.value = filters[i].innerText;
+                })
+            }
+        })
     </script>
     
 </Layout>

@@ -55,16 +55,18 @@ const variant = info.vari;
 
 	  <script>
 
-		window.addEventListener('resize', function() {
-            const hijos = document.querySelectorAll('.hijo') as NodeListOf<HTMLElement>;
-            hijos.forEach(hijo => {
-                if (hijo.offsetWidth < 150) {
-                    hijo.style.minWidth = 'calc(var(--ancho-padre) / calc(var(--num) - 1)';
-                }else{
-                    hijo.style.minWidth = 'calc(var(--ancho-padre) / var(--num)';
-                }
-            });
-		});
+		//  window.addEventListener('resize', function() {
+        //      const hijos = document.querySelectorAll('.hijo') as NodeListOf<HTMLElement>;
+        //          console.log("Hijo")
+        //      hijos.forEach(hijo => {
+          
+        //          if (hijo.offsetWidth < 150) {
+        //              hijo.style.minWidth = 'calc(var(--ancho-padre) / calc(var(--nume) - 1)';
+        //          }else{
+        //              hijo.style.minWidth = 'calc(var(--ancho-padre) / var(--nume)';
+        //          }
+        //      });
+		//  });
 	  </script>
 </section>
 
