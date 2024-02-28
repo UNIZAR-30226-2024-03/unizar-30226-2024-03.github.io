@@ -44,13 +44,31 @@ const Canciones = [
                 })}
 
             </form>
-            <div>
+            <div class="all">
                 {Canciones.map( (element, index) =>
                     {
                         return <Carrousel info={element} />
                     }
     
                 )}	
+            </div>
+            <div class="canciones h-full flex flex-row flex-wrap ml-8 mt-6">
+                {Canciones[0].items.map((item, index) => {
+                    return(
+                    <li class="flex flex-col p-2 text-sm w-[300px] ">
+                        <a href="/library/playlist1" class="  relative inline-block imagen ">
+                            <img src="../../public/cancion.jpg" class:list={[" w-full rounded-md mb-1 hover:brightness-90"]}/>
+                            <div class="rounded-full w-10 h-10 hidden items-center justify-center botones">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-player-play-filled" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4v16a1 1 0 0 0 1.524 .852l13 -8a1 1 0 0 0 0 -1.704l-13 -8a1 1 0 0 0 -1.524 .852z" stroke-width="0" fill="currentColor" /></svg>
+                            </div>
+                        </a>
+                        <a href="/library/playlist1" class=" w-max hover:underline">
+                            <p class="text-base hover:underline">{item.audio}</p>
+                        </a>
+                        <a href="/artist/artist1" class="w-max hover:underline"><p class=" text-gray-400">{item.descripcion}</p></a>
+
+                    </li>)
+                })}
             </div>
 
         </section>
@@ -64,7 +82,8 @@ const Canciones = [
             const start = document.querySelector('.default') ; // replace '.component-to-display' with the actual selector of your component
             const searching = document.querySelector('.searching') ; // replace '.component-to-display' with the actual selector of your component
             const filters = document.querySelectorAll('.filter') ;
-
+            const all = document.querySelector('.all') ;
+            const canciones = document.querySelector('.canciones') ;
             console.log("x")
 
             // Initially hide the component
@@ -87,8 +106,15 @@ const Canciones = [
                 })
             }
             for(let i = 0; i < filters.length; i++){
-                filters[i].addEventListener('click', () => {      
-                    searchInput.value = filters[i].innerText;
+                filters[i].addEventListener('click', () => { 
+                    console.log("hola")
+                    if(filters[i].innerText == 'All'){
+                        all.style.display = 'block';
+                        canciones.style.display = 'none';
+                    }else{
+                        all.style.display = 'none';
+                        canciones.style.display = 'flex';
+                    }
                 })
             }
         })
