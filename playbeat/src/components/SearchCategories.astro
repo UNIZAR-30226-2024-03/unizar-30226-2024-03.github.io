@@ -1,0 +1,15 @@
+---
+interface Props {
+    categorias: string[];
+}
+
+const { categorias } = Astro.props;
+---
+
+
+<h2 class="text-lg font-semibold">Buscar por categoría</h2>
+<div class="flex flex-row flex-wrap gap-4 mt-4">
+    {categorias.map((categoria) => (
+        <img src="../../public/6985c0.png" class="w-[300px] aspect-video rounded-md categories" alt={categoria}/>
+    ))}
+</div>
