@@ -49,7 +49,10 @@ const but ={name: '...', items:['Cerrar sesión']}
 			
 				<div class="dropdown">
 					{but.items.map( (item) => {
-						return <span>{item}</span>
+                        
+						return <a href="/landing">
+                                    <span >{item}</span>
+                                </a>
 					})}
 				</div>
         </div>
