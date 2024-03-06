@@ -48,13 +48,15 @@ const { title } = Astro.props;
 			</footer>
 		</div>
 	</body>
-	<script>
-		let isClicked = localStorage.getItem('isClicked') === 'true';
-			const queue = document.querySelector('.queue') as HTMLElement;
+	<script is:inline>
+		const funcion = () => {
+			let isClicked = localStorage.getItem('isClicked') === 'true';
+			const queue = document.querySelector('.queue') ;
 			if(queue){
 				queue.addEventListener('click', () => {
-					const app = document.querySelector('#app') as HTMLElement;
-					const header = document.querySelector('.header') as HTMLElement;
+					console.log("gola")
+					const app = document.querySelector('#app') ;
+					const header = document.querySelector('.header') ;
 					isClicked = !isClicked;
 					localStorage.setItem('isClicked', isClicked.toString());
 					queue.style.color = isClicked ? "#6985C0" : "white";
@@ -64,11 +66,13 @@ const { title } = Astro.props;
 					
 				});
 			}
-	</script>
-	<script is:inline>
-			document.addEventListener('astro:after-swap', () => {
+		}
+		funcion();
+		document.addEventListener('astro:after-swap', () => {
+			funcion()
 			let isClicked = localStorage.getItem('isClicked') === 'true';
 			const queue = document.querySelector('.queue');
+			
 			if(queue){
 					const app = document.querySelector('#app');
 					const header = document.querySelector('.header');
@@ -78,6 +82,7 @@ const { title } = Astro.props;
 					header.style.width = isClicked ? "66.667%" : "83.333%";
 			}
 		});
+
 	</script>
 </html>
 
