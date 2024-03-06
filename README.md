@@ -1,7 +1,7 @@
 # PlayBeat
-Repositorio correspondiente al Front-end web de la asignatura Proyecto Software de la Universidad de Zaragoza
+Repositorio correspondiente al Front-end web de la asignatura Proyecto Software de la Universidad de Zaragoza (Febrero 2024 - Mayo 2024)
 
-## 🚀 Project Structure
+## 🚀 Estructura del proyecto
 
 Inside of your Astro project, you'll see the following folders and files:
 
@@ -22,7 +22,22 @@ Inside of your Astro project, you'll see the following folders and files:
 └── package.json
 ```
 
-## 🧞 Commands
+## 👨🏼‍💻 Instalación
+
+1. Clona este repositorio:
+   `git clone https://github.com/UNIZAR-30226-2024-03/Web.git`
+
+2. Navega a la carpeta del proyecto:
+   `cd web/playbeat`
+
+3. Instala las dependencias:
+   `npm install`
+
+4. Ejecuta el proyecto:
+   `npm run dev`
+5. Abre [**http://localhost:4321**](http://localhost:4321/) en tu navegador 
+
+## 🛠️ Comandos
 
 All commands are run from the root of the project, from a terminal:
 

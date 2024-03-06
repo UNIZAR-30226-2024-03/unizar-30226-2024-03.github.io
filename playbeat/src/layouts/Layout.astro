@@ -1,16 +1,19 @@
 ---
-// import Library from '@components/Library.astro';
-// import Queue from '@components/Queue.astro';
-// import {Player} from '@components/Player';
-import Library from '../components/Library.astro';
-import Queue from '../components/Queue.astro';
-import {Player} from '../components/Player';
+import Library from '@/components/LeftBar.astro';
+import Queue from '@/components/RightBar.astro';
+import {Player} from '@/components/Player';
+// import Library from '../components/LeftBar.astro';
+// import Queue from '../components/RightBar.astro';
+// import {Player} from '../components/Player';
+import { ViewTransitions } from 'astro:transitions';
+import List from '@/icons/List.astro'
 
 interface Props {
 	title: string;
 }
 
 const { title } = Astro.props;
+
 ---
 
 <!doctype html>
@@ -22,24 +25,65 @@ const { title } = Astro.props;
 		<link rel="icon" type="image/svg+xml" href="/logo_blanco.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
+		<ViewTransitions/>
 	</head>
 	<body>
-		<div id="app" class="relative min-h-screen ">
+		<div id="app" class="relative min-h-screen " >
 			<aside class="[grid-area:aside1] ">
 				<Library />
 			</aside>
-			<main
-			class="[grid-area:main] rounded-lg bg-zinc-900 ">
-			<slot />
-		  </main>
-		<aside class="[grid-area:aside2] ">
-			<Queue />
-		</aside>
+			<main class="[grid-area:main] overflow-y-scroll ">
+				<slot />
+		  	</main>
+			<aside class="[grid-area:aside2]">
+				<Queue />
+			</aside>
 
-		<footer class="[grid-area:player] h-[100px]">
-			<Player client:load transition:name="media-player" transition:persist />
-		  </footer>
+			<footer class="[grid-area:player] h-[72px]">
+				<Player client:load transition:name="media-player" transition:persist >
+					<div class="">
+						<List/>
+					</div>
+				</Player>
+			</footer>
+		</div>
 	</body>
+	<script is:inline>
+		const funcion = () => {
+			let isClicked = localStorage.getItem('isClicked') === 'true';
+			const queue = document.querySelector('.queue') ;
+			if(queue){
+				queue.addEventListener('click', () => {
+					console.log("gola")
+					const app = document.querySelector('#app') ;
+					const header = document.querySelector('.header') ;
+					isClicked = !isClicked;
+					localStorage.setItem('isClicked', isClicked.toString());
+					queue.style.color = isClicked ? "#6985C0" : "white";
+					queue.style.backgroundColor = isClicked ? "#606060a4" : "";
+					app.style.gridTemplateColumns = isClicked ? "1fr repeat(4, 1fr) 1fr" : "1fr repeat(3, 1fr) 2fr 0px";
+					header.style.width = isClicked ? "66.667%" : "83.333%";
+					
+				});
+			}
+		}
+		funcion();
+		document.addEventListener('astro:after-swap', () => {
+			funcion()
+			let isClicked = localStorage.getItem('isClicked') === 'true';
+			const queue = document.querySelector('.queue');
+			
+			if(queue){
+					const app = document.querySelector('#app');
+					const header = document.querySelector('.header');
+					queue.style.color = isClicked ? "#6985C0" : "white";
+					queue.style.backgroundColor = isClicked ? "#606060a4" : "";
+					app.style.gridTemplateColumns = isClicked ? "1fr repeat(4, 1fr) 1fr" : "1fr repeat(3, 1fr) 2fr 0px";
+					header.style.width = isClicked ? "66.667%" : "83.333%";
+			}
+		});
+
+	</script>
 </html>
 
 <style>
@@ -48,8 +92,11 @@ const { title } = Astro.props;
 	  grid-template-areas:
 		"aside1 main main main main aside2"
 		"player player player player player player ";
-	  grid-template-columns: repeat(6, 1fr);
-	  grid-template-rows: 1fr auto;
+	  grid-template-columns: 1fr repeat(3, 1fr) 2fr 0px;
+	  grid-template-rows: calc(100vh - 72px) 72px;
+	}
+	.queue{
+
 	}
   </style>
 <style is:global>
