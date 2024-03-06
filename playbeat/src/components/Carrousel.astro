@@ -1,0 +1,95 @@
+---
+interface Info {
+    num: number;
+    name: string;
+    ref?: string;
+    items: {
+        audio: string;
+        descripcion: string;
+    }[];
+    vari?: string;
+}
+
+interface Props {
+	info: Info;
+    
+}
+ 
+
+const { info} = Astro.props;
+
+const nume = info.num;
+const variant = info.vari;
+
+
+---
+
+<section>
+    <header class="flex flex-row w-max items-center hover:underline cursor-pointer ml-[44px]">
+        <a class=" text-xl font-semibold mt-2" href={info.ref}>{info.name}</a>
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-right ml-2 mt-3" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>
+    </header>
+    <div class="flex flex-row items-center ">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-compact-left opacity-0 hover:opacity-100 transition-opacity cursor-pointer" width="40" height="60" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13 20l-3 -8l3 -8" /></svg>
+        <ul class=" flex flex-row w-full overflow-x-auto snap-x snap-mandatory scroll-smooth  carrusel">
+            {info.items.map( (item) => 
+                    <li class="flex flex-col p-2 snap-start text-sm h-full hijo ">
+                        <a href="/library/playlist1" class="  relative inline-block imagen ">
+                            <img src="../../public/cancion.jpg" class:list={[" w-full rounded-md mb-1 hover:brightness-90", {"aspect-[16/11]" : variant==="wide"},  {"aspect-square" : variant!=="wide"}]}/>
+                            <div class="rounded-full w-10 h-10 hidden items-center justify-center botones">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-player-play-filled" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4v16a1 1 0 0 0 1.524 .852l13 -8a1 1 0 0 0 0 -1.704l-13 -8a1 1 0 0 0 -1.524 .852z" stroke-width="0" fill="currentColor" /></svg>
+                            </div>
+                        </a>
+                        <a href="/library/playlist1" class=" w-max hover:underline">
+                            <p class="text-base hover:underline">{item.audio}</p>
+                        </a>
+                        <a href="/artist/artist1" class="w-max hover:underline"><p class=" text-gray-400">{item.descripcion}</p></a>
+
+                    </li>
+            )}
+        </ul>
+
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-compact-right opacity-0 hover:opacity-100 transition-opacity cursor-pointer" width="40" height="60" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11 4l3 8l-3 8" /></svg>
+        
+    </div>
+
+	  <script>
+
+		//  window.addEventListener('resize', function() {
+        //      const hijos = document.querySelectorAll('.hijo') as NodeListOf<HTMLElement>;
+        //          console.log("Hijo")
+        //      hijos.forEach(hijo => {
+          
+        //          if (hijo.offsetWidth < 150) {
+        //              hijo.style.minWidth = 'calc(var(--ancho-padre) / calc(var(--nume) - 1)';
+        //          }else{
+        //              hijo.style.minWidth = 'calc(var(--ancho-padre) / var(--nume)';
+        //          }
+        //      });
+		//  });
+	  </script>
+</section>
+
+<style define:vars={{nume}}>
+    .carrusel{
+	scrollbar-width: none;
+	--ancho-padre: 100%;
+}
+.hijo{
+	min-width: calc(var(--ancho-padre) / var(--nume));
+}
+.botones{
+    position: absolute;
+    top: 75%;
+    left: 8%;
+
+}
+.imagen:hover .botones{
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+
+
+</style>
+
