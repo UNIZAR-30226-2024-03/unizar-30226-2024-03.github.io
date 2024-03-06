@@ -23,7 +23,7 @@ export default {
 			dark: {
 				colors: {
 					
-					background: '#0f0f0f',
+					background: '#171717',
 				},
 			},
 			
