@@ -1,7 +1,7 @@
 {
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "/home/pabloangusto/Escritorio/3/ProyectoSoftware/Web/playbeat",
     "paths": {
       "@components/*": [
         "src/components/*"
@@ -17,9 +17,9 @@
       ],
       "@/*": [
         "src/*"
-      ],
+      ]
     },
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     "jsxImportSource": "react"
   }
 }

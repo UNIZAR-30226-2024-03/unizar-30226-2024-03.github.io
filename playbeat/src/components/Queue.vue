@@ -9,10 +9,9 @@ const canciones = ref([{nombre: 'Cancion 1', duracion: '3:20'}, {nombre: 'Cancio
 </script>
 <template >
     <section class="flex w-full h-full flex-col justify-between">
-        <ul class="flex flex-col px-3 mt-6 h-[90%] overflow-y-scroll">
-            <li v-for="item of canciones" class="flex flex-row gap-4">
-                <div class=" text-white  font-medium flex flex-row items-center justify-center w-full h-9">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-playlist" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <ul class="flex flex-col px-3 mt-6 h-[90%] overflow-y-scroll items-start">
+            <li v-for="item of canciones" class="grid grid-cols-8 items-center w-full mt-6 first-of-type:mt-0 px-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-playlist col-span-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                         <path d="M14 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
                         <path d="M17 17v-13h4" />
@@ -20,9 +19,9 @@ const canciones = ref([{nombre: 'Cancion 1', duracion: '3:20'}, {nombre: 'Cancio
                         <path d="M3 9l10 0" />
                         <path d="M9 13h-6" />
                     </svg>
-                    <span class="ml-4">{{ item.nombre }}</span>
-                    <span class="ml-10">{{item.duracion}}</span>
-                </div>
+                    <span class="col-span-4">{{ item.nombre }}</span>
+                    <span class="col-span-1">{{item.duracion}}</span>
+                    <input type="checkbox" class="col-span-1 " />
             </li>
         </ul>
         <button @click="canciones.pop()" class=" self-center w-max py-1 px-5 border-2 rounded-md hover:border-[#fc0307] transition-colors">Eliminar</button>
