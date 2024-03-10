@@ -1,9 +1,22 @@
 
 
 <script setup>
-import {ref, computed} from 'vue'
+import { onMounted } from 'vue';
+import {ref, computed } from 'vue'
 
-const canciones = ref([{nombre: 'Cancion 1', duracion: '3:20'}, {nombre: 'Cancion 2', duracion: '3:20'}, {nombre: 'Cancion 3', duracion: '3:20'}, {nombre: 'Cancion 4', duracion: '3:20'}, {nombre: 'Cancion 5', duracion: '3:20'}, {nombre: 'Cancion 6', duracion: '3:20'}, {nombre: 'Cancion 7', duracion: '3:20'}, {nombre: 'Cancion 8', duracion: '3:20'}, {nombre: 'Cancion 9', duracion: '3:20'}, {nombre: 'Cancion 10', duracion: '3:20'}, {nombre: 'Cancion 11', duracion: '3:20'}, {nombre: 'Cancion 12', duracion: '3:20'}, {nombre: 'Cancion 13', duracion: '3:20'}, {nombre: 'Cancion 14', duracion: '3:20'}, {nombre: 'Cancion 15', duracion: '3:20'}, {nombre: 'Cancion 16', duracion: '3:20'}, {nombre: 'Cancion 17', duracion: '3:20'}, {nombre: 'Cancion 18', duracion: '3:20'}, {nombre: 'Cancion 19', duracion: '3:20'}, {nombre: 'Cancion 20', duracion: '3:20'}, {nombre: 'Cancion 21', duracion: '3:20'}, {nombre: 'Cancion 22', duracion: '3:20'}, {nombre: 'Cancion 23', duracion: '3:20'}, {nombre: 'Cancion 24', duracion: '3:20'}, {nombre: 'Cancion 25', duracion: '3:20'}, {nombre: 'Cancion 26', duracion: '3:20'}, {nombre: 'Cancion 27', duracion: '3:20'}, {nombre: 'Cancion 28', duracion: '3:20'}, {nombre: 'Cancion 29', duracion: '3:20'}, {nombre: 'Cancion 30', duracion: '3:20'}, {nombre: 'Cancion 31', duracion: '2.10'}])
+let canciones = ref([])
+
+onMounted(() => {
+    console.log('cambio2')
+
+    window.addEventListener("storageChange", (event) => {   
+        console.log('cambio')
+        canciones.value = JSON.parse(window.localStorage.getItem('songsQueue'))
+        
+    })
+    
+})
+
 
 const algunoSeleccionado = computed(() => canciones.value.some(cancion => cancion.checked))
 
@@ -15,6 +28,8 @@ const seleccionarTodos = () => {
   canciones.value.forEach(cancion => cancion.checked = true)
 }
 </script>
+
+
 <template >
     <section class="flex w-full h-full flex-col justify-between">
         <button v-if="algunoSeleccionado" @click="seleccionarTodos" class=" self-end w-max mt-2 px-5 hover:underline">Seleccionar todos</button>
