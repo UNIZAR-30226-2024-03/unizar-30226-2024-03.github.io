@@ -52,6 +52,7 @@ const { title } = Astro.props;
 		const funcion = () => {
 			let isClicked = localStorage.getItem('isClicked') === 'true';
 			const queue = document.querySelector('.queue') ;
+			const songOpt = document.querySelectorAll('.noScroll');
 			if(queue){
 				queue.addEventListener('click', () => {
 					console.log("gola")
@@ -63,6 +64,9 @@ const { title } = Astro.props;
 					queue.style.backgroundColor = isClicked ? "#606060a4" : "";
 					app.style.gridTemplateColumns = isClicked ? "1fr repeat(4, 1fr) 1fr" : "1fr repeat(3, 1fr) 2fr 0px";
 					header.style.width = isClicked ? "66.667%" : "83.333%";
+					songOpt.forEach((opt) => {
+						opt.style.width = isClicked ? "66.6vw" : "83.3vw";
+					});
 					
 				});
 			}
@@ -72,7 +76,7 @@ const { title } = Astro.props;
 			funcion()
 			let isClicked = localStorage.getItem('isClicked') === 'true';
 			const queue = document.querySelector('.queue');
-			
+			const songOpt = document.querySelectorAll('.noScroll');
 			if(queue){
 					const app = document.querySelector('#app');
 					const header = document.querySelector('.header');
@@ -80,10 +84,48 @@ const { title } = Astro.props;
 					queue.style.backgroundColor = isClicked ? "#606060a4" : "";
 					app.style.gridTemplateColumns = isClicked ? "1fr repeat(4, 1fr) 1fr" : "1fr repeat(3, 1fr) 2fr 0px";
 					header.style.width = isClicked ? "66.667%" : "83.333%";
+					songOpt.forEach((opt) => {
+						opt.style.width = isClicked ? "66.6vw" : "83.3vw";
+					});
 			}
 		});
 
 	</script>
+<script is:inline>
+
+        document.addEventListener('astro:page-load', () => {
+			const boton = document.querySelectorAll('.button');
+    		const dropdown = document.querySelectorAll('.dropdown');
+            for(let i = 0; i < boton.length; i++) {
+                boton[i].addEventListener('focus', () => {
+					const rect = boton[i].getBoundingClientRect();
+					console.log(rect.top, rect.left)
+
+                    dropdown[i].style.top = `${rect.top + 30}px`;
+                    dropdown[i].style.left = `${rect.left+ 30}px`;
+                 })
+            }
+        });
+
+            
+
+    
+      
+    </script>
+		<script is:inline>
+			document.addEventListener('astro:page-load', () => {
+				const botonesizqder = document.querySelectorAll('.botonesizq, .botonesder');
+				botonesizqder.forEach(div => {
+					div.addEventListener('click', (e) => {
+						e.preventDefault();
+						
+					});
+				});
+	
+			});
+
+	
+		  </script>
 </html>
 
 <style>
