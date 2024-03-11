@@ -41,12 +41,14 @@ const Canciones = [
 			if(leftArrow && rightArrow && carrusel){
 			
 				for(let i = 0; i < carrusel.length; i++) {
-					let width = carrusel[i].offsetWidth;
+	
 					leftArrow[i].addEventListener('click', () => {
+						let width = carrusel[i].offsetWidth;
 						carrusel[i].scrollBy({ left: -width, behavior: 'smooth' });
 					});
 				
 					rightArrow[i].addEventListener('click', () => {
+						let width = carrusel[i].offsetWidth;
 						carrusel[i].scrollBy({ left: width, behavior: 'smooth' });
 					});
 				}
