@@ -84,7 +84,6 @@ const Canciones = [
             const filters = document.querySelectorAll('.filter') ;
             const all = document.querySelector('.all') ;
             const canciones = document.querySelector('.canciones') ;
-            console.log("x")
 
             // Initially hide the component
             searchInput.addEventListener('input', () => {
@@ -107,7 +106,6 @@ const Canciones = [
             }
             for(let i = 0; i < filters.length; i++){
                 filters[i].addEventListener('click', () => { 
-                    console.log("hola")
                     if(filters[i].innerText == 'All'){
                         all.style.display = 'block';
                         canciones.style.display = 'none';

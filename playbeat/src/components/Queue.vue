@@ -9,10 +9,7 @@ let canciones = ref([])
 
 
 onMounted(() => {
-    console.log('cambio2')
-
     window.addEventListener("storageChange", (event) => {   
-        console.log('cambiooooo')
         canciones.value = JSON.parse(window.localStorage.getItem('songsQueue'))
         
     })
