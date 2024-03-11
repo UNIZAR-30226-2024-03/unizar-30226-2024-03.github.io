@@ -6,11 +6,13 @@ import {ref, computed } from 'vue'
 
 let canciones = ref([])
 
+
+
 onMounted(() => {
     console.log('cambio2')
 
     window.addEventListener("storageChange", (event) => {   
-        console.log('cambio')
+        console.log('cambiooooo')
         canciones.value = JSON.parse(window.localStorage.getItem('songsQueue'))
         
     })
