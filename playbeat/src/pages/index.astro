@@ -55,6 +55,12 @@ const Canciones = [
 			}
 		})
 	  </script>
+	  <script is:inline>
+		document.addEventListener('astro:after-swap', () => {
+			window.dispatchEvent(new Event('storageChange'));
+
+		});
+	  </script>
 </Layout>
 
 
