@@ -17,8 +17,6 @@ onMounted(() => {
 })
 
 
-const algunoSeleccionado = computed(() => canciones.value.some(cancion => cancion.checked))
-
 const eliminar = () => {
     canciones.value = canciones.value.filter(cancion => !cancion.checked)
     window.localStorage.setItem('songsQueue', JSON.stringify(canciones.value))
@@ -31,7 +29,7 @@ const seleccionarTodos = () => {
 
 <template >
     <section class="flex w-full h-full flex-col justify-between">
-        <button v-if="algunoSeleccionado" @click="seleccionarTodos" class=" self-end w-max mt-2 px-5 hover:underline">Seleccionar todos</button>
+        <button @click="seleccionarTodos" class=" self-end w-max mt-2 px-5 hover:underline">Seleccionar todos</button>
         <ul class="flex flex-col px-3 mt-4 h-[90%] overflow-y-scroll items-start ">
             <li v-for="item of canciones" class="grid grid-cols-9 items-center w-full mt-6 first-of-type:mt-0">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-playlist col-span-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round">
