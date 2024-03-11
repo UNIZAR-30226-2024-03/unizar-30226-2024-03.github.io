@@ -67,6 +67,7 @@ const { title } = Astro.props;
 					songOpt.forEach((opt) => {
 						opt.style.width = isClicked ? "66.6vw" : "83.3vw";
 					});
+					window.dispatchEvent(new Event('storageChange'));
 					
 				});
 			}
@@ -87,6 +88,8 @@ const { title } = Astro.props;
 					songOpt.forEach((opt) => {
 						opt.style.width = isClicked ? "66.6vw" : "83.3vw";
 					});
+					window.dispatchEvent(new Event('storageChange'));
+
 			}
 		});
 

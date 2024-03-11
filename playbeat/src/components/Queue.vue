@@ -22,7 +22,7 @@ const algunoSeleccionado = computed(() => canciones.value.some(cancion => cancio
 
 const eliminar = () => {
     canciones.value = canciones.value.filter(cancion => !cancion.checked)
-
+    window.localStorage.setItem('songsQueue', JSON.stringify(canciones.value))
 }
 const seleccionarTodos = () => {
   canciones.value.forEach(cancion => cancion.checked = true)
