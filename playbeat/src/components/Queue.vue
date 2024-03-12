@@ -17,11 +17,12 @@ onMounted(() => {
 })
 
 
-const todosSeleccionado = computed(() => canciones.value.every(cancion => cancion.checked))
+const todosSeleccionado = computed(() => canciones.value.length > 1 && canciones.value.every(cancion => cancion.checked))
 
 const eliminar = () => {
     canciones.value = canciones.value.filter(cancion => !cancion.checked)
     window.localStorage.setItem('songsQueue', JSON.stringify(canciones.value))
+
 }
 const seleccionarTodos = () => {
   canciones.value.forEach(cancion => cancion.checked = true)
