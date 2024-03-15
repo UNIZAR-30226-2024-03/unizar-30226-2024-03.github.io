@@ -32,7 +32,7 @@ const deseleccionarTodos = () => {
 }
 </script>
 
-
+ 
 <template >
     <section class="flex w-full h-full flex-col justify-between">
         <button v-if="!todosSeleccionado" @click="seleccionarTodos" class=" self-end w-max mt-2 px-5 hover:underline">Seleccionar todos</button>
