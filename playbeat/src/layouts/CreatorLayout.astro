@@ -26,7 +26,7 @@ const { title } = Astro.props;
 			<aside class="[grid-area:aside] ">
 				<LeftBarCreator />
 			</aside>
-			<main class="[grid-area:main] overflow-y-scroll ">
+			<main class="[grid-area:main] overflow-y-scroll">
 				<slot />
 		  	</main>
 			
@@ -45,7 +45,8 @@ const { title } = Astro.props;
 		"aside main main main main main";
 
 	  grid-template-columns: 1fr repeat(3, 1fr) 2fr 0px;
-
+	  grid-template-rows: 100vh;
+	  background-color: #333;
 	}
 	.queue{
 
@@ -54,9 +55,10 @@ const { title } = Astro.props;
 <style is:global>
 	
 	
+	
 	html {
 		font-family: system-ui, sans-serif;
-		background: #8d8d21;
+		background: #333;
 		background-size: 224px;
 	}
 	
