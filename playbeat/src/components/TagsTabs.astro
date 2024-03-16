@@ -1,0 +1,107 @@
+---
+import Queue from './Queue.astro';
+import History from './History.astro';
+import SearchCategories from './SearchCategories.astro';
+
+const tabsItem = [
+  { id: 'Canción', label: 'Canción', content: "Canción" },
+  { id: 'Podcast', label: 'Podcast', content: "Podcast" },
+];
+
+const categoriasMusica = [ "Pop", "Rock", "Reggaeton", "Rap", "Electrónica", "Clásica", "Jazz", "Indie", "Metal", "Hip Hop", "Trap", "Salsa", "Bachata", "Merengue", "Cumbia", "Reggae", "Folk", "Country", "Blues", "Soul", "Funk", "Disco", "R&B", "Gospel", "House", "Techno", "Dubstep", "Drum & Bass", "Hardstyle", "Trance", "Chillout", "Ambient", "Dance", "Reggaeton", "Ska", "Punk", "Grunge", "Emo", "Post-Hardcore", "Metalcore", "Deathcore", "Black Metal", "Death Metal", "Thrash Metal", "Power Metal", "Doom Metal", "Gothic Metal", "Folk Metal", "Viking Metal", "Symphonic Metal", "Progressive Metal", "Nu Metal", "Alternative Metal", "Industrial Metal", "Rap Metal", "Funk Metal", "Glam Metal", "Goregrind", "Grindcore", "Deathgrind", "Metalcore", "Mathcore", "Post-Hardcore", "Emo", "Screamo", "Pop Punk", "Hardcore Punk", "Post-Punk", "Punk Rock", "Psychobilly", "Horror Punk", "Ska Punk", "Reggae", "Ska", "Rocksteady", "2 Tone", "Third Wave Ska", "Ska Punk", "Reggae", "Dancehall", "Dub", "Lovers Rock", "Roots Reggae", "Ragga", "Reggaeton", "Reggae Fusion", "Reggae en Español", "Reggae en Inglés"]
+const categoriasPodcast = ["Comedia", "Noticias", "Historia", "Ciencia", "Tecnología", "Cine", "Deportes", "Salud", "Negocios", "Educación",]
+
+interface Props{
+    subject: string;
+    class?: string;
+}
+
+const {subject, class:className} = Astro.props;
+
+---
+
+
+<div class="tabsNav ">
+  {tabsItem.map((tab, index)=> {
+    return   (
+    
+      <input type="radio" name={"tabs"+subject} id={tab.id+subject}  checked={index == 0}>
+      <label for={tab.id+subject} class="font-medium" >{tab.label}</label>
+    
+    )
+  })}
+  {tabsItem.map((tab)=> {
+    return   (
+      
+        <div class={className}>{tab.content == "Canción" ? <p>hola</p> : <p>adios</p>}</div>
+      
+    )
+  })}
+</div>
+
+
+
+<style>
+
+/*Contiene todo el sistema de tabs*/
+.tabsNav{
+position: relative;
+
+}
+/*Las pestañas: cabecera inputs y labels*/ 
+.tabsNav {
+display:block;
+position:relative;
+width:100%;
+}
+
+.tabsNav  input{
+display:none;
+}
+.tabsNav  label{
+display:inline-block;
+position:relative;
+z-index:10;
+width: 100px;
+text-align: center;
+color: lightgray;
+margin-bottom: 10px;
+cursor: pointer;
+
+}
+
+
+.tabsNav .div:nth-of-type(1) {
+  padding: 30px;
+
+
+}
+.tabsNav .div:nth-of-type(2) {
+  
+}
+
+/*Las pestañas contenido dentro de los tabs*/
+.tabsNav div{
+display:none;
+
+text-align:justify;
+
+}
+/*Etiquetas pulsadas*/
+.tabsNav  input:checked + label
+{
+color: white;
+border-bottom: 2px solid #6985C0;
+
+}
+
+.tabsNav input:nth-of-type(1):checked ~ div:nth-of-type(1){
+  display:block;
+
+}
+.tabsNav input:nth-of-type(2):checked ~ div:nth-of-type(2){
+  display:block;
+
+}
+</style>
+  
