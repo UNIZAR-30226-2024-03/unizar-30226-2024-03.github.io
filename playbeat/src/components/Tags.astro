@@ -1,0 +1,26 @@
+---
+
+const tags = ["Pop", "Rock", "Indie", "R&b", "Rap", "Latino", "Trap"]
+---
+
+<div class="h-24 flex flex-row flex-wrap gap-4">
+    {tags.map((tag) => {
+        return (
+            <label class=" w-max flex  h-max  rounded-full justify-center items-center ">
+                <input type="checkbox" class="hidden tag"/>
+                <span class="select-none w-max px-5 rounded-full h-max py-2 flex justify-center items-center border-2 border-bluePB bg-bluePB font-medium">{tag}</span>
+            </label>
+        )
+    
+    })}
+
+
+
+</div>
+
+<style>
+    .tag:checked + span{
+        border: 2px solid #fff;
+    }
+
+</style>
