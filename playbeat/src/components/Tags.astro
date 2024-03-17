@@ -11,7 +11,7 @@ const {tags} = Astro.props
     {tags.map((tag) => {
         return (
             <label class=" w-max flex  h-max  rounded-full justify-center items-center cursor-pointer">
-                <input type="checkbox" class="hidden tag"/>
+                <input type="checkbox" name={tag} class="hidden tag"/>
                 <span class="select-none w-max px-5 rounded-full h-max py-2 flex justify-center items-center border-2 border-bluePB bg-bluePB font-medium">{tag}</span>
             </label>
         )

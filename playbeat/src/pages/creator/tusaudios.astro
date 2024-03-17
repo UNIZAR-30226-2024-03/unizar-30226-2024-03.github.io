@@ -77,6 +77,18 @@ const canciones = [
 ]
 
 ---
+<script is:inline>
+    function onSubmit(event) {
+        console.log("hola")
+    event.preventDefault();
+
+    const form = event.target;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+    
+    console.log(data);
+  }
+</script>
 
 <CreatorLayout title="PlayBeat">
     <div class="h-full w-full bg-[#333] bg-opacity-60 flex flex-col items-center">
@@ -88,35 +100,42 @@ const canciones = [
         <section class="w-full mt-8 px-16">
             <div class="flex flex-col gap-3">
                 <h2 class="text-xl font-medium">Agrega un nuevo audio</h2>
-                <form class="flex flex-row items-center gap-3 pt-8">
-                    <section class="flex flex-col">
-                        <input type="file" id="addFoto" class=" text-white p-2 rounded-md hidden" />
-                        <div class=" w-64 aspect-square mt-2 cursor-pointer bg-[#333] rounded-md border-2 border-[#c5c5c5] flex justify-center items-center" onclick="document.getElementById('addFoto').click();">
-                            <svg  xmlns="http://www.w3.org/2000/svg"  width="70"  height="70"  viewBox="0 0 24 24"  fill="none"  stroke="#c5c5c5"  stroke-width="1"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-photo"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 8h.01" /><path d="M3 6a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v12a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3v-12z" /><path d="M3 16l5 -5c.928 -.893 2.072 -.893 3 0l5 5" /><path d="M14 14l1 -1c.928 -.893 2.072 -.893 3 0l3 3" /></svg>
-                        </div>
-                    </section>
-                    <section class="h-64 flex flex-col items-start gap-4">
-                        <div class="h-20 flex flex-row justify-start gap-4">
+                <form class="flex flex-col items-center gap-3 pt-4" onsubmit="onSubmit(event)">
+                    <div class="flex flex-row items-center w-full gap-3">
 
-                            <div class="flex flex-col gap-1">
-                                <label>Nombre del audio</label>
-                                <input type="text" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Nombre" />
+                        <section class="flex flex-col">
+                            <input type="file" id="addFoto" name="photo" class=" text-white p-2 rounded-md hidden" />
+                            <div class=" w-64 aspect-square mt-2 cursor-pointer bg-[#333] rounded-md border-2 border-[#c5c5c5] flex justify-center items-center" onclick="document.getElementById('addFoto').click();">
+                                <svg  xmlns="http://www.w3.org/2000/svg"  width="70"  height="70"  viewBox="0 0 24 24"  fill="none"  stroke="#c5c5c5"  stroke-width="1"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-photo"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 8h.01" /><path d="M3 6a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v12a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3v-12z" /><path d="M3 16l5 -5c.928 -.893 2.072 -.893 3 0l5 5" /><path d="M14 14l1 -1c.928 -.893 2.072 -.893 3 0l3 3" /></svg>
                             </div>
-                            <div class="flex flex-col gap-1">
-                                <label >Participantes</label>
-                                <input type="text" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Usuario" />
-                            </div>
-                            <div class="flex flex-row gap-2 items-center mt-4 ">
-                                <label>Privado</label>
-                                <input type="checkbox" />
-                            </div>
+                        </section>
+                        <section class="h-64 flex flex-col items-start gap-4">
+                            <div class="h-20 flex flex-row justify-start gap-4">
 
-                        </div>
-                        <div class="w-full h-full">
-                            <TagsTabs subject="audio"/>
-                        </div>
-                    </section>
+                                <div class="flex flex-col gap-1">
+                                    <label>Nombre del audio</label>
+                                    <input type="text" name="name" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Nombre" />
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <label >Participantes</label>
+                                    <input type="text" name="featurings" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Usuario" />
+                                </div>
+                                <div class="flex flex-row gap-2 items-center mt-4 ">
+                                    <label>Privado</label>
+                                    <input type="checkbox" name="private" />
+                                </div>
 
+                            </div>
+                            <div class="w-full h-full">
+                                <TagsTabs subject="audio"/>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="w-full flex flex-col gap-2">
+                        <input type="file" id="file" name="audio"/>
+                        <audio id="audio"  controls class="w-full"></audio>
+                    </div>
+                    <input type="submit"/>
                 </form>
             </div>
             <table class="mt-8 table-auto w-full">
@@ -148,3 +167,21 @@ const canciones = [
         
     </div>
 </CreatorLayout>
+<script is:inline>
+    // Check for BlobURL support
+    var blob = window.URL || window.webkitURL;
+
+    const inputFile = document.getElementById('file');
+    const audio = document.getElementById('audio');
+    if(inputFile != null && audio != null){
+        inputFile.addEventListener('change', function(event){
+
+            var file = this.files[0],
+            fileURL = blob.createObjectURL(file);
+            audio.src = fileURL;
+
+        });
+    }
+    
+</script>
+
