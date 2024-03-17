@@ -1,6 +1,10 @@
 ---
 
-const tags = ["Pop", "Rock", "Indie", "R&b", "Rap", "Latino", "Trap"]
+interface Props {
+    tags: string[]
+}
+
+const {tags} = Astro.props
 ---
 
 <div class="h-24 flex flex-row flex-wrap gap-4">

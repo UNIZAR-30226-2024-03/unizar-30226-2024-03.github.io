@@ -6,8 +6,8 @@ const tabsItem = [
   { id: 'Podcast', label: 'Podcast', content: "Podcast" },
 ];
 
-const categoriasMusica = [ "Pop", "Rock", "Reggaeton", "Rap", "Electrónica", "Clásica", "Jazz", "Indie", "Metal", "Hip Hop", "Trap", "Salsa", "Bachata", "Merengue", "Cumbia", "Reggae", "Folk", "Country", "Blues", "Soul", "Funk", "Disco", "R&B", "Gospel", "House", "Techno", "Dubstep", "Drum & Bass", "Hardstyle", "Trance", "Chillout", "Ambient", "Dance", "Reggaeton", "Ska", "Punk", "Grunge", "Emo", "Post-Hardcore", "Metalcore", "Deathcore", "Black Metal", "Death Metal", "Thrash Metal", "Power Metal", "Doom Metal", "Gothic Metal", "Folk Metal", "Viking Metal", "Symphonic Metal", "Progressive Metal", "Nu Metal", "Alternative Metal", "Industrial Metal", "Rap Metal", "Funk Metal", "Glam Metal", "Goregrind", "Grindcore", "Deathgrind", "Metalcore", "Mathcore", "Post-Hardcore", "Emo", "Screamo", "Pop Punk", "Hardcore Punk", "Post-Punk", "Punk Rock", "Psychobilly", "Horror Punk", "Ska Punk", "Reggae", "Ska", "Rocksteady", "2 Tone", "Third Wave Ska", "Ska Punk", "Reggae", "Dancehall", "Dub", "Lovers Rock", "Roots Reggae", "Ragga", "Reggaeton", "Reggae Fusion", "Reggae en Español", "Reggae en Inglés"]
-const categoriasPodcast = ["Comedia", "Noticias", "Historia", "Ciencia", "Tecnología", "Cine", "Deportes", "Salud", "Negocios", "Educación",]
+const tagsCancion = ["Pop", "Rock", "Indie", "R&b", "Rap", "Latino", "Trap"]
+const tagsPodcast = ["Historia", "Ciencia", "Cultura", "Deporte", "Música", "Humor", "Tecnología", "Negocios"]
 
 interface Props{
     subject: string;
@@ -31,7 +31,7 @@ const {subject, class:className} = Astro.props;
   {tabsItem.map((tab)=> {
     return   (
       
-        <div class={className}>{tab.content == "Canción" ? <Tags/> : <p>adios</p>}</div>
+        <div class={className}>{tab.content == "Canción" ? <Tags tags={tagsCancion}/> : <Tags tags={tagsPodcast}/>}</div>
       
     )
   })}
