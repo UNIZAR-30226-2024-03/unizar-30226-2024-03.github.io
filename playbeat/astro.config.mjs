@@ -7,5 +7,7 @@ import vue from "@astrojs/vue";
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://astronaut.github.io',
+  base: '/playbeat',
   integrations: [tailwind(), react(), svelte(), vue()]
 });
