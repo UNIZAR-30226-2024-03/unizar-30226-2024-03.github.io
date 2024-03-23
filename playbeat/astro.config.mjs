@@ -8,7 +8,7 @@ import vue from "@astrojs/vue";
 // https://astro.build/config
 export default defineConfig({
   site: 'https://unizar-30226-2024-03.github.io',
-  base: '/unizar-30226-2024-03.github.io',
+  base: '/',
   integrations: [tailwind(), react(), svelte(), vue()],
   
 });
