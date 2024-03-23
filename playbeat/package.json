@@ -14,6 +14,7 @@
     "@astrojs/react": "^3.0.10",
     "@astrojs/svelte": "^5.0.3",
     "@astrojs/tailwind": "^5.1.0",
+    "@astrojs/vercel": "^7.4.0",
     "@astrojs/vue": "^4.0.8",
     "@nextui-org/react": "^2.2.9",
     "@radix-ui/react-slider": "^1.1.2",
