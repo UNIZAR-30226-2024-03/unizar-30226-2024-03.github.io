@@ -9,5 +9,6 @@ import vue from "@astrojs/vue";
 export default defineConfig({
   site: 'https://unizar-30226-2024-03.github.io',
   base: 'playbeat',
-  integrations: [tailwind(), react(), svelte(), vue()]
+  integrations: [tailwind(), react(), svelte(), vue()],
+  outDir: "./docs", 
 });
