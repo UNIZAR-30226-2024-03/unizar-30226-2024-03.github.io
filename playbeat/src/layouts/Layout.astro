@@ -23,35 +23,6 @@ const { title } = Astro.props;
 		<meta name="description" content="PlayBeat" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/logo_blanco.svg" />
-		<script src="https://cdn.tailwindcss.com"></script>
-		<script>
-			const { nextui } = require("@nextui-org/react");
-			tailwind.config = {
-				theme: {
-		colors: {
-			background: '#121212',
-			grey: "#242424",
-			black: "#000000",
-			white: "#ffffff",
-			bluePB: "#6985C0"
-		},
-		extend: {},
-	},
-	darkMode: 'class',
-	plugins: [nextui({
-		defaultTheme: 'dark',
-		themes: {
-			
-			dark: {
-				colors: {
-					
-					background: '#171717',
-				},
-			},
-			
-		}
-	})],}
-		  </script>
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		<ViewTransitions/>
