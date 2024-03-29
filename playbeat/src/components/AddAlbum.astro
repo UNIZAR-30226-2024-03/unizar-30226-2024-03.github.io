@@ -9,9 +9,9 @@ const {title} = Astro.props
 
 ---
 
-<div class="flex flex-col gap-3">
+<div class="flex flex-col gap-3 px-8">
     <h2 class="text-xl font-medium">{title}</h2>
-    <form class="flex flex-col items-center gap-3 pt-4" onsubmit="uploadAudio(event)">
+    <form class="flex flex-col items-center gap-3 pt-4">
         <div class="flex flex-row items-center w-full gap-3">
 
             <section class="flex flex-col">
@@ -25,7 +25,7 @@ const {title} = Astro.props
                 <div class="h-20 flex flex-row justify-start gap-4">
 
                     <div class="flex flex-col gap-1">
-                        <label>Nombre del audio</label>
+                        <label>Nombre del album</label>
                         <input type="text" name="name" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Nombre" />
                     </div>
                     <div class="flex flex-col gap-1">
@@ -43,15 +43,41 @@ const {title} = Astro.props
                 </div>
             </section>
         </div>
-        <div class="w-full flex flex-col gap-2">
+        
+        <div id="audioContainer" class="w-full flex flex-col gap-2">
             <input type="file" id="file" name="audio"/>
             <audio id="audio"  controls class="w-full"></audio>
         </div>
+        <svg id="addAudio" xmlns="http://www.w3.org/2000/svg"  onclick="" width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-plus cursor-pointer "><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
         <input type="submit" class=" bg-bluePB px-4 py-1 rounded-sm" value="Subir"/>
     </form>
-</div>
 
+</div>
 <script is:inline>
+    var audioCount = 1;
+    document.getElementById('addAudio').addEventListener('click', function() {
+        var newAudioBlock = document.createElement('div');
+        newAudioBlock.className = "w-full flex flex-col gap-2";
+        newAudioBlock.innerHTML = `
+            <input type="file" id="file${audioCount}" name="audio"/>
+            <audio id="audio${audioCount}"  controls class="w-full"></audio>
+        `;
+        document.getElementById('audioContainer').appendChild(newAudioBlock);
+        var blob = window.URL || window.webkitURL;
+        const inputFile = document.getElementById('file'+i);
+        const audio = document.getElementById('audio'+i);
+        if(inputFile != null && audio != null){
+            inputFile.addEventListener('change', function(event){
+
+                var file = this.files[0],
+                fileURL = blob.createObjectURL(file);
+                audio.src = fileURL;
+
+            });
+        }
+        audioCount++;
+    });
+
     function previewImage(event) {
         var reader = new FileReader();
         reader.onload = function(){
@@ -61,8 +87,20 @@ const {title} = Astro.props
         };
         reader.readAsDataURL(event.target.files[0]);
     }
-    function uploadAudio(event){
-        event.preventDefault();
 
+
+    // Check for BlobURL support
+    var blob = window.URL || window.webkitURL;
+    const inputFile = document.getElementById('file');
+    const audio = document.getElementById('audio');
+    if(inputFile != null && audio != null){
+        inputFile.addEventListener('change', function(event){
+
+            var file = this.files[0],
+            fileURL = blob.createObjectURL(file);
+            audio.src = fileURL;
+
+        });
     }
-    </script>
+    
+</script>
