@@ -43,11 +43,11 @@ const {title} = Astro.props
                 </div>
             </section>
         </div>
-        <div id="audioContainer" class="w-full flex flex-col gap-2">
+        <div id="audioContainer" class="w-full flex flex-col gap-2 ">
             <div class="w-full h-[1px] bg-[#c5c5c5] "></div>
-            <div class="flex flex-row items-center w-full gap-3">
+            <div class="flex flex-row items-center w-full gap-3 ">
 
-                <section class="h-32 flex flex-col items-start gap-4">
+                <section class="h-26 flex flex-col items-start gap-4 mt-4">
                     <div class="h-20 flex flex-row justify-start gap-4">
     
                         <div class="flex flex-col gap-1">
@@ -62,7 +62,7 @@ const {title} = Astro.props
                 </section>
             </div>
             <input type="file" id="file" name="audio"/>
-            <audio id="audio"  controls class="w-full"></audio>
+            <audio id="audio"  controls class="w-full mb-4" ></audio>
         </div>
         <div class="flex flex-row">
             <svg id="addAudio" xmlns="http://www.w3.org/2000/svg"   width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-plus cursor-pointer "><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
@@ -80,9 +80,9 @@ const {title} = Astro.props
         newAudioBlock.className = "w-full flex flex-col gap-2";
         newAudioBlock.innerHTML = `
         <div class="w-full h-[1px] bg-[#c5c5c5] "></div>
-            <div class="flex flex-row items-center w-full gap-3">
+            <div class="flex flex-row items-center w-full gap-3 ">
 
-                <section class="h-32 flex flex-col items-start gap-4">
+                <section class="h-20 flex flex-col items-start gap-4 mt-4">
                     <div class="h-20 flex flex-row justify-start gap-4">
     
                         <div class="flex flex-col gap-1">
@@ -98,7 +98,7 @@ const {title} = Astro.props
                 </section>
             </div>
             <input type="file" id="file${audioCount}" name="audio"/>
-            <audio id="audio${audioCount}"  controls class="w-full"></audio>
+            <audio id="audio${audioCount}"  controls class="w-full mb-4"></audio>
         `;
         document.getElementById('audioContainer').appendChild(newAudioBlock);
         var blob = window.URL || window.webkitURL;
