@@ -2,6 +2,7 @@
 import CreatorLayout from '@layouts/CreatorLayout.astro';
 import HeaderCreator from '@components/HeaderCreator.astro';
 import Library from '@components/Library.astro';
+import AddAlbum from '@components/AddAlbum.astro';
 
 const Playlists = [
     
@@ -18,7 +19,9 @@ const Playlists = [
             <h1 class="text-5xl text-bluePB font-bold">PLAYBEAT</h1>
             <h2 class="text-6xl font-semibold">TUS ALBUMS</h2>
         </div>
-        <div class="mt-4" >
+        <div class="mt-4 px-8" >
+            <AddAlbum title="Agrega un nuevo album" />
+
             {Playlists.map( (element) =>
                 {
                     
@@ -29,3 +32,5 @@ const Playlists = [
         </div>
     </div>
 </CreatorLayout>
+
+
