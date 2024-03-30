@@ -83,7 +83,7 @@ export function Player ({children}) {
 
         <div className="flex flex-row items-center text-white w-[300px]">
              {/* Add the song name and artist here */}
-             <CancionActual title='Better Day' artists='penguinmusic' image='/penguin.png'/>
+             <CancionActual title='Better Day' artists='penguinmusic' image='..//penguin.png'/>
              
         </div>
 
