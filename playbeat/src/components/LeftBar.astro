@@ -13,39 +13,51 @@ import World from "@/icons/World.astro"
 const Playlists = [
     {
         name: "Playlist 1",
+        id:"plalist1"
     },
     {
         name: "Playlist 2",
+        id:"plalist2"
     },
     {
         name: "Playlist 3",
+        id:"plalist3"
     },
     {
         name: "Playlist 4",
+        id:"plalist4"
     },
     {
         name: "Playlist 5",
+        id:"plalist5"
     },
     {
         name: "Playlist 6",
+        id:"plalist6"
     },
     {
         name: "Playlist 7",
+        id:"plalist7"
     },
     {
         name: "Playlist 8",
+        id:"plalist8"
     },
     {
         name: "Playlist 9",
+        id:"plalist9"
     },
     {
         name: "Playlist 10",
+        id:"plalist10"
     },
     {
         name: "Playlist 11",
+        id:"plalist11"
     },
     {
         name: "Playlist 12",
+        id:"plalist12"
     }
 ]
 
@@ -97,9 +109,9 @@ const Playlists = [
         <ul class="flex flex-col gap-2 px-6 mt-2 overflow-y-scroll ">
             {Playlists.map( (playlist) => 
                 <li class="flex items-center hover:bg-[#575757] rounded-md">
-                    <a href="/library/playlist1" class=" text-white  font-medium flex flex-row items-center gap-4 w-full h-9 ml-4  mr-8">
+                    <a href=`/library/${playlist.id}` class=" text-white  font-medium flex flex-row items-center gap-4 w-full h-9 ml-4  mr-8">
                         <NotaList />
-                        <span>Playlist 1</span>
+                        <span>{playlist.name}</span>
                     </a>
                 </li>
         )}

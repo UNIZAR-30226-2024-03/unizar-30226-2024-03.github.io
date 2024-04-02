@@ -2,7 +2,11 @@
 import CreatorLayout from '@layouts/CreatorLayout.astro';
 import HeaderCreator from '@components/HeaderCreator.astro';
 import TagsTabs from '@components/TagsTabs.astro';
-import AddAudio from '@components/AddAudio.astro';
+import ModAudio from '@components/ModAudio.astro';
+
+
+const {id} = Astro.props
+
 const canciones = [
     {
         title: "Cancion 1",
@@ -99,7 +103,7 @@ const canciones = [
             <h2 class="text-6xl font-semibold">TUS AUDIOS</h2>
         </div>
         <section class="w-full mt-8 px-16">
-            <AddAudio title="Modifica este audio"/>
+            <ModAudio audio={id}/>
             
         </section>
         
