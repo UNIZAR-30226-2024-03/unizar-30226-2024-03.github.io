@@ -90,7 +90,7 @@ const canciones: Audio[] = [
                     document.addEventListener("DOMContentLoaded", function() {
                       var rows = document.querySelectorAll("tbody tr");
                       rows.forEach(function(row) {
-                        row.addEventListener("click", function() {
+                        row.addEventListener("click", function(this: HTMLElement) {
                           var url = this.getAttribute("data-url");
                           if (url) {
                             window.location.href = url;
