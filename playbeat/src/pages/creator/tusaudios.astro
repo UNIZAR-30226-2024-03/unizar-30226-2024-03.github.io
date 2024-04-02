@@ -3,93 +3,54 @@ import CreatorLayout from '@layouts/CreatorLayout.astro';
 import HeaderCreator from '@components/HeaderCreator.astro';
 import TagsTabs from '@components/TagsTabs.astro';
 import AddAudio from '@components/AddAudio.astro';
-const canciones = [
-    {
-        title: "Cancion 1",
-        artist: "Artista 1",
-        album: "Album 1",
-        time: "2:30",
-        url: "stats/cancion1"
-    },
-    {
-        title: "Cancion 2",
-        artist: "Artista 2",
-        album: "Album 2",
-        time: "3:30",
-        url: "stats/cancion1"
-    },
-    {
-        title: "Cancion 3",
-        artist: "Artista 3",
-        album: "Album 3",
-        time: "4:30",
-        url: "stats/cancion1"
-    },
-    {
-        title: "Cancion 4",
-        artist: "Artista 4",
-        album: "Album 4",
-        time: "5:30",
-        url: "stats/cancion1"
-    },
-    {
-        title: "Cancion 5",
-        artist: "Artista 5",
-        album: "Album 5",
-        time: "6:30",
-        url: "stats/cancion1"
-    },
-    {
-        title: "Cancion 6",
-        artist: "Artista 6",
-        album: "Album 6",
-        time: "7:30",
-        url: "stats/cancion1"
-    },
-    {
-        title: "Cancion 7",
-        artist: "Artista 7",
-        album: "Album 7",
-        time: "8:30",
-        url: "stats/cancion1"
-    },
-    {
-        title: "Cancion 8",
-        artist: "Artista 8",
-        album: "Album 8",
-        time: "9:30",
-        url: "stats/cancion1"
-    },
-    {
-        title: "Cancion 9",
-        artist: "Artista 9",
-        album: "Album 9",
-        time: "10:30",
-        url: "stats/cancion1"
-    },
-    {
-        title: "Cancion 10",
-        artist: "Artista 10",
-        album: "Album 10",
-        time: "11:30",
-        url: "stats/cancion1"
-    }
 
-]
+class Audio {
+    title: string;
+    artist: string;
+    album: string;
+    time: string;
+    url: string;
+
+    constructor(title: string, artist: string, album: string, time: string, url: string) {
+        this.title = title;
+        this.artist = artist;
+        this.album = album;
+        this.time = time;
+        this.url = url;
+    }
+}
+
+const canciones: Audio[] = [
+    new Audio("Cancion 1", "Artista 1", "Album 1", "2:30", "/creator/audio/cancion1"),
+    new Audio("Cancion 2", "Artista 2", "Album 2", "3:30", "/creator/audio/cancion2"),
+    new Audio("Cancion 3", "Artista 3", "Album 3", "4:30", "/creator/audio/cancion3"),
+    new Audio("Cancion 4", "Artista 4", "Album 4", "5:30", "/creator/audio/cancion4"),
+    new Audio("Cancion 5", "Artista 5", "Album 5", "6:30", "/creator/audio/cancion5"),
+    new Audio("Cancion 6", "Artista 6", "Album 6", "7:30", "/creator/audio/cancion6"),
+    new Audio("Cancion 7", "Artista 7", "Album 7", "8:30", "/creator/audio/cancion7"),
+    new Audio("Cancion 8", "Artista 8", "Album 8", "9:30", "/creator/audio/cancion8"),
+    new Audio("Cancion 9", "Artista 9", "Album 9", "10:30", "/creator/audio/cancion9"),
+    new Audio("Cancion 10", "Artista 10", "Album 10", "11:30", "/creator/audio/cancion10")
+];
+
+
 
 ---
 <script is:inline>
     function onSubmit(event) {
-        console.log("hola")
+        // console.log("hola")
     event.preventDefault();
 
     const form = event.target;
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
     
-    console.log(data);
+    // console.log(data);
   }
+
+ 
 </script>
+
 
 <CreatorLayout title="PlayBeat">
     <div class="h-full w-full bg-[#333] bg-opacity-60 flex flex-col items-center">
@@ -99,7 +60,7 @@ const canciones = [
             <h2 class="text-6xl font-semibold">TUS AUDIOS</h2>
         </div>
         <section class="w-full mt-8 px-16">
-            <AddAudio title="Agrega un nuevo audio"/>
+            <AddAudio/>
             <h2 class="text-xl font-medium">Tus audios</h2>
             <table class="mt-8 table-auto w-full">
                 <thead class="opacity-60">
@@ -111,7 +72,7 @@ const canciones = [
                 </thead>
                 <tbody class="border-t-[1px] border-white border-opacity-60">
                     {canciones.map((cancion, index) => (
-                          <tr class=" hover:bg-[#262626]" onclick="window.location='/audio/cancion1';">
+                          <tr class=" hover:bg-[#262626]" data-url={cancion.url} >
                             <td class="py-3 pl-3 flex flex-row items-center gap-3">
                                 <div class=" h-12 aspect-square bg-black rounded-[4px]">
                                 </div>
@@ -125,6 +86,19 @@ const canciones = [
                     ))
                     }
                 </tbody>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                      var rows = document.querySelectorAll("tbody tr");
+                      rows.forEach(function(row) {
+                        row.addEventListener("click", function(this: HTMLElement) {
+                          var url = this.getAttribute("data-url");
+                          if (url) {
+                            window.location.href = url;
+                          }
+                        });
+                      });
+                    });
+                  </script>
             </table>
         </section>
         
