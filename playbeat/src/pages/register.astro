@@ -1,5 +1,67 @@
 ---
 import NormalLayout from '../layouts/NormalLayout.astro'
+const errors = { username: "", email: "", password: "" };
+
+async function registerUser(data: { name: FormDataEntryValue | null; email: FormDataEntryValue | null; password: FormDataEntryValue | null; }) {
+  try {
+    console.log(data);
+    const response = await fetch('/api/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (!response.ok) {
+      throw new Error('Error al registrar usuario');
+    }
+
+    return response.json();
+  } catch (error) {
+    throw new Error((error as Error).message);
+  }
+}
+
+
+
+if (Astro.request.method === "post") {
+  try {
+    console.log("entra");
+    const data = await Astro.request.formData();
+    const name = data.get("username");
+    const email = data.get("email");
+    const password = data.get("password");
+    const secondPassword = data.get("second-password");
+    if (typeof name !== "string" || name.length < 1) {
+      errors.username += "Please enter a username. ";
+      console.log(errors.username);
+    }
+    if (typeof email !== "string") {
+      errors.email += "Email is not valid. ";
+        console.log(errors.email);
+    }
+    if (typeof password !== "string" || password.length < 6) {
+      errors.password += "Password must be at least 6 characters. ";
+        console.log(errors.password);
+    }
+    else if (password !== secondPassword) {
+      errors.password += "Passwords do not match. ";
+        console.log(errors.password);
+    }
+    // Do something with the data
+    const hasErrors = Object.values(errors).some(msg => msg)
+    if (!hasErrors) {
+        await registerUser({name, email, password});
+        return Astro.redirect("/");
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    }
+  }
+}
+
 
 
 ---
@@ -9,20 +71,27 @@ import NormalLayout from '../layouts/NormalLayout.astro'
         <h1 class=" font-bold text-6xl text-[#6985C0]">PlayBeat</h1>
         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-background -rotate-45 " width="60" height="60" viewBox="0 0 24 24" stroke-width="2" stroke="#6985C0" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 8l4 -4" /><path d="M14 4l-10 10" /><path d="M4 20l16 -16" /><path d="M20 10l-10 10" /><path d="M20 16l-4 4" /></svg>
         <div class="flex flex-col gap-3">
-            <form class="flex flex-col mt-2 mx-10 w-96 text-white" onsubmit="">
-                <label>Nombre:</label>
-                <input type="text" class="border-2 border-white bg-transparent  h-10 rounded-md p-2  outline-none" placeholder="Introduce tu nombre "/>
+            <form method="post"  class="flex flex-col mt-2 mx-10 w-96 text-white" >
                 <label class="mt-3">Nombre usuario:</label>
-                <input type="text" class="border-2 border-white bg-transparent  h-10 rounded-md p-2  outline-none" placeholder="Introduce tu nombre de usuario"/>
+                <input type="text" class="border-2 border-white bg-transparent  h-10 rounded-md p-2  outline-none" placeholder="Introduce tu nombre de usuario" name="username" required />
+                {errors.username && <p>{errors.username}</p>}
+
                 <label class="mt-3">Correo electrónico:</label>
-                <input type="text" class=" border-2 border-white bg-transparent  h-10 rounded-md p-2 outline-none" placeholder="Introduce tu correo electrónico"/>
+                <input type="email" class=" border-2 border-white bg-transparent  h-10 rounded-md p-2 outline-none" placeholder="Introduce tu correo electrónico" name="email" required/>
+                {errors.email && <p>{errors.email}</p>}
+
                 <label class="mt-4">Contraseña:</label>
-                <input type="text" class=" border-2 border-white bg-transparent  h-10 rounded-md p-2 outline-none" placeholder="Introduce tu contraseña"/>
+                <input type="password" class=" border-2 border-white bg-transparent  h-10 rounded-md p-2 outline-none" placeholder="Introduce tu contraseña" name="password" required minlength="6"/>
+
                 <label class="mt-4">Repite tu contraseña:</label>
-                <input type="text" class=" border-2 border-white bg-transparent  h-10 rounded-md p-2 outline-none" placeholder="Repite tu contraseña"/>
+                <input type="password" class=" border-2 border-white bg-transparent  h-10 rounded-md p-2 outline-none" placeholder="Repite tu contraseña" name="second-password" required minlength="6"/>
+                {errors.password && <p>{errors.password}</p>}
+
                 <button type="submit" class="bg-[#6985C0] p-2 rounded-md mt-8 font-semibold">REGISTRATE</button>
             </form>
-            
+            <script>
+                
+            </script>
         </div>
     </div>
 
