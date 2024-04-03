@@ -1,25 +1,10 @@
 ---
 import NormalLayout from '../layouts/NormalLayout.astro'
-const errors = { username: "", email: "", password: "" };
+import {registerUser} from '@/utils/register.ts' 
+const errors = { username: "", email: "", password: "", peticion:"" };
 const values = { username: "", email: "", password: "", password2:"" };
 
-async function registerUser(data: { name: FormDataEntryValue | null; email: FormDataEntryValue | null; password: FormDataEntryValue | null; }) {
-  try {
-    console.log(data);
-    const response = await fetch('', {
-      method: 'POST',
-      body: JSON.stringify(data)
-    });
 
-    if (!response.ok) {
-      throw new Error('Error al registrar usuario');
-    }
-
-    return response.json();
-  } catch (error) {
-    throw new Error((error as Error).message);
-  }
-}
 
 
 
@@ -59,10 +44,18 @@ if (Astro.request.method === "POST") {
     }
     // Do something with the data
     const hasErrors = Object.values(errors).some(msg => msg)
-    if (!hasErrors) {
-        await registerUser({name, email, password});
-        console.log("Usuario registrado");
+    if (!hasErrors) { 
+      const response = await registerUser({name, email, password});
+      console.log(`Response: ${response}`)
+      if (response && response.ok == true) { 
+        console.log("Registrado");
+        const data = await response.json();
+        const token = data.token;
+        Astro.cookies.set("token", token);
         return Astro.redirect("/");
+      } else {
+        errors.peticion = "Error al registrar, intentelo de nuevo";
+      }
     }
   } catch (error) {
     if (error instanceof Error) {
@@ -102,6 +95,8 @@ if (Astro.request.method === "POST") {
                         <p class="text-white ">{errors.username}</p>
                         <p class="text-white ">{errors.email}</p>
                         <p class="text-white ">{errors.password}</p>
+                        <p class="text-white ">{errors.peticion}</p>
+
                     </div>
                 }
 
