@@ -1,20 +1,18 @@
+import { Global } from "@/globalState/globalUrl.js";
+import axios from 'axios';
 
-import {Global} from "@/globalState/globalUrl.js"
+async function registerUser(data: { name: any; email: any; password: any; }) {
+  try {
+    console.log("Sending request with data:", data);
+    const response = await axios.post(Global.url + "auth/signup", data);
 
+    console.log("Response:", response.data);
 
-async function registerUser(data: { name: FormDataEntryValue | null; email: FormDataEntryValue | null; password: FormDataEntryValue | null; }) {
-    try {
-      console.log(data);
-      const response = await fetch(Global.url+'auth/signup', {
-        method: 'POST',
-        body: JSON.stringify(data)
-      });
-      console.log(response);
-      return response;
-    } catch (error) {
-      throw new Error((error as Error).message);
-    }
+    return response.data;
+  } catch (error) {
+    console.error("Error registering user:", error);
+    throw error;
   }
-  
+}
 
-  export {registerUser}
+export { registerUser };
