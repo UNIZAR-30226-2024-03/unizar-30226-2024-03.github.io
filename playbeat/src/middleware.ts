@@ -28,8 +28,6 @@ const verifyAuth = async (token?: string) => {
     if (err instanceof errors.JOSEError) {
       return { status: "error", msg: err.message } as const;
     }
-
-    console.debug(err);
     return { status: "error", msg: "could not validate auth token" } as const;
   }
 };
@@ -43,31 +41,38 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   // Get the token from cookies 
   const token = context.cookies.get(TOKEN)?.value;
+  //console.log(token);
   // Verify the token 
-  const validationResult = await verifyAuth(token);
 
-  console.log(validationResult);
+  if(token !== null && token !== "" && token !== undefined){
+    return next();
+  }else {
+    return Response.redirect(new URL("/", context.url));
+  }
+  // const validationResult = await verifyAuth(token);
+
+
 
   // Handle the validation result 
-  switch (validationResult.status) {
-    case "authorized":
-      // Respond as usual if the user is authorised 
-      return next();
+  // switch (validationResult.status) {
+  //   case "authorized":
+  //     // Respond as usual if the user is authorised 
+  //     return next();
 
-    case "error":
-    case "unauthorized":
-      // If an API endpoint, return a JSON response
-      if (context.url.pathname.startsWith("/api/")) {
-        return new Response(JSON.stringify({ message: validationResult.msg }), {
-          status: 401,
-        });
-      }
-      // Otherwise, this is a standard page. Redirect to the root page for the user to login
-      else {
-        return Response.redirect(new URL("/", context.url));
-      }
+  //   case "error":
+  //   case "unauthorized":
+  //     // If an API endpoint, return a JSON response
+  //     if (context.url.pathname.startsWith("/api/")) {
+  //       return new Response(JSON.stringify({ message: validationResult.msg }), {
+  //         status: 401,
+  //       });
+  //     }
+  //     // Otherwise, this is a standard page. Redirect to the root page for the user to login
+  //     else {
+  //       return Response.redirect(new URL("/", context.url));
+  //     }
 
-    default:
-      return Response.redirect(new URL("/", context.url));
-  }
+  //   default:
+  //     return Response.redirect(new URL("/", context.url));
+  // }
 });

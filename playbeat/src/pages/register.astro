@@ -49,7 +49,7 @@ if (Astro.request.method === "POST") {
       const response = await registerUser({nombreUsuario: name, email, contrasegna: password});
       if (response && response.status === 201) { 
         Astro.cookies.set(TOKEN, response.data);
-        return Astro.redirect("/");
+        return Astro.redirect("/home");
       } else {
         errors.peticion = "Error al registrar, intentelo de nuevo";
       }
