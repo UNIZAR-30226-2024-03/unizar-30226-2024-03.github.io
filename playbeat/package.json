@@ -22,6 +22,7 @@
     "@types/react-dom": "^18.2.19",
     "apexcharts": "^3.47.0",
     "astro": "^4.4.0",
+    "axios": "^1.6.8",
     "clsx": "^2.1.0",
     "framer-motion": "^11.0.5",
     "react": "^18.2.0",
