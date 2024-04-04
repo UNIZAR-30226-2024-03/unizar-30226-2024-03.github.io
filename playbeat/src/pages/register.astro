@@ -47,7 +47,7 @@ if (Astro.request.method === "POST") {
     if (!hasErrors) { 
       const response = await registerUser({nombreUsuario: name, email, contrasegna: password});
       if (response && response.status === 201) { 
-        Astro.cookies.set("token", data);
+        Astro.cookies.set("token", response.data);
         return Astro.redirect("/");
       } else {
         errors.peticion = "Error al registrar, intentelo de nuevo";
@@ -55,7 +55,7 @@ if (Astro.request.method === "POST") {
     }
   } catch (error) {
     if (error instanceof Error) {
-
+      errors.peticion = error.message;
     }
   }
 }
@@ -84,7 +84,7 @@ if (Astro.request.method === "POST") {
                 <label class="mt-4">Repite tu contraseña:</label>
                 <input type="password" class=" border-2 border-white bg-transparent  h-10 rounded-md p-2 outline-none" placeholder="Repite tu contraseña" name="second-password" required minlength="6" value={values.password2}/>
                 {
-                    (errors.password || errors.email || errors.username )
+                    (errors.password || errors.email || errors.username || errors.peticion)
                     && 
                     <div class=" bg-[#ee4a4a] bg-opacity-85  border-[#ff2626] border-3 p-3 mt-4 rounded-md"> 
                         <p class="text-white font-semibold">Corrige los siguientes errores:</p>
