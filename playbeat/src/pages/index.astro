@@ -1,158 +1,46 @@
 ---
-import Layout from '../layouts/Layout.astro';
 
-import Carrousel from '../components/Carrousel.astro';
-import Header from '../components/Header.astro';
-import Saludos from '../components/Saludos.svelte';
-const Canciones = [
-	{vari:"wide",num:3,name:"Último escuchados",ref:"/podcast", items:[{audio:"Cancion1", descripcion:"Artista1"}, {audio:"Cancion2", descripcion:"Artista2"}, {audio:"Cancion3", descripcion:"Artista3"}, {audio:"Cancion4", descripcion:"Artista4"}, {audio:"Cancion5", descripcion:"Artista5"}, {audio:"audio6", descripcion:"Artista6"}, {audio:"audio7", descripcion:"Artista7"}, {audio:"audio8", descripcion:"Artista8"}, {audio:"audio9", descripcion:"Artista9"}, {audio:"audio10", descripcion:"Artista10"}, {audio:"audio11", descripcion:"Artista11"}, {audio:"audio12", descripcion:"Artista12"}, {audio:"audio13", descripcion:"Artista13"}, {audio:"audio14", descripcion:"Artista14"}, {audio:"audio15", descripcion:"Artista15"}, {audio:"audio16", descripcion:"Artista16"}, {audio:"audio17", descripcion:"Artista17"}, {audio:"audio18", descripcion:"Artista18"}, {audio:"audio19", descripcion:"Artista19"}, {audio:"audio20", descripcion:"Artista20"}, {audio:"audio21", descripcion:"Artista21"}, {audio:"audio22", descripcion:"Artista22"}, {audio:"audio23", descripcion:"Artista23"}, {audio:"audio24", descripcion:"Artista24"}, {audio:"audio25", descripcion:"Artista25"}, {audio:"audio26", descripcion:"Artista26"}, {audio:"audio27", descripcion:"Artista27"}, {audio:"audio28", descripcion:"Artista28"}, {audio:"audio29", descripcion:"Artista29"}, {audio:"audio30", descripcion:"Artista30"}, {audio:"audio31", descripcion:"Artista31"}, {audio:"audio32", descripcion:"Artista32"}]},
-	{num:5,name:"Para ti", ref:"/podcast", items:[{audio:"Cancion1", descripcion:"Artista1"}, {audio:"Cancion2", descripcion:"Artista2"}, {audio:"Cancion3", descripcion:"Artista3"}, {audio:"Cancion4", descripcion:"Artista4"}, {audio:"Cancion5", descripcion:"Artista5"}, {audio:"audio6", descripcion:"Artista6"}, {audio:"audio7", descripcion:"Artista7"}, {audio:"audio8", descripcion:"Artista8"}, {audio:"audio9", descripcion:"Artista9"}, {audio:"audio10", descripcion:"Artista10"}, {audio:"audio11", descripcion:"Artista11"}, {audio:"audio12", descripcion:"Artista12"}, {audio:"audio13", descripcion:"Artista13"}, {audio:"audio14", descripcion:"Artista14"}, {audio:"audio15", descripcion:"Artista15"}, {audio:"audio16", descripcion:"Artista16"}, {audio:"audio17", descripcion:"Artista17"}, {audio:"audio18", descripcion:"Artista18"}, {audio:"audio19", descripcion:"Artista19"}, {audio:"audio20", descripcion:"Artista20"}, {audio:"audio21", descripcion:"Artista21"}, {audio:"audio22", descripcion:"Artista22"}, {audio:"audio23", descripcion:"Artista23"}, {audio:"audio24", descripcion:"Artista24"}, {audio:"audio25", descripcion:"Artista25"}, {audio:"audio26", descripcion:"Artista26"}, {audio:"audio27", descripcion:"Artista27"}, {audio:"audio28", descripcion:"Artista28"}, {audio:"audio29", descripcion:"Artista29"}, {audio:"audio30", descripcion:"Artista30"}, {audio:"audio31", descripcion:"Artista31"}, {audio:"audio32", descripcion:"Artista32"}]},
-	{vari:"wide",num:3,name:"Podcast", ref:"/podcast",items:[{audio:"Cancion1", descripcion:"Artista1"}, {audio:"Cancion2", descripcion:"Artista2"}, {audio:"Cancion3", descripcion:"Artista3"}, {audio:"Cancion4", descripcion:"Artista4"}, {audio:"Cancion5", descripcion:"Artista5"}, {audio:"audio6", descripcion:"Artista6"}, {audio:"audio7", descripcion:"Artista7"}, {audio:"audio8", descripcion:"Artista8"}, {audio:"audio9", descripcion:"Artista9"}, {audio:"audio10", descripcion:"Artista10"}, {audio:"audio11", descripcion:"Artista11"}, {audio:"audio12", descripcion:"Artista12"}, {audio:"audio13", descripcion:"Artista13"}, {audio:"audio14", descripcion:"Artista14"}, {audio:"audio15", descripcion:"Artista15"}, {audio:"audio16", descripcion:"Artista16"}, {audio:"audio17", descripcion:"Artista17"}, {audio:"audio18", descripcion:"Artista18"}, {audio:"audio19", descripcion:"Artista19"}, {audio:"audio20", descripcion:"Artista20"}, {audio:"audio21", descripcion:"Artista21"}, {audio:"audio22", descripcion:"Artista22"}, {audio:"audio23", descripcion:"Artista23"}, {audio:"audio24", descripcion:"Artista24"}, {audio:"audio25", descripcion:"Artista25"}, {audio:"audio26", descripcion:"Artista26"}, {audio:"audio27", descripcion:"Artista27"}, {audio:"audio28", descripcion:"Artista28"}, {audio:"audio29", descripcion:"Artista29"}, {audio:"audio30", descripcion:"Artista30"}, {audio:"audio31", descripcion:"Artista31"}, {audio:"audio32", descripcion:"Artista32"}]},
-	{num:5,name:"Prueba", ref:"/podcast",items:[{audio:"Cancion1", descripcion:"Artista1"}, {audio:"Cancion2", descripcion:"Artista2"}, {audio:"Cancion3", descripcion:"Artista3"}, {audio:"Cancion4", descripcion:"Artista4"}, {audio:"Cancion5", descripcion:"Artista5"}, {audio:"audio6", descripcion:"Artista6"}, {audio:"audio7", descripcion:"Artista7"}, {audio:"audio8", descripcion:"Artista8"}, {audio:"audio9", descripcion:"Artista9"}, {audio:"audio10", descripcion:"Artista10"}, {audio:"audio11", descripcion:"Artista11"}, {audio:"audio12", descripcion:"Artista12"}, {audio:"audio13", descripcion:"Artista13"}, {audio:"audio14", descripcion:"Artista14"}, {audio:"audio15", descripcion:"Artista15"}, {audio:"audio16", descripcion:"Artista16"}, {audio:"audio17", descripcion:"Artista17"}, {audio:"audio18", descripcion:"Artista18"}, {audio:"audio19", descripcion:"Artista19"}, {audio:"audio20", descripcion:"Artista20"}, {audio:"audio21", descripcion:"Artista21"}, {audio:"audio22", descripcion:"Artista22"}, {audio:"audio23", descripcion:"Artista23"}, {audio:"audio24", descripcion:"Artista24"}, {audio:"audio25", descripcion:"Artista25"}, {audio:"audio26", descripcion:"Artista26"}, {audio:"audio27", descripcion:"Artista27"}, {audio:"audio28", descripcion:"Artista28"}, {audio:"audio29", descripcion:"Artista29"}, {audio:"audio30", descripcion:"Artista30"}, {audio:"audio31", descripcion:"Artista31"}, {audio:"audio32", descripcion:"Artista32"}]},
-	{num:4,name:"Prueba2", ref:"/podcast",items:[{audio:"Cancion1", descripcion:"Artista1"}, {audio:"Cancion2", descripcion:"Artista2"}, {audio:"Cancion3", descripcion:"Artista3"}, {audio:"Cancion4", descripcion:"Artista4"}, {audio:"Cancion5", descripcion:"Artista5"}, {audio:"audio6", descripcion:"Artista6"}, {audio:"audio7", descripcion:"Artista7"}, {audio:"audio8", descripcion:"Artista8"}, {audio:"audio9", descripcion:"Artista9"}, {audio:"audio10", descripcion:"Artista10"}, {audio:"audio11", descripcion:"Artista11"}, {audio:"audio12", descripcion:"Artista12"}, {audio:"audio13", descripcion:"Artista13"}, {audio:"audio14", descripcion:"Artista14"}, {audio:"audio15", descripcion:"Artista15"}, {audio:"audio16", descripcion:"Artista16"}, {audio:"audio17", descripcion:"Artista17"}, {audio:"audio18", descripcion:"Artista18"}, {audio:"audio19", descripcion:"Artista19"}, {audio:"audio20", descripcion:"Artista20"}, {audio:"audio21", descripcion:"Artista21"}, {audio:"audio22", descripcion:"Artista22"}, {audio:"audio23", descripcion:"Artista23"}, {audio:"audio24", descripcion:"Artista24"}, {audio:"audio25", descripcion:"Artista25"}, {audio:"audio26", descripcion:"Artista26"}, {audio:"audio27", descripcion:"Artista27"}, {audio:"audio28", descripcion:"Artista28"}, {audio:"audio29", descripcion:"Artista29"}, {audio:"audio30", descripcion:"Artista30"}, {audio:"audio31", descripcion:"Artista31"}, {audio:"audio32", descripcion:"Artista32"}]},
-	{num:5,name:"Prueba3", ref:"/podcast",items:[{audio:"Cancion1", descripcion:"Artista1"}, {audio:"Cancion2", descripcion:"Artista2"}, {audio:"Cancion3", descripcion:"Artista3"}, {audio:"Cancion4", descripcion:"Artista4"}, {audio:"Cancion5", descripcion:"Artista5"}, {audio:"audio6", descripcion:"Artista6"}, {audio:"audio7", descripcion:"Artista7"}, {audio:"audio8", descripcion:"Artista8"}, {audio:"audio9", descripcion:"Artista9"}, {audio:"audio10", descripcion:"Artista10"}, {audio:"audio11", descripcion:"Artista11"}, {audio:"audio12", descripcion:"Artista12"}, {audio:"audio13", descripcion:"Artista13"}, {audio:"audio14", descripcion:"Artista14"}, {audio:"audio15", descripcion:"Artista15"}, {audio:"audio16", descripcion:"Artista16"}, {audio:"audio17", descripcion:"Artista17"}, {audio:"audio18", descripcion:"Artista18"}, {audio:"audio19", descripcion:"Artista19"}, {audio:"audio20", descripcion:"Artista20"}, {audio:"audio21", descripcion:"Artista21"}, {audio:"audio22", descripcion:"Artista22"}, {audio:"audio23", descripcion:"Artista23"}, {audio:"audio24", descripcion:"Artista24"}, {audio:"audio25", descripcion:"Artista25"}, {audio:"audio26", descripcion:"Artista26"}, {audio:"audio27", descripcion:"Artista27"}, {audio:"audio28", descripcion:"Artista28"}, {audio:"audio29", descripcion:"Artista29"}, {audio:"audio30", descripcion:"Artista30"}, {audio:"audio31", descripcion:"Artista31"}, {audio:"audio32", descripcion:"Artista32"}]}
-	]
-
+import LogoBlanco from "@/icons/LogoBlanco.astro";
+import LayoutLanding from "@layouts/LayoutLanding.astro";
 ---
 
-<Layout title="PlayBeat">
-
-	<div class=" flex flex-col w-full   text-white">
-		<Header/>
-		<div class=" w-full h-full flex flex-col mt-16 p-1">
-			<Saludos />
-			{Canciones.map( (element, index) =>
-				{
-					return <Carrousel info={element} />
-				}
-
-			)}	
-			
-		</div>
-	</div>
-	<script is:inline>
-
-		document.addEventListener('astro:page-load', () => {
-
-			// Selecciona los elementos SVG y el carrusel
-			const leftArrow = document.querySelectorAll('.icon-tabler-chevron-compact-left');
-			const rightArrow = document.querySelectorAll('.icon-tabler-chevron-compact-right');
-			const carrusel = document.querySelectorAll('.carrusel') ;
-			if(leftArrow && rightArrow && carrusel){
-			
-				for(let i = 0; i < carrusel.length; i++) {
-	
-					leftArrow[i].addEventListener('click', () => {
-						let width = carrusel[i].offsetWidth;
-						carrusel[i].scrollBy({ left: -width, behavior: 'smooth' });
-					});
-				
-					rightArrow[i].addEventListener('click', () => {
-						let width = carrusel[i].offsetWidth;
-						carrusel[i].scrollBy({ left: width, behavior: 'smooth' });
-					});
-				}
-			}
-		})
-	  </script>
-	  <script is:inline>
-		document.addEventListener('astro:after-swap', () => {
-			window.dispatchEvent(new Event('storageChange'));
-
-		});
-	  </script>
-</Layout>
-
-
-<style>
-
-.carrusel{
-	scrollbar-width: none;
-	--ancho-padre: 100%;
-}
-.hijo{
-	min-width: calc(var(--ancho-padre) / 4);
-}
+<LayoutLanding title="PlayBeat">
+<div class="flex justify-end">
+    <a href="/login" class="bg-bluePB opacity-85 rounded-md p-1 mt-5 mr-10 text-lg font-semibold hover:opacity-100">Iniciar sesión</a>
+</div>
+<div class="flex flex-row items-center align-middle justify-center">
+    <LogoBlanco />
+    <h1 class="text-6xl font-semibold text-bluePB mb-5 -ml-3">PLAYBEAT</h1>
+</div>
+<h2 class=" font-bold text-7xl flex justify-center ">Tu Playlist, Tu Mundo</h2>
+<div class="flex justify-center">
+    <a href="/register" class="bg-bluePB opacity-85 rounded-lg  p-2 mt-8   font-bold hover:opacity-100 text-2xl">Comienza a compartir tu música</a>
+</div>
+<div class="grid grid-cols-2 mt-14">
+    <div class=" text-pretty text-justify  ml-[15%] mt-28">
+        <h4 class="font-semibold text-3xl text-bluePB">Descubre, Reproduce  y Comparte tu Ritmo Único.</h4>
+        <p class="text-xl mt-2">La música se convierte en una experiencia compartida. Sumérgete en un universo de melodías que van desde lo clásico hasta lo más vanguardista. Explora, crea listas de reproducción personalizadas y comparte tus pistas favoritas con amigos de todo el mundo.</p>
+    </div>
+    <div class="bg-white h-[400px] w-[700px] ml-[10%] text-black shadow-lg shadow-black rounded-md"> FOTO WEB</div>
+</div>
+<div class="flex flex-col mt-14 justify-center">
+    
+    <div class=" w-[35%] flex self-center flex-col">
+        <div class="text-center mt-6">
+            
+            <p class="text-3xl mt-2 font-semibold"><b class="text-bluePB ">Explora</b> un mundo de música sin límites. Encuentra tus géneros favoritos y <b class="text-bluePB ">descubre </b>nuevos artistas.</p>
+        </div>
+        <div class="text-center mt-4">
+            
+            <p class="text-3xl mt-2 font-semibold"><b class="text-bluePB ">Crea listas de reproducción personalizadas</b> y disfruta de tus canciones favoritas en cualquier momento y lugar.</p>
+        </div>
+        <div class="text-center mt-4 mb-28">
+           
+            <p class="text-3xl mt-2 font-semibold"><b class="text-bluePB ">Conéctate con amigos</b> y comparte tus pistas favoritas. Descubre lo que están escuchando y <b class="text-bluePB ">comparte </b>tus gustos musicales.</p>
+        </div>
+    </div>
+</div>
+</LayoutLanding>
 
 
 
-.button {
-    background-color: black;
-    border: 2px solid black;
-    border-radius: 30px;
-	width: 30px;
-	height: 30px;
-    border: none;
-    color: white;
-    font-weight: semibold;
-    cursor: pointer;
-    padding: 8px;
-}
-.buttonOculto {
-    background-color: black;
-    border: 2px solid black;
-    border-radius: 30px;
-	width: 30px;
-	height: 30px;
-    border: none;
-    color: white;
-    font-weight: semibold;
-    cursor: pointer;
-    padding: 8px;
-	display:none;
-}
-
-  
-  
-.div {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown {
-  display: none;
-  position: absolute;
-  background-color: #2f2f2f;
-
-  min-width: 100px;
-  border-radius: 10px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 100;
-}
-
-.dropdown span {
-  color: white;
-
-  padding: 12px 16px;
-
-  text-decoration: none;
-  display: flex;
-  cursor: pointer;
-  font-weight: normal;
-  font-size: medium;
-}
-
-.dropdown span{
-  border-top: .5px solid white;
-
-}
-.dropdown span:first-child{
-  border-top: 0px;
-  border-top-left-radius:10px;
-  border-top-right-radius:10px;
-}
-.dropdown span:last-child{
-
-  border-bottom-left-radius:10px;
-  border-bottom-right-radius:10px;
-}
-
-.dropdown span:hover {background-color: #6e6e6e;}
-
-.button:focus ~ .dropdown {display: flex; flex-direction: column;}
-.button:focus ~ .buttonOculto {display: flex; position:absolute; top: 0; left: 0;}
-
-
-
-
-</style>
