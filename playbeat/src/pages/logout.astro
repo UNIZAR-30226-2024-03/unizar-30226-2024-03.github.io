@@ -1,6 +1,6 @@
 ---
-
+import {TOKEN} from '@/constants.ts'
 //Para usar astro.cookies.delete no pude usarse en una funcion, por lo tanto se puede solucionar con el siguiente codigo
-Astro.cookies.delete('token');
+Astro.cookies.delete(TOKEN);
 return Astro.redirect('/login');
 ---

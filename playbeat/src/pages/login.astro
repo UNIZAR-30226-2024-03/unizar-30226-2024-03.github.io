@@ -2,6 +2,7 @@
 import Logo from '@/icons/Logo.astro'
 import NormalLayout from '../layouts/NormalLayout.astro'
 import LogoBlanco from '@/icons/LogoBlanco.astro'
+import {TOKEN} from '@/constants.ts'
 
 import { loginUser } from '@/utils/login.ts'
 
@@ -41,7 +42,7 @@ if (Astro.request.method ==="POST" ) {
       const response = await loginUser({email: values.email, contrasegna: values.contrasegna});
       if (response && response.status === 200) { 
 
-        Astro.cookies.set("token", response.data);
+        Astro.cookies.set(TOKEN, response.data);
         return Astro.redirect("/");
       } else {
         errors.peticion = "Error al registrar, intentelo de nuevo";

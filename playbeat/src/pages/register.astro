@@ -1,6 +1,7 @@
 ---
 import NormalLayout from '../layouts/NormalLayout.astro'
 import {registerUser} from '@/utils/register.ts' 
+import {TOKEN} from '@/constants.ts'
 const errors = { username: "", email: "", password: "", peticion:"" };
 const values = { username: "", email: "", password: "", password2:"" };
 
@@ -47,7 +48,7 @@ if (Astro.request.method === "POST") {
     if (!hasErrors) { 
       const response = await registerUser({nombreUsuario: name, email, contrasegna: password});
       if (response && response.status === 201) { 
-        Astro.cookies.set("token", response.data);
+        Astro.cookies.set(TOKEN, response.data);
         return Astro.redirect("/");
       } else {
         errors.peticion = "Error al registrar, intentelo de nuevo";
