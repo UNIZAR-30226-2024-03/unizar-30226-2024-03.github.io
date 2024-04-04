@@ -40,7 +40,7 @@ if (Astro.request.method ==="POST" ) {
     if (!hasErrors) { 
       const response = await loginUser({email: values.email, contrasegna: values.contrasegna});
       if (response && response.status === 200) { 
-        console.log("response", response);  
+
         Astro.cookies.set("token", response.data);
         return Astro.redirect("/");
       } else {
