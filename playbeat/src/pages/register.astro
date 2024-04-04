@@ -45,13 +45,9 @@ if (Astro.request.method === "POST") {
     // Do something with the data
     const hasErrors = Object.values(errors).some(msg => msg)
     if (!hasErrors) { 
-      const response = await registerUser({name, email, password});
-      console.log(`Response: ${response}`)
-      if (response && response.ok == true) { 
-        console.log("Registrado");
-        const data = await response.json();
-        const token = data.token;
-        Astro.cookies.set("token", token);
+      const response = await registerUser({nombreUsuario: name, email, contrasegna: password});
+      if (response && response.status === 201) { 
+        Astro.cookies.set("token", data);
         return Astro.redirect("/");
       } else {
         errors.peticion = "Error al registrar, intentelo de nuevo";
