@@ -1,0 +1,110 @@
+---
+import NormalLayout from '../layouts/NormalLayout.astro'
+import {registerUser} from '@/utils/register.ts' 
+import {TOKEN} from '@/constants.ts'
+const errors = { username: "", email: "", password: "", peticion:"" };
+const values = { username: "", email: "", password: "", password2:"" };
+
+
+
+
+
+if (Astro.request.method === "POST") {
+  try {
+
+    const data = await Astro.request.formData();
+    const name = data.get("username");
+    values.username = name as string;
+    const email = data.get("email");
+    values.email = email as string;
+    const password = data.get("password");
+    values.password = password as string;
+    const secondPassword = data.get("second-password");
+    values.password2 = secondPassword as string;
+    if (typeof name !== "string" || name.length < 1) {
+      errors.username += "Introduzca un nombre de usuario. ";
+
+    }
+    if (typeof email !== "string" || email.length < 1) {
+      errors.email += "Email no valido.";
+
+    }
+    if(email && !String(email).includes("@")){
+      errors.email += "Email no valido.";
+    }
+    if(email && !String(email).includes(".")){
+      errors.email += "Email no valido.";
+    }
+    if (typeof password !== "string" || password.length < 6) {
+      errors.password += "La contraseña debe tener seis caracteres o más.";
+
+    }
+    else if (password !== secondPassword) {
+      errors.password += "Las contraseñas no coinciden.";
+
+    }
+    // Do something with the data
+    const hasErrors = Object.values(errors).some(msg => msg)
+    if (!hasErrors) { 
+      const response = await registerUser({nombreUsuario: name, email, contrasegna: password});
+      if (response && response.status === 201) { 
+        Astro.cookies.set(TOKEN, response.data);
+        return Astro.redirect("/");
+      } else {
+        errors.peticion = "Error al registrar, intentelo de nuevo";
+      }
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      errors.peticion = error.message;
+    }
+  }
+}
+
+
+
+---
+
+<NormalLayout title="PlayBeat">
+    <div class="flex flex-col  items-center min-h-screen pt-52">
+        <h1 class=" font-bold text-6xl text-[#6985C0]">PlayBeat</h1>
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-background -rotate-45 " width="60" height="60" viewBox="0 0 24 24" stroke-width="2" stroke="#6985C0" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 8l4 -4" /><path d="M14 4l-10 10" /><path d="M4 20l16 -16" /><path d="M20 10l-10 10" /><path d="M20 16l-4 4" /></svg>
+        <div class="flex flex-col gap-3">
+            <form method="POST"  class="flex flex-col mt-2 mx-10 w-96 text-white" novalidate >
+                <label class="mt-3">Nombre usuario:</label>
+                <input type="text" class="border-2 border-white bg-transparent  h-10 rounded-md p-2  outline-none" placeholder="Introduce tu nombre de usuario" name="username" required value={values.username}/>
+
+
+                <label class="mt-3">Correo electrónico:</label>
+                <input type="email" class=" border-2 border-white bg-transparent  h-10 rounded-md p-2 outline-none" placeholder="Introduce tu correo electrónico" name="email" required  value={values.email}/>
+
+
+                <label class="mt-4">Contraseña:</label>
+                <input type="password" class=" border-2 border-white bg-transparent  h-10 rounded-md p-2 outline-none" placeholder="Introduce tu contraseña" name="password" required minlength="6" value={values.password}/>
+
+                <label class="mt-4">Repite tu contraseña:</label>
+                <input type="password" class=" border-2 border-white bg-transparent  h-10 rounded-md p-2 outline-none" placeholder="Repite tu contraseña" name="second-password" required minlength="6" value={values.password2}/>
+                {
+                    (errors.password || errors.email || errors.username || errors.peticion)
+                    && 
+                    <div class=" bg-[#ee4a4a] bg-opacity-85  border-[#ff2626] border-3 p-3 mt-4 rounded-md"> 
+                        <p class="text-white font-semibold">Corrige los siguientes errores:</p>
+                        <p class="text-white ">{errors.username}</p>
+                        <p class="text-white ">{errors.email}</p>
+                        <p class="text-white ">{errors.password}</p>
+                        <p class="text-white ">{errors.peticion}</p>
+
+                    </div>
+                }
+
+                <input type="submit" class="bg-[#6985C0] p-2 rounded-md mt-8 font-semibold" value="REGISTRATE" />
+            </form>
+            
+        </div>
+    </div>
+
+    
+
+
+</NormalLayout>
+

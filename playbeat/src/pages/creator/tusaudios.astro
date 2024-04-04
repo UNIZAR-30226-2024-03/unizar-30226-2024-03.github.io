@@ -1,0 +1,126 @@
+---
+import CreatorLayout from '@layouts/CreatorLayout.astro';
+import HeaderCreator from '@components/HeaderCreator.astro';
+import TagsTabs from '@components/TagsTabs.astro';
+import AddAudio from '@components/AddAudio.astro';
+
+class Audio {
+    title: string;
+    artist: string;
+    album: string;
+    time: string;
+    url: string;
+
+    constructor(title: string, artist: string, album: string, time: string, url: string) {
+        this.title = title;
+        this.artist = artist;
+        this.album = album;
+        this.time = time;
+        this.url = url;
+    }
+}
+
+const canciones: Audio[] = [
+    new Audio("Cancion 1", "Artista 1", "Album 1", "2:30", "/creator/audio/cancion1"),
+    new Audio("Cancion 2", "Artista 2", "Album 2", "3:30", "/creator/audio/cancion2"),
+    new Audio("Cancion 3", "Artista 3", "Album 3", "4:30", "/creator/audio/cancion3"),
+    new Audio("Cancion 4", "Artista 4", "Album 4", "5:30", "/creator/audio/cancion4"),
+    new Audio("Cancion 5", "Artista 5", "Album 5", "6:30", "/creator/audio/cancion5"),
+    new Audio("Cancion 6", "Artista 6", "Album 6", "7:30", "/creator/audio/cancion6"),
+    new Audio("Cancion 7", "Artista 7", "Album 7", "8:30", "/creator/audio/cancion7"),
+    new Audio("Cancion 8", "Artista 8", "Album 8", "9:30", "/creator/audio/cancion8"),
+    new Audio("Cancion 9", "Artista 9", "Album 9", "10:30", "/creator/audio/cancion9"),
+    new Audio("Cancion 10", "Artista 10", "Album 10", "11:30", "/creator/audio/cancion10")
+];
+
+
+
+---
+<script is:inline>
+    function onSubmit(event) {
+        // console.log("hola")
+    event.preventDefault();
+
+    const form = event.target;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+    
+    // console.log(data);
+  }
+
+ 
+</script>
+
+
+<CreatorLayout title="PlayBeat">
+    <div class="h-full w-full bg-[#333] bg-opacity-60 flex flex-col items-center">
+        <HeaderCreator />
+        <div class="flex flex-col items-center mt-5 gap-3">
+            <h1 class="text-5xl text-bluePB font-bold">PLAYBEAT</h1>
+            <h2 class="text-6xl font-semibold">TUS AUDIOS</h2>
+        </div>
+        <section class="w-full mt-8 px-16">
+            <AddAudio/>
+            <h2 class="text-xl font-medium">Tus audios</h2>
+            <table class="mt-8 table-auto w-full">
+                <thead class="opacity-60">
+                    <tr class="text-left">
+                        <th class="pb-2 pl-3">Canción</th>
+                        <th>Álbum</th>
+                        <th class="max-w-6">Duración</th>
+                    </tr>
+                </thead>
+                <tbody class="border-t-[1px] border-white border-opacity-60">
+                    {canciones.map((cancion, index) => (
+                          <tr class=" hover:bg-[#262626]" data-url={cancion.url} >
+                            <td class="py-3 pl-3 flex flex-row items-center gap-3">
+                                <div class=" h-12 aspect-square bg-black rounded-[4px]">
+                                </div>
+                                {cancion.title}
+                                </td>
+                            <td class="py-3">{cancion.album}</td>
+                            <td class="py-3 max-w-6 ">{cancion.time}</td>
+                            <td class="max-w-3 cursor-pointer pr-3"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#6985C0" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg></td>
+                        </tr>
+    
+                    ))
+                    }
+                </tbody>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                      var rows = document.querySelectorAll("tbody tr");
+                      rows.forEach(function(row) {
+                        row.addEventListener("click", function(this: HTMLElement) {
+                          var url = this.getAttribute("data-url");
+                          if (url) {
+                            window.location.href = url;
+                          }
+                        });
+                      });
+                    });
+                  </script>
+            </table>
+        </section>
+        
+    </div>
+</CreatorLayout>
+
+<script is:inline>
+    // Check for BlobURL support
+    var blob = window.URL || window.webkitURL;
+
+    const inputFile = document.getElementById('file');
+    const audio = document.getElementById('audio');
+    if(inputFile != null && audio != null){
+        inputFile.addEventListener('change', function(event){
+
+            var file = this.files[0],
+            fileURL = blob.createObjectURL(file);
+            audio.src = fileURL;
+
+        });
+    }
+    
+</script>
+
+

@@ -1,0 +1,21 @@
+---
+interface Props{
+    name: string;
+    num: string;
+    idNum: string;
+}
+
+const {name, num, idNum} = Astro.props;
+---
+
+
+<div class="bg-[#141414] w-[31%]  pr-4 rounded-sm">
+    <h2 class=" text-md ml-4 mt-3">{name}</h2>
+    <h2 class=" font-bold text-3xl ml-4">{num}</h2>
+    <div id={"chart"+idNum}/>  
+</div>
+
+
+
+
+

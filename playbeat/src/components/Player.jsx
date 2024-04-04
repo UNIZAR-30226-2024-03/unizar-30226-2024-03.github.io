@@ -4,7 +4,7 @@ import {SongBar} from "./PlayerComp/SongBar.jsx"
 import {VolumeControl} from "./PlayerComp/VolumeControl"
 import {CancionActual} from "./PlayerComp/CancionActual"
 import {usePlayerState} from "@/globalState/playerState"
-
+import {Global} from "@/globalState/globalUrl.js"
 
 
 
@@ -54,8 +54,8 @@ export function Player ({children}) {
   
     useEffect(() => {
         play
-          ? audio.current.play()
-          : audio.current.pause()
+        ? audio.current.play()
+        : audio.current.pause()
       }, [play])
 
 
@@ -64,7 +64,14 @@ export function Player ({children}) {
       }, [volume])
 
     useEffect(() => {
-    audio.current.src = '/public/music/better-day-186374.mp3'
+      async function fetchData() {
+        const request = await fetch(Global.url+"audio/play/prueba.mp3", {
+              method: "GET",
+        })
+        const blob = await request.blob();
+        audio.current.src = URL.createObjectURL(blob);
+      }
+      fetchData()
     },[])
 
     const onClickHandlerPlay = () => {
@@ -72,11 +79,11 @@ export function Player ({children}) {
     }
     
   return (
-    <div className="bg-grey h-full w-full flex flex-row justify-between p-2">
+    <div className="bg-grey bg-opacity-70 h-full w-full flex flex-row justify-between p-2">
 
         <div className="flex flex-row items-center text-white w-[300px]">
              {/* Add the song name and artist here */}
-             <CancionActual title='Better Day' artists='penguinmusic' image='/penguin.png'/>
+             <CancionActual title='Better Day' artists='penguinmusic' image='..//penguin.png'/>
              
         </div>
 

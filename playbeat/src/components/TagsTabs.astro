@@ -1,15 +1,16 @@
 ---
-import Queue from './Queue.vue';
-import History from './History.astro';
+import Tags from '@components/Tags.astro';
 
 const tabsItem = [
-  { id: 'Cola', label: 'Cola', content: "Cola" },
-  { id: 'Historial', label: 'Historial', content: "Historial" },
+  { id: 'Canción', label: 'Canción', content: "Canción" },
+  { id: 'Podcast', label: 'Podcast', content: "Podcast" },
 ];
+
+const tagsCancion = ["Pop", "Rock", "Indie", "R&b", "Rap", "Latino", "Trap"]
+const tagsPodcast = ["Historia", "Ciencia", "Cultura", "Deporte", "Música", "Humor", "Tecnología", "Negocios"]
 
 interface Props{
     subject: string;
-    component: string;
     class?: string;
 }
 
@@ -30,7 +31,7 @@ const {subject, class:className} = Astro.props;
   {tabsItem.map((tab)=> {
     return   (
       
-        <div class={className }>{tab.content == "Cola" ? <Queue client:load transition:persist/> : <History/>}</div>
+        <div class={className}>{tab.content == "Canción" ? <Tags tags={tagsCancion}/> : <Tags tags={tagsPodcast}/>}</div>
       
     )
   })}
@@ -40,19 +41,16 @@ const {subject, class:className} = Astro.props;
 
 <style>
 
-
 /*Contiene todo el sistema de tabs*/
 .tabsNav{
 position: relative;
-margin-top: 50px;
 
 }
 /*Las pestañas: cabecera inputs y labels*/ 
 .tabsNav {
 display:block;
 position:relative;
-width: 100%;
-height: calc(100% - 60px);
+width:100%;
 }
 
 .tabsNav  input{
@@ -67,20 +65,9 @@ text-align: center;
 color: lightgray;
 margin-bottom: 10px;
 cursor: pointer;
-border: 2px solid #6985C0;
 
 }
-/*Etiquetas de pestañas individuales*/
-.tabsNav label:nth-of-type(1){
-  left: calc(50% - 97.5px);
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
-}
-.tabsNav label:nth-of-type(2){
-  left: calc(50% - 102.5px);
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-}
+
 
 .tabsNav .div:nth-of-type(1) {
   padding: 30px;
@@ -97,14 +84,13 @@ display:none;
 
 text-align:justify;
 
-height: calc(100% - 50px);
 }
 /*Etiquetas pulsadas*/
 .tabsNav  input:checked + label
 {
 color: white;
+border-bottom: 2px solid #6985C0;
 
-background-color: #6985C0;
 }
 
 .tabsNav input:nth-of-type(1):checked ~ div:nth-of-type(1){

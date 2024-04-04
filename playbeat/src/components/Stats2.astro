@@ -1,0 +1,88 @@
+
+
+<div class="  pr-4 rounded-sm">
+    <h2 class=" text-md ml-4 mt-3">Hola</h2>
+    <h2 class=" font-bold text-3xl ml-4">Adios</h2>
+    <div id={"chart"}/>  
+</div>
+
+<script is:inline src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script is:inline >
+    import ApexCharts from 'apexcharts'
+
+
+        function renderCharts(){
+
+
+            var options = {
+            series: [
+                {
+                data: [
+                    {
+                    x: 'New Delhi',
+                    y: 218
+                    },
+                    {
+                    x: 'Kolkata',
+                    y: 149
+                    },
+                    {
+                    x: 'Mumbai',
+                    y: 184
+                    },
+                    {
+                    x: 'Ahmedabad',
+                    y: 55
+                    },
+                    {
+                    x: 'Bangaluru',
+                    y: 84
+                    },
+                    {
+                    x: 'Pune',
+                    y: 31
+                    },
+                    {
+                    x: 'Chennai',
+                    y: 70
+                    },
+                    {
+                    x: 'Jaipur',
+                    y: 30
+                    },
+                    {
+                    x: 'Surat',
+                    y: 44
+                    },
+                    {
+                    x: 'Hyderabad',
+                    y: 68
+                    },
+
+                ]
+                }
+            ],
+                legend: {
+                show: false
+            },
+            chart: {
+                height: 350,
+                width: 800,
+                type: 'treemap',
+                toolbar: {
+                    show: false,
+                },
+            },
+        
+
+            };
+    
+            var chart = new ApexCharts(document.querySelector("#chart"), options);
+            chart.render();
+        }
+        
+        renderCharts()
+
+        
+</script>       
+        
