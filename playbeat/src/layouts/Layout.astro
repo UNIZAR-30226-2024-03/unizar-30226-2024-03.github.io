@@ -165,6 +165,11 @@ const { title } = Astro.props;
 						}
 						window.dispatchEvent(new Event('storageChange'));
 					})
+				}else if(itemsOpt[i].innerText === "Añadir a playlist"){
+					itemsOpt[i].addEventListener('click', () => {
+						localStorage.setItem('addSongToPlaylist', JSON.stringify(songsQueue));
+
+					})
 				}
 			
 			}
