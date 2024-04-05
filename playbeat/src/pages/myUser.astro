@@ -2,6 +2,28 @@
 import Layout from '../layouts/Layout.astro';
 import Library from '../components/Library.astro';
 import HeaderMyUser from '../components/HeaderMyUser.astro';
+import {userData} from '@/utils/userData.ts';
+
+let user;
+
+try{
+    const jws = Astro.cookies.get('token');
+    if(jws !==null){
+        const response = await userData(jws.value);
+        
+        user = response.data.usuario;
+        console.log(user);
+    }
+   
+
+} catch (error) {
+    if (error instanceof TypeError) {
+        console.log('Error: ', error.message);
+    } else {
+        console.log('Error: ', error);
+    }
+
+  }
 
 
 const Playlists = [
@@ -13,24 +35,17 @@ const Playlists = [
 
 <Layout title="PlayBeat">
 	<div >
-        <HeaderMyUser />
-		
+        <HeaderMyUser nombre={user.nombreUsuario} email={user.email} />
         <div>
             <div class="mt-12" >
                 {Playlists.map( (element, index) =>
                     {
-                        
                         return <Library info={element} title='Biblioteca'/>
                     }
-    
                 )}	
             </div>
         </div>
 	</div>
 </Layout>
 
-<style>
-   
-
-</style>
 
