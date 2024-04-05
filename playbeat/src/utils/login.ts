@@ -3,8 +3,7 @@ import axios from 'axios';
 
 async function loginUser(data: { email: any; contrasegna: any; }) {
     try {
-        console.log("Sending: ",data)
-        const response = await axios.get(Global.url + "auth/login", {data});
+        const response = await axios.post(Global.url + "auth/login", data);
 
         return response;
     } catch (error) {
