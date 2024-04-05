@@ -1,15 +1,47 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import Header from "@components/Header.astro";
+import { createPlaylist } from "@/utils/createPlaylist";
+import {TOKEN} from '@/constants.ts'
 
 
+if (Astro.request.method ==="POST" ) {
+
+try{
+
+    const data = await Astro.request.formData();
+    const token = Astro.cookies.get(TOKEN);
+    const response = await createPlaylist({
+            nombre: data.get("nombre") as string,
+            descripcion: data.get("descripcion") as string,
+            esPrivada: data.get("esPrivada") as string == "on" || false,
+            imgLista: "/foto",
+            esAlbum: false,
+            tipoLista: "NORMAL",
+            idUsuario:308,
+            audios: []
+        }, token?.value)
+    
+
+  
+
+} catch (error) {
+//  if (error instanceof TypeError) {
+//    errors.peticion = "Error en la petición";
+//  }
+//
+}
+ 
+
+  
+}
 ---
 
 
 <Layout title="PlayBeat">
 	<div class=" flex flex-col w-full   text-white">
 		<Header/>
-        <form class="flex flex-col" onsubmit="onSubmit(event)">
+        <form class="flex flex-col" novalidate method="POST">
             <div class=" w-full h-full flex flex-row mt-16 p-4  px-14">
                 <section class="flex flex-col justify-start">
                     <input type="file" id="addFoto" name="photo" class=" text-white p-2 rounded-md hidden" onchange="previewImage(event)" />
@@ -43,8 +75,7 @@ import Header from "@components/Header.astro";
 
 </Layout>
 <script is:inline>
-    import { Global } from "@/globalState/globalUrl.js";
-    import axios from 'axios';
+
     function previewImage(event) {
         var reader = new FileReader();
         reader.onload = function(){
@@ -101,9 +132,6 @@ import Header from "@components/Header.astro";
             idUsuario:308,
             audios: []
         }
-        console.log(atributos);
-        const response = axios.post(Global.url + "lista", data);
-        console.log(response)
 
     }
 
