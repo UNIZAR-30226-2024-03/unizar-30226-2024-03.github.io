@@ -1,6 +1,8 @@
 ---
 import FlechaDchHeader from "@/icons/FlechaDchHeader.astro";
 import FlechaIzqHeader from "@/icons/FlechaIzqHeader.astro";
+import {Avatar} from "@nextui-org/react";
+
 
 interface Props {
     nombre: string,
@@ -33,19 +35,26 @@ const {nombre, email, img} = Astro.props
             <span class="text-white opacity-60">
                 {email}
             </span>
+
             
         </div>
         <div class=" flex flex-col flex-wrap content-center justify-center absolute photo gap-3 ">
             <span class="text-3xl font-bold text-white ">
-                <div class="bg-gradient-to-b from-[#6985C0] from-30% to-[#CDD6EA]  shadow-2xl w-[180px] h-[180px] rounded-full text-white text-7xl solid flex items-center justify-center" >
+                <!-- <div class="bg-gradient-to-b from-[#6985C0] from-30% to-[#CDD6EA]  shadow-2xl w-[180px] h-[180px] rounded-full text-white text-7xl solid flex items-center justify-center" >
                     MA
-                </div>
+                </div> -->
+                <Avatar className="w-[180px] h-[180px]" classNames={{
+                    base: "bg-gradient-to-br from-[#6985C0] from-30% to-[#CDD6EA]",
+                    icon: "text-black/80 w-[180px] h-[180px] rounded-full text-7xl solid flex items-center justify-center",
+                    img: "w-[180px] h-[180px] rounded-full",
+                    name: "text-7xl -mt-2 "
+
+                  }} name={nombre} size="lg"/>
                 
             </span>
             <span class="text-white text-3xl font-thin opacity-60">
                 200 seguidores
             </span>
-            
         </div>
         <div class=" ml-5 flex flex-row gap-2  absolute edit">
             <a href="/editProfile" class="bg-[#6985C0] flex flex-row items-center p-1 px-3  gap-1 w-max h-7 rounded-md">
