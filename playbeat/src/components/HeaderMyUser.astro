@@ -15,6 +15,8 @@ const {nombre, email, img} = Astro.props
 
 
 
+
+
 ---
 
  <header class=" h-80 w-full"> 
@@ -49,7 +51,7 @@ const {nombre, email, img} = Astro.props
                     img: "w-[180px] h-[180px] rounded-full",
                     name: "text-7xl -mt-2 "
 
-                  }} name={nombre} size="lg"/>
+                  }} name={nombre} showFallback src={img}/>
                 
             </span>
             <span class="text-white text-3xl font-thin opacity-60">

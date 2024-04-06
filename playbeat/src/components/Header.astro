@@ -6,10 +6,13 @@ import {Avatar} from "@nextui-org/react";
 
 interface Props {
     nombre: string,
+    imagen: string
     
 }
 
-const {nombre} = Astro.props
+const {nombre, imagen} = Astro.props
+
+
 
 
 
@@ -26,10 +29,10 @@ const {nombre} = Astro.props
         </button>
     </div>
     <a href="/myUser">
-        <!-- <button class="bg-black w-8 h-8 rounded-full text-white text-lg solid flex items-center justify-center" >M</button> -->
+        
         <Avatar classNames={{
             base: "bg-gradient-to-br from-[#6985C0] from-30% to-[#CDD6EA]",
             icon: "text-black/80",
-          }} name={nombre} />
+          }} name={nombre} showFallback src={imagen}/>
     </a>
 </header>
