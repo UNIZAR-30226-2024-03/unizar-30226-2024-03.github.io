@@ -1,3 +1,14 @@
+/**
+ * Registra un nuevo usuario enviando una solicitud POST en el servidor.
+ * 
+ * @param {object} data - Los datos del usuario a registrar.
+ * @param {any} data.nombreUsuario - El nombre de usuario del nuevo usuario.
+ * @param {any} data.email - El correo electrónico del nuevo usuario.
+ * @param {any} data.contrasegna - La contraseña del nuevo usuario.
+ * @returns {Promise<object>} - Una promesa que se resuelve con el objeto de respuesta de la solicitud.
+ * @throws {Error} - Si la solicitud de registro no se puede completar correctamente.
+ */
+
 import { Global } from "@/globalState/globalUrl.js";
 import axios from 'axios';
 
