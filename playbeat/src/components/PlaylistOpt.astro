@@ -7,12 +7,13 @@ interface Props {
 
 const { items } = Astro.props
 
+
 ---
 <div class="divOpt" >
             <button class="button solid "><slot/></button>
             <button class="buttonOculto solid"><slot/></button>
 
-              <div class="dropdown">
+              <div class="dropdown" >
                 {items.map( (item, index) => {
                     return <span>{item}</span>
                 })}
@@ -21,19 +22,35 @@ const { items } = Astro.props
             
       
 </div>
+<script is:inline>
+  import {deletePlaylist} from '@/utils/deletePlaylist'
+  import {TOKEN} from '@/utils/constants'
 
+  const items = document.querySelectorAll('.dropdown span');
+  for(let i = 0; i<items.length; i++){
+    items[i].addEventListener('click', () => {
+      if(items[i].innerText === "Eliminar playlist"){
+        console.log("Eliminar playlist")
+        const token = Astro.cookies.get(TOKEN);
+        const {id} = Astro.params;
+        deletePlaylist(id,token)
+      }
+    })
+  }
+  
+</script>
 
 
 <style>
 
 .button {
-
+    padding-top: 6px;
     cursor: pointer;
-    padding: 8px;
 }
 .buttonOculto {
     cursor: pointer;
-    padding: 8px;
+    padding-top: 6px;
+
     display:none;
 }
 
