@@ -6,9 +6,12 @@ import Mas from "@/icons/Mas.astro"
 import Micro from "@/icons/Micro.astro"
 import NotaList from "@/icons/NotaList.astro"
 import World from "@/icons/World.astro"
+import {TOKEN} from '@/constants.ts'
+import {getPlaylistsFromUser} from "@/utils/getPlaylistsFromUser"
 
-
-
+const token = Astro.cookies.get(TOKEN);
+const response = getPlaylistsFromUser(token)
+console.log(response)
 
 const Playlists = [
     {
@@ -60,6 +63,8 @@ const Playlists = [
         id:"plalist12"
     }
 ]
+
+
 
 ---
 
