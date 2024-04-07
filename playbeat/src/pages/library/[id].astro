@@ -4,6 +4,10 @@ import Header from '../../components/Header.astro'
 import PlayIcon from '@/icons/PlayIcon.astro'
 import Heart from '@/icons/Heart.astro'
 import Shuffle from '@/icons/Shuffle.astro'
+import {getInfoPlaylist} from "@/utils/getInfoPlaylist"
+import {TOKEN} from '@/constants.ts'
+import type { AxiosResponse } from 'axios'
+
 
 const info = {
         info: "Lista publica",
@@ -76,6 +80,21 @@ const canciones = [
     }
 
 ]
+const {id} = Astro.params
+const token = Astro.cookies.get(TOKEN);
+
+let playlist: any
+try{
+    if(id !== undefined){
+
+        playlist = await getInfoPlaylist(parseInt(id), token?.value)
+        playlist = playlist.data
+        console.log(playlist)
+    }
+
+}catch(e){
+    console.log(e)
+}
 
 ---
 
@@ -104,10 +123,17 @@ const canciones = [
             </div>
             <div class="flex flex-col ml-8 self-center gap-1">
                 <span class="font-medium"></span>
-                <h2 class="text-4xl font-semibold">{info.title}</h2>
-                <h2 class="text-2xl font-semibold text-[#6985C0]">{info.user}</h2>
-                <span class=" opacity-70">{info.description}</span>
-                <span>{info.info} | {info.num} canciones, {info.time} mins</span>
+                <h2 class="text-4xl font-semibold">{playlist.nombre}</h2>
+                <h2 class="text-2xl font-semibold text-[#6985C0]">
+                    {playlist.Propietarios.map((user: any, index: any)=>{
+                        if(index === playlist.Propietarios.length - 1){
+                            return '@' + user.nombreUsuario
+                        }
+                        return '@' + user.nombreUsuario + ", "
+                    })}
+                </h2>
+                <span class=" opacity-70">{playlist.descripcion}</span>
+                <span>Lista de canciones | 0 canciones, 0 mins</span>
             </div>
         </section>  
 
