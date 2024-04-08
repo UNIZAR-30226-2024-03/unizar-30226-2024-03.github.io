@@ -63,10 +63,8 @@ try{
 
             <section class="flex flex-col">
                 <input type="file" id="addFoto" name="photo" class=" text-white p-2 rounded-md hidden" onchange="previewImage(event) " />
-
                 <div class=" w-64 aspect-square mt-2 cursor-pointer bg-[#333] rounded-md border-2 border-[#c5c5c5] flex justify-center items-center" onclick="document.getElementById('addFoto').click();">
-                    
-                    <img id="preview" class="w-[180px] h-[180px]  aspect-square rounded-md hidden" />
+                    <img id="preview" class="w-64 aspect-square rounded-md hidden" />
                     <Avatar className="w-[180px] h-[180px]" classNames={{
                         base: "bg-gradient-to-br from-[#6985C0] from-30% to-[#CDD6EA]",
                         icon: "text-black/80 w-[180px] h-[180px] rounded-full text-7xl solid flex items-center justify-center",
@@ -76,7 +74,6 @@ try{
                     }} name={user.nombreUsuario} showFallback src={Global.url+"foto/"+user.imgPerfil}/>
                    </div>
             </section>
-
             <span class="text-white text-xl font-thin opacity-60">
                 Edit photo
             </span>
@@ -97,4 +94,4 @@ try{
         reader.readAsDataURL(event.target.files[0]);
     }
   
-    </script>
+</script>
