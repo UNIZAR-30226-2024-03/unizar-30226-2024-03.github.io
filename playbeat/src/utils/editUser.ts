@@ -11,7 +11,7 @@ async function editUser(jws: string) {
                 Authorization: `Bearer ${jws}`,
             },
             data: {
-                
+                nombreUsuario: "Lucas",
             }
         });
 
