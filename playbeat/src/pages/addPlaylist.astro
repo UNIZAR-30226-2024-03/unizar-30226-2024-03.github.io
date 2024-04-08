@@ -2,6 +2,7 @@
 import Layout from "@layouts/Layout.astro";
 import Header from "@components/Header.astro";
 import { createPlaylist } from "@/utils/createPlaylist";
+import { uploadImg } from "@/utils/uploadImg";
 import {TOKEN} from '@/constants.ts'
 
 
@@ -11,25 +12,25 @@ try{
 
     const data = await Astro.request.formData();
     const token = Astro.cookies.get(TOKEN);
+    const file = data.get("photo")
+    console.log(file)
+    const img = await uploadImg(file)
     const response = await createPlaylist({
             nombre: data.get("nombre") as string,
             descripcion: data.get("descripcion") as string,
             esPrivada: data.get("esPrivada") as string == "on" || false,
-            imgLista: "/foto",
+            imgLista: img.id,
             esAlbum: false,
             tipoLista: "NORMAL",
-            idUsuario:308,
+            idUsuario: -1,
             audios: []
         }, token?.value)
-    
-
-  
+        
+    return Astro.redirect("/library/"+response?.data.idLista);
 
 } catch (error) {
-//  if (error instanceof TypeError) {
-//    errors.peticion = "Error en la petición";
-//  }
-//
+    console.log(error);
+    return Astro.redirect("/error");
 }
  
 
@@ -113,27 +114,6 @@ try{
         });
     });
 
-    function onSubmit(event) {
-            // console.log("hola")
-            
-        event.preventDefault();
-
-        const form = event.target;
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData.entries());
-        
-        let atributos = {
-            nombre: data.nombre,
-            descripcion: data.descripcion,
-            esPrivada: data.esPrivada == "on" || false,
-            foto: "/foto",
-            esAlbum: false,
-            tipLista: "NORMAL",
-            idUsuario:308,
-            audios: []
-        }
-
-    }
 
 
 </script>

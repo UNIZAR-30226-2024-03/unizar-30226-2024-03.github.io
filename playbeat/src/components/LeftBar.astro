@@ -12,7 +12,7 @@ import {getPlaylistsFromUser} from "@/utils/getPlaylistsFromUser"
 const token = Astro.cookies.get(TOKEN);
 let playlists
 try{
-    playlists = await getPlaylistsFromUser(token?.value)
+    playlists = await getPlaylistsFromUser(-1,token?.value)
     playlists = playlists.data
 
 }catch(e){

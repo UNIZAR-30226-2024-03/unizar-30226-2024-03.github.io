@@ -11,7 +11,6 @@ const { items } = Astro.props
 ---
 <div class="divOpt" >
             <button class="button solid "><slot/></button>
-            <button class="buttonOculto solid"><slot/></button>
 
               <div class="dropdown" >
                 {items.map( (item, index) => {
@@ -22,21 +21,40 @@ const { items } = Astro.props
             
       
 </div>
-<script is:inline>
-  import {deletePlaylist} from '@/utils/deletePlaylist'
-  import {TOKEN} from '@/utils/constants'
 
-  const items = document.querySelectorAll('.dropdown span');
-  for(let i = 0; i<items.length; i++){
-    items[i].addEventListener('click', () => {
-      if(items[i].innerText === "Eliminar playlist"){
-        console.log("Eliminar playlist")
-        const token = Astro.cookies.get(TOKEN);
-        const {id} = Astro.params;
-        deletePlaylist(id,token)
-      }
-    })
+<script src="@/utils/deletePlaylist.js"></script>
+<script src="@/constants.js"></script>
+<script>
+  import {deletePlaylist} from '@/utils/deletePlaylist.js'
+
+  function getCookie(name: any) {
+    let cookieArr = document.cookie.split("; ");
+    
+    for(let i = 0; i < cookieArr.length; i++) {
+        let cookiePair = cookieArr[i].split("=");
+        
+        if(name == cookiePair[0]) {
+            return decodeURIComponent(cookiePair[1]);
+        }
+    }
   }
+  document.addEventListener('astro:page-load', () => {
+   const items = document.querySelectorAll('.dropdown span') as NodeListOf<HTMLElement>;
+   for(let i = 0; i<items.length; i++){
+    console.log(items[i].innerText)
+     items[i].addEventListener('click', () => {
+       if(items[i].innerText === "Eliminar playlist"){
+        let pathArray = window.location.pathname.split('/');
+          let id = pathArray[pathArray.length - 1];
+         if(id !== undefined){ 
+          deletePlaylist(parseInt(id), getCookie("token"))
+          window.history.back()
+        }
+          
+       }
+     })
+   }
+ })
   
 </script>
 
@@ -47,12 +65,7 @@ const { items } = Astro.props
     padding-top: 6px;
     cursor: pointer;
 }
-.buttonOculto {
-    cursor: pointer;
-    padding-top: 6px;
 
-    display:none;
-}
 
   
 .divOpt {
@@ -117,7 +130,6 @@ const { items } = Astro.props
     display: flex; flex-direction: column;
 
   }
-.button:focus ~ .buttonOculto {display: block; position:absolute; top: 0; left: 0;}
 
 
 

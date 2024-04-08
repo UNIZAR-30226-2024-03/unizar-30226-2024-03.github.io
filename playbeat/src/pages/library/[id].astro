@@ -7,7 +7,8 @@ import Shuffle from '@/icons/Shuffle.astro'
 import {getInfoPlaylist} from "@/utils/getInfoPlaylist"
 import {TOKEN} from '@/constants.ts'
 import PlaylistOpt from '@components/PlaylistOpt.astro'
-
+import {getImg} from '@/utils/getImg'
+import { Global } from '@/globalState/globalUrl'
 
 const info = {
         info: "Lista publica",
@@ -84,12 +85,15 @@ const {id} = Astro.params
 const token = Astro.cookies.get(TOKEN);
 
 let playlist: any
+let idImg: any
 try{
     if(id !== undefined){
 
         playlist = await getInfoPlaylist(parseInt(id), token?.value)
         playlist = playlist.data
         console.log(playlist)
+        idImg = playlist.imgLista.split('.')[0]
+
     }
 
 }catch(e){
@@ -103,9 +107,9 @@ try{
     <div class="mt-16 p-4 px-14">
         <section class="  flex flex-row ">
             <div>
-                <div class="bg-grey w-60 h-60 rounded-md">
+                <img class=" w-60 h-60 rounded-md" src={Global.url + "foto/" + idImg}>
 
-                </div>
+                </img>
                 <div class="mt-8 flex flex-row justify-between items-center">
                     <button class="bg-[#6985C0] flex flex-row items-center p-1 px-3  gap-1 w-max rounded-md">
                         <PlayIcon/>
@@ -127,16 +131,16 @@ try{
             </div>
             <div class="flex flex-col ml-8 self-center gap-1">
                 <span class="font-medium"></span>
-                <h2 class="text-4xl font-semibold">{playlist.nombre}</h2>
+                <h2 class="text-4xl font-semibold">{playlist?.nombre}</h2>
                 <h2 class="text-2xl font-semibold text-[#6985C0]">
-                    {playlist.Propietarios.map((user: any, index: any)=>{
-                        if(index === playlist.Propietarios.length - 1){
+                    {playlist?.Propietarios.map((user: any, index: any)=>{
+                        if(index === playlist?.Propietarios.length - 1){
                             return '@' + user.nombreUsuario
                         }
                         return '@' + user.nombreUsuario + ", "
                     })}
                 </h2>
-                <span class=" opacity-70">{playlist.descripcion}</span>
+                <span class=" opacity-70">{playlist?.descripcion}</span>
                 <span>Lista de canciones | 0 canciones, 0 mins</span>
             </div>
         </section>  
@@ -169,4 +173,5 @@ try{
         </table>
     </div>
 </Layout>
+
 
