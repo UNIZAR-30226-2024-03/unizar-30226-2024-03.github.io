@@ -12,7 +12,7 @@ let user;
 
 try{
     const jws = Astro.cookies.get('token');
-    if(jws !==null){
+    if(jws !==null && jws !== undefined){
         const response = await userData(jws.value);
         
         user = response.data.usuario;
@@ -51,9 +51,11 @@ try{
     <div class="grid grid-cols-2 gap-3 justify-between">
         <form class="flex flex-col mt-2 mx-10 w-96 text-white" onsubmit="">
             <label class="mt-3">Nombre usuario:</label>
-            <input type="text" class="border-2 border-white bg-transparent  h-10 rounded-md p-2  outline-none" placeholder="Introduce tu nombre de usuario" value={user.nombreUsuario}/>
+            <input type="text" class="border-2 border-white bg-transparent  h-10 rounded-md p-2  outline-none" placeholder="Introduce un nuevo nombre de usuario" value={user.nombreUsuario}/>
             <label class="mt-3">Correo electrónico:</label>
-            <input type="email" class=" border-2 border-white bg-transparent  h-10 rounded-md p-2 outline-none" placeholder="Introduce tu correo electrónico" value={user.email}/>
+            <input type="email" class=" border-2 border-white bg-transparent  h-10 rounded-md p-2 outline-none" placeholder="Introduce un nuevo correo electrónico" value={user.email}/>
+            <label class="mt-3">Contraseña:</label>
+            <input type="password" class=" border-2 border-white bg-transparent  h-10 rounded-md p-2 outline-none" placeholder="Introduce una nueva contraseña" />
             <button type="submit" class="bg-[#6985C0] p-2 rounded-md mt-8 font-semibold">GUARDAR</button>
         </form>
         
