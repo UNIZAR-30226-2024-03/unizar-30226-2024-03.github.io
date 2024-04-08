@@ -29,7 +29,7 @@ const { info, title} = Astro.props;
     </header>
     <div class="flex flex-row items-center mt-4 ">
             
-        <ul class="flex flex-row flex-wrap justify-between mx-8">
+        <ul class="flex flex-row flex-wrap gap-10 mx-10 ">
             {info.map( (item) => 
                     <li class="flex flex-col p-2 snap-start text-sm h-full hijo ">
                         <a href=`/library/${item.idLista}` class=" w-[200px] relative inline-block imagen ">
