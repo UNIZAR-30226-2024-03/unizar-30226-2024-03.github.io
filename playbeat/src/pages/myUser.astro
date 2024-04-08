@@ -4,15 +4,22 @@ import Library from '../components/Library.astro';
 import HeaderMyUser from '../components/HeaderMyUser.astro';
 import {userData} from '@/utils/userData.ts';
 import { Global } from "@/globalState/globalUrl.js";
+import { getFollowers } from '@/utils/getFollowers';
 
 let user;
+let followers;
 
 try{
     const jws = Astro.cookies.get('token');
-    if(jws !==null){
+    if(jws !==null && jws !== undefined){
         const response = await userData(jws.value);
         
         user = response.data.usuario;
+
+
+        const follow = await getFollowers(jws.value);
+        followers = follow.data.usuario.Seguidores;
+
 
 
     }
@@ -37,7 +44,7 @@ const Playlists = [
 
 <Layout title="PlayBeat">
 	<div >
-        <HeaderMyUser nombre={user.nombreUsuario} email={user.email} img={Global.url+"foto/"+user.imgPerfil}/>
+        <HeaderMyUser nombre={user.nombreUsuario} email={user.email} img={Global.url+"foto/"+user.imgPerfil} followers={followers.length}/>
         <div>
             <div class="mt-12" >
                 {Playlists.map( (element, index) =>
