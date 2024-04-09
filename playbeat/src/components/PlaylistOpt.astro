@@ -51,6 +51,13 @@ const { items } = Astro.props
           window.history.back()
         }
           
+       }else if(items[i].innerText === "Editar playlist"){
+        let pathArray = window.location.pathname.split('/');
+        let id = pathArray[pathArray.length - 1];
+        if(id !== undefined){ 
+
+          window.location.href = `/editPlaylist/${id}`;
+        }
        }
      })
    }
