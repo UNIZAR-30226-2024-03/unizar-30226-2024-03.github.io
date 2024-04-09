@@ -4,7 +4,7 @@ import axios from 'axios';
 
 async function getAudio(jws: string, id:string) {
     try {;
-        const response = await axios.get(Global.url + "audio/"+id,{
+        const response = await axios.get(Global.url + "audio/play/"+id,{
             headers: {
                 Authorization: `Bearer ${jws}`,
             },
