@@ -5,7 +5,7 @@ async function getMyUserInfo(token: any) {
     try {
         axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
         const response = await axios.get(Global.url + "usuario/");
-        console.log(response);
+        //console.log(response);
         return response;
     } catch (error) {
         console.error("Error registering user:", error);

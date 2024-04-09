@@ -3,7 +3,7 @@ import axios from 'axios';
 
 async function uploadImg(image:any) {
     try {
-        console.log(image)
+        //console.log(image)
         let formData = new FormData();
         formData.append("image", image);
         const response = await axios.post(Global.url + "foto/", formData, {

@@ -5,7 +5,7 @@ async function editPlaylist(data: { nombre: string; descripcion: string; esPriva
     try {
 
         axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
-        const response = await axios.put(Global.url + "lista/" + id, {updateBody: data, id:id});
+        const response = await axios.put(Global.url + "lista/" + id, {updateBody: data});
 
         return response;
     } catch (error) {
