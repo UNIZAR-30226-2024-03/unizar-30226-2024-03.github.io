@@ -24,9 +24,11 @@ let user;
 try{
     const jws = Astro.cookies.get('token');
     if(jws !==null){
+		if(jws !==null && jws !== undefined){
         const response = await userData(jws.value);
         
         user = response.data.usuario;
+		}
     }
    
 
