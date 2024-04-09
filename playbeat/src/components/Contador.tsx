@@ -11,5 +11,5 @@ export const Contador = (
     setCount(String(final))
   }, [final])
 
-  return <span className=' text-3xl font-bold'>{count}</span>
+  return <span className=' text-7xl font-bold'>{count}</span>
 }
