@@ -5,6 +5,7 @@ import {VolumeControl} from "./PlayerComp/VolumeControl"
 import {CancionActual} from "./PlayerComp/CancionActual"
 import {usePlayerState} from "@/globalState/playerState"
 import {Global} from "@/globalState/globalUrl.js"
+import {getAudio} from "@/utils/getAudio.ts"
 
 
 
@@ -45,7 +46,15 @@ export const ListIcon = ({classname,color}) => (
 
 
 
-export function Player ({children}) {
+export function Player (jws, {children}) {
+    const audioId = "1";
+
+    async function fetchData(id) {
+    const request = await getAudio(jws.jws, id);
+    const blob = await request.blob();
+    audio.current.src = URL.createObjectURL(blob);
+    }
+
     
     const {play, setPlay,volume,loop,setLoop, shuffle, setShuffle, setQueue, queue, currSong, setCurrSong } = usePlayerState()
 
@@ -53,9 +62,12 @@ export function Player ({children}) {
     const audio = useRef()
   
     useEffect(() => {
-        play
-        ? audio.current.play()
-        : audio.current.pause()
+      if(play===true) {
+        fetchData(audioId);
+        audio.current.play()
+      }else{
+        audio.current.pause()
+      }
       }, [play])
 
 
@@ -63,16 +75,6 @@ export function Player ({children}) {
         audio.current.volume = volume
       }, [volume])
 
-    useEffect(() => {
-      async function fetchData() {
-        const request = await fetch(Global.url+"audio/play/prueba.mp3", {
-              method: "GET",
-        })
-        const blob = await request.blob();
-        audio.current.src = URL.createObjectURL(blob);
-      }
-      fetchData()
-    },[])
 
     const onClickHandlerPlay = () => {
         setPlay(!play)
