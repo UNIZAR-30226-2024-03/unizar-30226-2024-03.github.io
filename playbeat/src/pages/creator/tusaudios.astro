@@ -36,20 +36,7 @@ const canciones: Audio[] = [
 
 
 ---
-<script is:inline>
-    function onSubmit(event) {
-        // console.log("hola")
-    event.preventDefault();
 
-    const form = event.target;
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
-    
-    // console.log(data);
-  }
-
- 
-</script>
 
 
 <CreatorLayout title="PlayBeat">
@@ -111,13 +98,19 @@ const canciones: Audio[] = [
 
     const inputFile = document.getElementById('file');
     const audio = document.getElementById('audio');
-    if(inputFile != null && audio != null){
+    const duracion = document.getElementById('duracion');
+    console.log("Hola")
+
+    if(inputFile != null && audio != null && duracion != null){
         inputFile.addEventListener('change', function(event){
 
             var file = this.files[0],
             fileURL = blob.createObjectURL(file);
             audio.src = fileURL;
-
+            audio.addEventListener('loadedmetadata', function() {
+                console.log(audio.duration)
+                duracion.value = audio.duration;
+            });
         });
     }
     

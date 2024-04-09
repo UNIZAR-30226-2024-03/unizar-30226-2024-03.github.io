@@ -11,15 +11,14 @@ try{
     const data = await Astro.request.formData();
     const token = Astro.cookies.get(TOKEN);
     console.log(data)
+    console.log(data.get("audio"))
     const atributos = await createAudio({
             titulo: data.get("titulo") as string,
-            descripcion: data.get("descripcion") as string,
             esPrivada: data.get("esPrivada") as string == "on" || false,
-            imgLista: "/foto",
+            img: "/foto",
             esAlbum: false,
-            tipoLista: "NORMAL",
-            idUsuario:308,
-            audios: []
+            fechaLanz: Date.now(),
+            duracionSeg: data.get("duracion"),
         }, token?.value)
     
 
@@ -75,6 +74,7 @@ try{
         </div>
         <div class="w-full flex flex-col gap-2">
             <input type="file" id="file" name="audio"/>
+            <input type="number" id="duracion" name="duracion" class="hidden"/>
             <audio id="audio"  controls class="w-full"></audio>
         </div>
         <input type="submit" class=" bg-bluePB px-4 py-1 rounded-sm" value="Subir"/>
@@ -91,5 +91,5 @@ try{
         };
         reader.readAsDataURL(event.target.files[0]);
     }
-
+    
     </script>
