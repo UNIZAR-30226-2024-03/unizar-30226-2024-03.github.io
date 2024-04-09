@@ -6,19 +6,15 @@ import { Global } from "@/globalState/globalUrl.js";
 import {userData} from '@/utils/userData.ts';
 import {Avatar} from "@nextui-org/react";
 import Imagen from '@/icons/Imagen.astro';
-import { editUser } from '@/utils/editUser';
+//import { editUser } from '@/utils/editUser';
 
 let user;
 
 try{
     const jws = Astro.cookies.get('token');
     if(jws !==null && jws !== undefined){
-        const response = await userData(jws.value);
-        
+        const response = await userData(jws.value); 
         user = response.data.usuario;
-
-        const resp = await editUser(jws.value)
-        console.log(resp);
     }
    
 
