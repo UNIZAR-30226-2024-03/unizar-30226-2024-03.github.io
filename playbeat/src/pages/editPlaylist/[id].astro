@@ -34,16 +34,15 @@ try{
     const token = Astro.cookies.get(TOKEN);
     const file = data.get("photo")
     console.log(file)
+    const img = await uploadImg(file)
     const response = await editPlaylist({
             nombre: data.get("nombre") as string,
             descripcion: data.get("descripcion") as string,
             esPrivada: data.get("esPrivada") as string == "on" || false,
-            imgLista: playlist.imgLista,
+            imgLista: img.id,
             esAlbum: false,
             tipoLista: "NORMAL",
-            idUsuario: user.idUsuario,
             audios: [],
-            Propietarios: []
         }, token?.value, id)
         
     return Astro.redirect("/library/"+response?.data.idLista);
