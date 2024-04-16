@@ -125,7 +125,7 @@ try{
                 <span class="font-medium"></span>
                 <h2 class="text-4xl font-semibold">{playlist?.nombre}</h2>
                 <h2 class="text-2xl font-semibold text-[#6985C0]">
-                    {playlist?.Propietarios.map((user: any, index: any)=>{
+                    {playlist?.Propietarios?.map((user: any, index: any)=>{
                         if(index === playlist?.Propietarios.length - 1){
                             return '@' + user.nombreUsuario
                         }
@@ -147,17 +147,28 @@ try{
                 </tr>
             </thead>
             <tbody class="border-t-[1px] border-white border-opacity-60">
-                {playlist?.Audios.map((cancion:any, index:any) => (
+                {playlist?.Audios?.map((cancion:any, index:any) => (
                     <tr class=" hover:bg-[#323232]">
                         <td class="py-3 pl-3 flex flex-row items-center gap-3">
-                            <div class=" h-12 aspect-square bg-black rounded-[4px]">
-                            </div>
-                            {cancion.title}
+                            <img class=" h-12 aspect-square bg-black rounded-[4px]" src={Global.url + "foto/" + cancion.imgAudio}/>
+                            {cancion.titulo}
                             </td>
-                        <td class="py-3">{cancion.titulo}</td>
+                        <td class="py-3">                                
+                            {cancion?.Artistas?.map((artista:any, index:any) => {
+                                    if(index == cancion.Artistas.length-1){
+                                        return artista.nombreUsuario
+                                    }else{
+                                        return artista.nombreUsario + ', '
+                                    }
+                                })}
+                        </td>
                         <td class="py-3">{cancion.album}</td>
                         <td class="py-3 max-w-6 ">{cancion.duracionSeg}</td>
-                        <td class="max-w-3 cursor-pointer pr-3"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#6985C0" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg></td>
+                        <td class="max-w-3 cursor-pointer pr-3">
+                            <PlaylistOpt items={["Añadir a playlist","Eliminar de la playlist", "Añadir cola"]} id={cancion.idAudio}>                        
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#6985C0" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
+                            </PlaylistOpt> 
+                        </td>
                     </tr>
                 ))
                 }

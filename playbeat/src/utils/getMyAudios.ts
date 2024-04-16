@@ -1,10 +1,10 @@
 import { Global } from "@/globalState/globalUrl.js";
 import axios from 'axios';
 
-async function getMyAudios( id:any, token: any) {
+async function getMyAudios( token: any) {
     try {
         axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
-        const response = await axios.get(Global.url + "lista/extra/"+ id);
+        const response = await axios.get(Global.url + "usuario/audios");
 
         return response;
     } catch (error) {

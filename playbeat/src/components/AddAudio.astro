@@ -2,6 +2,9 @@
 import TagsTabs from '@components/TagsTabs.astro';
 import { createAudio } from "@/utils/createAudio";
 import {TOKEN} from '@/constants.ts'
+import Imagen from '@/icons/Imagen.astro';
+import { uploadImg } from '@/utils/uploadImg';
+
 
 
 if (Astro.request.method ==="POST" ) {
@@ -10,19 +13,22 @@ try{
 
     const data = await Astro.request.formData();
     const token = Astro.cookies.get(TOKEN);
-    console.log(data)
     console.log(data.get("audio"))
-    const atributos = await createAudio({
+    const file = data.get("photo")
+    const img = await uploadImg(file)
+    const response = await createAudio({
             titulo: data.get("titulo") as string,
             esPrivada: data.get("esPrivada") as string == "on" || false,
-            img: "/foto",
+            imgAudio: img.id,
             esAlbum: false,
-            fechaLanz: Date.now(),
-            duracionSeg: data.get("duracion"),
+            esPodcast: false,
+            fechaLanz: new Date().toISOString(),
+            duracionSeg: parseFloat(data.get("duracion") as string) || 0,
+            cancion: data.get("cancion")
         }, token?.value)
     
-
-  
+    
+    location.reload()
 
 } catch (error) {
 //  if (error instanceof TypeError) {
@@ -47,7 +53,7 @@ try{
                 <input type="file" id="addFoto" name="photo" class=" text-white p-2 rounded-md hidden" onchange="previewImage(event)" />
                 <div class=" w-64 aspect-square mt-2 cursor-pointer bg-[#333] rounded-md border-2 border-[#c5c5c5] flex justify-center items-center" onclick="document.getElementById('addFoto').click();">
                     <img id="preview" class="w-64 aspect-square rounded-md hidden" />
-                    <Imagen />
+                    <Imagen/>
                 </div>
             </section>
             <section class="h-64 flex flex-col items-start gap-4">
@@ -73,7 +79,7 @@ try{
             </section>
         </div>
         <div class="w-full flex flex-col gap-2">
-            <input type="file" id="file" name="audio"/>
+            <input type="file" id="file" name="cancion"/>
             <input type="number" id="duracion" name="duracion" class="hidden"/>
             <audio id="audio"  controls class="w-full"></audio>
         </div>

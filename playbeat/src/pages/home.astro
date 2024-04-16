@@ -47,7 +47,7 @@ try{
 <Layout title="PlayBeat">
 
 	<div class=" flex flex-col w-full   text-white">
-		<Header nombre={user.nombreUsuario} imagen={Global.url+"foto/"+user.imgPerfil}/>
+		<Header nombre={user?.nombreUsuario} imagen={Global.url+"foto/"+user.imgPerfil}/>
 		<div class=" w-full h-full flex flex-col mt-16 p-1">
 			<Saludos name={user.nombreUsuario}/>
 			{Canciones.map( (element, index) =>

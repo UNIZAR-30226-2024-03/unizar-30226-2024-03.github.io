@@ -3,18 +3,19 @@
 
 interface Props {
   items: string[];
+  id?: number;
 }
 
-const { items } = Astro.props
+const { items, id } = Astro.props
 
 
 ---
 <div class="divOpt" >
-            <button class="button solid "><slot/></button>
+            <button class="button solid " ><slot/></button>
 
               <div class="dropdown" >
                 {items.map( (item, index) => {
-                    return <span>{item}</span>
+                    return <span id={id+''}>{item}</span>
                 })}
               </div>
               <div class="noScroll"/>
@@ -58,6 +59,10 @@ const { items } = Astro.props
 
           window.location.href = `/editPlaylist/${id}`;
         }
+       }else if(items[i].innerText === "Añadir a playlist"){
+        localStorage.setItem('addSongToPlaylist', items[i].id);
+        window.location.href = '/addSongToPlaylist';
+
        }
      })
    }

@@ -31,7 +31,7 @@ const { info, title} = Astro.props;
             
         <ul class="flex flex-row flex-wrap gap-10 mx-10 ">
             {info && info.map( (item) => 
-                    <li class="flex flex-col p-2 snap-start text-sm h-full hijo ">
+                    <li class="flex flex-col p-2 snap-start text-sm h-full hijo " id={item.idLista+''}>
                         <a href=`/library/${item.idLista}` class=" w-[200px] relative inline-block imagen ">
                             <img class=" w-full rounded-md mb-1 hover:brightness-90 aspect-square" src={Global.url + "foto/" + item.imgLista}>
 
