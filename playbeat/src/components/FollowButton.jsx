@@ -1,6 +1,6 @@
 
 
-export const FollowButton = (follow: boolean) => {
+export const FollowButton = (follow) => {
 
     const handleButton = () => {
     }
