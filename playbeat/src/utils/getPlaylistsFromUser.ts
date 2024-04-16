@@ -11,7 +11,7 @@ async function getPlaylistsFromUser( id: any, token: any) {
         axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
 
         const response = await axios.get(Global.url + "lista/owned/" + id);
-
+        console.log(response);
         return response;
     } catch (error) {
         console.error("Error registering user:", error);

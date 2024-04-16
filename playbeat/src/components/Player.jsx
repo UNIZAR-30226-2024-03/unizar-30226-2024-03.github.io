@@ -47,12 +47,11 @@ export const ListIcon = ({classname,color}) => (
 
 
 export function Player (jws, {children}) {
-    const audioId = "1";
+    const audioId = "7";
 
     async function fetchData(id) {
-    const request = await getAudio(jws.jws, id);
-    const blob = await request.blob();
-    audio.current.src = URL.createObjectURL(blob);
+      const request = await getAudio(jws.jws, id);
+      audio.current.src = URL.createObjectURL(request);
     }
 
     

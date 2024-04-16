@@ -8,10 +8,11 @@ async function getAudio(jws: string, id:string) {
             headers: {
                 Authorization: `Bearer ${jws}`,
             },
+            responseType: 'blob' // Aquí es donde configuras la responseType a 'blob'
+
         });
 
-        
-        return response;
+        return response.data;
     } catch (error) {
         console.error("Error geting user data:", error);
         throw error;
