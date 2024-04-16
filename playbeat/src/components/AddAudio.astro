@@ -1,13 +1,46 @@
 ---
 import TagsTabs from '@components/TagsTabs.astro';
-import Imagen from '@/icons/Imagen.astro';
+import { createAudio } from "@/utils/createAudio";
+import {TOKEN} from '@/constants.ts'
+
+
+if (Astro.request.method ==="POST" ) {
+
+try{
+
+    const data = await Astro.request.formData();
+    const token = Astro.cookies.get(TOKEN);
+    console.log(data)
+    console.log(data.get("audio"))
+    const atributos = await createAudio({
+            titulo: data.get("titulo") as string,
+            esPrivada: data.get("esPrivada") as string == "on" || false,
+            img: "/foto",
+            esAlbum: false,
+            fechaLanz: Date.now(),
+            duracionSeg: data.get("duracion"),
+        }, token?.value)
+    
+
+  
+
+} catch (error) {
+//  if (error instanceof TypeError) {
+//    errors.peticion = "Error en la petición";
+//  }
+//
+}
+ 
+
+  
+}
 
 
 ---
 
 <div class="flex flex-col gap-3">
     <h2 class="text-xl font-medium">Agrega un nuevo audio</h2>
-    <form class="flex flex-col items-center gap-3 pt-4" onsubmit="uploadAudio(event)">
+    <form class="flex flex-col items-center gap-3 pt-4" novalidate method="POST">
         <div class="flex flex-row items-center w-full gap-3">
 
             <section class="flex flex-col">
@@ -22,7 +55,7 @@ import Imagen from '@/icons/Imagen.astro';
 
                     <div class="flex flex-col gap-1">
                         <label>Nombre del audio</label>
-                        <input type="text" name="name" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Nombre" />
+                        <input type="text" name="titulo" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Nombre" />
                     </div>
                     <div class="flex flex-col gap-1">
                         <label >Participantes</label>
@@ -30,7 +63,7 @@ import Imagen from '@/icons/Imagen.astro';
                     </div>
                     <div class="flex flex-row gap-2 items-center mt-4 ">
                         <label>Privado</label>
-                        <input type="checkbox" name="private" />
+                        <input type="checkbox" name="esPrivada" />
                     </div>
 
                 </div>
@@ -41,6 +74,7 @@ import Imagen from '@/icons/Imagen.astro';
         </div>
         <div class="w-full flex flex-col gap-2">
             <input type="file" id="file" name="audio"/>
+            <input type="number" id="duracion" name="duracion" class="hidden"/>
             <audio id="audio"  controls class="w-full"></audio>
         </div>
         <input type="submit" class=" bg-bluePB px-4 py-1 rounded-sm" value="Subir"/>
@@ -57,8 +91,5 @@ import Imagen from '@/icons/Imagen.astro';
         };
         reader.readAsDataURL(event.target.files[0]);
     }
-    function uploadAudio(event){
-        event.preventDefault();
-
-    }
+    
     </script>
