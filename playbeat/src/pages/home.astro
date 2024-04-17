@@ -19,31 +19,12 @@ const Canciones = [
 
 
 
-let user;
+const user = Astro.locals.usuario();
+console.log(user);
 
-try{
-    const jws = Astro.cookies.get('token');
-    if(jws !==null){
-		if(jws !==null && jws !== undefined){
-        const response = await userData(jws.value);
-        
-        user = response.data.usuario;
-		}
-    }
-   
-
-} catch (error) {
-    if (error instanceof TypeError) {
-        console.log('Error: ', error.message);
-    } else {
-        console.log('Error: ', error);
-    }
-
-  }
 
 
 ---
-
 <Layout title="PlayBeat">
 
 	<div class=" flex flex-col w-full   text-white">
