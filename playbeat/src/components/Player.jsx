@@ -45,7 +45,7 @@ export const ListIcon = ({classname,color}) => (
 
 
 
-export function Player (jws, {children}) {
+export function Player ({jws, children}) {
     const audioId = "7";
 
     async function fetchData(id) {

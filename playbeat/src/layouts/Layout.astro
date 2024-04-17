@@ -50,133 +50,136 @@ const jws = Astro.cookies.get('token');
 			</footer>
 		</div>
 	</body>
-	<script is:inline>
-		const funcion = () => {
-			let isClicked = localStorage.getItem('isClicked') === 'true';
-			const queue = document.querySelector('.queue') ;
-			const songOpt = document.querySelectorAll('.noScroll');
-			if(queue){
-				queue.addEventListener('click', () => {
+	
+</html>
+<script is:inline>
+	const funcion = () => {
+		let isClicked = localStorage.getItem('isClicked') === 'true';
+		const queue = document.querySelector('.queue') ;
+		console.log("hola "+ queue)
+		const songOpt = document.querySelectorAll('.noScroll');
+		if(queue){
+			queue.addEventListener('click', () => {
 
-					const app = document.querySelector('#app') ;
-					const header = document.querySelector('.header') ;
-					isClicked = !isClicked;
-					localStorage.setItem('isClicked', isClicked.toString());
-					queue.style.color = isClicked ? "#6985C0" : "white";
-					queue.style.backgroundColor = isClicked ? "#606060a4" : "";
-					app.style.gridTemplateColumns = isClicked ? "1fr repeat(4, 1fr) 1fr" : "1fr repeat(3, 1fr) 2fr 0px";
-					header.style.width = isClicked ? "66.667%" : "83.333%";
-					songOpt.forEach((opt) => {
-						opt.style.width = isClicked ? "66.6vw" : "83.3vw";
-					});
-					window.dispatchEvent(new Event('storageChange'));
-					
+				const app = document.querySelector('#app') ;
+				const header = document.querySelector('.header') ;
+				isClicked = !isClicked;
+				localStorage.setItem('isClicked', isClicked.toString());
+				console.log("click")
+				queue.style.color = isClicked ? "#6985C0" : "white";
+				queue.style.backgroundColor = isClicked ? "#606060a4" : "";
+				app.style.gridTemplateColumns = isClicked ? "1fr repeat(4, 1fr) 1fr" : "1fr repeat(3, 1fr) 2fr 0px";
+				header.style.width = isClicked ? "66.667%" : "83.333%";
+				songOpt.forEach((opt) => {
+					opt.style.width = isClicked ? "66.6vw" : "83.3vw";
 				});
-			}
+				window.dispatchEvent(new Event('storageChange'));
+				
+			});
 		}
-		funcion();
-		document.addEventListener('astro:after-swap', () => {
-			funcion()
-			let isClicked = localStorage.getItem('isClicked') === 'true';
-			const queue = document.querySelector('.queue');
-			const songOpt = document.querySelectorAll('.noScroll');
-			if(queue){
-					const app = document.querySelector('#app');
-					const header = document.querySelector('.header');
-					queue.style.color = isClicked ? "#6985C0" : "white";
-					queue.style.backgroundColor = isClicked ? "#606060a4" : "";
-					app.style.gridTemplateColumns = isClicked ? "1fr repeat(4, 1fr) 1fr" : "1fr repeat(3, 1fr) 2fr 0px";
-					header.style.width = isClicked ? "66.667%" : "83.333%";
-					songOpt.forEach((opt) => {
-						opt.style.width = isClicked ? "66.6vw" : "83.3vw";
-					});
-					window.dispatchEvent(new Event('storageChange'));
+	}
+	document.addEventListener('astro:after-swap', () => {
+		funcion()
+		let isClicked = localStorage.getItem('isClicked') === 'true';
+		const queue = document.querySelector('.queue');
+		console.log("adioss" + queue)
+		const songOpt = document.querySelectorAll('.noScroll');
+		if(queue){
+				const app = document.querySelector('#app');
+				const header = document.querySelector('.header');
+				queue.style.color = isClicked ? "#6985C0" : "white";
+				queue.style.backgroundColor = isClicked ? "#606060a4" : "";
+				app.style.gridTemplateColumns = isClicked ? "1fr repeat(4, 1fr) 1fr" : "1fr repeat(3, 1fr) 2fr 0px";
+				header.style.width = isClicked ? "66.667%" : "83.333%";
+				songOpt.forEach((opt) => {
+					opt.style.width = isClicked ? "66.6vw" : "83.3vw";
+				});
+				window.dispatchEvent(new Event('storageChange'));
 
-			}
-		});
+		}
+	});
+	funcion();
 
-	</script>
+</script>
 <script is:inline>
 
-        document.addEventListener('astro:page-load', () => {
-			const boton = document.querySelectorAll('.button');
-    		const dropdown = document.querySelectorAll('.dropdown');
-			const noScroll = document.querySelectorAll('.noScroll');
-            for(let i = 0; i < boton.length; i++) {
-                boton[i].addEventListener('focus', () => {
-					const rect = boton[i].getBoundingClientRect();
-					const noScrollRect = noScroll[i].getBoundingClientRect();
-					const dropdownRect = dropdown[i].getBoundingClientRect();
-					if( noScrollRect.left + noScrollRect.width - rect.left <200){
-						dropdown[i].style.left = `${rect.left-190}px`;
-					}else{
-                    	dropdown[i].style.left = `${rect.left+ 30}px`;
-					}
-					if( noScrollRect.top + noScrollRect.height - rect.top -72 < dropdownRect.height ){
-						dropdown[i].style.top = `${rect.top+10-dropdownRect.height}px`;
-					}else{
-						dropdown[i].style.top = `${rect.top + 30}px`;
-					}
+	document.addEventListener('astro:page-load', () => {
+		const boton = document.querySelectorAll('.button');
+		const dropdown = document.querySelectorAll('.dropdown');
+		const noScroll = document.querySelectorAll('.noScroll');
+		for(let i = 0; i < boton.length; i++) {
+			boton[i].addEventListener('focus', () => {
+				const rect = boton[i].getBoundingClientRect();
+				const noScrollRect = noScroll[i].getBoundingClientRect();
+				const dropdownRect = dropdown[i].getBoundingClientRect();
+				if( noScrollRect.left + noScrollRect.width - rect.left <200){
+					dropdown[i].style.left = `${rect.left-190}px`;
+				}else{
+					dropdown[i].style.left = `${rect.left+ 30}px`;
+				}
+				if( noScrollRect.top + noScrollRect.height - rect.top -72 < dropdownRect.height ){
+					dropdown[i].style.top = `${rect.top+10-dropdownRect.height}px`;
+				}else{
+					dropdown[i].style.top = `${rect.top + 30}px`;
+				}
 
 
-                 })
-            }
-        });
+			 })
+		}
+	});
 
-            
+		
 
-    
-      
-    </script>
-		<script is:inline>
-			document.addEventListener('astro:page-load', () => {
-				const botonesizqder = document.querySelectorAll('.botonesizq, .botonesder, .dropdown');
-				botonesizqder.forEach(div => {
-					div.addEventListener('click', (e) => {
-						e.preventDefault();
-						
-					});
-				});
-	
-			});
 
-	
-		  </script>
+  
+</script>
 	<script is:inline>
 		document.addEventListener('astro:page-load', () => {
+			const botonesizqder = document.querySelectorAll('.botonesizq, .botonesder, .dropdown');
+			botonesizqder.forEach(div => {
+				div.addEventListener('click', (e) => {
+					e.preventDefault();
+					
+				});
+			});
 
-			const buton = document.querySelectorAll('.button');
-			const itemsOpt = document.querySelectorAll('.dropdown span');
-			for(let i = 0; i < itemsOpt.length; i++){
-				itemsOpt[i].addEventListener('mousedown', (e) => {
-				e.preventDefault()
-				})
-				if(itemsOpt[i].innerText === "Añadir cola"){
-					itemsOpt[i].addEventListener('click', () => {
-						let songsQueue = localStorage.getItem('songsQueue');
-						if(songsQueue === null){
-							songsQueue = [];
-						}else{
-							songsQueue = JSON.parse(songsQueue);
-						}
-						songsQueue.push({nombre: "cancionX", duracion: "3:00"});
-
-						localStorage.setItem('songsQueue', JSON.stringify(songsQueue));
-						for(let j= 0; j<buton.length; j++){
-							buton[j].blur()
-						}
-						window.dispatchEvent(new Event('storageChange'));
-					})
-				}
-			
-			}
 		});
-	  
-		
-	  
-	  </script>
-</html>
 
+
+	  </script>
+<script is:inline>
+	document.addEventListener('astro:page-load', () => {
+
+		const buton = document.querySelectorAll('.button');
+		const itemsOpt = document.querySelectorAll('.dropdown span');
+		for(let i = 0; i < itemsOpt.length; i++){
+			itemsOpt[i].addEventListener('mousedown', (e) => {
+			e.preventDefault()
+			})
+			if(itemsOpt[i].innerText === "Añadir cola"){
+				itemsOpt[i].addEventListener('click', () => {
+					let songsQueue = localStorage.getItem('songsQueue');
+					if(songsQueue === null){
+						songsQueue = [];
+					}else{
+						songsQueue = JSON.parse(songsQueue);
+					}
+					songsQueue.push({nombre: "cancionX", duracion: "3:00"});
+
+					localStorage.setItem('songsQueue', JSON.stringify(songsQueue));
+					for(let j= 0; j<buton.length; j++){
+						buton[j].blur()
+					}
+					window.dispatchEvent(new Event('storageChange'));
+				})
+			}
+		
+		}
+	});
+  
+	
+  
+  </script>
 <style>
 	
 	#app {
