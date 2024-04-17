@@ -63,10 +63,9 @@ try{
 	const song = localStorage.getItem('addSongToPlaylist');
 
 	for (let i = 0; i < listas.length; i++) {
-		listas[i].addEventListener('mousedown', (e) => {
-				e.preventDefault()
-		})
-		listas[i].addEventListener('click', () => {
+
+		listas[i].addEventListener('click', (e) => {
+			e.preventDefault()
 			console.log("HOLADSFALDKFJASLD")
 			fetch('https://playbeat.uksouth.cloudapp.azure.com/lista/audio/'+ listas[i].id  +'/'+song , {
 			method: 'POST',
@@ -74,12 +73,12 @@ try{
 				'Content-Type': 'application/json',
 				'Authorization': `Bearer ${token}` // Uncomment this line if you need to send a bearer token
 			},
-			// body: JSON.stringify(data), // Uncomment this line if you need to send a JSON body
 			})
 			.then(response => response.json())
-			.then(data => console.log(data))
+			.then(data => window.history.back())
 			.catch((error) => {
-			console.error('Error:', error);
+				window.history.back();
+				console.error('Error:', error);
 			});
 		})
 	}

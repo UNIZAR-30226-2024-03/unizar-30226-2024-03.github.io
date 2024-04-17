@@ -69,6 +69,12 @@ export function Player (jws, {children}) {
       }
       }, [play])
 
+      function playSong(e) {
+        console.log("playSong")
+        setPlay(true)
+      }
+
+      document.addEventListener("playSong", playSong);
 
       useEffect(() => {
         audio.current.volume = volume

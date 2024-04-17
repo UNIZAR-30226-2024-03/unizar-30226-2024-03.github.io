@@ -10,69 +10,6 @@ import PlaylistOpt from '@components/PlaylistOpt.astro'
 import { Global } from '@/globalState/globalUrl'
 
 
-const canciones = [
-    {
-        title: "Cancion 1",
-        artist: "Artista 1",
-        album: "Album 1",
-        time: "2:30"
-    },
-    {
-        title: "Cancion 2",
-        artist: "Artista 2",
-        album: "Album 2",
-        time: "3:30"
-    },
-    {
-        title: "Cancion 3",
-        artist: "Artista 3",
-        album: "Album 3",
-        time: "4:30"
-    },
-    {
-        title: "Cancion 4",
-        artist: "Artista 4",
-        album: "Album 4",
-        time: "5:30"
-    },
-    {
-        title: "Cancion 5",
-        artist: "Artista 5",
-        album: "Album 5",
-        time: "6:30"
-    },
-    {
-        title: "Cancion 6",
-        artist: "Artista 6",
-        album: "Album 6",
-        time: "7:30"
-    },
-    {
-        title: "Cancion 7",
-        artist: "Artista 7",
-        album: "Album 7",
-        time: "8:30"
-    },
-    {
-        title: "Cancion 8",
-        artist: "Artista 8",
-        album: "Album 8",
-        time: "9:30"
-    },
-    {
-        title: "Cancion 9",
-        artist: "Artista 9",
-        album: "Album 9",
-        time: "10:30"
-    },
-    {
-        title: "Cancion 10",
-        artist: "Artista 10",
-        album: "Album 10",
-        time: "11:30"
-    }
-
-]
 const {id} = Astro.params
 const token = Astro.cookies.get(TOKEN);
 
@@ -83,7 +20,6 @@ try{
 
         playlist = await getInfoPlaylist(parseInt(id), token?.value)
         playlist = playlist.data
-        console.log(playlist)
         idImg = playlist.imgLista
 
     }
@@ -148,7 +84,7 @@ try{
             </thead>
             <tbody class="border-t-[1px] border-white border-opacity-60">
                 {playlist?.Audios?.map((cancion:any, index:any) => (
-                    <tr class=" hover:bg-[#323232]">
+                    <tr class=" hover:bg-[#323232] select-none" id={cancion.idAudio}  >
                         <td class="py-3 pl-3 flex flex-row items-center gap-3">
                             <img class=" h-12 aspect-square bg-black rounded-[4px]" src={Global.url + "foto/" + cancion.imgAudio}/>
                             {cancion.titulo}
@@ -177,4 +113,15 @@ try{
     </div>
 </Layout>
 
+
+<script>
+    const canciones = document.querySelectorAll('tr')
+    canciones.forEach(cancion => {
+        cancion.addEventListener("dblclick", (e) => {
+            console.log("xd")
+            var event = new Event("playSong");
+            document.dispatchEvent(event);
+        })
+    })
+</script>
 

@@ -42,7 +42,6 @@ const { items, id } = Astro.props
   document.addEventListener('astro:page-load', () => {
    const items = document.querySelectorAll('.dropdown span') as NodeListOf<HTMLElement>;
    for(let i = 0; i<items.length; i++){
-    console.log(items[i].innerText)
      items[i].addEventListener('click', () => {
        if(items[i].innerText === "Eliminar playlist"){
         let pathArray = window.location.pathname.split('/');
@@ -62,7 +61,27 @@ const { items, id } = Astro.props
        }else if(items[i].innerText === "Añadir a playlist"){
         localStorage.setItem('addSongToPlaylist', items[i].id);
         window.location.href = '/addSongToPlaylist';
+       }
+       else if(items[i].innerText === "Eliminar de la playlist"){
+        const token = getCookie('token');
+        let pathArray = window.location.pathname.split('/');
+        let id = pathArray[pathArray.length - 1];
+        if(id !== undefined){ 
+          fetch('https://playbeat.uksouth.cloudapp.azure.com/lista/audio/'+ id  +'/'+items[i].id , {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` // Uncomment this line if you need to send a bearer token
+          },
+          })
+          .then(response => response.json())
+          .then(data => window.location.reload())
+          .catch((error) => {
+          console.error('Error:', error);
+          window.location.reload();
+          });
 
+        }
        }
      })
    }

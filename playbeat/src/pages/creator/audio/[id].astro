@@ -82,18 +82,7 @@ const canciones = [
 ]
 
 ---
-<script is:inline>
-    function onSubmit(event) {
-        console.log("hola")
-    event.preventDefault();
 
-    const form = event.target;
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
-    
-    console.log(data);
-  }
-</script>
 
 <CreatorLayout title="PlayBeat">
     <div class="h-full w-full bg-[#333] bg-opacity-60 flex flex-col items-center">

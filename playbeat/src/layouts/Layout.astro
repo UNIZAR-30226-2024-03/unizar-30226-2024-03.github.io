@@ -42,7 +42,7 @@ const jws = Astro.cookies.get('token');
 			</aside>
 
 			<footer class="[grid-area:player] h-[72px]">
-				<Player jws={jws?.value} client:load transition:name="media-player" transition:persist>
+				<Player jws={jws?.value} client:only="react" transition:name="media-player" transition:persist>
 					<div class="">
 						<List/>
 					</div>

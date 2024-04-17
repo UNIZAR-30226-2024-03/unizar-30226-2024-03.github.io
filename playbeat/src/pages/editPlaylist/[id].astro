@@ -18,7 +18,6 @@ try{
     user = user.data.usuario
     if(id !== undefined){
         playlist = await getInfoPlaylist(id, token?.value)
-        console.log(playlist)
         playlist = playlist.data
     }
 
@@ -33,7 +32,6 @@ try{
     const data = await Astro.request.formData();
     const token = Astro.cookies.get(TOKEN);
     const file = data.get("photo")
-    console.log(file)
     const img = await uploadImg(file)
     const response = await editPlaylist({
             nombre: data.get("nombre") as string,
