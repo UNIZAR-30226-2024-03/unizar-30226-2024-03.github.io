@@ -2,10 +2,8 @@
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import SearchTabs from "../components/SearchTabs.astro";
-import Dropdown from "../components/Dropdown.astro";
 import Carrousel from "@components/Carrousel.astro";
 
-const info = {name: 'Filter', items:['item1111111111111','item2', 'item3']}
 
 const filter = ["All", "Cancion", "Podcast", "Usuario", "Album", "Playlist"];
 const Canciones = [
@@ -45,7 +43,7 @@ const Canciones = [
 
             </form>
             <div class="all">
-                {Canciones.map( (element, index) =>
+                {Canciones.map( (element) =>
                     {
                         return <Carrousel info={element} />
                     }
@@ -53,7 +51,7 @@ const Canciones = [
                 )}	
             </div>
             <div class="canciones h-full flex flex-row flex-wrap ml-8 mt-6"> 
-                {Canciones[0].items.map((item, index) => {
+                {Canciones[0].items.map((item) => {
                     return(
                     <li class="flex flex-col p-2 text-sm w-[300px] ">
                         <a href=`/library/${item.audio}` class="  relative inline-block imagen ">

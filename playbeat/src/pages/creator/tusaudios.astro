@@ -1,7 +1,6 @@
 ---
 import CreatorLayout from '@layouts/CreatorLayout.astro';
 import HeaderCreator from '@components/HeaderCreator.astro';
-import TagsTabs from '@components/TagsTabs.astro';
 import AddAudio from '@components/AddAudio.astro';
 import { TOKEN } from '@/constants';
 import { getMyAudios } from '@/utils/getMyAudios';
@@ -42,7 +41,7 @@ try{
                     </tr>
                 </thead>
                 <tbody class="border-t-[1px] border-white border-opacity-60">
-                    {response.cancion.map((cancion : any, index : any) => (
+                    {response.cancion.map((cancion : any) => (
                           <tr class=" hover:bg-[#262626]" onclick=`document.location = 'audio/${cancion.idAudio}'` >
                             <td class="py-3 pl-3 flex flex-row items-center gap-3">
                                 <img class=" h-12 aspect-square  rounded-[4px]" src={Global.url + "foto/" + cancion.imgAudio}/>
@@ -96,7 +95,7 @@ try{
     console.log("Hola")
 
     if(inputFile != null && audio != null && duracion != null){
-        inputFile.addEventListener('change', function(event){
+        inputFile.addEventListener('change', function(){
 
             var file = this.files[0],
             fileURL = blob.createObjectURL(file);

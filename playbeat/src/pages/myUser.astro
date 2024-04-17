@@ -1,6 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Library from '../components/Library.astro';
 import HeaderMyUser from '../components/HeaderMyUser.astro';
 import {userData} from '@/utils/userData.ts';
 import { Global } from "@/globalState/globalUrl.js";
@@ -47,11 +46,11 @@ const Playlists = [
         <HeaderMyUser nombre={user.nombreUsuario} email={user.email} img={Global.url+"foto/"+user.imgPerfil} followers={followers.length}/>
         <div>
             <div class="mt-12" >
-                {Playlists.map( (element, index) =>
+                <!-- {Playlists.map( (element, index) =>
                     {
-                        return <Library info={element} title='Biblioteca'/>
+                        //return <Library info={element} title='Biblioteca'/>
                     }
-                )}	
+                )}	 -->
             </div>
         </div>
 	</div>

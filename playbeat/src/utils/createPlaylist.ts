@@ -1,6 +1,5 @@
 import { Global } from "@/globalState/globalUrl.js";
 import axios from 'axios';
-import { getMyUserInfo } from "./getMyUserInfo";
 
 async function createPlaylist(data: { nombre: string; descripcion: string; esPrivada: boolean; imgLista: string; esAlbum: boolean; tipoLista: any; idUsuario: number; audios: number[];}, token: any) {
     try {

@@ -35,7 +35,7 @@ try{
 	<div class=" flex flex-col w-full   text-white">
 		<Header/>
 		<div class=" w-full h-full flex flex-col mt-16 p-1">
-			{Biblioteca.map( (element, index) =>
+			{Biblioteca.map( () =>
 				{
 					return <Library info={playlists} title="Mi biblioteca"/>
 				}
@@ -75,7 +75,7 @@ try{
 			},
 			})
 			.then(response => response.json())
-			.then(data => window.history.back())
+			.then(() => {window.history.back()})
 			.catch((error) => {
 				window.history.back();
 				console.error('Error:', error);

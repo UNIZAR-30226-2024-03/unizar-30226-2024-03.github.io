@@ -1,85 +1,11 @@
 ---
 import CreatorLayout from '@layouts/CreatorLayout.astro';
 import HeaderCreator from '@components/HeaderCreator.astro';
-import TagsTabs from '@components/TagsTabs.astro';
 import ModAudio from '@components/ModAudio.astro';
 
 
 const {id} = Astro.props
 
-const canciones = [
-    {
-        title: "Cancion 1",
-        artist: "Artista 1",
-        album: "Album 1",
-        time: "2:30",
-        url: "stats/cancion1"
-    },
-    {
-        title: "Cancion 2",
-        artist: "Artista 2",
-        album: "Album 2",
-        time: "3:30",
-        url: "stats/cancion1"
-    },
-    {
-        title: "Cancion 3",
-        artist: "Artista 3",
-        album: "Album 3",
-        time: "4:30",
-        url: "stats/cancion1"
-    },
-    {
-        title: "Cancion 4",
-        artist: "Artista 4",
-        album: "Album 4",
-        time: "5:30",
-        url: "stats/cancion1"
-    },
-    {
-        title: "Cancion 5",
-        artist: "Artista 5",
-        album: "Album 5",
-        time: "6:30",
-        url: "stats/cancion1"
-    },
-    {
-        title: "Cancion 6",
-        artist: "Artista 6",
-        album: "Album 6",
-        time: "7:30",
-        url: "stats/cancion1"
-    },
-    {
-        title: "Cancion 7",
-        artist: "Artista 7",
-        album: "Album 7",
-        time: "8:30",
-        url: "stats/cancion1"
-    },
-    {
-        title: "Cancion 8",
-        artist: "Artista 8",
-        album: "Album 8",
-        time: "9:30",
-        url: "stats/cancion1"
-    },
-    {
-        title: "Cancion 9",
-        artist: "Artista 9",
-        album: "Album 9",
-        time: "10:30",
-        url: "stats/cancion1"
-    },
-    {
-        title: "Cancion 10",
-        artist: "Artista 10",
-        album: "Album 10",
-        time: "11:30",
-        url: "stats/cancion1"
-    }
-
-]
 
 ---
 
@@ -105,7 +31,7 @@ const canciones = [
     const inputFile = document.getElementById('file');
     const audio = document.getElementById('audio');
     if(inputFile != null && audio != null){
-        inputFile.addEventListener('change', function(event){
+        inputFile.addEventListener('change', function(){
             var file = this.files[0],
             fileURL = blob.createObjectURL(file);
             audio.src = fileURL;
