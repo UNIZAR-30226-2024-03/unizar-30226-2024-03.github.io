@@ -1,10 +1,9 @@
 
-import { useState, useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import {SongBar} from "./PlayerComp/SongBar.jsx"
 import {VolumeControl} from "./PlayerComp/VolumeControl"
 import {CancionActual} from "./PlayerComp/CancionActual"
 import {usePlayerState} from "@/globalState/playerState"
-import {Global} from "@/globalState/globalUrl.js"
 import {getAudio} from "@/utils/getAudio.ts"
 
 
@@ -55,7 +54,7 @@ export function Player (jws, {children}) {
     }
 
     
-    const {play, setPlay,volume,loop,setLoop, shuffle, setShuffle, setQueue, queue, currSong, setCurrSong } = usePlayerState()
+    const {play, setPlay,volume,loop,setLoop, shuffle, setShuffle } = usePlayerState()
 
 
     const audio = useRef()
@@ -69,7 +68,7 @@ export function Player (jws, {children}) {
       }
       }, [play])
 
-      function playSong(e) {
+      function playSong() {
         console.log("playSong")
         setPlay(true)
       }

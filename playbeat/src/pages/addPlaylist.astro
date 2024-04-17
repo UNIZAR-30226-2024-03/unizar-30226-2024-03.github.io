@@ -37,7 +37,7 @@ try{
             audios: []
         }, token?.value)
         
-    return Astro.redirect("/library/"+response?.data.idLista);
+    return Astro.redirect("/library/"+response.data.idLista);
 
 } catch (error) {
     console.log(error);

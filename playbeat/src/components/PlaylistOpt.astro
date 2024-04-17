@@ -14,7 +14,7 @@ const { items, id } = Astro.props
             <button class="button solid " ><slot/></button>
 
               <div class="dropdown" >
-                {items.map( (item, index) => {
+                {items.map( (item) => {
                     return <span id={id+''}>{item}</span>
                 })}
               </div>
@@ -75,7 +75,7 @@ const { items, id } = Astro.props
           },
           })
           .then(response => response.json())
-          .then(data => window.location.reload())
+          .then(() => {window.location.reload()})
           .catch((error) => {
           console.error('Error:', error);
           window.location.reload();
