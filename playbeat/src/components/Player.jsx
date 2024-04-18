@@ -61,15 +61,17 @@ export function Player ({jws, children}) {
   
     useEffect(() => {
       if(play===true) {
-        fetchData(audioId);
         audio.current.play()
       }else{
         audio.current.pause()
       }
       }, [play])
 
+      useEffect
+      (() => {
+        fetchData(audioId)
+      }, [audioId])
       function playSong() {
-        console.log("playSong")
         setPlay(true)
       }
 

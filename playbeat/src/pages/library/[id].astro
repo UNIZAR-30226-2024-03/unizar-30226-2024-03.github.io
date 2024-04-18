@@ -118,7 +118,6 @@ try{
     const canciones = document.querySelectorAll('tr')
     canciones.forEach(cancion => {
         cancion.addEventListener("dblclick", () => {
-            console.log("xd")
             var event = new Event("playSong");
             document.dispatchEvent(event);
         })
