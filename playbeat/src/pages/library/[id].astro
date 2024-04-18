@@ -69,7 +69,28 @@ try{
                     })}
                 </h2>
                 <span class=" opacity-70">{playlist?.descripcion}</span>
-                <span>Lista de canciones | 0 canciones, 0 mins</span>
+                <span>Lista de canciones | {playlist?.Audios?.length} canciones, 
+                    {() => {
+                        function convertirSegundos(segundos:any) {
+                            let horas = Math.floor(segundos / 3600);
+                            segundos %= 3600;
+                            let minutos = Math.floor(segundos / 60);
+                            segundos %= 60;
+                            let res = ""
+                            if(horas >0 ){
+                                res+= horas + "h "
+                            }
+                            if(minutos >0 ){
+                                res+= minutos + "m "
+                            }
+                            if(segundos >0 ){
+                                res+= segundos + "s "
+                            }
+                            return res
+                        }
+                        let duracionTotalSegundos = playlist?.Audios?.reduce((acumulador:any, objeto:any) => acumulador + objeto.duracionSeg, 0);
+                        return convertirSegundos(duracionTotalSegundos);
+                    }}</span>
             </div>
         </section>  
 
@@ -83,7 +104,7 @@ try{
                 </tr>
             </thead>
             <tbody class="border-t-[1px] border-white border-opacity-60">
-                {playlist?.Audios?.map((cancion:any) => (
+                {playlist && playlist?.Audios?.map((cancion:any) => (
                     <tr class=" hover:bg-[#323232] select-none" id={cancion.idAudio}  >
                         <td class="py-3 pl-3 flex flex-row items-center gap-3">
                             <img class=" h-12 aspect-square bg-black rounded-[4px]" src={Global.url + "foto/" + cancion.imgAudio}/>

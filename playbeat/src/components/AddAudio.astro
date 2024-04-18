@@ -50,7 +50,7 @@ try{
         <div class="flex flex-row items-center w-full gap-3">
 
             <section class="flex flex-col">
-                <input type="file" id="addFoto" name="photo" class=" text-white p-2 rounded-md hidden" onchange="previewImage()" />
+                <input type="file" id="addFoto" name="photo" class=" text-white p-2 rounded-md hidden" onchange="previewImage(event)" />
                 <div class=" w-64 aspect-square mt-2 cursor-pointer bg-[#333] rounded-md border-2 border-[#c5c5c5] flex justify-center items-center" onclick="document.getElementById('addFoto').click();">
                     <img id="preview" class="w-64 aspect-square rounded-md hidden" />
                     <Imagen/>
