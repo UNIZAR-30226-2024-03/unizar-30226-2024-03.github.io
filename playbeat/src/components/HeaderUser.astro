@@ -9,10 +9,31 @@ interface Props {
     email: string,
     img: string,
     followers: [],
-    following: []
+    following: [], 
+    id: number
 }
 
-const {nombre, email, img, followers, following} = Astro.props
+const {nombre, email, img, followers, following, id} = Astro.props
+
+const userId = Astro.locals.usuario.idUsuario;
+const token = Astro.cookies.get('token').value;
+
+
+
+
+
+
+let isFollower = false;
+
+for (let i = 0; i < followers.length; i++) {
+    if (followers[i].seguidorId === userId) {
+        isFollower = true;
+        break;
+    }
+}
+
+console.log(isFollower,token, userId)
+
 
 
 ---
@@ -31,7 +52,7 @@ const {nombre, email, img, followers, following} = Astro.props
 
             
         </div>
-        <div class=" flex flex-col flex-wrap content-center justify-center absolute photo gap-3 ">
+        <div class=" flex flex-col flex-wrap content-center justify-center absolute photo gap-3 items-center ">
             <span class="text-3xl font-bold text-white ">
               
                 <Avatar className="w-[180px] h-[180px]" classNames={{
@@ -43,12 +64,13 @@ const {nombre, email, img, followers, following} = Astro.props
                   }} name={nombre} showFallback src={img}/>
                 
             </span>
-            <span class="text-white text-3xl font-thin opacity-60">
-                {following.length} seguidores
-            </span>
+            <div class="text-white text-3xl font-thin opacity-60 w-[180px] flex justify-center ">
+                {followers.length ? `${followers.length} ${followers.length === 1 ? 'Seguidor' : 'Seguidores'}` : '0 Seguidores'}
+
+            </div>
         </div>
         <div class=" ml-1 flex flex-row gap-2  absolute edit">
-            <FollowButton follow={false} client:load/>
+            <FollowButton follow={isFollower} id={userId} jws={token} client:load/>
         </div>
         
         

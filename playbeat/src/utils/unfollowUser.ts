@@ -11,11 +11,12 @@ import axios from 'axios';
 
 async function unfollowUser(jws: string, id?: string) {
     try {
-        const response = await axios.put(Global.url + "usuario/unfollow"+id,{
+        const response = await axios.put(Global.url + "usuario/unfollow/"+id,{
             headers: {
                 Authorization: `Bearer ${jws}`,
             },
         });
+        console.log(response);
         return response;
 
         

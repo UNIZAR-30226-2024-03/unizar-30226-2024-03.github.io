@@ -44,9 +44,10 @@ const {nombreUsuario, email, imgPerfil, Seguidores} = Astro.locals.usuario;
                   }} name={nombreUsuario} showFallback src={Global.url+"foto/"+imgPerfil}/>
                 
             </span>
-            <span class="text-white text-3xl font-thin opacity-60">
-                {Seguidores.length} seguidores
-            </span>
+            <div class="text-white text-3xl font-thin opacity-60 w-[180px] flex justify-center ">
+                {Seguidores.length ? `${Seguidores.length} ${Seguidores.length === 1 ? 'Seguidor' : 'Seguidores'}` : '0 Seguidores'}
+
+            </div>
         </div>
         <div class=" ml-5 flex flex-row gap-2  absolute edit">
             <a href="/editProfile" class="bg-[#6985C0] flex flex-row items-center p-1 px-3  gap-1 w-max h-7 rounded-md">
