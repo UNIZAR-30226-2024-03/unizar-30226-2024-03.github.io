@@ -1,0 +1,188 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+import Carrousel from '../components/Carrousel.astro';
+import Header from '../components/Header.astro';
+import Saludos from '../components/Saludos.svelte';
+import { Global } from "@/globalState/globalUrl.js";
+import {userData} from '@/utils/userData.ts';
+const Canciones = [
+	{vari:"wide",num:3,name:"Último escuchados",ref:"/podcast", items:[{audio:"Cancion1", descripcion:"Artista1"}, {audio:"Cancion2", descripcion:"Artista2"}, {audio:"Cancion3", descripcion:"Artista3"}, {audio:"Cancion4", descripcion:"Artista4"}, {audio:"Cancion5", descripcion:"Artista5"}, {audio:"audio6", descripcion:"Artista6"}, {audio:"audio7", descripcion:"Artista7"}, {audio:"audio8", descripcion:"Artista8"}, {audio:"audio9", descripcion:"Artista9"}, {audio:"audio10", descripcion:"Artista10"}, {audio:"audio11", descripcion:"Artista11"}, {audio:"audio12", descripcion:"Artista12"}, {audio:"audio13", descripcion:"Artista13"}, {audio:"audio14", descripcion:"Artista14"}, {audio:"audio15", descripcion:"Artista15"}, {audio:"audio16", descripcion:"Artista16"}, {audio:"audio17", descripcion:"Artista17"}, {audio:"audio18", descripcion:"Artista18"}, {audio:"audio19", descripcion:"Artista19"}, {audio:"audio20", descripcion:"Artista20"}, {audio:"audio21", descripcion:"Artista21"}, {audio:"audio22", descripcion:"Artista22"}, {audio:"audio23", descripcion:"Artista23"}, {audio:"audio24", descripcion:"Artista24"}, {audio:"audio25", descripcion:"Artista25"}, {audio:"audio26", descripcion:"Artista26"}, {audio:"audio27", descripcion:"Artista27"}, {audio:"audio28", descripcion:"Artista28"}, {audio:"audio29", descripcion:"Artista29"}, {audio:"audio30", descripcion:"Artista30"}, {audio:"audio31", descripcion:"Artista31"}, {audio:"audio32", descripcion:"Artista32"}]},
+	{num:5,name:"Para ti", ref:"/podcast", items:[{audio:"Cancion1", descripcion:"Artista1"}, {audio:"Cancion2", descripcion:"Artista2"}, {audio:"Cancion3", descripcion:"Artista3"}, {audio:"Cancion4", descripcion:"Artista4"}, {audio:"Cancion5", descripcion:"Artista5"}, {audio:"audio6", descripcion:"Artista6"}, {audio:"audio7", descripcion:"Artista7"}, {audio:"audio8", descripcion:"Artista8"}, {audio:"audio9", descripcion:"Artista9"}, {audio:"audio10", descripcion:"Artista10"}, {audio:"audio11", descripcion:"Artista11"}, {audio:"audio12", descripcion:"Artista12"}, {audio:"audio13", descripcion:"Artista13"}, {audio:"audio14", descripcion:"Artista14"}, {audio:"audio15", descripcion:"Artista15"}, {audio:"audio16", descripcion:"Artista16"}, {audio:"audio17", descripcion:"Artista17"}, {audio:"audio18", descripcion:"Artista18"}, {audio:"audio19", descripcion:"Artista19"}, {audio:"audio20", descripcion:"Artista20"}, {audio:"audio21", descripcion:"Artista21"}, {audio:"audio22", descripcion:"Artista22"}, {audio:"audio23", descripcion:"Artista23"}, {audio:"audio24", descripcion:"Artista24"}, {audio:"audio25", descripcion:"Artista25"}, {audio:"audio26", descripcion:"Artista26"}, {audio:"audio27", descripcion:"Artista27"}, {audio:"audio28", descripcion:"Artista28"}, {audio:"audio29", descripcion:"Artista29"}, {audio:"audio30", descripcion:"Artista30"}, {audio:"audio31", descripcion:"Artista31"}, {audio:"audio32", descripcion:"Artista32"}]},
+	{vari:"wide",num:3,name:"Podcast", ref:"/podcast",items:[{audio:"Cancion1", descripcion:"Artista1"}, {audio:"Cancion2", descripcion:"Artista2"}, {audio:"Cancion3", descripcion:"Artista3"}, {audio:"Cancion4", descripcion:"Artista4"}, {audio:"Cancion5", descripcion:"Artista5"}, {audio:"audio6", descripcion:"Artista6"}, {audio:"audio7", descripcion:"Artista7"}, {audio:"audio8", descripcion:"Artista8"}, {audio:"audio9", descripcion:"Artista9"}, {audio:"audio10", descripcion:"Artista10"}, {audio:"audio11", descripcion:"Artista11"}, {audio:"audio12", descripcion:"Artista12"}, {audio:"audio13", descripcion:"Artista13"}, {audio:"audio14", descripcion:"Artista14"}, {audio:"audio15", descripcion:"Artista15"}, {audio:"audio16", descripcion:"Artista16"}, {audio:"audio17", descripcion:"Artista17"}, {audio:"audio18", descripcion:"Artista18"}, {audio:"audio19", descripcion:"Artista19"}, {audio:"audio20", descripcion:"Artista20"}, {audio:"audio21", descripcion:"Artista21"}, {audio:"audio22", descripcion:"Artista22"}, {audio:"audio23", descripcion:"Artista23"}, {audio:"audio24", descripcion:"Artista24"}, {audio:"audio25", descripcion:"Artista25"}, {audio:"audio26", descripcion:"Artista26"}, {audio:"audio27", descripcion:"Artista27"}, {audio:"audio28", descripcion:"Artista28"}, {audio:"audio29", descripcion:"Artista29"}, {audio:"audio30", descripcion:"Artista30"}, {audio:"audio31", descripcion:"Artista31"}, {audio:"audio32", descripcion:"Artista32"}]},
+	{num:5,name:"Prueba", ref:"/podcast",items:[{audio:"Cancion1", descripcion:"Artista1"}, {audio:"Cancion2", descripcion:"Artista2"}, {audio:"Cancion3", descripcion:"Artista3"}, {audio:"Cancion4", descripcion:"Artista4"}, {audio:"Cancion5", descripcion:"Artista5"}, {audio:"audio6", descripcion:"Artista6"}, {audio:"audio7", descripcion:"Artista7"}, {audio:"audio8", descripcion:"Artista8"}, {audio:"audio9", descripcion:"Artista9"}, {audio:"audio10", descripcion:"Artista10"}, {audio:"audio11", descripcion:"Artista11"}, {audio:"audio12", descripcion:"Artista12"}, {audio:"audio13", descripcion:"Artista13"}, {audio:"audio14", descripcion:"Artista14"}, {audio:"audio15", descripcion:"Artista15"}, {audio:"audio16", descripcion:"Artista16"}, {audio:"audio17", descripcion:"Artista17"}, {audio:"audio18", descripcion:"Artista18"}, {audio:"audio19", descripcion:"Artista19"}, {audio:"audio20", descripcion:"Artista20"}, {audio:"audio21", descripcion:"Artista21"}, {audio:"audio22", descripcion:"Artista22"}, {audio:"audio23", descripcion:"Artista23"}, {audio:"audio24", descripcion:"Artista24"}, {audio:"audio25", descripcion:"Artista25"}, {audio:"audio26", descripcion:"Artista26"}, {audio:"audio27", descripcion:"Artista27"}, {audio:"audio28", descripcion:"Artista28"}, {audio:"audio29", descripcion:"Artista29"}, {audio:"audio30", descripcion:"Artista30"}, {audio:"audio31", descripcion:"Artista31"}, {audio:"audio32", descripcion:"Artista32"}]},
+	{num:4,name:"Prueba2", ref:"/podcast",items:[{audio:"Cancion1", descripcion:"Artista1"}, {audio:"Cancion2", descripcion:"Artista2"}, {audio:"Cancion3", descripcion:"Artista3"}, {audio:"Cancion4", descripcion:"Artista4"}, {audio:"Cancion5", descripcion:"Artista5"}, {audio:"audio6", descripcion:"Artista6"}, {audio:"audio7", descripcion:"Artista7"}, {audio:"audio8", descripcion:"Artista8"}, {audio:"audio9", descripcion:"Artista9"}, {audio:"audio10", descripcion:"Artista10"}, {audio:"audio11", descripcion:"Artista11"}, {audio:"audio12", descripcion:"Artista12"}, {audio:"audio13", descripcion:"Artista13"}, {audio:"audio14", descripcion:"Artista14"}, {audio:"audio15", descripcion:"Artista15"}, {audio:"audio16", descripcion:"Artista16"}, {audio:"audio17", descripcion:"Artista17"}, {audio:"audio18", descripcion:"Artista18"}, {audio:"audio19", descripcion:"Artista19"}, {audio:"audio20", descripcion:"Artista20"}, {audio:"audio21", descripcion:"Artista21"}, {audio:"audio22", descripcion:"Artista22"}, {audio:"audio23", descripcion:"Artista23"}, {audio:"audio24", descripcion:"Artista24"}, {audio:"audio25", descripcion:"Artista25"}, {audio:"audio26", descripcion:"Artista26"}, {audio:"audio27", descripcion:"Artista27"}, {audio:"audio28", descripcion:"Artista28"}, {audio:"audio29", descripcion:"Artista29"}, {audio:"audio30", descripcion:"Artista30"}, {audio:"audio31", descripcion:"Artista31"}, {audio:"audio32", descripcion:"Artista32"}]},
+	{num:5,name:"Prueba3", ref:"/podcast",items:[{audio:"Cancion1", descripcion:"Artista1"}, {audio:"Cancion2", descripcion:"Artista2"}, {audio:"Cancion3", descripcion:"Artista3"}, {audio:"Cancion4", descripcion:"Artista4"}, {audio:"Cancion5", descripcion:"Artista5"}, {audio:"audio6", descripcion:"Artista6"}, {audio:"audio7", descripcion:"Artista7"}, {audio:"audio8", descripcion:"Artista8"}, {audio:"audio9", descripcion:"Artista9"}, {audio:"audio10", descripcion:"Artista10"}, {audio:"audio11", descripcion:"Artista11"}, {audio:"audio12", descripcion:"Artista12"}, {audio:"audio13", descripcion:"Artista13"}, {audio:"audio14", descripcion:"Artista14"}, {audio:"audio15", descripcion:"Artista15"}, {audio:"audio16", descripcion:"Artista16"}, {audio:"audio17", descripcion:"Artista17"}, {audio:"audio18", descripcion:"Artista18"}, {audio:"audio19", descripcion:"Artista19"}, {audio:"audio20", descripcion:"Artista20"}, {audio:"audio21", descripcion:"Artista21"}, {audio:"audio22", descripcion:"Artista22"}, {audio:"audio23", descripcion:"Artista23"}, {audio:"audio24", descripcion:"Artista24"}, {audio:"audio25", descripcion:"Artista25"}, {audio:"audio26", descripcion:"Artista26"}, {audio:"audio27", descripcion:"Artista27"}, {audio:"audio28", descripcion:"Artista28"}, {audio:"audio29", descripcion:"Artista29"}, {audio:"audio30", descripcion:"Artista30"}, {audio:"audio31", descripcion:"Artista31"}, {audio:"audio32", descripcion:"Artista32"}]}
+	]
+
+
+
+
+
+let user;
+
+try{
+    const jws = Astro.cookies.get('token');
+    if(jws !==null){
+		if(jws !==null && jws !== undefined){
+        const response = await userData(jws.value);
+        
+        user = response.data.usuario;
+		console.log(user)
+		}
+    }
+   
+
+} catch (error) {
+    if (error instanceof TypeError) {
+        console.log('Error: ', error.message);
+    } else {
+        console.log('Error: ', error);
+    }
+
+  }
+
+
+---
+
+<Layout title="PlayBeat">
+
+	<div class=" flex flex-col w-full   text-white">
+		<Header nombre={user?.nombreUsuario} imagen={Global.url+"foto/"+user.imgPerfil}/>
+		<div class=" w-full h-full flex flex-col mt-16 p-1">
+			<Saludos name={user.nombreUsuario}/>
+			{Canciones.map( (element) =>
+				{
+					return <Carrousel info={element} />
+				}
+
+			)}	
+			
+		</div>
+	</div>
+	<script is:inline>
+
+		document.addEventListener('astro:page-load', () => {
+
+			// Selecciona los elementos SVG y el carrusel
+			const leftArrow = document.querySelectorAll('.icon-tabler-chevron-compact-left');
+			const rightArrow = document.querySelectorAll('.icon-tabler-chevron-compact-right');
+			const carrusel = document.querySelectorAll('.carrusel') ;
+			if(leftArrow && rightArrow && carrusel){
+			
+				for(let i = 0; i < carrusel.length; i++) {
+	
+					leftArrow[i].addEventListener('click', () => {
+						let width = carrusel[i].offsetWidth;
+						carrusel[i].scrollBy({ left: -width, behavior: 'smooth' });
+					});
+				
+					rightArrow[i].addEventListener('click', () => {
+						let width = carrusel[i].offsetWidth;
+						carrusel[i].scrollBy({ left: width, behavior: 'smooth' });
+					});
+				}
+			}
+		})
+	  </script>
+	  <script is:inline>
+		document.addEventListener('astro:after-swap', () => {
+			window.dispatchEvent(new Event('storageChange'));
+
+		});
+	  </script>
+</Layout>
+
+
+<style>
+
+.carrusel{
+	scrollbar-width: none;
+	--ancho-padre: 100%;
+}
+.hijo{
+	min-width: calc(var(--ancho-padre) / 4);
+}
+
+
+
+.button {
+    background-color: black;
+    border: 2px solid black;
+    border-radius: 30px;
+	width: 30px;
+	height: 30px;
+    border: none;
+    color: white;
+    font-weight: semibold;
+    cursor: pointer;
+    padding: 8px;
+}
+.buttonOculto {
+    background-color: black;
+    border: 2px solid black;
+    border-radius: 30px;
+	width: 30px;
+	height: 30px;
+    border: none;
+    color: white;
+    font-weight: semibold;
+    cursor: pointer;
+    padding: 8px;
+	display:none;
+}
+
+  
+  
+.div {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  background-color: #2f2f2f;
+
+  min-width: 100px;
+  border-radius: 10px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 100;
+}
+
+.dropdown span {
+  color: white;
+
+  padding: 12px 16px;
+
+  text-decoration: none;
+  display: flex;
+  cursor: pointer;
+  font-weight: normal;
+  font-size: medium;
+}
+
+.dropdown span{
+  border-top: .5px solid white;
+
+}
+.dropdown span:first-child{
+  border-top: 0px;
+  border-top-left-radius:10px;
+  border-top-right-radius:10px;
+}
+.dropdown span:last-child{
+
+  border-bottom-left-radius:10px;
+  border-bottom-right-radius:10px;
+}
+
+.dropdown span:hover {background-color: #6e6e6e;}
+
+.button:focus ~ .dropdown {display: flex; flex-direction: column;}
+.button:focus ~ .buttonOculto {display: flex; position:absolute; top: 0; left: 0;}
+
+
+
+
+</style>

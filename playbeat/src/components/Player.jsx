@@ -1,10 +1,10 @@
 
-import { useState, useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import {SongBar} from "./PlayerComp/SongBar.jsx"
 import {VolumeControl} from "./PlayerComp/VolumeControl"
 import {CancionActual} from "./PlayerComp/CancionActual"
 import {usePlayerState} from "@/globalState/playerState"
-
+import {getAudio} from "@/utils/getAudio.ts"
 
 
 
@@ -45,27 +45,42 @@ export const ListIcon = ({classname,color}) => (
 
 
 
-export function Player ({children}) {
+export function Player ({jws, children}) {
+    const audioId = "7";
     
-    const {play, setPlay,volume,loop,setLoop, shuffle, setShuffle, setQueue, queue, currSong, setCurrSong } = usePlayerState()
+    async function fetchData(id) {
+      const request = await getAudio(jws, id);
+      audio.current.src = URL.createObjectURL(request);
+    }
+
+    
+    const {play, setPlay,volume,loop,setLoop, shuffle, setShuffle } = usePlayerState()
 
 
     const audio = useRef()
   
     useEffect(() => {
-        play
-          ? audio.current.play()
-          : audio.current.pause()
+      if(play===true) {
+        audio.current.play()
+      }else{
+        audio.current.pause()
+      }
       }, [play])
 
+      useEffect
+      (() => {
+        fetchData(audioId)
+      }, [audioId])
+      function playSong() {
+        setPlay(true)
+      }
+
+      document.addEventListener("playSong", playSong);
 
       useEffect(() => {
         audio.current.volume = volume
       }, [volume])
 
-    useEffect(() => {
-    audio.current.src = '/public/music/better-day-186374.mp3'
-    },[])
 
     const onClickHandlerPlay = () => {
         setPlay(!play)
@@ -76,7 +91,7 @@ export function Player ({children}) {
 
         <div className="flex flex-row items-center text-white w-[300px]">
              {/* Add the song name and artist here */}
-             <CancionActual title='Better Day' artists='penguinmusic' image='/penguin.png'/>
+             <CancionActual title='Better Day' artists='penguinmusic' image='..//penguin.png'/>
              
         </div>
 

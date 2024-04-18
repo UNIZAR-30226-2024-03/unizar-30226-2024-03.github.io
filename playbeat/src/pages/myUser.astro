@@ -1,36 +1,59 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Library from '../components/Library.astro';
 import HeaderMyUser from '../components/HeaderMyUser.astro';
+import {userData} from '@/utils/userData.ts';
+import { Global } from "@/globalState/globalUrl.js";
+import { getFollowers } from '@/utils/getFollowers';
+
+let user;
+let followers;
+
+try{
+    const jws = Astro.cookies.get('token');
+    if(jws !==null && jws !== undefined){
+        const response = await userData(jws.value);
+        
+        user = response.data.usuario;
 
 
-const Playlists = [
+        const follow = await getFollowers(jws.value);
+        followers = follow.data.usuario.Seguidores;
+
+
+
+    }
+   
+
+} catch (error) {
+    // if (error instanceof TypeError) {
+    //     console.log('Error: ', error.message);
+    // } else {
+    //     console.log('Error: ', error);
+    // }
+
+  }
+
+
+// const Playlists = [
     
 
-	{num:5,name:"Prueba3", ref:"/podcast",items:[{audio:"Cancion1", descripcion:"Artista1"}, {audio:"Cancion2", descripcion:"Artista2"}, {audio:"Cancion3", descripcion:"Artista3"}, {audio:"Cancion4", descripcion:"Artista4"}, {audio:"Cancion5", descripcion:"Artista5"}, {audio:"audio6", descripcion:"Artista6"}, {audio:"audio7", descripcion:"Artista7"}, {audio:"audio8", descripcion:"Artista8"}, {audio:"audio9", descripcion:"Artista9"}, {audio:"audio10", descripcion:"Artista10"}, {audio:"audio11", descripcion:"Artista11"}, {audio:"audio12", descripcion:"Artista12"}, {audio:"audio13", descripcion:"Artista13"}, {audio:"audio14", descripcion:"Artista14"}, {audio:"audio15", descripcion:"Artista15"}, {audio:"audio16", descripcion:"Artista16"}, {audio:"audio17", descripcion:"Artista17"}, {audio:"audio18", descripcion:"Artista18"}, {audio:"audio19", descripcion:"Artista19"}, {audio:"audio20", descripcion:"Artista20"}, {audio:"audio21", descripcion:"Artista21"}, {audio:"audio22", descripcion:"Artista22"}, {audio:"audio23", descripcion:"Artista23"}, {audio:"audio24", descripcion:"Artista24"}, {audio:"audio25", descripcion:"Artista25"}, {audio:"audio26", descripcion:"Artista26"}, {audio:"audio27", descripcion:"Artista27"}, {audio:"audio28", descripcion:"Artista28"}, {audio:"audio29", descripcion:"Artista29"}, {audio:"audio30", descripcion:"Artista30"}, {audio:"audio31", descripcion:"Artista31"}, {audio:"audio32", descripcion:"Artista32"}]}
-	]
+// 	{num:5,name:"Prueba3", ref:"/podcast",items:[{audio:"Cancion1", descripcion:"Artista1"}, {audio:"Cancion2", descripcion:"Artista2"}, {audio:"Cancion3", descripcion:"Artista3"}, {audio:"Cancion4", descripcion:"Artista4"}, {audio:"Cancion5", descripcion:"Artista5"}, {audio:"audio6", descripcion:"Artista6"}, {audio:"audio7", descripcion:"Artista7"}, {audio:"audio8", descripcion:"Artista8"}, {audio:"audio9", descripcion:"Artista9"}, {audio:"audio10", descripcion:"Artista10"}, {audio:"audio11", descripcion:"Artista11"}, {audio:"audio12", descripcion:"Artista12"}, {audio:"audio13", descripcion:"Artista13"}, {audio:"audio14", descripcion:"Artista14"}, {audio:"audio15", descripcion:"Artista15"}, {audio:"audio16", descripcion:"Artista16"}, {audio:"audio17", descripcion:"Artista17"}, {audio:"audio18", descripcion:"Artista18"}, {audio:"audio19", descripcion:"Artista19"}, {audio:"audio20", descripcion:"Artista20"}, {audio:"audio21", descripcion:"Artista21"}, {audio:"audio22", descripcion:"Artista22"}, {audio:"audio23", descripcion:"Artista23"}, {audio:"audio24", descripcion:"Artista24"}, {audio:"audio25", descripcion:"Artista25"}, {audio:"audio26", descripcion:"Artista26"}, {audio:"audio27", descripcion:"Artista27"}, {audio:"audio28", descripcion:"Artista28"}, {audio:"audio29", descripcion:"Artista29"}, {audio:"audio30", descripcion:"Artista30"}, {audio:"audio31", descripcion:"Artista31"}, {audio:"audio32", descripcion:"Artista32"}]}
+// 	]
 ---
 
 <Layout title="PlayBeat">
 	<div >
-        <HeaderMyUser />
-		
+        <HeaderMyUser nombre={user.nombreUsuario} email={user.email} img={Global.url+"foto/"+user.imgPerfil} followers={followers.length}/>
         <div>
             <div class="mt-12" >
-                {Playlists.map( (element, index) =>
+                <!-- {Playlists.map( (element, index) =>
                     {
-                        
-                        return <Library info={element} title='Biblioteca'/>
+                        //return <Library info={element} title='Biblioteca'/>
                     }
-    
-                )}	
+                )}	 -->
             </div>
         </div>
 	</div>
 </Layout>
 
-<style>
-   
-
-</style>
 

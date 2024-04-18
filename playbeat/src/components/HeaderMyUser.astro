@@ -1,8 +1,18 @@
 ---
 import FlechaDchHeader from "@/icons/FlechaDchHeader.astro";
 import FlechaIzqHeader from "@/icons/FlechaIzqHeader.astro";
+import {Avatar} from "@nextui-org/react";
 
-const but ={name: '...', items:['Cerrar sesión']}
+
+interface Props {
+    nombre: string,
+    email: string,
+    img: string,
+    followers: number,
+}
+
+const {nombre, email, img, followers} = Astro.props
+
 ---
 
  <header class=" h-80 w-full"> 
@@ -18,24 +28,31 @@ const but ={name: '...', items:['Cerrar sesión']}
         <div class="  -z-40 w-full h-80 bg-[#9A9A9A]  blur-3xl"></div>
         <div class=" ml-5 flex flex-col  absolute name">
             <span class="text-3xl font-bold text-white">
-                Miguel Aréjula
+                {nombre}
             </span>
             <span class="text-white opacity-60">
-                @arejula11
+                {email}
             </span>
+
             
         </div>
         <div class=" flex flex-col flex-wrap content-center justify-center absolute photo gap-3 ">
             <span class="text-3xl font-bold text-white ">
-                <div class="bg-gradient-to-b from-[#6985C0] from-30% to-[#CDD6EA]  shadow-2xl w-[180px] h-[180px] rounded-full text-white text-7xl solid flex items-center justify-center" >
+                <!-- <div class="bg-gradient-to-b from-[#6985C0] from-30% to-[#CDD6EA]  shadow-2xl w-[180px] h-[180px] rounded-full text-white text-7xl solid flex items-center justify-center" >
                     MA
-                </div>
+                </div> -->
+                <Avatar className="w-[180px] h-[180px]" classNames={{
+                    base: "bg-gradient-to-br from-[#6985C0] from-30% to-[#CDD6EA]",
+                    icon: "text-black/80 w-[180px] h-[180px] rounded-full text-7xl solid flex items-center justify-center",
+                    img: "w-[180px] h-[180px] rounded-full",
+                    name: "text-7xl -mt-2 "
+
+                  }} name={nombre} showFallback src={img}/>
                 
             </span>
             <span class="text-white text-3xl font-thin opacity-60">
-                200 seguidores
+                {followers} seguidores
             </span>
-            
         </div>
         <div class=" ml-5 flex flex-row gap-2  absolute edit">
             <a href="/editProfile" class="bg-[#6985C0] flex flex-row items-center p-1 px-3  gap-1 w-max h-7 rounded-md">
@@ -43,15 +60,7 @@ const but ={name: '...', items:['Cerrar sesión']}
                     EDIT
                 </span>
             </a>
-            
-            <button class="bg-[#6985C0] flex flex-wrap content-center justify-center p-1 px-3  gap-1 w-7 h-7 rounded-full button" >{but.name}</button>
-            <button class="bg-[#6985C0] flex flex-wrap content-center justify-center p-1 px-3  gap-1 w-7 h-7 rounded-full buttonOculto" >{but.name}</button>
-			
-				<div class="dropdown">
-					{but.items.map( (item) => {
-						return <span>{item}</span>
-					})}
-				</div>
+            <a href="/logout" class="bg-[#6985C0] flex flex-row items-center p-1 px-3  gap-1 w-max h-7 rounded-md font-semibold" >CERRAR SESIÓN</a>
         </div>
         
 
@@ -72,71 +81,7 @@ const but ={name: '...', items:['Cerrar sesión']}
         bottom: 1vw;
         right: 0.5vw;
     }
-    .dropdown {
-        display: none;
-        position: absolute;
-        background-color: #2f2f2f;
-        min-width: 130px;
-        border-radius: 10px;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-        z-index: 100;
-        margin-left: -30%;
-        margin-top: 32px;
-        
-    }
-    .dropdown span {
-   color: white;
 
-   padding: 12px 16px;
 
-   text-decoration: none;
-   display: flex;
-   cursor: pointer;
-   font-weight: normal;
-   font-size: medium;
- }
-
- .dropdown span{
-   border-top: .5px solid white;
-
- }
- .dropdown span:first-child{
-   border-top: 0px;
-   border-top-left-radius:10px;
-   border-top-right-radius:10px;
- }
- .dropdown span:last-child{
-
-   border-bottom-left-radius:10px;
-   border-bottom-right-radius:10px;
- }
-
- .dropdown span:hover {background-color: #6e6e6e;}
-
-    .button {
-     
-    border-radius: 30px;
-	width: 30px;
-	height: 30px;
-    border: none;
-    color: white;
-    font-weight: semibold;
-    cursor: pointer;
-    padding: 8px;
-}
-.buttonOculto {
-
-    border-radius: 30px;
-	width: 30px;
-	height: 30px;
-    border: none;
-    color: white;
-    font-weight: semibold;
-    cursor: pointer;
-    padding: 8px;
-    display:none;
-    margin-left: 69%;
-}
-.button:focus ~ .dropdown {display: flex; flex-direction: column;}
-.button:focus ~ .buttonOculto {display: flex; position:absolute; top: 0; left: 0;}
+    
 </style>

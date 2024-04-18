@@ -1,0 +1,166 @@
+---
+import TagsTabs from '@components/TagsTabs.astro';
+import { getInfoAudio } from '@/utils/getInfoAudio';
+import {TOKEN} from '@/constants.ts'
+import { Global } from '@/globalState/globalUrl';
+import { uploadImg } from '@/utils/uploadImg';
+import {modAudio} from '@/utils/modAudio';
+
+const {id} = Astro.params
+
+let audio
+try{
+
+    const token = Astro.cookies.get(TOKEN); 
+    if(token != undefined && id != undefined){
+        const response = await getInfoAudio(token?.value, id)
+        audio = response
+    }
+}catch(e){
+    console.log(e);
+}
+
+if (Astro.request.method ==="POST" ) {
+
+try{
+    interface Params {
+        titulo?: string;
+        esPrivada?: boolean;
+        imgAudio?: string;
+        esAlbum?: boolean;
+        esPodcast?: boolean;
+        fechaLanz?: string;
+        duracionSeg?: number;
+        cancion?: any;
+    }
+    const data = await Astro.request.formData();
+    const token = Astro.cookies.get(TOKEN);
+    console.log(data.get("audio"))
+    const file = data.get("photo")
+    let params : Params ={}
+    let can = data.get("cancion") as File
+    if(can.name != ""){
+        console.log("adioss")
+        params['cancion']= can
+        params["duracionSeg"] = parseFloat(data.get("duracion") as string) || 0
+    }
+    params["titulo"] = data.get("titulo") as string
+    params["esPrivada"] = data.get("esPrivada") as string == "on" || false
+    if(id){
+        modAudio(params, token?.value, id).then(() => window.history.back()).catch((e) => console.log(e))
+    }
+    
+
+} catch (error) {
+//  if (error instanceof TypeError) {
+//    errors.peticion = "Error en la petición";
+//  }
+//
+}
+}
+
+
+
+---
+
+<div class="flex flex-col gap-3">
+    <div class="flex flex-row justify-between items-center">
+        <h2 class="text-xl font-medium">Modifica tu audio</h2>
+        <button id="eliminar" class="text-lg font-medium bg-[#ff0000d1] text-grey px-2 py-1 rounded-sm">Eliminar</button>
+    </div>
+    <form class="flex flex-col items-center gap-3 pt-4" novalidate method="POST">
+        <div class="flex flex-row items-center w-full gap-3">
+
+            <section class="flex flex-col">
+                <input type="file" id="addFoto" name="photo" class=" text-white p-2 rounded-md hidden" onchange="previewImage(event)" />
+                <div class=" w-64 aspect-square mt-2 cursor-pointer bg-[#333] rounded-md border-2 border-[#c5c5c5] flex justify-center items-center" onclick="document.getElementById('addFoto').click();">
+                    <img id="preview" class="w-64 aspect-square rounded-md " src={Global.url + "foto/"+ audio.imgAudio}/>
+                </div>
+            </section>
+            <section class="h-64 flex flex-col items-start gap-4">
+                <div class="h-20 flex flex-row justify-start gap-4">
+
+                    <div class="flex flex-col gap-1">
+                        <label>Nombre del audio</label>
+                        <input type="text" name="titulo" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Nombre" value={audio.titulo} />
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label >Participantes</label>
+                        <input type="text" name="featurings" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Usuario" />
+                    </div>
+                    <div class="flex flex-row gap-2 items-center mt-4 ">
+                        <label>Privado</label>
+                        <input type="checkbox" name="esPrivada" value={audio.esPrivada}/>
+                    </div>
+
+                </div>
+                <div class="w-full h-full">
+                    <TagsTabs subject="audio"/>
+                </div>
+            </section>
+        </div>
+        <div class="w-full flex flex-col gap-2">
+            <input type="file" id="file" name="cancion"/>
+            <input type="number" id="duracion" name="duracion" class="hidden"/>
+            <audio id="audio"  controls class="w-full"></audio>
+        </div>
+        <input type="submit" class=" bg-bluePB px-4 py-1 rounded-sm" value="Subir"/>
+    </form>
+</div>
+
+<script is:inline>
+    function previewImage(event) {
+        console.log("xddddd")
+        var reader = new FileReader();
+        reader.onload = function(){
+            var output = document.getElementById('preview');
+            output.style.display = 'block';
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+</script>
+<script>
+    import { Global } from '@/globalState/globalUrl';
+    import {getAudio} from '@/utils/getAudio'
+    function getCookie(name: any) {
+    let cookieArr = document.cookie.split("; ");
+    
+    for(let i = 0; i < cookieArr.length; i++) {
+        let cookiePair = cookieArr[i].split("=");
+        
+        if(name == cookiePair[0]) {
+            return decodeURIComponent(cookiePair[1]);
+        }
+    }
+  }
+  const jws = getCookie('token')
+    var audio = document.getElementById('audio') as HTMLAudioElement;
+            if(audio && jws){
+                try{
+                    const request = await getAudio(jws, '7');
+                audio.src = URL.createObjectURL(request);
+                audio.load()
+                audio.play();
+                }catch(e){
+                    console.log(e);
+                }
+            }
+
+    const eliminar = document.getElementById("eliminar")
+    console.log("hola")
+    eliminar?.addEventListener("click", () => {
+        console.log("adiossss")
+        let pathArray = window.location.pathname.split('/');
+        let id = pathArray[pathArray.length - 1];
+        if(id !== undefined){ 
+            fetch(`${Global.url}audio/delete/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${jws}`
+                }
+            }).then(() => window.history.go(-1)).catch((e) => console.log(e))
+        }
+    })
+</script>

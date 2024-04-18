@@ -1,0 +1,101 @@
+---
+import TagsTabs from '@components/TagsTabs.astro';
+import { createAudio } from "@/utils/createAudio";
+import {TOKEN} from '@/constants.ts'
+import Imagen from '@/icons/Imagen.astro';
+import { uploadImg } from '@/utils/uploadImg';
+
+
+
+if (Astro.request.method ==="POST" ) {
+
+try{
+
+    const data = await Astro.request.formData();
+    const token = Astro.cookies.get(TOKEN);
+    console.log(data.get("audio"))
+    const file = data.get("photo")
+    const img = await uploadImg(file)
+    await createAudio({
+            titulo: data.get("titulo") as string,
+            esPrivada: data.get("esPrivada") as string == "on" || false,
+            imgAudio: img.id,
+            esAlbum: false,
+            esPodcast: false,
+            fechaLanz: new Date().toISOString(),
+            duracionSeg: parseFloat(data.get("duracion") as string) || 0,
+            cancion: data.get("cancion")
+        }, token?.value)
+    
+    
+    location.reload()
+
+} catch (error) {
+//  if (error instanceof TypeError) {
+//    errors.peticion = "Error en la petición";
+//  }
+//
+}
+ 
+
+  
+}
+
+
+---
+
+<div class="flex flex-col gap-3">
+    <h2 class="text-xl font-medium">Agrega un nuevo audio</h2>
+    <form class="flex flex-col items-center gap-3 pt-4" novalidate method="POST">
+        <div class="flex flex-row items-center w-full gap-3">
+
+            <section class="flex flex-col">
+                <input type="file" id="addFoto" name="photo" class=" text-white p-2 rounded-md hidden" onchange="previewImage(event)" />
+                <div class=" w-64 aspect-square mt-2 cursor-pointer bg-[#333] rounded-md border-2 border-[#c5c5c5] flex justify-center items-center" onclick="document.getElementById('addFoto').click();">
+                    <img id="preview" class="w-64 aspect-square rounded-md hidden" />
+                    <Imagen/>
+                </div>
+            </section>
+            <section class="h-64 flex flex-col items-start gap-4">
+                <div class="h-20 flex flex-row justify-start gap-4">
+
+                    <div class="flex flex-col gap-1">
+                        <label>Nombre del audio</label>
+                        <input type="text" name="titulo" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Nombre" />
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label >Participantes</label>
+                        <input type="text" name="featurings" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Usuario" />
+                    </div>
+                    <div class="flex flex-row gap-2 items-center mt-4 ">
+                        <label>Privado</label>
+                        <input type="checkbox" name="esPrivada" />
+                    </div>
+
+                </div>
+                <div class="w-full h-full">
+                    <TagsTabs subject="audio"/>
+                </div>
+            </section>
+        </div>
+        <div class="w-full flex flex-col gap-2">
+            <input type="file" id="file" name="cancion"/>
+            <input type="number" id="duracion" name="duracion" class="hidden"/>
+            <audio id="audio"  controls class="w-full"></audio>
+        </div>
+        <input type="submit" class=" bg-bluePB px-4 py-1 rounded-sm" value="Subir"/>
+    </form>
+</div>
+
+<script is:inline>
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function(){
+            var output = document.getElementById('preview');
+            output.style.display = 'block';
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+    
+    </script>

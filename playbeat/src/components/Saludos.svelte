@@ -1,4 +1,7 @@
 <script lang="ts">
+
+    export let name = "Usuario";
+
     const horaAct = new Date().getHours()
 
     let saludos = "Buenos días"
@@ -12,4 +15,4 @@
      
 </script>
 
-<h1 class="text-bluePB text-5xl font-semibold ml-10">{saludos}, Miguel</h1>
+<h1 class="text-bluePB text-5xl font-semibold ml-10">{saludos}, {name}</h1>

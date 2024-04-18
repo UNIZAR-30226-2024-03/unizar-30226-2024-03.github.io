@@ -1,0 +1,149 @@
+---
+import TagsTabs from '@components/TagsTabs.astro';
+
+interface Props {
+    title: string
+}
+
+const {title} = Astro.props
+
+---
+
+<div class="flex flex-col gap-3 px-8">
+    <h2 class="text-xl font-medium">{title}</h2>
+    <form class="flex flex-col items-center gap-3 pt-4">
+        <div class="flex flex-row items-center w-full gap-3">
+
+            <section class="flex flex-col">
+                <input type="file" id="addFoto" name="photo" class=" text-white p-2 rounded-md hidden" onchange="previewImage()" />
+                <div class=" w-64 aspect-square mt-2 cursor-pointer bg-[#333] rounded-md border-2 border-[#c5c5c5] flex justify-center items-center" onclick="document.getElementById('addFoto').click();">
+                    <img id="preview" class="w-64 aspect-square rounded-md hidden" />
+                    <svg  xmlns="http://www.w3.org/2000/svg"  width="70"  height="70"  viewBox="0 0 24 24"  fill="none"  stroke="#c5c5c5"  stroke-width="1"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-photo"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 8h.01" /><path d="M3 6a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v12a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3v-12z" /><path d="M3 16l5 -5c.928 -.893 2.072 -.893 3 0l5 5" /><path d="M14 14l1 -1c.928 -.893 2.072 -.893 3 0l3 3" /></svg>
+                </div>
+            </section>
+            <section class="h-64 flex flex-col items-start gap-4">
+                <div class="h-20 flex flex-row justify-start gap-4">
+
+                    <div class="flex flex-col gap-1">
+                        <label>Nombre del album</label>
+                        <input type="text" name="name" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Nombre" />
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label >Participantes</label>
+                        <input type="text" name="featurings" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Usuario" />
+                    </div>
+                    <div class="flex flex-row gap-2 items-center mt-4 ">
+                        
+                    </div>
+
+                </div>
+                <div class="w-full h-full">
+                    <TagsTabs subject="audio"/>
+                </div>
+            </section>
+        </div>
+        <div id="audioContainer" class="w-full flex flex-col gap-2 ">
+            <div class="w-full h-[1px] bg-[#c5c5c5] "></div>
+            <div class="flex flex-row items-center w-full gap-3 ">
+
+                <section class="h-26 flex flex-col items-start gap-4 mt-4">
+                    <div class="h-20 flex flex-row justify-start gap-4">
+    
+                        <div class="flex flex-col gap-1">
+                            <label>Nombre del audio</label>
+                            <input type="text" name="name" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Nombre" />
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label >Participantes</label>
+                            <input type="text" name="featurings" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Usuario" />
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <input type="file" id="file" name="audio"/>
+            <audio id="audio"  controls class="w-full mb-4" ></audio>
+        </div>
+        <div class="flex flex-row">
+            <svg id="addAudio" xmlns="http://www.w3.org/2000/svg"   width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-plus cursor-pointer "><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+            <svg id="minusAudio" xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-minus cursor-pointer"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /></svg>        
+        </div>
+        
+        <input type="submit" class=" bg-bluePB px-4 py-1 rounded-sm" value="Subir"/>
+    </form>
+
+</div>
+<script is:inline>
+    var audioCount = 1;
+    document.getElementById('addAudio').addEventListener('click', function() {
+        var newAudioBlock = document.createElement('div');
+        newAudioBlock.className = "w-full flex flex-col gap-2";
+        newAudioBlock.innerHTML = `
+        <div class="w-full h-[1px] bg-[#c5c5c5] "></div>
+            <div class="flex flex-row items-center w-full gap-3 ">
+
+                <section class="h-20 flex flex-col items-start gap-4 mt-4">
+                    <div class="h-20 flex flex-row justify-start gap-4">
+    
+                        <div class="flex flex-col gap-1">
+                            <label>Nombre del audio</label>
+                            <input type="text" name="name${audioCount}" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Nombre" />
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label >Participantes</label>
+                            <input type="text" name="featurings${audioCount}" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Usuario" />
+                        </div>
+    
+                    </div>
+                </section>
+            </div>
+            <input type="file" id="file${audioCount}" name="audio"/>
+            <audio id="audio${audioCount}"  controls class="w-full mb-4"></audio>
+        `;
+        document.getElementById('audioContainer').appendChild(newAudioBlock);
+        var blob = window.URL || window.webkitURL;
+        const inputFile = document.getElementById('file'+audioCount);
+        const audio = document.getElementById('audio'+audioCount);
+        if(inputFile != null && audio != null){
+            inputFile.addEventListener('change', function(){
+
+                var file = this.files[0],
+                fileURL = blob.createObjectURL(file);
+                audio.src = fileURL;
+
+            });
+        }
+        audioCount++;
+    });
+    document.getElementById('minusAudio').addEventListener('click', function() {
+        if(audioCount > 1) {
+            audioCount--;
+            var audioContainer = document.getElementById('audioContainer');
+            audioContainer.removeChild(audioContainer.lastChild);
+        }
+    });
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function(){
+            var output = document.getElementById('preview');
+            output.style.display = 'block';
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+
+    // Check for BlobURL support
+    var blob = window.URL || window.webkitURL;
+    const inputFile = document.getElementById('file');
+    const audio = document.getElementById('audio');
+    if(inputFile != null && audio != null){
+        inputFile.addEventListener('change', function(){
+
+            var file = this.files[0],
+            fileURL = blob.createObjectURL(file);
+            audio.src = fileURL;
+
+        });
+    }
+    
+</script>
