@@ -2,13 +2,14 @@
 import { defineMiddleware } from "astro/middleware";
 import { TOKEN, PUBLIC_ROUTES } from "./constants";
 import { userData } from "./utils/userData";
+import { getFollowers } from "./utils/getFollowers";
 
 // The JWT secret 
 // const secret = new TextEncoder().encode(import.meta.env.JWT_SECRET_KEY);
 
 
 
-export const onRequest = defineMiddleware(async (context, next, locals) => {
+export const onRequest = defineMiddleware(async (context, next) => {
   // Ignore auth validation for public routes
   if (PUBLIC_ROUTES.includes(context.url.pathname)) {
    // Respond as usual 
@@ -24,13 +25,13 @@ export const onRequest = defineMiddleware(async (context, next, locals) => {
     try{
 
     
-      const response = await userData(token);
+      const response = await getFollowers(token);
 
       
       const user = response.data.usuario;
 
-      locals.usuario = () => {return user;};
-      console.log(locals.usuario());
+      context.locals.usuario = user;
+      
 
           
   } catch (error) {
