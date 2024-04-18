@@ -12,6 +12,7 @@ const { id } = Astro.params
 
 let user;
 let followers;
+let following;
 
 try{
     const jws = Astro.cookies.get('token');
@@ -22,7 +23,9 @@ try{
 
         const response = await getFollowers(jws.value, "2");
         user = response.data.usuario;
+        console.log(user);
         followers = user.Seguidores;
+        following = user.Seguidos;
 
     }
    
@@ -152,7 +155,7 @@ const canciones2 = {num:5,name:"Para ti", ref:"/podcast", items:[{audio:"Cancion
 	<div class=" flex flex-col w-full   text-white">
 		<Header/>
 		<div class=" w-full h-full flex flex-col mt-16">
-            <HeaderUser nombre={user.nombreUsuario} email={user.email} img={user.imgPerfil} followers={followers}/>
+            <HeaderUser nombre={user.nombreUsuario} email={user.email} img={user.imgPerfil} followers={followers} following={following}/>
 			<div class="px-16 mt-10 flex flex-row flex-wrap">
                 <section class="w-4/6">
                     <h2 class="text-lg font-semibold">Top canciones</h2>

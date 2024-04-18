@@ -9,9 +9,11 @@ interface Props {
     email: string,
     img: string,
     followers: [],
+    following: []
 }
 
-const {nombre, email, img, followers} = Astro.props
+const {nombre, email, img, followers, following} = Astro.props
+
 
 ---
 
@@ -42,7 +44,7 @@ const {nombre, email, img, followers} = Astro.props
                 
             </span>
             <span class="text-white text-3xl font-thin opacity-60">
-                {followers.length} seguidores
+                {following.length} seguidores
             </span>
         </div>
         <div class=" ml-1 flex flex-row gap-2  absolute edit">
