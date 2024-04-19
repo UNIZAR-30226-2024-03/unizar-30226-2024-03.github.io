@@ -78,7 +78,7 @@ const jws = Astro.cookies.get('token');
 			});
 		}
 	}
-	setTimeout(funcion, 800);
+	setTimeout(funcion, 1000);
 	document.addEventListener('astro:after-swap', () => {
 		funcion()
 		let isClicked = localStorage.getItem('isClicked') === 'true';
