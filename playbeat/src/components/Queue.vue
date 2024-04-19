@@ -48,8 +48,8 @@ const deseleccionarTodos = () => {
                         <path d="M3 9l10 0" />
                         <path d="M9 13h-6" />
                     </svg>
-                    <span class="col-span-4">{{ item.nombre }}</span>
-                    <span class="col-span-2">{{item.duracion}}</span>
+                    <span class="col-span-4">{{ item.titulo }}</span>
+                    <span class="col-span-2">{{item.duracionSeg}}</span>
                     <input type="checkbox" class="col-span-1 rounded-full" v-model="item.checked"/>
             </li>
         </ul>

@@ -164,7 +164,10 @@ const jws = Astro.cookies.get('token');
 					}else{
 						songsQueue = JSON.parse(songsQueue);
 					}
-					songsQueue.push({nombre: "cancionX", duracion: "3:00"});
+					const td = itemsOpt[i].parentNode.parentNode.parentNode.parentNode;
+					console.log(td)
+					const obj = {id: td.id, titulo: td.children[0].innerText, duracionSeg: td.children[3].innerText};
+					songsQueue.push(obj);
 
 					localStorage.setItem('songsQueue', JSON.stringify(songsQueue));
 					for(let j= 0; j<buton.length; j++){
