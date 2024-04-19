@@ -32,7 +32,6 @@ for (let i = 0; i < followers.length; i++) {
     }
 }
 
-console.log(isFollower,token, userId)
 
 
 
@@ -53,7 +52,7 @@ console.log(isFollower,token, userId)
             
         </div>
         <div class=" flex flex-col flex-wrap content-center justify-center absolute photo gap-3 items-center ">
-            <span class="text-3xl font-bold text-white ">
+            <span class="text-3xl font-bold text-white mb-10 ">
               
                 <Avatar className="w-[180px] h-[180px]" classNames={{
                     base: "bg-gradient-to-br from-[#6985C0] from-30% to-[#CDD6EA]",
@@ -64,13 +63,10 @@ console.log(isFollower,token, userId)
                   }} name={nombre} showFallback src={img}/>
                 
             </span>
-            <div class="text-white text-3xl font-thin opacity-60 w-[180px] flex justify-center ">
-                {followers.length ? `${followers.length} ${followers.length === 1 ? 'Seguidor' : 'Seguidores'}` : '0 Seguidores'}
-
-            </div>
+            
         </div>
         <div class=" ml-1 flex flex-row gap-2  absolute edit">
-            <FollowButton follow={isFollower} id={userId} jws={token} client:load/>
+            <FollowButton follow={isFollower} id={id} jws={token} followers={followers} client:load/>
         </div>
         
         
