@@ -135,16 +135,18 @@ try{
 </Layout>
 
 
-<script>
-    const canciones = document.querySelectorAll('tr')
-    canciones.forEach(cancion => {
-        cancion.addEventListener("dblclick", () => {
-            const info = cancion.querySelectorAll('td')
+<script is:inline>
+    document.addEventListener('astro:page-load', () => {
+        const canciones = document.querySelectorAll('tr')
+        canciones.forEach(cancion => {
+            cancion.addEventListener("dblclick", () => {
+                const info = cancion.querySelectorAll('td')
 
-            localStorage.setItem("cancion", cancion.id)
-            var event = new Event("playSong");
-            document.dispatchEvent(event);
-        })
+                localStorage.setItem("cancion", cancion.id)
+                var event = new Event("playSong");
+                document.dispatchEvent(event);
+            })
+    })
     })
 </script>
 
