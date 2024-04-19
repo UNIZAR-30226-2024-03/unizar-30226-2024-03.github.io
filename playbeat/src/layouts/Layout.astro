@@ -149,6 +149,17 @@ const jws = Astro.cookies.get('token');
 	  </script>
 <script is:inline>
 	document.addEventListener('astro:page-load', () => {
+		setTimeout(	() => {	
+			const nextSong = document.querySelector('.nextSong');
+		nextSong.addEventListener('click', () => {
+			console.log("click next song")
+			window.dispatchEvent(new Event('nextSong'))
+			setTimeout(() => {
+				console.log("play song")
+				var event = new Event("playSong");
+            	document.dispatchEvent(event);			
+			}, 1000);
+		})}, 1000);
 
 		const buton = document.querySelectorAll('.button');
 		const itemsOpt = document.querySelectorAll('.dropdown span');

@@ -77,6 +77,7 @@ export function Player ({jws, children}) {
         fetchDataAsync();
       }, [audioId])
       function playSong() {
+        console.log("playSong recibido")
         setPlay(false)
         setAudioId(localStorage.getItem("cancion"))
         
@@ -91,6 +92,13 @@ export function Player ({jws, children}) {
 
     const onClickHandlerPlay = () => {
         setPlay(!play)
+    }
+
+    const onClickHandlerNext = () => {
+      // console.log("next")
+      // var event = new CustomEvent("nextSong");
+      // document.dispatchEvent(event);
+      // console.log("nextfin")
     }
     
   return (
@@ -113,8 +121,8 @@ export function Player ({jws, children}) {
               <button className="rounded-full " onClick={onClickHandlerPlay}>
                 {play ? <Pause classname={"hover:opacity-100 opacity-70 transition"}/> : <Play classname={"hover:opacity-100 opacity-70 transition"}/>}
               </button>
-              <button>
-                <NextSong classname={"hover:opacity-100 opacity-70 transition"}/>
+              <button onClick={onClickHandlerNext}>
+                <NextSong  classname={"hover:opacity-100 opacity-70 transition nextSong"}/>
               </button>
               
             </div>
