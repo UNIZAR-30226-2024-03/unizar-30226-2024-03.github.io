@@ -1,10 +1,10 @@
 
-import { useState, useRef, useEffect } from "react";
+import { useRef,useState, useEffect } from "react";
 import {SongBar} from "./PlayerComp/SongBar.jsx"
 import {VolumeControl} from "./PlayerComp/VolumeControl"
 import {CancionActual} from "./PlayerComp/CancionActual"
 import {usePlayerState} from "@/globalState/playerState"
-import {Global} from "@/globalState/globalUrl.js"
+import {getAudio} from "@/utils/getAudio.ts"
 
 
 
@@ -45,37 +45,60 @@ export const ListIcon = ({classname,color}) => (
 
 
 
-export function Player ({children}) {
+export function Player ({jws, children}) {
+
+    const [audioId, setAudioId] = useState('7')
+    async function fetchData(id) {
+      const request = await getAudio(jws, id);
+      audio.current.src = URL.createObjectURL(request);
+    }
+
     
-    const {play, setPlay,volume,loop,setLoop, shuffle, setShuffle, setQueue, queue, currSong, setCurrSong } = usePlayerState()
+    const {play, setPlay,volume,loop,setLoop, shuffle, setShuffle } = usePlayerState()
 
 
     const audio = useRef()
   
     useEffect(() => {
-        play
-        ? audio.current.play()
-        : audio.current.pause()
+      if(play===true) {
+        audio.current.play()
+      }else{
+        audio.current.pause()
+      }
       }, [play])
 
+      useEffect
+      (() => {
+        const fetchDataAsync = async () => {
+          await fetchData(audioId);
+          console.log(audioId);
+          setPlay(true);
+        };
+        fetchDataAsync();
+      }, [audioId])
+      function playSong() {
+        console.log("playSong recibido")
+        setPlay(false)
+        setAudioId(localStorage.getItem("cancion"))
+        
+      }
+
+      document.addEventListener("playSong", playSong);
 
       useEffect(() => {
         audio.current.volume = volume
       }, [volume])
 
-    useEffect(() => {
-      async function fetchData() {
-        const request = await fetch(Global.url+"audio/play/prueba.mp3", {
-              method: "GET",
-        })
-        const blob = await request.blob();
-        audio.current.src = URL.createObjectURL(blob);
-      }
-      fetchData()
-    },[])
 
     const onClickHandlerPlay = () => {
         setPlay(!play)
+    }
+
+    const onClickHandlerNext = () => {
+      // console.log("next")
+      // var event = new CustomEvent("nextSong");
+      // document.dispatchEvent(event);
+      // console.log("nextfin")
     }
     
   return (
@@ -98,8 +121,8 @@ export function Player ({children}) {
               <button className="rounded-full " onClick={onClickHandlerPlay}>
                 {play ? <Pause classname={"hover:opacity-100 opacity-70 transition"}/> : <Play classname={"hover:opacity-100 opacity-70 transition"}/>}
               </button>
-              <button>
-                <NextSong classname={"hover:opacity-100 opacity-70 transition"}/>
+              <button onClick={onClickHandlerNext}>
+                <NextSong  classname={"hover:opacity-100 opacity-70 transition nextSong"}/>
               </button>
               
             </div>

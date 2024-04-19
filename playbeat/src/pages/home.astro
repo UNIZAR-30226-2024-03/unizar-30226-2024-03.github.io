@@ -19,16 +19,19 @@ const Canciones = [
 
 
 
+
 const user = Astro.locals.usuario;
 
 ---
 <Layout title="PlayBeat">
 
 	<div class=" flex flex-col w-full   text-white">
+
 		<Header />
+
 		<div class=" w-full h-full flex flex-col mt-16 p-1">
 			<Saludos name={user.nombreUsuario}/>
-			{Canciones.map( (element, index) =>
+			{Canciones.map( (element) =>
 				{
 					return <Carrousel info={element} />
 				}

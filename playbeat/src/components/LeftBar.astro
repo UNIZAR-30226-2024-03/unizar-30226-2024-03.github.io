@@ -6,60 +6,71 @@ import Mas from "@/icons/Mas.astro"
 import Micro from "@/icons/Micro.astro"
 import NotaList from "@/icons/NotaList.astro"
 import World from "@/icons/World.astro"
+import {TOKEN} from '@/constants.ts'
+import {getPlaylistsFromUser} from "@/utils/getPlaylistsFromUser"
+
+const token = Astro.cookies.get(TOKEN);
+let playlists
+try{
+    playlists = await getPlaylistsFromUser(-1,token?.value)
+    playlists = playlists.data
+
+}catch(e){
+    console.log(e)
+}
+
+// const Playlists = [
+//     {
+//         name: "Playlist 1",
+//         id:"plalist1"
+//     },
+//     {
+//         name: "Playlist 2",
+//         id:"plalist2"
+//     },
+//     {
+//         name: "Playlist 3",
+//         id:"plalist3"
+//     },
+//     {
+//         name: "Playlist 4",
+//         id:"plalist4"
+//     },
+//     {
+//         name: "Playlist 5",
+//         id:"plalist5"
+//     },
+//     {
+//         name: "Playlist 6",
+//         id:"plalist6"
+//     },
+//     {
+//         name: "Playlist 7",
+//         id:"plalist7"
+//     },
+//     {
+//         name: "Playlist 8",
+//         id:"plalist8"
+//     },
+//     {
+//         name: "Playlist 9",
+//         id:"plalist9"
+//     },
+//     {
+//         name: "Playlist 10",
+//         id:"plalist10"
+//     },
+//     {
+//         name: "Playlist 11",
+//         id:"plalist11"
+//     },
+//     {
+//         name: "Playlist 12",
+//         id:"plalist12"
+//     }
+// ]
 
 
-
-
-const Playlists = [
-    {
-        name: "Playlist 1",
-        id:"plalist1"
-    },
-    {
-        name: "Playlist 2",
-        id:"plalist2"
-    },
-    {
-        name: "Playlist 3",
-        id:"plalist3"
-    },
-    {
-        name: "Playlist 4",
-        id:"plalist4"
-    },
-    {
-        name: "Playlist 5",
-        id:"plalist5"
-    },
-    {
-        name: "Playlist 6",
-        id:"plalist6"
-    },
-    {
-        name: "Playlist 7",
-        id:"plalist7"
-    },
-    {
-        name: "Playlist 8",
-        id:"plalist8"
-    },
-    {
-        name: "Playlist 9",
-        id:"plalist9"
-    },
-    {
-        name: "Playlist 10",
-        id:"plalist10"
-    },
-    {
-        name: "Playlist 11",
-        id:"plalist11"
-    },
-    {
-        name: "Playlist 12",
-        id:"plalist12"
-    }
-]
 
 ---
 
@@ -104,14 +115,14 @@ const Playlists = [
     <section class="flex flex-col pt-6 h-2/3">
         <div class="flex flex-row justify-between px-6">
             <a href="/my-library"><h2 class="text-[#98aed5] font-semibold hover:underline" >Biblioteca</h2></a>
-            <Mas />
+            <a href="/addPlaylist"><Mas /></a>
         </div>
         <ul class="flex flex-col gap-2 px-6 mt-2 overflow-y-scroll ">
-            {Playlists.map( (playlist) => 
+            {playlists != undefined && playlists.map( (playlist: any) => 
                 <li class="flex items-center hover:bg-[#575757] rounded-md">
-                    <a href=`/library/${playlist.id}` class=" text-white  font-medium flex flex-row items-center gap-4 w-full h-9 ml-4  mr-8">
+                    <a href=`/library/${playlist.idLista}` class=" text-white  font-medium flex flex-row items-center gap-4 w-full h-9 ml-4  mr-8">
                         <NotaList />
-                        <span>{playlist.name}</span>
+                        <span>{playlist.nombre}</span>
                     </a>
                 </li>
         )}
