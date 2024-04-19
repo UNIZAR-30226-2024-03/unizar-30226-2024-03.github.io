@@ -119,7 +119,7 @@ try{
                                     }
                                 })}
                         </td>
-                        <td class="py-3">{cancion.album}</td>
+                        <td class="py-3" >{cancion.album}</td>
                         <td class="py-3 max-w-6 ">{cancion.duracionSeg}</td>
                         <td class="max-w-3 cursor-pointer pr-3">
                             <PlaylistOpt items={["Añadir a playlist","Eliminar de la playlist", "Añadir cola"]} id={cancion.idAudio}>                        
@@ -139,6 +139,9 @@ try{
     const canciones = document.querySelectorAll('tr')
     canciones.forEach(cancion => {
         cancion.addEventListener("dblclick", () => {
+            const info = cancion.querySelectorAll('td')
+
+            localStorage.setItem("cancion", cancion.id)
             var event = new Event("playSong");
             document.dispatchEvent(event);
         })

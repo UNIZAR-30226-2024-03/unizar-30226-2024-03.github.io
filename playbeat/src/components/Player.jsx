@@ -1,5 +1,5 @@
 
-import { useRef, useEffect } from "react";
+import { useRef,useState, useEffect } from "react";
 import {SongBar} from "./PlayerComp/SongBar.jsx"
 import {VolumeControl} from "./PlayerComp/VolumeControl"
 import {CancionActual} from "./PlayerComp/CancionActual"
@@ -46,8 +46,8 @@ export const ListIcon = ({classname,color}) => (
 
 
 export function Player ({jws, children}) {
-    const audioId = "7";
-    
+
+    const [audioId, setAudioId] = useState('7')
     async function fetchData(id) {
       const request = await getAudio(jws, id);
       audio.current.src = URL.createObjectURL(request);
@@ -69,10 +69,17 @@ export function Player ({jws, children}) {
 
       useEffect
       (() => {
-        fetchData(audioId)
+        const fetchDataAsync = async () => {
+          await fetchData(audioId);
+          console.log(audioId);
+          setPlay(true);
+        };
+        fetchDataAsync();
       }, [audioId])
       function playSong() {
-        setPlay(true)
+        setPlay(false)
+        setAudioId(localStorage.getItem("cancion"))
+        
       }
 
       document.addEventListener("playSong", playSong);
