@@ -16,7 +16,7 @@ interface Props {
 const {nombre, email, img, followers, following, id} = Astro.props
 
 const userId = Astro.locals.usuario.idUsuario;
-const token = Astro.cookies.get('token').value;
+const token = (Astro.cookies.get('token') as { value: string }).value;
 
 
 
@@ -26,7 +26,7 @@ const token = Astro.cookies.get('token').value;
 let isFollower = false;
 
 for (let i = 0; i < followers.length; i++) {
-    if (followers[i].seguidorId === userId) {
+    if ((followers[i] as { seguidorId: number }).seguidorId === userId) {
         isFollower = true;
         break;
     }
