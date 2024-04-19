@@ -94,12 +94,6 @@ export function Player ({jws, children}) {
         setPlay(!play)
     }
 
-    const onClickHandlerNext = () => {
-      // console.log("next")
-      // var event = new CustomEvent("nextSong");
-      // document.dispatchEvent(event);
-      // console.log("nextfin")
-    }
     
   return (
     <div className="bg-grey bg-opacity-70 h-full w-full flex flex-row justify-between p-2">
@@ -121,13 +115,13 @@ export function Player ({jws, children}) {
               <button className="rounded-full " onClick={onClickHandlerPlay}>
                 {play ? <Pause classname={"hover:opacity-100 opacity-70 transition"}/> : <Play classname={"hover:opacity-100 opacity-70 transition"}/>}
               </button>
-              <button onClick={onClickHandlerNext}>
+              <button>
                 <NextSong  classname={"hover:opacity-100 opacity-70 transition nextSong"}/>
               </button>
               
             </div>
             <SongBar audio={audio}/>
-            <audio ref={audio} />
+            <audio ref={audio} id="audioPlayer"/>
         </div>
 
       </div>

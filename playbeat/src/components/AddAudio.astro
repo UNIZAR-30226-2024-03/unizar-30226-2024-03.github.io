@@ -19,7 +19,7 @@ try{
     await createAudio({
             titulo: data.get("titulo") as string,
             esPrivada: data.get("esPrivada") as string == "on" || false,
-            imgAudio: img.id,
+            img: img.id,
             esAlbum: false,
             esPodcast: false,
             fechaLanz: new Date().toISOString(),
