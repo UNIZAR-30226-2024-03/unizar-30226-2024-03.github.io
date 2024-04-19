@@ -15,7 +15,7 @@ const {title} = Astro.props
         <div class="flex flex-row items-center w-full gap-3">
 
             <section class="flex flex-col">
-                <input type="file" id="addFoto" name="photo" class=" text-white p-2 rounded-md hidden" onchange="previewImage(event)" />
+                <input type="file" id="addFoto" name="photo" class=" text-white p-2 rounded-md hidden" onchange="previewImage()" />
                 <div class=" w-64 aspect-square mt-2 cursor-pointer bg-[#333] rounded-md border-2 border-[#c5c5c5] flex justify-center items-center" onclick="document.getElementById('addFoto').click();">
                     <img id="preview" class="w-64 aspect-square rounded-md hidden" />
                     <svg  xmlns="http://www.w3.org/2000/svg"  width="70"  height="70"  viewBox="0 0 24 24"  fill="none"  stroke="#c5c5c5"  stroke-width="1"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-photo"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 8h.01" /><path d="M3 6a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v12a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3v-12z" /><path d="M3 16l5 -5c.928 -.893 2.072 -.893 3 0l5 5" /><path d="M14 14l1 -1c.928 -.893 2.072 -.893 3 0l3 3" /></svg>
@@ -33,8 +33,7 @@ const {title} = Astro.props
                         <input type="text" name="featurings" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Usuario" />
                     </div>
                     <div class="flex flex-row gap-2 items-center mt-4 ">
-                        <label>Privado</label>
-                        <input type="checkbox" name="private" />
+                        
                     </div>
 
                 </div>
@@ -105,7 +104,7 @@ const {title} = Astro.props
         const inputFile = document.getElementById('file'+audioCount);
         const audio = document.getElementById('audio'+audioCount);
         if(inputFile != null && audio != null){
-            inputFile.addEventListener('change', function(event){
+            inputFile.addEventListener('change', function(){
 
                 var file = this.files[0],
                 fileURL = blob.createObjectURL(file);
@@ -138,7 +137,7 @@ const {title} = Astro.props
     const inputFile = document.getElementById('file');
     const audio = document.getElementById('audio');
     if(inputFile != null && audio != null){
-        inputFile.addEventListener('change', function(event){
+        inputFile.addEventListener('change', function(){
 
             var file = this.files[0],
             fileURL = blob.createObjectURL(file);

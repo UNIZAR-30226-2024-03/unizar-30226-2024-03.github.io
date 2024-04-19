@@ -1,0 +1,138 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Header from "@components/Header.astro";
+import { editPlaylist } from "@/utils/editPlaylist";
+import { uploadImg } from "@/utils/uploadImg";
+import {TOKEN} from '@/constants.ts'
+import { getMyUserInfo } from "@/utils/getMyUserInfo";
+import { getInfoPlaylist } from "@/utils/getInfoPlaylist";
+import { Global } from "@/globalState/globalUrl";
+
+
+const token = Astro.cookies.get(TOKEN);
+const {id} = Astro.params
+let user
+let playlist 
+try{
+    user = await getMyUserInfo(token?.value)
+    user = user.data.usuario
+    if(id !== undefined){
+        playlist = await getInfoPlaylist(id, token?.value)
+        playlist = playlist.data
+    }
+
+}catch(e){
+    console.log(e)
+}
+
+if (Astro.request.method ==="POST" ) {
+
+try{
+
+    const data = await Astro.request.formData();
+    const token = Astro.cookies.get(TOKEN);
+    const file = data.get("photo")
+    const img = await uploadImg(file)
+    const response = await editPlaylist({
+            nombre: data.get("nombre") as string,
+            descripcion: data.get("descripcion") as string,
+            esPrivada: data.get("esPrivada") as string == "on" || false,
+            imgLista: img.id,
+            esAlbum: false,
+            tipoLista: "NORMAL",
+            audios: [],
+        }, token?.value, id)
+        
+    return Astro.redirect("/library/"+response?.data.idLista);
+
+} catch (error) {
+    console.log(error);
+    return Astro.redirect("/error");
+}
+ 
+
+  
+}
+---
+
+
+<Layout title="PlayBeat">
+	<div class=" flex flex-col w-full   text-white">
+		<Header/>
+        <form class="flex flex-col" novalidate method="POST">
+            <div class=" w-full h-full flex flex-row mt-16 p-4  px-14">
+                <section class="flex flex-col justify-start">
+                    <input type="file" id="addFoto" name="photo" class=" text-white p-2 rounded-md hidden" onchange="previewImage(event)"  />
+                    <div class=" w-60 aspect-square  cursor-pointer bg-[#333] rounded-md border-2 border-[#c5c5c5] flex justify-center items-center" onclick="document.getElementById('addFoto').click();">
+                        <img id="preview" class="w-64 aspect-square rounded-md " src={Global.url + "foto/" + playlist.imgLista}/>
+                        <svg  xmlns="http://www.w3.org/2000/svg"  width="70"  height="70"  viewBox="0 0 24 24"  fill="none"  stroke="#c5c5c5"  stroke-width="1"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-photo"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 8h.01" /><path d="M3 6a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v12a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3v-12z" /><path d="M3 16l5 -5c.928 -.893 2.072 -.893 3 0l5 5" /><path d="M14 14l1 -1c.928 -.893 2.072 -.893 3 0l3 3" /></svg>
+                    </div>
+                </section>
+                <div class="flex flex-col ml-6 self-center gap-1 mt-16 w-full">
+                    <span class="font-medium"></span>
+                    <div class="flex flex-row items-center ">
+                        <input type="text" id="playlistName" name="nombre" maxlength="40" class="text-4xl font-semibold appearance-none bg-background outline-none  max-w-[700px]  mr-4" placeholder="Nombre de playlist" value={playlist.nombre}/>
+                        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-pencil"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" /><path d="M13.5 6.5l4 4" /></svg>    
+                    </div>
+                    <h2 class="text-2xl font-semibold text-[#6985C0] ">@{user.nombreUsuario}</h2>
+                    <div class="flex flex-row items-center ">
+                        <input type="text" id="playlistDescription" name="descripcion" maxlength="110" class="opacity-70 appearance-none bg-background outline-none mr-4 max-w-[700px]" placeholder="Descripción de la playlist" value={playlist.descripcion}/>
+                        <svg  xmlns="http://www.w3.org/2000/svg"  class=" opacity-70"width="16"  height="16"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="1.75"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-pencil"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" /><path d="M13.5 6.5l4 4" /></svg>
+                    </div>
+                    <div>
+                        <label for="private">Privado</label>
+                        <input type="checkbox" name="esPrivada" id="private"/>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-center">
+                <input type="submit" class="bg-[#6985C0] text-white font-semibold rounded-md p-2 mt-4 cursor-pointer" value="Editar playlist"/>
+            </div>
+        </form>
+	</div>
+
+</Layout>
+<script is:inline>
+
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function(){
+            var output = document.getElementById('preview');
+            output.style.display = 'block';
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+    document.addEventListener('astro:page-load', () => {
+        const inputs = [document.getElementById('playlistName'), document.getElementById('playlistDescription')];
+
+        const testDiv = document.createElement('div');
+
+        document.body.appendChild(testDiv);
+        testDiv.style.position = 'absolute';
+        testDiv.style.visibility = 'hidden';
+        testDiv.style.height = 'auto';
+        testDiv.style.width = 'auto';
+        testDiv.style.whiteSpace = 'pre';
+        inputs.forEach(input => {
+            input.addEventListener('input', function() {
+                const inputValue = this.value;
+                testDiv.style.fontSize = window.getComputedStyle(input, null).getPropertyValue('font-size');
+                testDiv.style.fontWeight = window.getComputedStyle(input, null).getPropertyValue('font-weight');
+                testDiv.style.fontFamily = window.getComputedStyle(input, null).getPropertyValue('font-family');
+                testDiv.textContent = inputValue;
+                const width = Math.ceil(testDiv.getBoundingClientRect().width);
+                if(this.id === 'playlistName')
+                    this.style.width = Math.max(width, 360) + 'px';
+                else if(this.id === 'playlistDescription')
+                    this.style.width = Math.max(width, 200) + 'px';
+
+            });
+        });
+    });
+
+
+
+</script>
+
+
