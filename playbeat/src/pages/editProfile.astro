@@ -3,33 +3,10 @@ import Layout from '../layouts/Layout.astro';
 import FlechaDchHeader from "@/icons/FlechaDchHeader.astro";
 import FlechaIzqHeader from "@/icons/FlechaIzqHeader.astro";
 import { Global } from "@/globalState/globalUrl.js";
-import {userData} from '@/utils/userData.ts';
 import {Avatar} from "@nextui-org/react";
 //import { editUser } from '@/utils/editUser';
 
-let user;
-
-try{
-    const jws = Astro.cookies.get('token');
-    if(jws !==null && jws !== undefined){
-        const response = await userData(jws.value); 
-        user = response.data.usuario;
-    }
-   
-
-} catch (error) {
-    if (error instanceof TypeError) {
-        console.log('Error: ', error.message);
-    } else {
-        console.log('Error: ', error);
-    }
-
-  }
-
-
-
-
-
+const user = Astro.locals.usuario;
 
 
 ---
@@ -48,10 +25,6 @@ try{
     </div>
     <div class="grid grid-cols-2 gap-3 justify-between">
         <form class="flex flex-col mt-2 mx-10 w-96 text-white" onsubmit="">
-            <label class="mt-3">Nombre usuario:</label>
-            <input type="text" class="border-2 border-white bg-transparent  h-10 rounded-md p-2  outline-none" placeholder="Introduce un nuevo nombre de usuario" value={user.nombreUsuario}/>
-            <label class="mt-3">Correo electrónico:</label>
-            <input type="email" class=" border-2 border-white bg-transparent  h-10 rounded-md p-2 outline-none" placeholder="Introduce un nuevo correo electrónico" value={user.email}/>
             <label class="mt-3">Contraseña:</label>
             <input type="password" class=" border-2 border-white bg-transparent  h-10 rounded-md p-2 outline-none" placeholder="Introduce una nueva contraseña" />
             <button type="submit" class="bg-[#6985C0] p-2 rounded-md mt-8 font-semibold">GUARDAR</button>
