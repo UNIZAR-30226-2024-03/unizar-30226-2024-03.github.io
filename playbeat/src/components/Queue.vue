@@ -17,7 +17,7 @@ onMounted(() => {
 })
 
 
-const todosSeleccionado = computed(() => canciones.value.length >= 1 && canciones.value.every(cancion => cancion.checked))
+const todosSeleccionado = computed(() => canciones?.value?.length >= 1 && canciones.value.every(cancion => cancion.checked))
 
 const eliminar = () => {
     canciones.value = canciones.value.filter(cancion => !cancion.checked)
