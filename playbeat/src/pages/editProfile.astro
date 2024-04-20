@@ -43,11 +43,12 @@ if (Astro.request.method ==="POST" ) {
             let formData = new FormData();
             formData.append('image', file);
             let size = (formData.get('image') as Blob).size;
-            if(file.size === 0){
+            if(size === 0){
                 error.photo = "Introduce una imagen";
             }else{
                 const img = await uploadImg(file);
-                const request = await editUser(Astro.cookies.get("token").value,img.id,"img");
+                const tokenCookie = Astro.cookies.get("token");
+                const request = await editUser(tokenCookie.value,img.id,"img");
                 if (request.status === 201) {
                     return Astro.redirect('/home');
                 }else{
