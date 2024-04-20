@@ -35,12 +35,10 @@ try{
     }
     const data = await Astro.request.formData();
     const token = Astro.cookies.get(TOKEN);
-    console.log(data.get("audio"))
     const file = data.get("photo")
     let params : Params ={}
     let can = data.get("cancion") as File
     if(can.name != ""){
-        console.log("adioss")
         params['cancion']= can
         params["duracionSeg"] = parseFloat(data.get("duracion") as string) || 0
     }
@@ -110,7 +108,6 @@ try{
 
 <script is:inline>
     function previewImage(event) {
-        console.log("xddddd")
         var reader = new FileReader();
         reader.onload = function(){
             var output = document.getElementById('preview');
@@ -149,9 +146,7 @@ try{
             }
 
     const eliminar = document.getElementById("eliminar")
-    console.log("hola")
     eliminar?.addEventListener("click", () => {
-        console.log("adiossss")
         let pathArray = window.location.pathname.split('/');
         let id = pathArray[pathArray.length - 1];
         if(id !== undefined){ 

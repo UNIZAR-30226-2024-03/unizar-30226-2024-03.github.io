@@ -62,7 +62,6 @@ export function Player ({jws, children}) {
   
     useEffect(() => {
       if(play===true) {
-        console.log("playAUdio")
         audio.current.play()
       }else{
         audio.current.pause()
@@ -73,14 +72,11 @@ export function Player ({jws, children}) {
       (() => {
         const fetchDataAsync = async () => {
           await fetchData(audioId);
-          console.log(audioId);
           setPlay(true);
         };
-        console.log("fetchDataAsync")
         fetchDataAsync();
       }, [audioId, aux])
       function playSong() {
-        console.log("playSong recibido")
         setPlay(false)
         if(localStorage.getItem("cancion") === audioId){
           setAux(!aux)
@@ -93,7 +89,6 @@ export function Player ({jws, children}) {
 
       document.addEventListener("playSong", playSong);
       document.addEventListener("stopSong", () => {
-        console.log("stopSong recibido")
         setPlay(false)});
       
       useEffect(() => {

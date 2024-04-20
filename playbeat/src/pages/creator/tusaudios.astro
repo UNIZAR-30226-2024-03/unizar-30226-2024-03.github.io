@@ -98,7 +98,6 @@ try{
             fileURL = blob.createObjectURL(file);
             audio.src = fileURL;
             audio.addEventListener('loadedmetadata', function() {
-                console.log(audio.duration)
                 duracion.value = audio.duration;
             });
         });
