@@ -41,8 +41,8 @@ if (Astro.request.method ==="POST" ) {
         } else if(formType === 'form2') {
             const file = data.get("photo")
             let formData = new FormData();
-            formData.append('image', file);
-            let size = (formData.get('image') as Blob).size;
+            formData.append("photo", file, file.name);
+            let size = (formData.get('photo') as Blob).size;
             if(size === 0){
                 error.photo = "Introduce una imagen";
             }else{
