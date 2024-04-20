@@ -48,6 +48,7 @@ export const ListIcon = ({classname,color}) => (
 export function Player ({jws, children}) {
 
     const [audioId, setAudioId] = useState('7')
+    const [aux, setAux] = useState(false)
     async function fetchData(id) {
       const request = await getAudio(jws, id);
       audio.current.src = URL.createObjectURL(request);
@@ -77,12 +78,16 @@ export function Player ({jws, children}) {
         };
         console.log("fetchDataAsync")
         fetchDataAsync();
-      }, [audioId])
+      }, [audioId, aux])
       function playSong() {
         console.log("playSong recibido")
         setPlay(false)
+        if(localStorage.getItem("cancion") === audioId){
+          setAux(!aux)
+        }
+          setAudioId(localStorage.getItem("cancion"))
+
         
-        setAudioId(localStorage.getItem("cancion"))
         
       }
 
