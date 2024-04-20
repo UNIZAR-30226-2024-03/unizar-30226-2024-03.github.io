@@ -39,7 +39,6 @@ if (Astro.request.method ==="POST" ) {
                 error.photo = "Introduce una imagen";
             }else{
                 const img = await uploadImg(file);
-                console.log("img:", img)
                 const request = await editUser(Astro.cookies.get("token").value,img.id,"img");
                 if (request.status === 201) {
                     return Astro.redirect('/home');
