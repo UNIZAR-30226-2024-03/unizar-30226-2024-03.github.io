@@ -148,6 +148,7 @@ try{
                 }
                 localStorage.setItem("playlist", JSON.stringify(playlist))
                 localStorage.setItem("cancion", cancion.id)
+                console.log("envio Playsong")
                 var event = new Event("playSong");
                 document.dispatchEvent(event);
             })

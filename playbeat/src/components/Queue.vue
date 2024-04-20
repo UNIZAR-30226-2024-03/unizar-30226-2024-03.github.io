@@ -16,6 +16,7 @@ onMounted(() => {
     console.log("nextPreparado")
 
     window.addEventListener("nextSong",(event) => {
+        console.log("nextSong-queue")
         if (canciones.value.length > 0) {
             const primerElemento = canciones.value.shift();
             window.localStorage.setItem('songsQueue', JSON.stringify(canciones.value));

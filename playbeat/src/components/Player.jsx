@@ -75,11 +75,13 @@ export function Player ({jws, children}) {
           console.log(audioId);
           setPlay(true);
         };
+        console.log("fetchDataAsync")
         fetchDataAsync();
       }, [audioId])
       function playSong() {
         console.log("playSong recibido")
         setPlay(false)
+        
         setAudioId(localStorage.getItem("cancion"))
         
       }

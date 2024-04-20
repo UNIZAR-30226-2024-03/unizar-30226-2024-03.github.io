@@ -156,11 +156,15 @@ const jws = Astro.cookies.get('token');
 		// 	})
 		// })
 		function nextSongFunction(){
-			console.log("click next song")
 				const queue = JSON.parse(localStorage.getItem("songsQueue"))
 				if(queue.length != []){
-					document.dispatchEvent(new Event('nextSong'))
+					window.dispatchEvent(new Event('nextSong'))
 					console.log("quuuuue")
+					setTimeout(() => {
+							console.log("play song")
+							var event = new Event("playSong");
+							document.dispatchEvent(event);			
+						}, 1000);
 				}else{
 					let playlist = JSON.parse(localStorage.getItem("playlist"))
 					const loop = JSON.parse(localStorage.getItem('loop'))
@@ -186,12 +190,15 @@ const jws = Astro.cookies.get('token');
 		setTimeout(	() => {	
 			const nextSong = document.querySelector('.nextSong');
 			nextSong.addEventListener('click', () => {
+				console.log("click next song")
+
 				nextSongFunction()
 }			)}, 1000);
 		setTimeout(	() => {	
 			const audioPlayer = document.getElementById('audioPlayer');
 			console.log("audioPlayer" + audioPlayer)
 			audioPlayer?.addEventListener('ended', () => {
+				console.log("end next song")
 				nextSongFunction()
 			});
 		}, 1000);
