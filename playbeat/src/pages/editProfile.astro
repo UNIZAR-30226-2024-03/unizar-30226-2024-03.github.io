@@ -23,12 +23,15 @@ if (Astro.request.method ==="POST" ) {
                 if ( typeof value !== "string" || value.length < 6){
                     error.password = "La contraseña debe tener al menos 6 caracteres";
                 }else{
-                    const request = await editUser(Astro.cookies.get("token").value,value,"contraseña");
-                    if (request.status === 201) {
-                        return Astro.redirect('/home');
-                    }else{
-                        error.password = "Error en la petición";
-                    }
+                    const tokenCookie = Astro.cookies.get("token");
+                    if (tokenCookie) {
+                        const request = await editUser(tokenCookie.value, value, "contraseña");
+                        if (request.status === 201) {
+                            return Astro.redirect('/home');
+                        }else{
+                            error.password = "Error en la petición";
+                        }
+                    } 
                 }
             }else{
                 error.password = "Introduce una contraseña";
