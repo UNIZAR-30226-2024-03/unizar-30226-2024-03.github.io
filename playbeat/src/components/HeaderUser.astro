@@ -1,8 +1,7 @@
 ---
-
-import {Avatar} from "@nextui-org/react";
+import { Global } from "@/globalState/globalUrl";
 import { FollowButton } from "@components/FollowButton";
-
+import {ImgPerfil} from "@/components/ImgPerfil.jsx";
 
 interface Props {
     nombre: string,
@@ -34,6 +33,7 @@ for (let i = 0; i < followers.length; i++) {
 
 
 
+ const src = Global.url+"foto/"+img
 
 ---
 
@@ -54,13 +54,13 @@ for (let i = 0; i < followers.length; i++) {
         <div class=" flex flex-col flex-wrap content-center justify-center absolute photo gap-3 items-center ">
             <span class="text-3xl font-bold text-white mb-10 ">
               
-                <Avatar className="w-[180px] h-[180px]" classNames={{
+                <ImgPerfil className="w-[180px] h-[180px]" classNames={{
                     base: "bg-gradient-to-br from-[#6985C0] from-30% to-[#CDD6EA]",
                     icon: "text-black/80 w-[180px] h-[180px] rounded-full text-7xl solid flex items-center justify-center",
                     img: "w-[180px] h-[180px] rounded-full",
                     name: "text-7xl -mt-2 "
 
-                  }} name={nombre} showFallback src={img}/>
+                  }} name={nombre} src={src} client:load/>
                 
             </span>
             
