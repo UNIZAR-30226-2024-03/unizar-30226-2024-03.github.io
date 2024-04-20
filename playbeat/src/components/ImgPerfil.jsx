@@ -1,12 +1,9 @@
 import {Avatar} from "@nextui-org/react";
 
-export const ImgPerfil = ({src, name}) => {
+export const ImgPerfil = ({src, name, classNames, className}) => {
   return (
     <div>
-    <Avatar src={src} classNames={{
-        base: "bg-gradient-to-br from-[#6985C0] from-30% to-[#CDD6EA]",
-        icon: "text-black/80",
-      }} name={name} showFallback />
+        <Avatar className={className} src={src} classNames={classNames} name={name} showFallback />
     </div>
     
   )

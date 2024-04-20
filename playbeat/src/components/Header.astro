@@ -28,7 +28,10 @@ const src = Global.url+"foto/"+imgPerfil as string
         </button>
     </div>
     <a href="/myUser">
-        <ImgPerfil src={src} name={nombreUsuario} client:load/>
+        <ImgPerfil src={src} name={nombreUsuario} classname={{
+            base: "bg-gradient-to-br from-[#6985C0] from-30% to-[#CDD6EA]",
+            icon: "text-black/80"}
+          } client:load/>
         
     </a>
 </header>
