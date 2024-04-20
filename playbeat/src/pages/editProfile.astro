@@ -48,12 +48,15 @@ if (Astro.request.method ==="POST" ) {
             }else{
                 const img = await uploadImg(file);
                 const tokenCookie = Astro.cookies.get("token");
-                const request = await editUser(tokenCookie.value,img.id,"img");
-                if (request.status === 201) {
-                    return Astro.redirect('/home');
-                }else{
-                    error.photo = "Error en la petición";
+                if(tokenCookie){
+                    const request = await editUser(tokenCookie.value,img.id,"img");
+                    if (request.status === 201) {
+                        return Astro.redirect('/home');
+                    }else{
+                        error.photo = "Error en la petición";
+                    }
                 }
+                
             
             }
             
