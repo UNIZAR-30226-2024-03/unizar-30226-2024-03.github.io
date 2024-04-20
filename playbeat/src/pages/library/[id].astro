@@ -137,12 +137,18 @@ try{
 
 <script is:inline>
     document.addEventListener('astro:page-load', () => {
-        const canciones = document.querySelectorAll('tr')
-        canciones.forEach(cancion => {
+        const canciones = Array.from(document.querySelectorAll('tr')).slice(1)
+        canciones.forEach((cancion, key) => {
             cancion.addEventListener("dblclick", () => {
-                const info = cancion.querySelectorAll('td')
-
+                // localStorage.setItem("playlist", canciones.id)
+                const ids = Array.from(canciones).map(cancion => cancion.id);
+                const playlist = {
+                    ind: key,
+                    canciones: ids
+                }
+                localStorage.setItem("playlist", JSON.stringify(playlist))
                 localStorage.setItem("cancion", cancion.id)
+                console.log("envio Playsong")
                 var event = new Event("playSong");
                 document.dispatchEvent(event);
             })

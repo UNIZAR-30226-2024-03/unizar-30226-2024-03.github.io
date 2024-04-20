@@ -1,7 +1,7 @@
 import { Global } from "@/globalState/globalUrl.js";
 import axios from 'axios';
 
-async function createAudio(data: {titulo: string;esPrivada: boolean,imgAudio: string,esAlbum: boolean,fechaLanz: any,duracionSeg: number,cancion: any, esPodcast:any}, token: any) {
+async function createAudio(data: {titulo: string;esPrivada: boolean,img: string,esAlbum: boolean,fechaLanz: any,duracionSeg: number,cancion: any, esPodcast:any}, token: any) {
 
     try {
         axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}

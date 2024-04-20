@@ -13,13 +13,12 @@ try{
 
     const data = await Astro.request.formData();
     const token = Astro.cookies.get(TOKEN);
-    console.log(data.get("audio"))
     const file = data.get("photo")
     const img = await uploadImg(file)
     await createAudio({
             titulo: data.get("titulo") as string,
             esPrivada: data.get("esPrivada") as string == "on" || false,
-            imgAudio: img.id,
+            img: img.id,
             esAlbum: false,
             esPodcast: false,
             fechaLanz: new Date().toISOString(),
