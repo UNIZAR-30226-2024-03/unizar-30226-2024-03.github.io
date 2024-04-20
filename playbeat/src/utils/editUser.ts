@@ -17,7 +17,8 @@ async function editUser(jws: string, value: string, type:string) {
             const response = await axios.put(Global.url + "usuario",data);
             return response;
         }else{
-            const data = {contrasegna: value};            const response = await axios.put(Global.url + "usuario",data);
+            const data = {contrasegna: value};            
+            const response = await axios.put(Global.url + "usuario",data);
             return response;
         }
         

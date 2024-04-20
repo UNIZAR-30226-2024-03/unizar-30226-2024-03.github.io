@@ -1,6 +1,6 @@
 ---
 import { Global } from "@/globalState/globalUrl";
-import { FollowButton } from "@components/FollowButton";
+import { SubHeaderUser } from "@components/SubHeaderUser.jsx";
 import {ImgPerfil} from "@/components/ImgPerfil.jsx";
 
 interface Props {
@@ -41,32 +41,8 @@ for (let i = 0; i < followers.length; i++) {
     <div class=" w-full h-full flex flex-row justify-between relative">
         
         <div class="  -z-40 w-full h-80 bg-[#9A9A9A]  blur-3xl"></div>
-        <div class=" ml-5 flex flex-col  absolute name">
-            <span class="text-3xl font-bold text-white">
-                {nombre}
-            </span>
-            <span class="text-white opacity-60">
-                {email}
-            </span>
-
-            
-        </div>
-        <div class=" flex flex-col flex-wrap content-center justify-center absolute photo gap-3 items-center ">
-            <span class="text-3xl font-bold text-white mb-10 ">
-              
-                <ImgPerfil className="w-[180px] h-[180px]" classNames={{
-                    base: "bg-gradient-to-br from-[#6985C0] from-30% to-[#CDD6EA]",
-                    icon: "text-black/80 w-[180px] h-[180px] rounded-full text-7xl solid flex items-center justify-center",
-                    img: "w-[180px] h-[180px] rounded-full",
-                    name: "text-7xl -mt-2 "
-
-                  }} name={nombre} src={src} client:load/>
-                
-            </span>
-            
-        </div>
-        <div class=" ml-1 flex flex-row gap-2  absolute edit">
-            <FollowButton follow={isFollower} id={id} jws={token} followers={followers} client:load/>
+        <div class=" ml-1 flex flex-row gap-2  absolute w-full mt-100">
+            <SubHeaderUser follow={isFollower} id={id} jws={token} followers={followers} nombre={nombre} email={email} src={src} client:load/>
         </div>
         
         
