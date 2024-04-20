@@ -16,16 +16,13 @@ onMounted(() => {
     console.log("nextPreparado")
 
     window.addEventListener("nextSong",(event) => {
-        console.log("nextRecibido" + canciones.value.length)
         if (canciones.value.length > 0) {
-            console.log("length > 0")
             const primerElemento = canciones.value.shift();
             window.localStorage.setItem('songsQueue', JSON.stringify(canciones.value));
             localStorage.setItem("cancion", primerElemento.id);
             return primerElemento;
         }
     })
-    console.log("nextTerminado")
 
     
 })

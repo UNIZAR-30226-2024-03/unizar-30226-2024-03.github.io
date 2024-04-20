@@ -149,28 +149,50 @@ const jws = Astro.cookies.get('token');
 	  </script>
 <script is:inline>
 	document.addEventListener('astro:page-load', () => {
+		// setTimeout( () => {
+		// 	const loop = document.querySelector('.loop');
+		// 	loop.addEventListener('click', () => {
+
+		// 	})
+		// })
+		function nextSongFunction(){
+			console.log("click next song")
+				const queue = JSON.parse(localStorage.getItem("songsQueue"))
+				if(queue.length != []){
+					document.dispatchEvent(new Event('nextSong'))
+					console.log("quuuuue")
+				}else{
+					let playlist = JSON.parse(localStorage.getItem("playlist"))
+					const loop = JSON.parse(localStorage.getItem('loop'))
+					console.log("Playlist" + playlist)
+					if(playlist.ind != playlist.canciones.length-1 || (playlist.ind == playlist.canciones.length-1 && loop)){
+						console.log("hay mas canciones")
+						localStorage.setItem("cancion", playlist.canciones[(playlist.ind+1)%playlist.canciones.length])
+						playlist.ind = (playlist.ind+1)%playlist.canciones.length
+						console.log(playlist.ind)
+						localStorage.setItem("playlist", JSON.stringify(playlist))
+						setTimeout(() => {
+							console.log("play song")
+							var event = new Event("playSong");
+							document.dispatchEvent(event);			
+						}, 1000);
+					}else{
+						console.log("stopSonggg")
+						document.dispatchEvent(new Event('stopSong'))
+					}
+
+				}
+		}
 		setTimeout(	() => {	
 			const nextSong = document.querySelector('.nextSong');
 			nextSong.addEventListener('click', () => {
-				console.log("click next song")
-				window.dispatchEvent(new Event('nextSong'))
-				setTimeout(() => {
-					console.log("play song")
-					var event = new Event("playSong");
-					document.dispatchEvent(event);			
-				}, 1000);
-		})}, 1000);
+				nextSongFunction()
+}			)}, 1000);
 		setTimeout(	() => {	
 			const audioPlayer = document.getElementById('audioPlayer');
 			console.log("audioPlayer" + audioPlayer)
 			audioPlayer?.addEventListener('ended', () => {
-				console.log("audio ended")
-				window.dispatchEvent(new Event('nextSong'))
-				setTimeout(() => {
-					console.log("play song")
-					var event = new Event("playSong");
-					document.dispatchEvent(event);			
-				}, 1000);
+				nextSongFunction()
 			});
 		}, 1000);
 		const buton = document.querySelectorAll('.button');

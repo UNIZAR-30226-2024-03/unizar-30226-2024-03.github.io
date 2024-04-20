@@ -61,6 +61,7 @@ export function Player ({jws, children}) {
   
     useEffect(() => {
       if(play===true) {
+        console.log("playAUdio")
         audio.current.play()
       }else{
         audio.current.pause()
@@ -84,10 +85,17 @@ export function Player ({jws, children}) {
       }
 
       document.addEventListener("playSong", playSong);
-
+      document.addEventListener("stopSong", () => {
+        console.log("stopSong recibido")
+        setPlay(false)});
+      
       useEffect(() => {
         audio.current.volume = volume
       }, [volume])
+
+      useEffect(() => {
+        localStorage.setItem("loop", loop)
+      })
 
 
     const onClickHandlerPlay = () => {
@@ -127,7 +135,7 @@ export function Player ({jws, children}) {
       </div>
       <div className="flex flex-row items-center gap-3 w-[300px] justify-end ">
       <button onClick={()=> setLoop(!loop)}>
-           {loop ? <Loop classname={" hover:opacity-100 opacity-70 transition"} color={"#6985C0"}/> : <Loop classname={" hover:opacity-100 opacity-70 transition"} color={"white"}/>}
+           {loop ? <Loop classname={" hover:opacity-100 opacity-70 transition loop"} color={"#6985C0"}/> : <Loop classname={" hover:opacity-100 opacity-70 transition"} color={"white"}/>}
         </button>
         <button onClick={()=> setShuffle(!shuffle)}>
            {shuffle ? <Shuffle classname={" hover:opacity-100 opacity-70 transition"} color={"#6985C0"}/> : <Shuffle classname={" hover:opacity-100 opacity-70 transition"} color={"white"}/>}
