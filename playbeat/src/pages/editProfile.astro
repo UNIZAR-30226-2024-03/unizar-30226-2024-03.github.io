@@ -40,7 +40,7 @@ if (Astro.request.method ==="POST" ) {
             }
         } else if(formType === 'form2') {
             const file = data.get("photo")
-            if(file){
+            if(file && file instanceof Blob){
                 let formData = new FormData();
                 formData.append("photo", file, "name");
                 let size = (formData.get('photo') as Blob).size;
