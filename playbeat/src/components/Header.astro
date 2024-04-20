@@ -2,13 +2,15 @@
 import { Global } from "@/globalState/globalUrl";
 import FlechaDchHeader from "@/icons/FlechaDchHeader.astro";
 import FlechaIzqHeader from "@/icons/FlechaIzqHeader.astro";
-import {Avatar} from "@nextui-org/react";
+
+import {ImgPerfil} from "@/components/ImgPerfil.jsx";
 
 
 
 
 const {nombreUsuario, imgPerfil} = Astro.locals.usuario
-
+const src = Global.url+"foto/"+imgPerfil as string
+console.log("src: ", src)
 
 
 
@@ -26,10 +28,7 @@ const {nombreUsuario, imgPerfil} = Astro.locals.usuario
         </button>
     </div>
     <a href="/myUser">
+        <ImgPerfil src={src} name={nombreUsuario} client:load/>
         
-        <Avatar classNames={{
-            base: "bg-gradient-to-br from-[#6985C0] from-30% to-[#CDD6EA]",
-            icon: "text-black/80",
-          }} name={nombreUsuario} showFallback src={Global.url+"foto/"+imgPerfil}/>
     </a>
 </header>

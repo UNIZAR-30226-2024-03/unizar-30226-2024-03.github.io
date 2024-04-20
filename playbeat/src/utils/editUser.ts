@@ -9,13 +9,18 @@ import { Global } from "@/globalState/globalUrl.js";
 
 import axios from 'axios';
 
-async function editUser(jws: string, password: string) {
+async function editUser(jws: string, value: string, type:string) {
     try {
         axios.defaults.headers.common = {'Authorization': `Bearer ${jws}`}
-        const data = {contrasegna: password};
-        const response = await axios.put(Global.url + "usuario",data);
-        console.log("User data:", response);
-        return response;
+        if(type == "img"){
+            const data = {imgPerfil: value};
+            const response = await axios.put(Global.url + "usuario",data);
+            return response;
+        }else{
+            const data = {contrasegna: value};            const response = await axios.put(Global.url + "usuario",data);
+            return response;
+        }
+        
     } catch (error) {
         console.error("Error geting user data:", error);
         throw error;
