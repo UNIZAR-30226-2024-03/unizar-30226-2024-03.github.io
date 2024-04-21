@@ -3,34 +3,76 @@ import Layout from '../layouts/Layout.astro';
 import FlechaDchHeader from "@/icons/FlechaDchHeader.astro";
 import FlechaIzqHeader from "@/icons/FlechaIzqHeader.astro";
 import { Global } from "@/globalState/globalUrl.js";
-import {userData} from '@/utils/userData.ts';
 import {Avatar} from "@nextui-org/react";
-//import { editUser } from '@/utils/editUser';
+import { editUser } from '@/utils/editUser';
+import { uploadImg } from '@/utils/uploadImg';
+import {ImgPerfil} from "@/components/ImgPerfil.jsx";
+import Imagen from '@/icons/Imagen.astro';
 
-let user;
+const user = Astro.locals.usuario;
+let error={password:"",photo:""};
+let value;
 
-try{
-    const jws = Astro.cookies.get('token');
-    if(jws !==null && jws !== undefined){
-        const response = await userData(jws.value); 
-        user = response.data.usuario;
+if (Astro.request.method ==="POST" ) {
+
+    try{
+        const data = await Astro.request.formData();
+        const formType = data.get("formType");
+        if(formType === 'form1') {
+            const password = data.get("password");
+            value=password as string;
+            if(value !== "" ){
+                if ( typeof value !== "string" || value.length < 6){
+                    error.password = "La contraseña debe tener al menos 6 caracteres";
+                }else{
+                    const tokenCookie = Astro.cookies.get("token");
+                    if (tokenCookie) {
+                        const request = await editUser(tokenCookie.value, value, "contraseña");
+                        if (request.status === 201) {
+                            return Astro.redirect('/home');
+                        }else{
+                            error.password = "Error en la petición";
+                        }
+                    } 
+                }
+            }else{
+                error.password = "Introduce una contraseña";
+            }
+        } else if(formType === 'form2') {
+            const file = data.get("photo")
+            if(file && file instanceof Blob){
+                let formData = new FormData();
+                formData.append("photo", file, "name");
+                let size = (formData.get('photo') as Blob).size;
+                if(size === 0){
+                    error.photo = "Introduce una imagen";
+                }else{
+                    const img = await uploadImg(file);
+                    const tokenCookie = Astro.cookies.get("token");
+                    if(tokenCookie){
+                        const request = await editUser(tokenCookie.value,img.id,"img");
+                        if (request.status === 201) {
+                            return Astro.redirect('/home');
+                        }else{
+                            error.photo = "Error en la petición";
+                        }
+                    }
+                }
+            }
+            
+            
+        }
+       
+
+
+    } catch (error) {
+    console.error(error);
     }
-   
 
-} catch (error) {
-    if (error instanceof TypeError) {
-        console.log('Error: ', error.message);
-    } else {
-        console.log('Error: ', error);
-    }
+  
+}
 
-  }
-
-
-
-
-
-
+const src = Global.url+"foto/"+user.imgPerfil;
 
 ---
 
@@ -47,35 +89,42 @@ try{
         <h1 class="text-bluePB text-5xl font-semibold ml-10">EDITAR</h1>
     </div>
     <div class="grid grid-cols-2 gap-3 justify-between">
-        <form class="flex flex-col mt-2 mx-10 w-96 text-white" onsubmit="">
-            <label class="mt-3">Nombre usuario:</label>
-            <input type="text" class="border-2 border-white bg-transparent  h-10 rounded-md p-2  outline-none" placeholder="Introduce un nuevo nombre de usuario" value={user.nombreUsuario}/>
-            <label class="mt-3">Correo electrónico:</label>
-            <input type="email" class=" border-2 border-white bg-transparent  h-10 rounded-md p-2 outline-none" placeholder="Introduce un nuevo correo electrónico" value={user.email}/>
+        <form class="flex flex-col mt-2 mx-10 w-96 text-white" novalidate method="POST">
+            <input type="hidden" name="formType" value="form1" />
             <label class="mt-3">Contraseña:</label>
-            <input type="password" class=" border-2 border-white bg-transparent  h-10 rounded-md p-2 outline-none" placeholder="Introduce una nueva contraseña" />
+            <input type="password" class=" border-2 border-white bg-transparent  h-10 rounded-md p-2 outline-none" placeholder="Introduce una nueva contraseña" name="password" required minlength="6" />
+            {
+                (error.password)
+                && 
+                <div class=" bg-[#ee4a4a] bg-opacity-85  border-[#ff2626] border-3 p-3 mt-4 rounded-md"> 
+                    <p class="text-white ">{error.password}</p>
+                </div>
+            }
             <button type="submit" class="bg-[#6985C0] p-2 rounded-md mt-8 font-semibold">GUARDAR</button>
         </form>
         
+        
         <div class=" flex flex-col flex-wrap content-center justify-center items-center photo gap-3 ">
             
-
-            <section class="flex flex-col">
-                <input type="file" id="addFoto" name="photo" class=" text-white p-2 rounded-md hidden" onchange="previewImage(event) " />
-                <div class=" w-64 aspect-square mt-2 cursor-pointer bg-[#333] rounded-md border-2 border-[#c5c5c5] flex justify-center items-center" onclick="document.getElementById('addFoto').click();">
-                    <img id="preview" class="w-64 aspect-square rounded-md hidden" />
-                    <Avatar className="w-[180px] h-[180px]" classNames={{
-                        base: "bg-gradient-to-br from-[#6985C0] from-30% to-[#CDD6EA]",
-                        icon: "text-black/80 w-[180px] h-[180px] rounded-full text-7xl solid flex items-center justify-center",
-                        img: "w-[180px] h-[180px] rounded-full",
-                        name: "text-7xl -mt-2 "
-
-                    }} name={user.nombreUsuario} showFallback src={Global.url+"foto/"+user.imgPerfil}/>
-                   </div>
-            </section>
-            <span class="text-white text-xl font-thin opacity-60">
-                Edit photo
-            </span>
+            <form class="flex flex-col mt-2 mx-10 w-64 text-white" novalidate method="POST">
+                
+                <input type="hidden" name="formType" value="form2" />
+                <section class="flex flex-col">
+                    <input type="file" id="addFoto" name="photo" class=" text-white p-2 rounded-md hidden" onchange="previewImage(event) " />
+                    <div class=" w-64 aspect-square mt-2 cursor-pointer bg-[#333] rounded-md border-2 border-[#c5c5c5] flex justify-center items-center" onclick="document.getElementById('addFoto').click();">
+                        <img id="preview" class="w-64 aspect-square rounded-md hidden" />
+                        <Imagen/>
+                    </div>
+                </section>
+                {
+                    (error.photo)
+                    && 
+                    <div class=" bg-[#ee4a4a] bg-opacity-85  border-[#ff2626] border-3 p-3 mt-4 rounded-md"> 
+                        <p class="text-white ">{error.photo}</p>
+                    </div>
+                }
+                <button type="submit" class="bg-[#6985C0] p-2 rounded-md mt-8 font-semibold">SUBIR FOTO</button>
+            </form>
             
         </div>
     </div>

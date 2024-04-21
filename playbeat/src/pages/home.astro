@@ -19,36 +19,17 @@ const Canciones = [
 
 
 
-let user;
 
-try{
-    const jws = Astro.cookies.get('token');
-    if(jws !==null){
-		if(jws !==null && jws !== undefined){
-        const response = await userData(jws.value);
-        
-        user = response.data.usuario;
-		console.log(user)
-		}
-    }
-   
-
-} catch (error) {
-    if (error instanceof TypeError) {
-        console.log('Error: ', error.message);
-    } else {
-        console.log('Error: ', error);
-    }
-
-  }
+const user = Astro.locals.usuario;
 
 
 ---
-
 <Layout title="PlayBeat">
 
 	<div class=" flex flex-col w-full   text-white">
-		<Header nombre={user?.nombreUsuario} imagen={Global.url+"foto/"+user.imgPerfil}/>
+
+		<Header />
+
 		<div class=" w-full h-full flex flex-col mt-16 p-1">
 			<Saludos name={user.nombreUsuario}/>
 			{Canciones.map( (element) =>
