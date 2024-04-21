@@ -154,12 +154,12 @@ const jws = Astro.cookies.get('token');
 		// })
 		function nextSongFunction(){
 				const queue = JSON.parse(localStorage.getItem("songsQueue"))
-				if(queue.length != []){
+				if(queue != null && queue.length != []){
 					window.dispatchEvent(new Event('nextSong'))
 					setTimeout(() => {
 							var event = new Event("playSong");
 							document.dispatchEvent(event);			
-						}, 1000);
+						}, 1300);
 				}else{
 					let playlist = JSON.parse(localStorage.getItem("playlist"))
 					const loop = JSON.parse(localStorage.getItem('loop'))
@@ -170,7 +170,7 @@ const jws = Astro.cookies.get('token');
 						setTimeout(() => {
 							var event = new Event("playSong");
 							document.dispatchEvent(event);			
-						}, 1000);
+						}, 1300);
 					}else{
 						document.dispatchEvent(new Event('stopSong'))
 					}

@@ -14,9 +14,9 @@ export const CancionActual = ({image, title,artists}) => {
             <span className="text-xs opacity-80 text-white">
             {artists.map((artista, index) => {
                                     if(index == artists.length-1){
-                                        return artista
+                                        return artista.nombreUsuario
                                     }else{
-                                        return artista + ', '
+                                        return artista.nombreUsuario + ', '
                                     }
                                 })}
             </span>
