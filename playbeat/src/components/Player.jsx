@@ -77,7 +77,9 @@ export function Player ({jws, children}) {
         };
         if(primeraVez){
           fetchDataAsync();
-          setPrimerVez(false);
+        }else{
+          setPrimerVez(true);
+
         }
       }, [audioId, aux])
       function playSong() {
