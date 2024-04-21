@@ -48,6 +48,7 @@ export const ListIcon = ({classname,color}) => (
 export function Player ({jws, children}) {
 
     const [audioId, setAudioId] = useState('7')
+    const [primeraVez, setPrimerVez] = useState(false);
     const [aux, setAux] = useState(false)
     async function fetchData(id) {
       const request = await getAudio(jws, id);
@@ -74,7 +75,10 @@ export function Player ({jws, children}) {
           await fetchData(audioId);
           setPlay(true);
         };
-        fetchDataAsync();
+        if(primeraVez){
+          fetchDataAsync();
+          setPrimerVez(false);
+        }
       }, [audioId, aux])
       function playSong() {
         setPlay(false)
