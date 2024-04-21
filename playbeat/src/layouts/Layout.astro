@@ -159,7 +159,7 @@ const jws = Astro.cookies.get('token');
 					setTimeout(() => {
 							var event = new Event("playSong");
 							document.dispatchEvent(event);			
-						}, 1000);
+						}, 1500);
 				}else{
 					let playlist = JSON.parse(localStorage.getItem("playlist"))
 					const loop = JSON.parse(localStorage.getItem('loop'))

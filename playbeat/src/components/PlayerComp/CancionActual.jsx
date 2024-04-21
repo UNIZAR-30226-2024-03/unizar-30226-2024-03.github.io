@@ -13,12 +13,12 @@ export const CancionActual = ({image, title,artists}) => {
             </h3>
             <span className="text-xs opacity-80 text-white">
             {artists.map((artista, index) => {
-                                    if(index == artists.length-1){
-                                        return artista
-                                    }else{
-                                        return artista + ', '
-                                    }
-                                })}
+                if(index == artists.length-1){
+                    return artista
+                }else{
+                    return artista + ', '
+                }
+            })}
             </span>
           </div>
   
