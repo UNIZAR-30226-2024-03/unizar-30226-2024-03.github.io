@@ -5,6 +5,8 @@ import {VolumeControl} from "./PlayerComp/VolumeControl"
 import {CancionActual} from "./PlayerComp/CancionActual"
 import {usePlayerState} from "@/globalState/playerState"
 import {getAudio} from "@/utils/getAudio.ts"
+import { getInfoAudio } from "@/utils/getInfoAudio.ts";
+import { Global } from "@/globalState/globalUrl.js";
 
 
 
@@ -50,8 +52,12 @@ export function Player ({jws, children}) {
     const [audioId, setAudioId] = useState('7')
     const [primeraVez, setPrimerVez] = useState(false);
     const [aux, setAux] = useState(false)
+    const [info, setInfo] = useState({titulo: "Cargando...", artistas: ["Cargando..."]})
     async function fetchData(id) {
       const request = await getAudio(jws, id);
+      const response = await getInfoAudio(jws,id)
+      console.log(response)
+      setInfo(response)
       audio.current.src = URL.createObjectURL(request);
     }
 
@@ -116,7 +122,7 @@ export function Player ({jws, children}) {
 
         <div className="flex flex-row items-center text-white w-[300px]">
              {/* Add the song name and artist here */}
-             <CancionActual title='Better Day' artists='penguinmusic' image='..//penguin.png'/>
+             <CancionActual title={info.titulo} artists={info.artistas} image={Global.url + "foto/" + info.imgAudio}/>
              
         </div>
 
