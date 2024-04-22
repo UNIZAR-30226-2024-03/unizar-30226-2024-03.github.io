@@ -60,7 +60,7 @@ const canciones = [
                     </tr>
                 </thead>
                 <tbody class="border-t-[1px] border-white border-opacity-60">
-                    {canciones.map((cancion, index) => (
+                    {canciones.map((cancion) => (
                           <tr class=" hover:bg-[#262626]" onclick="window.location='/stats/cancion1';">
                             <td class="py-3 pl-3">{cancion.date}</td>
                             <td class="max-w-12">{cancion.plays}</td>

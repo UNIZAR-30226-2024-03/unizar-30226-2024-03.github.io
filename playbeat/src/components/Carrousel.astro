@@ -22,7 +22,7 @@ const { info} = Astro.props;
 const nume = info.num;
 const variant = info.vari;
 
-const itemsSongOpt = ["Añadir cola", "Añadir a la lista de reproducción", "Añadir a favoritos", "Descargar", "Eliminar"];
+const itemsSongOpt = ["Añadir cola", "Añadir a playlist", "Añadir a favoritos", "Descargar", "Eliminar"];
 
 ---
 
@@ -49,7 +49,7 @@ const itemsSongOpt = ["Añadir cola", "Añadir a la lista de reproducción", "A�
                         <a href=`/library/${item.audio}` class=" w-max hover:underline">
                             <p class="text-base hover:underline">{item.audio}</p>
                         </a>
-                        <a href=`/artist/${item.descripcion}` class="w-max hover:underline"><p class=" text-gray-400">{item.descripcion}</p></a>
+                        <a href=`/user/${item.descripcion}` class="w-max hover:underline"><p class=" text-gray-400">{item.descripcion}</p></a>
 
                     </li>
             )}

@@ -1,5 +1,4 @@
 ---
-import Logo from '@/icons/Logo.astro'
 import NormalLayout from '../layouts/NormalLayout.astro'
 import LogoBlanco from '@/icons/LogoBlanco.astro'
 import {TOKEN} from '@/constants.ts'
@@ -43,9 +42,10 @@ if (Astro.request.method ==="POST" ) {
       if (response && response.status === 200) { 
 
         Astro.cookies.set(TOKEN, response.data);
+
         return Astro.redirect("/home");
       } else {
-        errors.peticion = "Error al registrar, intentelo de nuevo";
+        errors.peticion = "Error intentelo de nuevo";
       }
     }
 

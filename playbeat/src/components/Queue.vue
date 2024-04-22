@@ -13,11 +13,21 @@ onMounted(() => {
         canciones.value = JSON.parse(window.localStorage.getItem('songsQueue'))
         
     })
+
+    window.addEventListener("nextSong",(event) => {
+        if (canciones.value.length > 0) {
+            const primerElemento = canciones.value.shift();
+            window.localStorage.setItem('songsQueue', JSON.stringify(canciones.value));
+            localStorage.setItem("cancion", primerElemento.id);
+            return primerElemento;
+        }
+    })
+
     
 })
 
 
-const todosSeleccionado = computed(() => canciones.value.length >= 1 && canciones.value.every(cancion => cancion.checked))
+const todosSeleccionado = computed(() => canciones?.value?.length >= 1 && canciones.value.every(cancion => cancion.checked))
 
 const eliminar = () => {
     canciones.value = canciones.value.filter(cancion => !cancion.checked)
@@ -48,8 +58,8 @@ const deseleccionarTodos = () => {
                         <path d="M3 9l10 0" />
                         <path d="M9 13h-6" />
                     </svg>
-                    <span class="col-span-4">{{ item.nombre }}</span>
-                    <span class="col-span-2">{{item.duracion}}</span>
+                    <span class="col-span-4">{{ item.titulo }}</span>
+                    <span class="col-span-2">{{item.duracionSeg}}</span>
                     <input type="checkbox" class="col-span-1 rounded-full" v-model="item.checked"/>
             </li>
         </ul>

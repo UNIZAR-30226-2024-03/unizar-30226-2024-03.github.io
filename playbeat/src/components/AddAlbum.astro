@@ -33,8 +33,7 @@ const {title} = Astro.props
                         <input type="text" name="featurings" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Usuario" />
                     </div>
                     <div class="flex flex-row gap-2 items-center mt-4 ">
-                        <label>Privado</label>
-                        <input type="checkbox" name="private" />
+                        
                     </div>
 
                 </div>
@@ -105,7 +104,7 @@ const {title} = Astro.props
         const inputFile = document.getElementById('file'+audioCount);
         const audio = document.getElementById('audio'+audioCount);
         if(inputFile != null && audio != null){
-            inputFile.addEventListener('change', function(event){
+            inputFile.addEventListener('change', function(){
 
                 var file = this.files[0],
                 fileURL = blob.createObjectURL(file);
@@ -138,7 +137,7 @@ const {title} = Astro.props
     const inputFile = document.getElementById('file');
     const audio = document.getElementById('audio');
     if(inputFile != null && audio != null){
-        inputFile.addEventListener('change', function(event){
+        inputFile.addEventListener('change', function(){
 
             var file = this.files[0],
             fileURL = blob.createObjectURL(file);

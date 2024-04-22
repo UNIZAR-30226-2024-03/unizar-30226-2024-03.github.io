@@ -4,78 +4,29 @@ import Header from '../../components/Header.astro'
 import PlayIcon from '@/icons/PlayIcon.astro'
 import Heart from '@/icons/Heart.astro'
 import Shuffle from '@/icons/Shuffle.astro'
+import {getInfoPlaylist} from "@/utils/getInfoPlaylist"
+import {TOKEN} from '@/constants.ts'
+import PlaylistOpt from '@components/PlaylistOpt.astro'
+import { Global } from '@/globalState/globalUrl'
 
-const info = {
-        info: "Lista publica",
-        title: "Trap",
-        description: 'A simple drum machine to make beats with.',
-        user: "user1",
-        num: 10,
-        time: 20
-}
-const canciones = [
-    {
-        title: "Cancion 1",
-        artist: "Artista 1",
-        album: "Album 1",
-        time: "2:30"
-    },
-    {
-        title: "Cancion 2",
-        artist: "Artista 2",
-        album: "Album 2",
-        time: "3:30"
-    },
-    {
-        title: "Cancion 3",
-        artist: "Artista 3",
-        album: "Album 3",
-        time: "4:30"
-    },
-    {
-        title: "Cancion 4",
-        artist: "Artista 4",
-        album: "Album 4",
-        time: "5:30"
-    },
-    {
-        title: "Cancion 5",
-        artist: "Artista 5",
-        album: "Album 5",
-        time: "6:30"
-    },
-    {
-        title: "Cancion 6",
-        artist: "Artista 6",
-        album: "Album 6",
-        time: "7:30"
-    },
-    {
-        title: "Cancion 7",
-        artist: "Artista 7",
-        album: "Album 7",
-        time: "8:30"
-    },
-    {
-        title: "Cancion 8",
-        artist: "Artista 8",
-        album: "Album 8",
-        time: "9:30"
-    },
-    {
-        title: "Cancion 9",
-        artist: "Artista 9",
-        album: "Album 9",
-        time: "10:30"
-    },
-    {
-        title: "Cancion 10",
-        artist: "Artista 10",
-        album: "Album 10",
-        time: "11:30"
+
+const {id} = Astro.params
+const token = Astro.cookies.get(TOKEN);
+
+let playlist: any
+let idImg: any
+try{
+    if(id !== undefined){
+
+        playlist = await getInfoPlaylist(parseInt(id), token?.value)
+        playlist = playlist.data
+        idImg = playlist.imgLista
+
     }
 
-]
+}catch(e){
+    console.log(e)
+}
 
 ---
 
@@ -84,10 +35,10 @@ const canciones = [
     <div class="mt-16 p-4 px-14">
         <section class="  flex flex-row ">
             <div>
-                <div class="bg-grey w-60 h-60 rounded-md">
+                <img class=" w-60 h-60 rounded-md" src={Global.url + "foto/" + idImg}>
 
-                </div>
-                <div class="mt-8 flex flex-row justify-between">
+                </img>
+                <div class="mt-8 flex flex-row justify-between items-center">
                     <button class="bg-[#6985C0] flex flex-row items-center p-1 px-3  gap-1 w-max rounded-md">
                         <PlayIcon/>
                         <span class=" font-semibold">
@@ -100,14 +51,46 @@ const canciones = [
                     <button>
                         <Shuffle/>
                     </button>
+                    <PlaylistOpt items={["Eliminar playlist","Editar playlist", "Añadir propietario"]}>                        
+                        <svg  xmlns="http://www.w3.org/2000/svg"  width="25"  height="25"  viewBox="0 0 24 24"  fill="none"  stroke="#6985C0"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
+                    </PlaylistOpt> 
+                    
                 </div>
             </div>
             <div class="flex flex-col ml-8 self-center gap-1">
                 <span class="font-medium"></span>
-                <h2 class="text-4xl font-semibold">{info.title}</h2>
-                <h2 class="text-2xl font-semibold text-[#6985C0]">{info.user}</h2>
-                <span class=" opacity-70">{info.description}</span>
-                <span>{info.info} | {info.num} canciones, {info.time} mins</span>
+                <h2 class="text-4xl font-semibold">{playlist?.nombre}</h2>
+                <h2 class="text-2xl font-semibold text-[#6985C0]">
+                    {playlist?.Propietarios?.map((user: any, index: any)=>{
+                        if(index === playlist?.Propietarios.length - 1){
+                            return '@' + user.nombreUsuario
+                        }
+                        return '@' + user.nombreUsuario + ", "
+                    })}
+                </h2>
+                <span class=" opacity-70">{playlist?.descripcion}</span>
+                <span>Lista de canciones | {playlist?.Audios?.length} canciones, 
+                    {() => {
+                        function convertirSegundos(segundos:any) {
+                            let horas = Math.floor(segundos / 3600);
+                            segundos %= 3600;
+                            let minutos = Math.floor(segundos / 60);
+                            segundos %= 60;
+                            let res = ""
+                            if(horas >0 ){
+                                res+= horas + "h "
+                            }
+                            if(minutos >0 ){
+                                res+= minutos + "m "
+                            }
+                            if(segundos >0 ){
+                                res+= segundos + "s "
+                            }
+                            return res
+                        }
+                        let duracionTotalSegundos = playlist?.Audios?.reduce((acumulador:any, objeto:any) => acumulador + objeto.duracionSeg, 0);
+                        return convertirSegundos(duracionTotalSegundos);
+                    }}</span>
             </div>
         </section>  
 
@@ -121,17 +104,28 @@ const canciones = [
                 </tr>
             </thead>
             <tbody class="border-t-[1px] border-white border-opacity-60">
-                {canciones.map((cancion, index) => (
-                    <tr class=" hover:bg-[#323232]">
+                {playlist && playlist?.Audios?.map((cancion:any) => (
+                    <tr class=" hover:bg-[#323232] select-none" id={cancion.idAudio}  >
                         <td class="py-3 pl-3 flex flex-row items-center gap-3">
-                            <div class=" h-12 aspect-square bg-black rounded-[4px]">
-                            </div>
-                            {cancion.title}
+                            <img class=" h-12 aspect-square bg-black rounded-[4px]" src={Global.url + "foto/" + cancion.imgAudio}/>
+                            {cancion.titulo}
                             </td>
-                        <td class="py-3">{cancion.artist}</td>
-                        <td class="py-3">{cancion.album}</td>
-                        <td class="py-3 max-w-6 ">{cancion.time}</td>
-                        <td class="max-w-3 cursor-pointer pr-3"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#6985C0" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg></td>
+                        <td class="py-3">                                
+                            {cancion?.Artistas?.map((artista:any, index:any) => {
+                                    if(index == cancion.Artistas.length-1){
+                                        return artista.nombreUsuario
+                                    }else{
+                                        return artista.nombreUsario + ', '
+                                    }
+                                })}
+                        </td>
+                        <td class="py-3" >{cancion.album}</td>
+                        <td class="py-3 max-w-6 ">{cancion.duracionSeg}</td>
+                        <td class="max-w-3 cursor-pointer pr-3">
+                            <PlaylistOpt items={["Añadir a playlist","Eliminar de la playlist", "Añadir cola"]} id={cancion.idAudio}>                        
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#6985C0" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
+                            </PlaylistOpt> 
+                        </td>
                     </tr>
                 ))
                 }
@@ -139,4 +133,26 @@ const canciones = [
         </table>
     </div>
 </Layout>
+
+
+<script is:inline>
+    document.addEventListener('astro:page-load', () => {
+        const canciones = Array.from(document.querySelectorAll('tr')).slice(1)
+        canciones.forEach((cancion, key) => {
+            cancion.addEventListener("dblclick", () => {
+                // localStorage.setItem("playlist", canciones.id)
+                const ids = Array.from(canciones).map(cancion => cancion.id);
+                const playlist = {
+                    ind: key,
+                    canciones: ids
+                }
+                localStorage.setItem("playlist", JSON.stringify(playlist))
+                localStorage.setItem("cancion", cancion.id)
+                console.log("envio Playsong")
+                var event = new Event("playSong");
+                document.dispatchEvent(event);
+            })
+    })
+    })
+</script>
 

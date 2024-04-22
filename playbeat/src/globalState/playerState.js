@@ -10,13 +10,13 @@ export const usePlayerState = create(set => ({
     loop: false,
     queue: false,
     volume: 0.9,
-    setVolume: (volume) => set((state) => ({volume})),
-    setPlay: (play) => set((state) => ({play})),
-    setCurrSong: (currSong) => set((state) => ({currSong})),
-    setAudio: (audio) => set((state) => ({audio})),
-    setShuffle: (shuffle) => set((state) => ({shuffle})),
-    setLoop: (loop) => set((state) => ({loop})),
-    setQueue: (queue) => set((state) => ({queue})),
+    setVolume: (volume) => set(() => ({volume})),
+    setPlay: (play) => set(() => ({play})),
+    setCurrSong: (currSong) => set(() => ({currSong})),
+    setAudio: (audio) => set(() => ({audio})),
+    setShuffle: (shuffle) => set(() => ({shuffle})),
+    setLoop: (loop) => set(() => ({loop})),
+    setQueue: (queue) => set(() => ({queue})),
     onClickHandlerPlay: () => {
         set((state) => ({play: !state.play}))
         if (state.play) {

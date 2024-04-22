@@ -2,7 +2,6 @@
 import CreatorLayout from '@layouts/CreatorLayout.astro';
 import HeaderCreator from '@components/HeaderCreator.astro';
 import Stats1 from '@components/Stats1.astro';
-import Stats2 from '@components/Stats2.astro';
 const canciones = [
     {
         title: "Cancion 1",
@@ -106,7 +105,7 @@ const canciones = [
                 </tr>
             </thead>
             <tbody class="border-t-[1px] border-white border-opacity-60">
-                {canciones.map((cancion, index) => (
+                {canciones.map((cancion) => (
                       <tr class=" hover:bg-[#262626]" data-url={cancion.url} >
                         <td class="py-3 pl-3 flex flex-row items-center gap-3">
                             <div class=" h-12 aspect-square bg-black rounded-[4px]">

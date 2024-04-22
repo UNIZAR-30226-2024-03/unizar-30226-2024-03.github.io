@@ -2,11 +2,41 @@
 import Layout from '@layouts/Layout.astro';
 
 import Header from '@components/Header.astro';
-import HeaderArtist from '@components/HeaderArtist.astro';
+import HeaderUser from '@components/HeaderUser.astro';
 import CarrouselTop from '@components/CarrouselTop.astro';
 import Carrousel from '@components/Carrousel.astro';
+import { getFollowers } from '@/utils/getFollowers';
 
 const { id } = Astro.params
+
+
+let user;
+
+try{
+    const jws = Astro.cookies.get('token');
+    if(jws !==null && jws !== undefined){
+        
+        const response = await getFollowers(jws.value, "2");
+        user = response.data.usuario;
+        
+        
+
+    }
+   
+
+} catch (error) {
+    if (error instanceof TypeError) {
+        console.log('Error: ', error.message);
+    } else {
+        console.log('Error: ', error);
+    }
+
+}
+
+const followers = user.Seguidores;
+const following = user.Seguidos;
+
+
 
 
 
@@ -124,7 +154,7 @@ const canciones2 = {num:5,name:"Para ti", ref:"/podcast", items:[{audio:"Cancion
 	<div class=" flex flex-col w-full   text-white">
 		<Header/>
 		<div class=" w-full h-full flex flex-col mt-16">
-            <HeaderArtist artist={id}/>
+            <HeaderUser nombre={user.nombreUsuario} email={user.email} img={user.imgPerfil} followers={followers} following={following} id={2}/>
 			<div class="px-16 mt-10 flex flex-row flex-wrap">
                 <section class="w-4/6">
                     <h2 class="text-lg font-semibold">Top canciones</h2>

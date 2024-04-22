@@ -13,7 +13,7 @@ const { items } = Astro.props
             <button class="buttonOculto solid"><slot/></button>
 
               <div class="dropdown">
-                {items.map( (item, index) => {
+                {items.map( (item) => {
                     return <span>{item}</span>
                 })}
               </div>

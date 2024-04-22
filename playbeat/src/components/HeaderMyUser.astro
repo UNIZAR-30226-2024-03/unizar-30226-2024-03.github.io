@@ -1,9 +1,13 @@
 ---
+import { Global } from "@/globalState/globalUrl";
 import FlechaDchHeader from "@/icons/FlechaDchHeader.astro";
 import FlechaIzqHeader from "@/icons/FlechaIzqHeader.astro";
+import {ImgPerfil} from "@/components/ImgPerfil.jsx";
 
 
+const {nombreUsuario, email, imgPerfil, Seguidores} = Astro.locals.usuario;
 
+const src = Global.url+"foto/"+imgPerfil
 ---
 
  <header class=" h-80 w-full"> 
@@ -19,24 +23,29 @@ import FlechaIzqHeader from "@/icons/FlechaIzqHeader.astro";
         <div class="  -z-40 w-full h-80 bg-[#9A9A9A]  blur-3xl"></div>
         <div class=" ml-5 flex flex-col  absolute name">
             <span class="text-3xl font-bold text-white">
-                Miguel Aréjula
+                {nombreUsuario}
             </span>
             <span class="text-white opacity-60">
-                @arejula11
+                {email}
             </span>
+
             
         </div>
         <div class=" flex flex-col flex-wrap content-center justify-center absolute photo gap-3 ">
             <span class="text-3xl font-bold text-white ">
-                <div class="bg-gradient-to-b from-[#6985C0] from-30% to-[#CDD6EA]  shadow-2xl w-[180px] h-[180px] rounded-full text-white text-7xl solid flex items-center justify-center" >
-                    MA
-                </div>
+                <ImgPerfil className="w-[180px] h-[180px]" classNames={{
+                    base: "bg-gradient-to-br from-[#6985C0] from-30% to-[#CDD6EA]",
+                    icon: "text-black/80 w-[180px] h-[180px] rounded-full text-7xl solid flex items-center justify-center",
+                    img: "w-[180px] h-[180px] rounded-full",
+                    name: "text-7xl -mt-2 "
+
+                  }} name={nombreUsuario} src={src} client:load/>
                 
             </span>
-            <span class="text-white text-3xl font-thin opacity-60">
-                200 seguidores
-            </span>
-            
+            <div class="text-white text-3xl font-thin opacity-60 w-[180px] flex justify-center ">
+                {Seguidores.length ? `${Seguidores.length} ${Seguidores.length === 1 ? 'Seguidor' : 'Seguidores'}` : '0 Seguidores'}
+
+            </div>
         </div>
         <div class=" ml-5 flex flex-row gap-2  absolute edit">
             <a href="/editProfile" class="bg-[#6985C0] flex flex-row items-center p-1 px-3  gap-1 w-max h-7 rounded-md">
