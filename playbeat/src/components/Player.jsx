@@ -7,6 +7,7 @@ import {usePlayerState} from "@/globalState/playerState"
 import {getAudio} from "@/utils/getAudio.ts"
 import { getInfoAudio } from "@/utils/getInfoAudio.ts";
 import { Global } from "@/globalState/globalUrl.js";
+import { image } from "@nextui-org/react";
 
 
 
@@ -51,8 +52,9 @@ export function Player ({jws, children}) {
 
     const [audioId, setAudioId] = useState('7')
     const [primeraVez, setPrimerVez] = useState(false);
+    const [foto, setFoto] = useState(false)
     const [aux, setAux] = useState(false)
-    const [info, setInfo] = useState({titulo: "Cargando...", artistas: ["Cargando..."]})
+    const [info, setInfo] = useState({titulo: "", artistas: [""]})
     async function fetchData(id) {
       const request = await getAudio(jws, id);
       const response = await getInfoAudio(jws,id)
@@ -83,8 +85,10 @@ export function Player ({jws, children}) {
         };
         if(primeraVez){
           fetchDataAsync();
+          setFoto(true)
         }else{
           setPrimerVez(true);
+          console.log("primeraVez true")
 
         }
       }, [audioId, aux])
@@ -122,7 +126,7 @@ export function Player ({jws, children}) {
 
         <div className="flex flex-row items-center text-white w-[300px]">
              {/* Add the song name and artist here */}
-             <CancionActual title={info.titulo} artists={info.artistas} image={Global.url + "foto/" + info.imgAudio}/>
+             <CancionActual title={info.titulo} artists={info.artistas} image={foto ? Global.url + "foto/" + info.imgAudio : null}/>
              
         </div>
 

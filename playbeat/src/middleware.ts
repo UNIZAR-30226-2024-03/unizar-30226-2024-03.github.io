@@ -28,7 +28,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
       const response = await getFollowers(token);
 
       
-      const user = response.data.usuario;
+      const user = response.data;
 
       context.locals.usuario = user;
       
