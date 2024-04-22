@@ -11,7 +11,7 @@ const token = Astro.cookies.get(TOKEN);
 let user
 try{
     user = await getMyUserInfo(token?.value)
-    user = user.data.usuario
+    user = user.data
 
 }catch(e){
     console.log(e)

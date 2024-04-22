@@ -15,7 +15,7 @@ let user
 let playlist 
 try{
     user = await getMyUserInfo(token?.value)
-    user = user.data.usuario
+    user = user.data
     if(id !== undefined){
         playlist = await getInfoPlaylist(id, token?.value)
         playlist = playlist.data

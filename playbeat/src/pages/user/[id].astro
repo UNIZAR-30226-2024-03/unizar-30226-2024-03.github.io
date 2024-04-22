@@ -17,7 +17,7 @@ try{
     if(jws !==null && jws !== undefined){
         
         const response = await getFollowers(jws.value, "2");
-        user = response.data.usuario;
+        user = response.data;
         
         
 

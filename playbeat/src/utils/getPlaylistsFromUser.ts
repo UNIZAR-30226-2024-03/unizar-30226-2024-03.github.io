@@ -6,7 +6,7 @@ async function getPlaylistsFromUser( id: any, token: any) {
     try {
         if(id == -1){
             const user = await getMyUserInfo(token);
-            id = user.data.usuario.idUsuario;
+            id = user.data.idUsuario;
         }
         axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
 
