@@ -1,7 +1,7 @@
 import { Global } from "@/globalState/globalUrl.js";
 import axios from 'axios';
 
-async function createAudio(data: {titulo: string;esPrivada: boolean,img: string,esAlbum: boolean,fechaLanz: any,duracionSeg: number,cancion: any, esPodcast:any}, token: any) {
+async function createAudio(data: {titulo: string;esPrivada: boolean,img: string,esAlbum: boolean,fechaLanz: any,duracionSeg: number,cancion: any, esPodcast:any, etiquetas: string, tipoEtiqueta: string}, token: any) {
 
     try {
         axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
@@ -14,7 +14,7 @@ async function createAudio(data: {titulo: string;esPrivada: boolean,img: string,
                 "Content-Type": "multipart/form-data",            
             }
         });
-        console.log(response)
+        //console.log(response)
         return response;
     } catch (error) {
         console.error("Error registering user:", error);
