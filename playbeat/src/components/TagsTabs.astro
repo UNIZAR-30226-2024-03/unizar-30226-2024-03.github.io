@@ -1,13 +1,33 @@
 ---
 import Tags from '@components/Tags.astro';
+import { getEtiquetaCancion } from '@/utils/getEtiquetasCancion';
+import { getEtiquetaPodcast } from '@/utils/getEtiquetasPodcast';
+import {TOKEN} from '@/constants.ts';
+import {type Etiqueta} from '@/interfaces.ts';
 
 const tabsItem = [
-  { id: 'Canción', label: 'Canción', content: "Canción" },
+  { id: 'Cancion', label: 'Canción', content: "Canción" },
   { id: 'Podcast', label: 'Podcast', content: "Podcast" },
 ];
 
-const tagsCancion = ["Pop", "Rock", "Indie", "R&b", "Rap", "Latino", "Trap"]
-const tagsPodcast = ["Historia", "Ciencia", "Cultura", "Deporte", "Música", "Humor", "Tecnología", "Negocios"]
+//const tagsCancion = ["Pop", "Rock", "Indie", "R&b", "Rap", "Latino", "Trap"]
+//const tagsPodcast = ["Historia", "Ciencia", "Cultura", "Deporte", "Música", "Humor", "Tecnología", "Negocios"]
+
+let tagsCancion: Etiqueta[];
+let tagsPodcast: Etiqueta[];
+
+try {
+  const token = (Astro.cookies.get(TOKEN) as { value: string }).value;
+  const responseCancion = await getEtiquetaCancion(token);
+  //console.log(responseCancion.data);
+  tagsCancion  = responseCancion.data;
+
+  const responsePodcast = await getEtiquetaPodcast(token);
+  tagsPodcast  = responsePodcast.data;
+
+} catch (error) {
+  console.error(error);
+}
 
 interface Props{
     subject: string;
@@ -23,16 +43,16 @@ const {subject, class:className} = Astro.props;
   {tabsItem.map((tab, index)=> {
     return   (
     
-      <input type="radio" name={"tabs"+subject} id={tab.id+subject}  checked={index == 0}>
+      <input type="radio" name={"tabs"+subject} id={tab.id+subject}  checked={index == 0} value={tab.id}>
       <label for={tab.id+subject} class="font-medium" >{tab.label}</label>
     
     )
   })}
   {tabsItem.map((tab)=> {
     return   (
-      
-        <div class={className}>{tab.content == "Canción" ? <Tags tags={tagsCancion}/> : <Tags tags={tagsPodcast}/>}</div>
-      
+      // Si se selecciona la pestaña de canción se muestran las etiquetas de canción, 
+      // si se selecciona la pestaña de podcast se muestran las etiquetas de podcast
+      <div class={className}>{tab.content == "Canción" ? <Tags tags={tagsCancion}/> : <Tags tags={tagsPodcast}/>}</div>
     )
   })}
 </div>

@@ -5,7 +5,7 @@ async function getEtiquetaCancion(token: any) {
     try {
         axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
         const response = await axios.get(Global.url + "etiquetas/cancion/");
-        //console.log(response);
+        // console.log(response.data);
         return response;
     } catch (error) {
         console.error("Error registering user:", error);
