@@ -13,6 +13,8 @@ declare namespace App {
         segFinAudio: null ,
         Seguidores:[],
         Seguidos:[],
+        nEscuchas: number,
+        oyentesMensuales: number,
       }
     }
   }

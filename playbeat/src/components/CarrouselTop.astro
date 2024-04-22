@@ -1,9 +1,18 @@
 ---
 
+import { Global } from "@/globalState/globalUrl.js";
+
 interface Info {
-    title: string;
-    listeners: number;
-    time: string;
+    count: number;
+    id: number;
+    titulo: string;
+    path: string;
+    duracionSeg: number;
+    fechaLanz: string;
+    imgAudio: string;
+    esPrivada: boolean;
+    esPodcast: boolean;
+
 }
 
 interface Props {
@@ -12,6 +21,8 @@ interface Props {
 }
 
 const { info, num} = Astro.props;
+
+// console.log(info);
 
 
 ---
@@ -25,13 +36,14 @@ const { info, num} = Astro.props;
                 <ul class="flex flex-col min-w-full">
                     
                     {info.slice(i * 5, i * 5 + 5).map(item => 
-                        <li class="grid grid-cols-12 p-1 items-center w-full snap-start text-sm h-full hijo hover:hover:bg-[#323232] ">
-                            <div class="flex flex-row items-center gap-3 col-span-7">
-                                <div class=" aspect-square h-12 bg-grey rounded-md"></div>
-                                <p class="text-base">{item.title}</p>
+                        <li class="grid grid-cols-12 p-1 items-center w-full snap-start text-sm h-full hijo hover:hover:bg-[#323232] rounded-sm">
+                            <div class="flex flex-row items-center gap-3 col-span-4">
+                                <img src={`${Global.url}foto/${item.audio.imgAudio}`} class="w-12 h-12 rounded-sm" alt="imagen"/>
+                                <p class="text-base">{item.audio.titulo}</p>
                             </div>
-                            <p class=" text-gray-400 col-span-3 text-right">{item.listeners}</p>
-                            <p class=" text-gray-400 col-span-2 text-right">{item.time}</p>
+                            <p class="col-span-2">arejula</p>
+                            <p class=" text-gray-400 col-span-3 text-right">{item.count}</p>
+                            <p class=" text-gray-400 col-span-2 text-right">{item.audio.duracionSeg} s</p>
                         </li>
                     )}
                 </ul>

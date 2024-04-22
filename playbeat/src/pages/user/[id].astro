@@ -6,20 +6,30 @@ import HeaderUser from '@components/HeaderUser.astro';
 import CarrouselTop from '@components/CarrouselTop.astro';
 import Carrousel from '@components/Carrousel.astro';
 import { getFollowers } from '@/utils/getFollowers';
+import { userTopSongs } from '@/utils/userTopSongs';
 
 const { id } = Astro.params
 
 
 let user;
+let canciones;
+
 
 try{
     const jws = Astro.cookies.get('token');
     if(jws !==null && jws !== undefined){
         
-        const response = await getFollowers(jws.value, "2");
-        user = response.data;
-        
-        
+        const responseFollowers = await getFollowers(jws.value, "444");
+        // const responseFollowers = await getFollowers(jws.value, id);
+        user = responseFollowers.data;
+
+
+        const responseTop = await userTopSongs(jws.value, "444", 10);
+        // const responseTop = awai userTopSongs(jws.value, id;
+        canciones = responseTop.data;
+        // console.log(responseTop.data);
+
+        const responseLast = await getUserAudios(jws.value, "444");
 
     }
    
@@ -37,116 +47,8 @@ const followers = user.Seguidores;
 const following = user.Seguidos;
 
 
-
-
-
-const canciones = [
-    {
-        title: 'Canción 1111',
-        listeners: 1000000000,
-        time: '3:45000'
-    },
-    {
-        title: 'Canción 2',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 3',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 4',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 5',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 6',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 7',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 8',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 9',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 10',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 11',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 12',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 13',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 14',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 15',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 16',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 17',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 18',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 19',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 20',
-        listeners: 1000000,
-        time: '3:45'
-    },
-
-    
-]
 const canciones2 = {num:5,name:"Para ti", ref:"/podcast", items:[{audio:"Cancion1", descripcion:"Artista1"}, {audio:"Cancion2", descripcion:"Artista2"}, {audio:"Cancion3", descripcion:"Artista3"}, {audio:"Cancion4", descripcion:"Artista4"}, {audio:"Cancion5", descripcion:"Artista5"}, {audio:"audio6", descripcion:"Artista6"}, {audio:"audio7", descripcion:"Artista7"}, {audio:"audio8", descripcion:"Artista8"}, {audio:"audio9", descripcion:"Artista9"}, {audio:"audio10", descripcion:"Artista10"}, {audio:"audio11", descripcion:"Artista11"}, {audio:"audio12", descripcion:"Artista12"}, {audio:"audio13", descripcion:"Artista13"}, {audio:"audio14", descripcion:"Artista14"}, {audio:"audio15", descripcion:"Artista15"}, {audio:"audio16", descripcion:"Artista16"}, {audio:"audio17", descripcion:"Artista17"}, {audio:"audio18", descripcion:"Artista18"}, {audio:"audio19", descripcion:"Artista19"}, {audio:"audio20", descripcion:"Artista20"}, {audio:"audio21", descripcion:"Artista21"}, {audio:"audio22", descripcion:"Artista22"}, {audio:"audio23", descripcion:"Artista23"}, {audio:"audio24", descripcion:"Artista24"}, {audio:"audio25", descripcion:"Artista25"}, {audio:"audio26", descripcion:"Artista26"}, {audio:"audio27", descripcion:"Artista27"}, {audio:"audio28", descripcion:"Artista28"}, {audio:"audio29", descripcion:"Artista29"}, {audio:"audio30", descripcion:"Artista30"}, {audio:"audio31", descripcion:"Artista31"}, {audio:"audio32", descripcion:"Artista32"}]}
 
-	
 ---
 
 <Layout title="PlayBeat">
@@ -171,7 +73,7 @@ const canciones2 = {num:5,name:"Para ti", ref:"/podcast", items:[{audio:"Cancion
                     </div>
                     <div class="flex flex-col gap-2">
                         <h2 class="text-lg font-semibold ">Popularidad</h2>
-                        <span class="">400.000 oyentes mensuales</span>
+                        <span class="">{user.oyentesMensuales} oyentes mensuales</span>
                     </div>
                 </section>
                 <section class="mt-10 w-full">
