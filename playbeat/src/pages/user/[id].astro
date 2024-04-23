@@ -10,7 +10,7 @@ import { userTopSongs } from '@/utils/userTopSongs';
 import { getSongsUser } from "@/utils/getSongsUser";
 import { getPodcastUser } from "@/utils/getPodcastUser";
 
-import { getUserAudios } from '@/utils/getUserAudios';  
+// import { getUserAudios } from '@/utils/getUserAudios';  
 import { Global } from "@/globalState/globalUrl.js";
 
 const { id } = Astro.params
@@ -26,23 +26,23 @@ try{
     const jws = Astro.cookies.get('token');
     if(jws !==null && jws !== undefined){
         
-        const responseFollowers = await getFollowers(jws.value, "444");
-        // const responseFollowers = await getFollowers(jws.value, id);
+        // const responseFollowers = await getFollowers(jws.value, "444");
+        const responseFollowers = await getFollowers(jws.value, id);
         user = responseFollowers.data;
 
 
-        const responseTop = await userTopSongs(jws.value, 444, 5);
-        // const responseTop = awai userTopSongs(jws.value, id;
+        // const responseTop = await userTopSongs(jws.value, 444, 5);
+        const responseTop = await userTopSongs(jws.value, Number(id), 5);
         canciones = responseTop.data;
         // console.log(responseTop.data);
 
-        const responseLast = await getUserAudios(jws.value, 444);
+        // const responseLast = await getUserAudios(jws.value, Number(id));
 
-        const responseCanciones = await getSongsUser(444);
-        // const responseCanciones = await getSongsUser(id);
+        // const responseCanciones = await getSongsUser(444);
+        const responseCanciones = await getSongsUser(Number(id));
         cancionesAll = responseCanciones.data.cancion;
 
-        const responsePodcast = await getPodcastUser(444);
+        const responsePodcast = await getPodcastUser(Number(id));
         // const responsePodcast = await getPodcastUser(id);
 
         podcastAll = responsePodcast.data.podcast;
