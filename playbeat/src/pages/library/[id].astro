@@ -151,6 +151,8 @@ try{
                 console.log("envio Playsong")
                 var event = new Event("playSong");
                 document.dispatchEvent(event);
+                var event = new Event("playlistChange");
+                window.dispatchEvent(event);
             })
     })
     })
