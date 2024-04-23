@@ -14,7 +14,7 @@ export interface Audio {
     imgAudio: string;
     esPrivado: boolean;
     esPodcast: boolean;
-    Artistas?: [];
+    Artistas?: [{idUsuario: number, nombreUsuario: string}];
     etiquetas?: Etiqueta[]; 
     vecesEscuchada: number; 
 }

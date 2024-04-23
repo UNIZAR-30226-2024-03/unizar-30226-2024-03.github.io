@@ -28,6 +28,8 @@ try{
     console.log(e)
 }
 
+
+console.log(JSON.stringify(playlist));
 ---
 
 <Layout title='PlayBeat'>
@@ -111,7 +113,7 @@ try{
                             {cancion.titulo}
                             </td>
                         <td class="py-3">                                
-                            {cancion?.Artistas?.map((artista:any, index:any) => {
+                            {cancion.Artistas?.map((artista:any, index:any) => {
                                     if(index == cancion.Artistas.length-1){
                                         return artista.nombreUsuario
                                     }else{
