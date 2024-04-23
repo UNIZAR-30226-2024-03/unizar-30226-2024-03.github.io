@@ -156,10 +156,19 @@ try{
                 })
                 console.log(playlist)
                 localStorage.setItem("playlist", JSON.stringify(playlist))
-                localStorage.setItem("cancion", cancion.id)
+                let pl = playlist.slice(key)
+                localStorage.setItem("playlistQueue", JSON.stringify(pl))
+                var event = new Event("playlistChange");
+                window.dispatchEvent(event);
+                var event = new Event("nextSongPlaylist");
+                window.dispatchEvent(event);
                 console.log("envio Playsong")
-                var event = new Event("playSong");
-                document.dispatchEvent(event);
+                setTimeout(() => {
+                    var event = new Event("playSong");
+                    document.dispatchEvent(event);
+                }, 1000)
+
+
             })
     })
     })
