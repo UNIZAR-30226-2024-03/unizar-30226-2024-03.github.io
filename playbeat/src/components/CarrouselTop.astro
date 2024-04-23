@@ -25,6 +25,8 @@ const { info, num} = Astro.props;
 // console.log(info);
 
 
+
+
 ---
 
 <section>
@@ -38,12 +40,12 @@ const { info, num} = Astro.props;
                     {info.slice(i * 5, i * 5 + 5).map(item => 
                         <li class="grid grid-cols-12 p-1 items-center w-full snap-start text-sm h-full hijo hover:hover:bg-[#323232] rounded-sm">
                             <div class="flex flex-row items-center gap-3 col-span-4">
-                                <img src={`${Global.url}foto/${item.audio.imgAudio}`} class="w-12 h-12 rounded-sm" alt="imagen"/>
-                                <p class="text-base">{item.audio.titulo}</p>
+                                <img src={`${Global.url}foto/${item.imgAudio}`} class="w-12 h-12 rounded-sm" alt="imagen"/>
+                                <p class="text-base">{item.titulo}</p>
                             </div>
                             <p class="col-span-2">arejula</p>
                             <p class=" text-gray-400 col-span-3 text-right">{item.count}</p>
-                            <p class=" text-gray-400 col-span-2 text-right">{item.audio.duracionSeg} s</p>
+                            <p class=" text-gray-400 col-span-2 text-right">{item.duracionSeg} s</p>
                         </li>
                     )}
                 </ul>

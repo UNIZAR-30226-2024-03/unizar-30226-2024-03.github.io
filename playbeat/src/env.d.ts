@@ -15,6 +15,7 @@ declare namespace App {
         Seguidos:[],
         nEscuchas: number,
         oyentesMensuales: number,
+        ultimoLanzamiento:{}
       }
     }
   }
