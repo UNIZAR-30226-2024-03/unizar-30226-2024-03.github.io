@@ -164,9 +164,10 @@ const jws = Astro.cookies.get('token');
 					let playlist = JSON.parse(localStorage.getItem("playlist"))
 					const loop = JSON.parse(localStorage.getItem('loop'))
 					if(playlist.ind != playlist.canciones.length-1 || (playlist.ind == playlist.canciones.length-1 && loop)){
-						localStorage.setItem("cancion", playlist.canciones[(playlist.ind+1)%playlist.canciones.length])
+						localStorage.setItem("cancion", playlist.canciones[(playlist.ind+1)%playlist.canciones.length].id)
 						playlist.ind = (playlist.ind+1)%playlist.canciones.length
 						localStorage.setItem("playlist", JSON.stringify(playlist))
+						window.dispatchEvent(new Event('nextSongPlaylist'))
 						setTimeout(() => {
 							var event = new Event("playSong");
 							document.dispatchEvent(event);			

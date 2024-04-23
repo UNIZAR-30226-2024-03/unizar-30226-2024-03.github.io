@@ -15,8 +15,10 @@ onMounted(() => {
         
     })
     window.addEventListener("playlistChange", (event) => {   
-        playlist.value = JSON.parse(window.localStorage.getItem('playlist'))
-        console.log(playlist.value)
+        const pl = JSON.parse(window.localStorage.getItem('playlist'))
+        let aux = pl.canciones.slice(pl.ind + 1)
+        aux = aux.concat(pl.canciones.slice(0, pl.ind +1))
+        playlist.value =aux
         
     })  
 
@@ -26,10 +28,14 @@ onMounted(() => {
             window.localStorage.setItem('songsQueue', JSON.stringify(canciones.value));
             localStorage.setItem("cancion", primerElemento.id);
             return primerElemento;
-        }else{
-            const primerElemento = playlist.value.canciones.shift();
-            playlist.value.canciones.push(primerElemento);
         }
+    })
+    window.addEventListener("nextSongPlaylist",(event) => {
+        console.log("jdsjds" + playlist.value)
+            const primerElemento = playlist.value.shift();
+            playlist.value.push(primerElemento);
+            console.log("jdsjdsLLL" + playlist.value)
+
     })
 
     
@@ -73,7 +79,7 @@ const deseleccionarTodos = () => {
             </li>
         </ul>
         <ul class="flex flex-col px-3 mt-4 h-[90%] overflow-y-scroll items-start ">
-            <li v-for="item of playlist.canciones" class="grid grid-cols-9 items-center w-full mt-6 first-of-type:mt-0">
+            <li v-for="item of playlist" class="grid grid-cols-9 items-center w-full mt-6 first-of-type:mt-0">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-playlist col-span-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                         <path d="M14 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
@@ -83,7 +89,7 @@ const deseleccionarTodos = () => {
                         <path d="M9 13h-6" />
                     </svg>
                     <span class="col-span-4">{{ item.titulo }}</span>
-                    <span class="col-span-2">{{item.duracionSeg}}</span>
+                    <span class="col-span-2">{{item.duracion}}</span>
                     <input type="checkbox" class="col-span-1 rounded-full" v-model="item.checked"/>
             </li>
         </ul>
