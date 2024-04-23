@@ -29,7 +29,7 @@ const añadirACola = (item) => {
 	if(songsQueue === null){
 		songsQueue = []
 	}
-	const obj = {id: item.Audio.id, titulo: item.Audio.titulo, duracionSeg: item.Audio.duracionSeg};
+	const obj = {id: item.Audio.idAudio, titulo: item.Audio.titulo, duracionSeg: item.Audio.duracionSeg};
 	songsQueue.push(obj);
 
 	localStorage.setItem('songsQueue', JSON.stringify(songsQueue));
