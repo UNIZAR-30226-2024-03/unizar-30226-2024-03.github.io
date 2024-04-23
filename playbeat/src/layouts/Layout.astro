@@ -154,7 +154,7 @@ const jws = Astro.cookies.get('token');
 		function nextSongFunction(){
 				const queue = JSON.parse(localStorage.getItem("songsQueue") || "[]")
 				if(queue != null && queue.length != 0){
-					window.dispatchEvent(new Event('historialChange'));
+					window.dispatchEvent(new Event('nextSong'));
 					setTimeout(() => {
 							var event = new Event("playSong");
 							document.dispatchEvent(event);	
