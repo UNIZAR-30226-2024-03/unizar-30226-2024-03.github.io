@@ -154,10 +154,13 @@ const jws = Astro.cookies.get('token');
 		function nextSongFunction(){
 				const queue = JSON.parse(localStorage.getItem("songsQueue") || "[]")
 				if(queue != null && queue.length != 0){
-					window.dispatchEvent(new Event('nextSong'))
+					window.dispatchEvent(new Event('historialChange'));
 					setTimeout(() => {
 							var event = new Event("playSong");
-							document.dispatchEvent(event);			
+							document.dispatchEvent(event);	
+							setTimeout(()=> {
+								window.dispatchEvent(new Event('historialChange'))
+							}, 5000)		
 						}, 1300);
 				}else{
 					let playlist = JSON.parse(localStorage.getItem("playlistQueue") || "[]")
@@ -166,7 +169,10 @@ const jws = Astro.cookies.get('token');
 						window.dispatchEvent(new Event('nextSongPlaylist'));
 						setTimeout(() => {
 							var event = new Event("playSong");
-							document.dispatchEvent(event);			
+							document.dispatchEvent(event);		
+							setTimeout(()=> {
+								window.dispatchEvent(new Event('historialChange'))
+							}, 5000)		
 						}, 1300);
 					}else{
 						document.dispatchEvent(new Event('stopSong'))
