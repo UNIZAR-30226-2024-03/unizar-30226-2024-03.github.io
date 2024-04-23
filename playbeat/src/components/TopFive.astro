@@ -2,6 +2,7 @@
 
 import { Global } from "@/globalState/globalUrl.js";
 
+
 interface Info {
     count: number;
     id: number;
@@ -12,17 +13,17 @@ interface Info {
     imgAudio: string;
     esPrivada: boolean;
     esPodcast: boolean;
+    artistas: [{idUsuario: number, nombreUsuario: string}];
 
 }
 
 interface Props {
 	info: Info[];
-    num: number;
+
 }
 
-const { info, num} = Astro.props;
+const { info} = Astro.props;
 
-// console.log(info);
 
 
 
@@ -37,13 +38,13 @@ const { info, num} = Astro.props;
                 
                 <ul class="flex flex-col min-w-full">
                     
-                    {info.slice(i * 5, i * 5 + 5).map(item => 
+                    {info.map(item => 
                         <li class="grid grid-cols-12 p-1 items-center w-full snap-start text-sm h-full hijo hover:hover:bg-[#323232] rounded-sm">
                             <div class="flex flex-row items-center gap-3 col-span-4">
                                 <img src={`${Global.url}foto/${item.imgAudio}`} class="w-12 h-12 rounded-sm" alt="imagen"/>
                                 <p class="text-base">{item.titulo}</p>
                             </div>
-                            <p class="col-span-2">arejula</p>
+                            <p class="col-span-2">{item.artistas.map(art => art.nombreUsuario)}</p>
                             <p class=" text-gray-400 col-span-3 text-right">{item.count}</p>
                             <p class=" text-gray-400 col-span-2 text-right">{item.duracionSeg} s</p>
                         </li>
@@ -55,36 +56,4 @@ const { info, num} = Astro.props;
             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-compact-right opacity-0 hover:opacity-100 transition-opacity cursor-pointer" width="40" height="60" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11 4l3 8l-3 8" /></svg>
         
     </div>
-
-	  	<script>
-		// Selecciona los elementos SVG y el carrusel
-		const leftArrow = document.querySelectorAll('.icon-tabler-chevron-compact-left');
-		const rightArrow = document.querySelectorAll('.icon-tabler-chevron-compact-right');
-		const carrusel = document.querySelectorAll('.carrusel') as NodeListOf<HTMLElement>;
-		if(leftArrow && rightArrow && carrusel){
-		
-		    for(let i = 0; i < carrusel.length; i++) {
-				let width = carrusel[i].offsetWidth;
-				leftArrow[i].addEventListener('click', () => {
-					carrusel[i].scrollBy({ left: -width, behavior: 'smooth' });
-				});
-			
-				rightArrow[i].addEventListener('click', () => {
-					carrusel[i].scrollBy({ left: width, behavior: 'smooth' });
-				});
-			}
-		}
-	  </script>
-</section>
-
-<style define:vars={{num}}>
-    .carrusel{
-	scrollbar-width: none;
-	--ancho-padre: 100%;
-}
-.hijo{
-	min-width: calc(var(--ancho-padre) / var(--nume));
-}
-
-</style>
 
