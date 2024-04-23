@@ -97,20 +97,21 @@ const fechaFormateada = `${dia}-${mes}-${anio}`;
                         <TopFive info={canciones}/>
                     </div>
                 </section>
-                <section class=" w-2/6 flex flex-col items-center justify-between">
+                <section class=" w-1/8 flex flex-col items-start justify-between ml-16">
                     <div >
                         <h2 class="text-lg font-semibold">Último lanzamiento</h2>
                         <div class="bg-black w-44 h-44 rounded-md mt-4">
                             <img src={`${Global.url}foto/${user.ultimoLanzamiento.imgAudio}`} class="w-full h-full object-cover rounded-md" alt="Ultimo lanzamiento"/>
-                            <div class="flex flex-row mt-2">
+                            <div class="flex flex-col my-2 mb-3">
                                 <h3 class="font-bold">{user.ultimoLanzamiento.titulo}</h3>
-                                <p class="mx-3">{fechaFormateada}</p>
+                                <p>{fechaFormateada}</p>
                             </div>
                         </div>
                     </div>
-                    <div class="flex flex-col gap-2">
+                    <hr class=" border-white border-0.5 w-[180px] mt-16"/>
+                    <div class="mt-3">
                         <h2 class="text-lg font-semibold ">Popularidad</h2>
-                        <span class="">{user.oyentesMensuales} oyentes mensuales</span>
+                        <span >{user.oyentesMensuales} oyentes mensuales</span>
                     </div>
                 </section>
                 {
