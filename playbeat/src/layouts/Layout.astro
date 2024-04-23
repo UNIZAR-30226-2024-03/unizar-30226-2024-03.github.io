@@ -76,7 +76,7 @@ const jws = Astro.cookies.get('token');
 			});
 		}
 	}
-	setTimeout(funcion, 1000);
+	setTimeout(funcion, 1500);
 	document.addEventListener('astro:after-swap', () => {
 		funcion()
 		let isClicked = localStorage.getItem('isClicked') === 'true';
@@ -144,8 +144,7 @@ const jws = Astro.cookies.get('token');
 
 
 	  </script>
-<script is:inline>
-	document.addEventListener('astro:page-load', () => {
+<script>
 		// setTimeout( () => {
 		// 	const loop = document.querySelector('.loop');
 		// 	loop.addEventListener('click', () => {
@@ -153,23 +152,27 @@ const jws = Astro.cookies.get('token');
 		// 	})
 		// })
 		function nextSongFunction(){
-				const queue = JSON.parse(localStorage.getItem("songsQueue"))
-				if(queue != null && queue.length != []){
-					window.dispatchEvent(new Event('nextSong'))
+				const queue = JSON.parse(localStorage.getItem("songsQueue") || "[]")
+				if(queue != null && queue.length != 0){
+					window.dispatchEvent(new Event('nextSong'));
 					setTimeout(() => {
 							var event = new Event("playSong");
-							document.dispatchEvent(event);			
+							document.dispatchEvent(event);	
+							setTimeout(()=> {
+								window.dispatchEvent(new Event('historialChange'))
+							}, 5000)		
 						}, 1300);
 				}else{
-					let playlist = JSON.parse(localStorage.getItem("playlist"))
-					const loop = JSON.parse(localStorage.getItem('loop'))
-					if(playlist.ind != playlist.canciones.length-1 || (playlist.ind == playlist.canciones.length-1 && loop)){
-						localStorage.setItem("cancion", playlist.canciones[(playlist.ind+1)%playlist.canciones.length])
-						playlist.ind = (playlist.ind+1)%playlist.canciones.length
-						localStorage.setItem("playlist", JSON.stringify(playlist))
+					let playlist = JSON.parse(localStorage.getItem("playlistQueue") || "[]")
+					const loop = JSON.parse(localStorage.getItem('loop') || "false")
+					if(loop || (playlist != null && playlist.length != 0)){
+						window.dispatchEvent(new Event('nextSongPlaylist'));
 						setTimeout(() => {
 							var event = new Event("playSong");
-							document.dispatchEvent(event);			
+							document.dispatchEvent(event);		
+							setTimeout(()=> {
+								window.dispatchEvent(new Event('historialChange'))
+							}, 5000)		
 						}, 1300);
 					}else{
 						document.dispatchEvent(new Event('stopSong'))
@@ -179,8 +182,7 @@ const jws = Astro.cookies.get('token');
 		}
 		setTimeout(	() => {	
 			const nextSong = document.querySelector('.nextSong');
-			nextSong.addEventListener('click', () => {
-
+			nextSong?.addEventListener('click', () => {
 				nextSongFunction()
 }			)}, 1000);
 		setTimeout(	() => {	
@@ -189,23 +191,22 @@ const jws = Astro.cookies.get('token');
 				nextSongFunction()
 			});
 		}, 1000);
-	});
-		const buton = document.querySelectorAll('.button');
+		document.addEventListener('astro:page-load', () => {
+
+		const buton = document.querySelectorAll('.button') as NodeListOf<HTMLElement>;
 		const itemsOpt = document.querySelectorAll('.dropdown span');
 		for(let i = 0; i < itemsOpt.length; i++){
 			itemsOpt[i].addEventListener('mousedown', (e) => {
 			e.preventDefault()
 			})
-			if(itemsOpt[i].innerText === "Añadir cola"){
+			if((itemsOpt[i] as HTMLElement).innerText === "Añadir cola"){
 				itemsOpt[i].addEventListener('click', () => {
-					let songsQueue = localStorage.getItem('songsQueue');
+					let songsQueue = JSON.parse(localStorage.getItem('songsQueue') || "null");
 					if(songsQueue === null){
-						songsQueue = [];
-					}else{
-						songsQueue = JSON.parse(songsQueue);
+						songsQueue = []
 					}
-					const td = itemsOpt[i].parentNode.parentNode.parentNode.parentNode;
-					const obj = {id: td.id, titulo: td.children[0].innerText, duracionSeg: td.children[3].innerText};
+					const td = itemsOpt[i]?.parentNode?.parentNode?.parentNode?.parentNode as HTMLElement;
+					const obj = {id: td.id, titulo: (td.children[0] as HTMLElement).innerText, duracionSeg: (td.children[3] as HTMLElement).innerText};
 					songsQueue.push(obj);
 
 					localStorage.setItem('songsQueue', JSON.stringify(songsQueue));
@@ -218,7 +219,7 @@ const jws = Astro.cookies.get('token');
 		
 		}
 	
-  
+	});
 	
   
   </script>

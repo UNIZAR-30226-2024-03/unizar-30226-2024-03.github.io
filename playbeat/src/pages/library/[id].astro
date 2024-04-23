@@ -141,16 +141,32 @@ try{
         canciones.forEach((cancion, key) => {
             cancion.addEventListener("dblclick", () => {
                 // localStorage.setItem("playlist", canciones.id)
-                const ids = Array.from(canciones).map(cancion => cancion.id);
-                const playlist = {
-                    ind: key,
-                    canciones: ids
-                }
+                
+                const hijos = canciones.map(cancion => cancion.children);
+                const playlist = hijos.map(hijo => {
+                    return {
+                        id: hijo[0].parentElement.id,
+                        titulo: hijo[0].innerText,
+                        artista: hijo[1].innerText,
+                        duracion: hijo[3].innerText
+                    }
+                })
                 localStorage.setItem("playlist", JSON.stringify(playlist))
-                localStorage.setItem("cancion", cancion.id)
-                console.log("envio Playsong")
-                var event = new Event("playSong");
-                document.dispatchEvent(event);
+                let pl = playlist.slice(key)
+                localStorage.setItem("playlistQueue", JSON.stringify(pl))
+                var event = new Event("playlistChange");
+                window.dispatchEvent(event);
+                var event = new Event("nextSongPlaylist");
+                window.dispatchEvent(event);
+                setTimeout(() => {
+                    var event = new Event("playSong");
+                    document.dispatchEvent(event);
+                    setTimeout(()=> {
+								window.dispatchEvent(new Event('historialChange'))
+							}, 5000)	
+                }, 1000)
+
+
             })
     })
     })
