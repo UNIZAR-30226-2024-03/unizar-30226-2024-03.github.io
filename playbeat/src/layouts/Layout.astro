@@ -163,10 +163,20 @@ const jws = Astro.cookies.get('token');
 				}else{
 					let playlist = JSON.parse(localStorage.getItem("playlist"))
 					const loop = JSON.parse(localStorage.getItem('loop'))
-					if(playlist.ind != playlist.canciones.length-1 || (playlist.ind == playlist.canciones.length-1 && loop)){
-						localStorage.setItem("cancion", playlist.canciones[(playlist.ind+1)%playlist.canciones.length])
-						playlist.ind = (playlist.ind+1)%playlist.canciones.length
-						localStorage.setItem("playlist", JSON.stringify(playlist))
+					if(loop){
+						let songsQueue = localStorage.getItem('songsQueue');
+						if(songsQueue === null){
+							songsQueue = [];
+						}else{
+							songsQueue = JSON.parse(songsQueue);
+						}
+						songsQueue.concat(playlist);
+
+						localStorage.setItem('songsQueue', JSON.stringify(songsQueue));
+						for(let j= 0; j<buton.length; j++){
+							buton[j].blur()
+						}
+						window.dispatchEvent(new Event('storageChange'));
 						setTimeout(() => {
 							var event = new Event("playSong");
 							document.dispatchEvent(event);			

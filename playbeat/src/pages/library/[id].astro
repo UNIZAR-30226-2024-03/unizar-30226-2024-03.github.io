@@ -138,14 +138,23 @@ try{
 <script is:inline>
     document.addEventListener('astro:page-load', () => {
         const canciones = Array.from(document.querySelectorAll('tr')).slice(1)
+        console.log(canciones)
         canciones.forEach((cancion, key) => {
             cancion.addEventListener("dblclick", () => {
                 // localStorage.setItem("playlist", canciones.id)
-                const ids = Array.from(canciones).map(cancion => cancion.id);
-                const playlist = {
-                    ind: key,
-                    canciones: ids
-                }
+                
+                const hijos = canciones.map(cancion => cancion.children);
+                console.log(cancion.id)
+                const playlist = hijos.map(hijo => {
+                    console.log(hijo)
+                    return {
+                        id: hijo[0].parentElement.id,
+                        titulo: hijo[0].innerText,
+                        artista: hijo[1].innerText,
+                        duracion: hijo[3].innerText
+                    }
+                })
+                console.log(playlist)
                 localStorage.setItem("playlist", JSON.stringify(playlist))
                 localStorage.setItem("cancion", cancion.id)
                 console.log("envio Playsong")
