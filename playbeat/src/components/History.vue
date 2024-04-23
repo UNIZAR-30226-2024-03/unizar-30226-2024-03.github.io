@@ -6,7 +6,6 @@ let historial = ref([])
 
 const getHistorial = () => {
     const token = document.cookie.split('; ').find(row => row.startsWith('token=')).split('=')[1];
-    console.log("token" + token)
     fetch('https://playbeat.uksouth.cloudapp.azure.com/usuario/lastAudios/10', {
         method: 'GET',
         headers: {
