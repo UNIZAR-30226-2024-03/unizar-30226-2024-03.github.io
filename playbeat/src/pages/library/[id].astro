@@ -29,7 +29,7 @@ try{
 }
 
 
-console.log(JSON.stringify(playlist));
+console.log(playlist.Audios.map((cancion:any) => cancion.Artistas.map((artista:any) => artista.nombreUsuario)));
 ---
 
 <Layout title='PlayBeat'>
@@ -117,7 +117,7 @@ console.log(JSON.stringify(playlist));
                                     if(index == cancion.Artistas.length-1){
                                         return artista.nombreUsuario
                                     }else{
-                                        return artista.nombreUsario + ', '
+                                        return artista.nombreUsuario + ', '
                                     }
                                 })}
                         </td>
