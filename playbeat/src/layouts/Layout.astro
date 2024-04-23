@@ -160,7 +160,6 @@ const jws = Astro.cookies.get('token');
 							document.dispatchEvent(event);			
 						}, 1300);
 				}else{
-					console.log("hola")
 					let playlist = JSON.parse(localStorage.getItem("playlistQueue") || "[]")
 					const loop = JSON.parse(localStorage.getItem('loop') || "false")
 					if(loop || (playlist != null && playlist.length != 0)){
@@ -178,7 +177,6 @@ const jws = Astro.cookies.get('token');
 		setTimeout(	() => {	
 			const nextSong = document.querySelector('.nextSong');
 			nextSong?.addEventListener('click', () => {
-				console.log("nextSong nss repetido")
 				nextSongFunction()
 }			)}, 1000);
 		setTimeout(	() => {	

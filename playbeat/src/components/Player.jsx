@@ -58,7 +58,6 @@ export function Player ({jws, children}) {
     async function fetchData(id) {
       const request = await getAudio(jws, id);
       const response = await getInfoAudio(jws,id)
-      console.log(response)
       setInfo(response)
       audio.current.src = URL.createObjectURL(request);
     }
@@ -88,7 +87,6 @@ export function Player ({jws, children}) {
           setFoto(true)
         }else{
           setPrimerVez(true);
-          console.log("primeraVez true")
 
         }
       }, [audioId, aux])

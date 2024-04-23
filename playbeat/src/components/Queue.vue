@@ -23,7 +23,6 @@ onMounted(() => {
     window.addEventListener("nextSong",(event) => {
         if (canciones.value.length > 0) {
             const primerElemento = canciones.value.shift();
-            console.log("nssss")
             window.localStorage.setItem('songsQueue', JSON.stringify(canciones.value));
             localStorage.setItem("cancion", primerElemento.id);
             return primerElemento;
@@ -35,11 +34,9 @@ onMounted(() => {
             const pl = JSON.parse(window.localStorage.getItem('playlist'));
             playlist.value = pl
         }
-        console.log("achis" + playlist)
         const primerElemento = playlist.value.shift();
         window.localStorage.setItem('playlistQueue', JSON.stringify(playlist.value));
         localStorage.setItem("cancion", primerElemento.id);
-        console.log("achis" + playlist)
 
     })
     
