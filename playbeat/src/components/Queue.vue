@@ -44,11 +44,6 @@ onMounted(() => {
 const playSong = (index) => {
     canciones.value = canciones.value.slice(index)
     window.localStorage.setItem('songsQueue', JSON.stringify(canciones.value))
-    if (canciones.value.length > 0) {
-            const primerElemento = canciones.value.shift();
-            window.localStorage.setItem('songsQueue', JSON.stringify(canciones.value));
-            localStorage.setItem("cancion", primerElemento.id);
-    }
 	window.dispatchEvent(new Event('storageChange'));
     window.dispatchEvent(new Event('nextSong'));
 	setTimeout(() => {
@@ -61,14 +56,15 @@ const playSong = (index) => {
 }
 
 const playSongPlaylist = (item,index) => {
-    playlist.value = playlist.value.slice(index)
-    window.localStorage.setItem('playlistQueue', JSON.stringify(playlist.value))
+    playlist.value = playlist.value.slice(index+1)
+    console.log("huju" + JSON.stringify(item))
+    localStorage.setItem("playlistQueue", JSON.stringify(playlist.value))
     let songsQueue = JSON.parse(localStorage.getItem('songsQueue') || "null");
 	if(songsQueue === null){
 		songsQueue = []
 	}
-	const obj = {id: item.Audio.idAudio, titulo: item.Audio.titulo, duracionSeg: item.Audio.duracionSeg};
-	songsQueue.push(obj);
+	const obj = {id: item.id, titulo: item.titulo, duracionSeg: item.duracion};
+	songsQueue.unshift(obj);
     console.log(songsQueue)
 	localStorage.setItem('songsQueue', JSON.stringify(songsQueue));
 
@@ -112,7 +108,7 @@ const deseleccionarTodos = () => {
             </div>
             <div  v-if="canciones.length > 0" class="h-[1px] min-h-[1px] w-[80%] bg-white bg-opacity-80 self-center" :class="{'mb-10' : canciones.length == 0}" ></div>
             <ul v-if="canciones.length > 0" class="flex flex-col mt-4 items-start ">
-                <li v-for="(item,index) of canciones"  @dblclick="playSong(index)" class="grid grid-cols-9 items-center w-full p-3 hover:bg-[#262626]">
+                <li v-for="(item,index) of canciones"  @dblclick="playSong(index)" class="grid grid-cols-9 items-center w-full p-3 hover:bg-[#262626] select-none cursor-default">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-playlist col-span-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                             <path d="M14 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
@@ -132,7 +128,7 @@ const deseleccionarTodos = () => {
             </div>
             <div  v-if="playlist.length > 0" class="h-[1px] min-h-[1px]  w-[80%] bg-white bg-opacity-80 self-center" ></div>
             <ul v-if="playlist.length > 0" class="flex flex-col  mt-4 h-[90%] items-start ">
-                <li v-for="(item,index) of playlist" @dblclick="playSongPlaylist(index)" class="grid grid-cols-9 items-center w-full p-3 hover:bg-[#262626]">
+                <li v-for="(item,index) of playlist" @dblclick="playSongPlaylist(item, index)" class="grid grid-cols-9 items-center w-full p-3 hover:bg-[#262626] select-none cursor-default">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-playlist col-span-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                             <path d="M14 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
