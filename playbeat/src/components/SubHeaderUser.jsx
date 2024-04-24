@@ -28,10 +28,10 @@ export const SubHeaderUser = ({follow,id, jws, followers, nombre, email, src}) =
     <div className=" mt-[23%]">
     
     <div class=" ml-5 flex flex-col  absolute name">
-            <span class="text-3xl font-bold text-white">
+            <span className="text-3xl font-bold text-white">
                 {nombre}
             </span>
-            <span class="text-white opacity-60">
+            <span className="text-white opacity-60">
                 {email}
             </span>
 

@@ -15,19 +15,28 @@ try{
     const token = Astro.cookies.get(TOKEN);
     const file = data.get("photo")
     const img = await uploadImg(file)
+    const tags = data.getAll("tags")
+    const typeEtiqueta = data.get("tabsaudio") as string;
+    //console.log("este es el tipo de etiqueta", typeEtiqueta)
+    //console.log("estas son las tags", tags.join(",")); 267
     await createAudio({
-            titulo: data.get("titulo") as string,
-            esPrivada: data.get("esPrivada") as string == "on" || false,
-            img: img.id,
-            esAlbum: false,
-            esPodcast: false,
-            fechaLanz: new Date().toISOString(),
-            duracionSeg: parseFloat(data.get("duracion") as string) || 0,
-            cancion: data.get("cancion")
-        }, token?.value)
+        titulo: data.get("titulo") as string,
+        esPrivada: data.get("esPrivada") as string == "on" || false,
+        img: img.id,
+        esAlbum: false,
+        esPodcast: false,
+        fechaLanz: new Date().toISOString(),
+        duracionSeg: parseFloat(data.get("duracion") as string) || 0,
+        cancion: data.get("cancion"), 
+        tipoEtiqueta: typeEtiqueta,
+        etiquetas: tags.join(",") // Convertimos tags a un string separados por comas, ya que asi lo pide la API
+        
+
+    }, token?.value)
+
     
     
-    return Astro.redirect("/creator/tusaudios")
+    // return Astro.redirect("/creator/tusaudios")
 
 } catch (error) {
 //  if (error instanceof TypeError) {
