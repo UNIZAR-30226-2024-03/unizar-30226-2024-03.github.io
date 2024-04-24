@@ -20,7 +20,9 @@ const Canciones = [
 
 
 
-const user = Astro.locals.usuario;
+const user = JSON.parse(Astro.cookies.get("usuario")?.value as any)
+
+console.log(user)
 
 
 ---
