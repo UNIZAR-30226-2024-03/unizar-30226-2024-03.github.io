@@ -111,11 +111,11 @@ try{
                             {cancion.titulo}
                             </td>
                         <td class="py-3">                                
-                            {cancion?.Artistas?.map((artista:any, index:any) => {
+                            {cancion.Artistas?.map((artista:any, index:any) => {
                                     if(index == cancion.Artistas.length-1){
                                         return artista.nombreUsuario
                                     }else{
-                                        return artista.nombreUsario + ', '
+                                        return artista.nombreUsuario + ', '
                                     }
                                 })}
                         </td>
