@@ -41,37 +41,7 @@ const user = Astro.locals.usuario;
 			
 		</div>
 	</div>
-	<script is:inline>
-
-		document.addEventListener('astro:page-load', () => {
-
-			// Selecciona los elementos SVG y el carrusel
-			const leftArrow = document.querySelectorAll('.icon-tabler-chevron-compact-left');
-			const rightArrow = document.querySelectorAll('.icon-tabler-chevron-compact-right');
-			const carrusel = document.querySelectorAll('.carrusel') ;
-			if(leftArrow && rightArrow && carrusel){
-			
-				for(let i = 0; i < carrusel.length; i++) {
 	
-					leftArrow[i].addEventListener('click', () => {
-						let width = carrusel[i].offsetWidth;
-						carrusel[i].scrollBy({ left: -width, behavior: 'smooth' });
-					});
-				
-					rightArrow[i].addEventListener('click', () => {
-						let width = carrusel[i].offsetWidth;
-						carrusel[i].scrollBy({ left: width, behavior: 'smooth' });
-					});
-				}
-			}
-		})
-	  </script>
-	  <script is:inline>
-		document.addEventListener('astro:after-swap', () => {
-			window.dispatchEvent(new Event('storageChange'));
-
-		});
-	  </script>
 </Layout>
 
 

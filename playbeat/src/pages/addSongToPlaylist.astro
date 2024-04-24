@@ -46,40 +46,5 @@ try{
 	
 </Layout>
 
-<script>
-  function getCookie(name: any) {
-    let cookieArr = document.cookie.split("; ");
-    
-    for(let i = 0; i < cookieArr.length; i++) {
-        let cookiePair = cookieArr[i].split("=");
-        
-        if(name == cookiePair[0]) {
-            return decodeURIComponent(cookiePair[1]);
-        }
-    }
-  }
-  	const token = getCookie('token');
-	const listas = document.querySelectorAll('.hijo')
-	const song = localStorage.getItem('addSongToPlaylist');
 
-	for (let i = 0; i < listas.length; i++) {
-
-		listas[i].addEventListener('click', (e) => {
-			e.preventDefault()
-			fetch('https://playbeat.uksouth.cloudapp.azure.com/lista/audio/'+ listas[i].id  +'/'+song , {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `Bearer ${token}` // Uncomment this line if you need to send a bearer token
-			},
-			})
-			.then(response => response.json())
-			.then(() => {window.history.back()})
-			.catch((error) => {
-				window.history.back();
-				console.error('Error:', error);
-			});
-		})
-	}
-</script>
 

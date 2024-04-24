@@ -86,47 +86,4 @@ try{
 	</div>
 
 </Layout>
-<script is:inline>
-
-    function previewImage(event) {
-        var reader = new FileReader();
-        reader.onload = function(){
-            var output = document.getElementById('preview');
-            output.style.display = 'block';
-            output.src = reader.result;
-        };
-        reader.readAsDataURL(event.target.files[0]);
-    }
-    document.addEventListener('astro:page-load', () => {
-        const inputs = [document.getElementById('playlistName'), document.getElementById('playlistDescription')];
-
-        const testDiv = document.createElement('div');
-
-        document.body.appendChild(testDiv);
-        testDiv.style.position = 'absolute';
-        testDiv.style.visibility = 'hidden';
-        testDiv.style.height = 'auto';
-        testDiv.style.width = 'auto';
-        testDiv.style.whiteSpace = 'pre';
-        inputs.forEach(input => {
-            input.addEventListener('input', function() {
-                const inputValue = this.value;
-                testDiv.style.fontSize = window.getComputedStyle(input, null).getPropertyValue('font-size');
-                testDiv.style.fontWeight = window.getComputedStyle(input, null).getPropertyValue('font-weight');
-                testDiv.style.fontFamily = window.getComputedStyle(input, null).getPropertyValue('font-family');
-                testDiv.textContent = inputValue;
-                const width = Math.ceil(testDiv.getBoundingClientRect().width);
-                if(this.id === 'playlistName')
-                    this.style.width = Math.max(width, 360) + 'px';
-                else if(this.id === 'playlistDescription')
-                    this.style.width = Math.max(width, 200) + 'px';
-
-            });
-        });
-    });
-
-
-
-</script>
-
 

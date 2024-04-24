@@ -71,50 +71,6 @@ const Canciones = [
 
         </section>
     </div> 
-    <script is:inline> 
-            document.addEventListener("astro:page-load",() => {
-
-            const searchInput = document.querySelector('.searchInput') ;
-            const form = document.querySelector('.form') ;
-            const categories = document.querySelectorAll('.categories');
-            const start = document.querySelector('.default') ; // replace '.component-to-display' with the actual selector of your component
-            const searching = document.querySelector('.searching') ; // replace '.component-to-display' with the actual selector of your component
-            const filters = document.querySelectorAll('.filter') ;
-            const all = document.querySelector('.all') ;
-            const canciones = document.querySelector('.canciones') ;
-
-            // Initially hide the component
-            searchInput.addEventListener('input', () => {
-                if (searchInput.value != '') {
-                    // Show the component when there's text in the input field
-                    start.style.display = 'none';
-                    searching.style.display = 'block';
-                } else {
-                    // Hide the component when the input field is empty
-
-                    searching.style.display = 'none';
-                    start.style.display = 'block';
-                }
-            });
-            for(let i = 0; i < categories.length; i++){
-                categories[i].addEventListener('click', () => {      
-                    searchInput.value = categories[i].alt;
-                    form.submit();
-                })
-            }
-            for(let i = 0; i < filters.length; i++){
-                filters[i].addEventListener('click', () => { 
-                    if(filters[i].innerText == 'All'){
-                        all.style.display = 'block';
-                        canciones.style.display = 'none';
-                    }else{
-                        all.style.display = 'none';
-                        canciones.style.display = 'flex';
-                    }
-                })
-            }
-        })
-    </script>
     
 </Layout>
 

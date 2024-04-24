@@ -131,15 +131,3 @@ const src = Global.url+"foto/"+user.imgPerfil;
 </Layout>
 
 
-<script is:inline>
-    function previewImage(event) {
-        var reader = new FileReader();
-        reader.onload = function(){
-            var output = document.getElementById('preview');
-            output.style.display = 'block';
-            output.src = reader.result;
-        };
-        reader.readAsDataURL(event.target.files[0]);
-    }
-  
-</script>

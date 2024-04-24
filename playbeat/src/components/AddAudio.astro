@@ -94,16 +94,3 @@ try{
         <input type="submit" class=" bg-bluePB px-4 py-1 rounded-sm" value="Subir"/>
     </form>
 </div>
-
-<script is:inline>
-    function previewImage(event) {
-        var reader = new FileReader();
-        reader.onload = function(){
-            var output = document.getElementById('preview');
-            output.style.display = 'block';
-            output.src = reader.result;
-        };
-        reader.readAsDataURL(event.target.files[0]);
-    }
-    
-    </script>

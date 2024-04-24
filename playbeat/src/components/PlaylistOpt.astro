@@ -22,69 +22,6 @@ const { items, id } = Astro.props
             
       
 </div>
-<script>
-  import {deletePlaylist} from '@/utils/deletePlaylist.js'
-
-  function getCookie(name: any) {
-    let cookieArr = document.cookie.split("; ");
-    
-    for(let i = 0; i < cookieArr.length; i++) {
-        let cookiePair = cookieArr[i].split("=");
-        
-        if(name == cookiePair[0]) {
-            return decodeURIComponent(cookiePair[1]);
-        }
-    }
-  }
-  document.addEventListener('astro:page-load', () => {
-   const items = document.querySelectorAll('.dropdown span') as NodeListOf<HTMLElement>;
-   for(let i = 0; i<items.length; i++){
-     items[i].addEventListener('click', () => {
-       if(items[i].innerText === "Eliminar playlist"){
-        let pathArray = window.location.pathname.split('/');
-          let id = pathArray[pathArray.length - 1];
-         if(id !== undefined){ 
-          deletePlaylist(parseInt(id), getCookie("token"))
-          window.history.back()
-        }
-          
-       }else if(items[i].innerText === "Editar playlist"){
-        let pathArray = window.location.pathname.split('/');
-        let id = pathArray[pathArray.length - 1];
-        if(id !== undefined){ 
-
-          window.location.href = `/editPlaylist/${id}`;
-        }
-       }else if(items[i].innerText === "Añadir a playlist"){
-        localStorage.setItem('addSongToPlaylist', items[i].id);
-        window.location.href = '/addSongToPlaylist';
-       }
-       else if(items[i].innerText === "Eliminar de la playlist"){
-        const token = getCookie('token');
-        let pathArray = window.location.pathname.split('/');
-        let id = pathArray[pathArray.length - 1];
-        if(id !== undefined){ 
-          fetch('https://playbeat.uksouth.cloudapp.azure.com/lista/audio/'+ id  +'/'+items[i].id , {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}` // Uncomment this line if you need to send a bearer token
-          },
-          })
-          .then(response => response.json())
-          .then(() => {window.location.reload()})
-          .catch((error) => {
-          console.error('Error:', error);
-          window.location.reload();
-          });
-
-        }
-       }
-     })
-   }
- })
-  
-</script>
 
 
 <style>

@@ -25,24 +25,6 @@ const Canciones = [
 			
 		</div>
 	</div>
-	<script>
-		// Selecciona los elementos SVG y el carrusel
-		const leftArrow = document.querySelectorAll('.icon-tabler-chevron-compact-left');
-		const rightArrow = document.querySelectorAll('.icon-tabler-chevron-compact-right');
-		const carrusel = document.querySelectorAll('.carrusel') as NodeListOf<HTMLElement>;
-		if(leftArrow && rightArrow && carrusel){
-		
-		    for(let i = 0; i < carrusel.length; i++) {
-				let width = carrusel[i].offsetWidth;
-				leftArrow[i].addEventListener('click', () => {
-					carrusel[i].scrollBy({ left: -width, behavior: 'smooth' });
-				});
-			
-				rightArrow[i].addEventListener('click', () => {
-					carrusel[i].scrollBy({ left: width, behavior: 'smooth' });
-				});
-			}
-		}
-	  </script>
+
 </Layout>
 
