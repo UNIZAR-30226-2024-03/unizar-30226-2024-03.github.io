@@ -38,24 +38,23 @@ const fechaFormateada = `${dia}-${mes}-${anio}`;
 
 
 function convertirSegundos(segundos:any) {
-                            let horas = Math.floor(segundos / 3600);
-                            segundos %= 3600;
-                            let minutos = Math.floor(segundos / 60);
-                            segundos %= 60;
-                            let res = ""
-                            if(horas >0 ){
-                                res+= horas + "h "
-                            }
-                            if(minutos >0 ){
-                                res+= minutos + "m "
-                            }
-                            if(segundos >0 ){
-                                res+= segundos + "s "
-                            }
-                            return res
-                        }
+    let horas = Math.floor(segundos / 3600);
+    segundos %= 3600;
+    let minutos = Math.floor(segundos / 60);
+    segundos %= 60;
+    let res = ""
+    if(horas >0 ){
+        res+= horas + "h "
+    }
+    if(minutos >0 ){
+        res+= minutos + "m "
+    }
+    if(segundos >0 ){
+        res+= segundos + "s "
+    }
+    return res
+}
 
-console.log(audio.artistas)
 
 const item = {
     Artistas: audio.artistas
