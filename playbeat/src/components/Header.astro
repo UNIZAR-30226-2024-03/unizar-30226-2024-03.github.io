@@ -8,7 +8,7 @@ import {ImgPerfil} from "@/components/ImgPerfil.jsx";
 
 
 
-const {nombreUsuario, imgPerfil} = Astro.locals.usuario
+const {nombreUsuario, imgPerfil} = JSON.parse(Astro.cookies.get("usuario")?.value as any)
 const src = Global.url+"foto/"+imgPerfil as string
 
 

@@ -18,40 +18,14 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   // Get the token from cookies 
   const token = context.cookies.get(TOKEN)?.value;
-  //console.log(token);
-  // Verify the token 
+ 
 
-  if(token !== null && token !== "" && token !== undefined){
-    try{
-
-    
-      const response = await getFollowers(token);
-
-      
-      const user = response.data;
-
-      context.locals.usuario = user;
-      
-
-          
-  } catch (error) {
-    if (error instanceof TypeError) {
-        console.log('Error: ', error.message);
-    } else {
-        console.log('Error: ', error);
-    }
-
-  }
-    return next();
-  }else {
+  if(token === null || token === "" || token === undefined){
     return Response.redirect(new URL("/", context.url));
+
+  }else {
+    return next();
   }
-  
-
-  
-   
-
-
 
 
 });

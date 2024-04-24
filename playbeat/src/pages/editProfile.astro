@@ -9,7 +9,7 @@ import { uploadImg } from '@/utils/uploadImg';
 import {ImgPerfil} from "@/components/ImgPerfil.jsx";
 import Imagen from '@/icons/Imagen.astro';
 
-const user = Astro.locals.usuario;
+const user = JSON.parse(Astro.cookies.get("usuario")?.value as any)
 let error={password:"",photo:""};
 let value;
 
