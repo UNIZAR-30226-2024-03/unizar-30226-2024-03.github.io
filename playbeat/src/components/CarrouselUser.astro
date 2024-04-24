@@ -28,7 +28,7 @@ const itemsSongOpt = ["Añadir cola", "Añadir a playlist", "Añadir a favoritos
         <ul class=" flex flex-row w-full overflow-x-auto snap-x snap-mandatory scroll-smooth  carrusel">
             {audios.map( (item: Audio) => 
                     <li class="flex flex-col p-2 snap-start text-sm h-full hijo ">
-                        <a href=`/library/${item.idAudio}` class="  relative inline-block imagen ">
+                        <a href=`/audio/${item.idAudio}` class="  relative inline-block imagen ">
                             <img src={`${Global.url}foto/${item.imgAudio}`} class:list={[" w-56 rounded-md mb-1 hover:brightness-90 aspect-square " ]}/>
                             <div class="rounded-full w-10 h-10 hidden items-center justify-center botonesizq">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-player-play-filled" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4v16a1 1 0 0 0 1.524 .852l13 -8a1 1 0 0 0 0 -1.704l-13 -8a1 1 0 0 0 -1.524 .852z" stroke-width="0" fill="currentColor" /></svg>
@@ -38,7 +38,7 @@ const itemsSongOpt = ["Añadir cola", "Añadir a playlist", "Añadir a favoritos
                             </div>
                         </a>
 
-                        <a href=`/library/${item.titulo}` class=" w-max hover:underline">
+                        <a href=`/audio/${item.titulo}` class=" w-max hover:underline">
                             <p class="text-base hover:underline">{item.titulo}</p>
                         </a>
                         <div class="flex flex-row">
