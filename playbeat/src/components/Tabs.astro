@@ -1,6 +1,6 @@
 ---
-import Queue from './Queue.astro';
-import History from './History.astro';
+import Queue from './Queue.vue';
+import History from './History.vue';
 
 const tabsItem = [
   { id: 'Cola', label: 'Cola', content: "Cola" },
@@ -30,7 +30,7 @@ const {subject, class:className} = Astro.props;
   {tabsItem.map((tab)=> {
     return   (
       
-        <div class={className}>{tab.content == "Cola" ? <Queue/> : <History/>}</div>
+        <div class={className }>{tab.content == "Cola" ? <Queue client:only/> : <History client:only />}</div>
       
     )
   })}
@@ -39,6 +39,7 @@ const {subject, class:className} = Astro.props;
 
 
 <style>
+
 
 /*Contiene todo el sistema de tabs*/
 .tabsNav{
@@ -50,7 +51,8 @@ margin-top: 50px;
 .tabsNav {
 display:block;
 position:relative;
-width:100%;
+width: 100%;
+height: calc(100% - 60px);
 }
 
 .tabsNav  input{
@@ -70,12 +72,12 @@ border: 2px solid #6985C0;
 }
 /*Etiquetas de pestañas individuales*/
 .tabsNav label:nth-of-type(1){
-  left:38px;
+  left: calc(50% - 97.5px);
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
 }
 .tabsNav label:nth-of-type(2){
-  left:33px;
+  left: calc(50% - 102.5px);
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
 }
@@ -95,6 +97,7 @@ display:none;
 
 text-align:justify;
 
+height: calc(100% - 50px);
 }
 /*Etiquetas pulsadas*/
 .tabsNav  input:checked + label

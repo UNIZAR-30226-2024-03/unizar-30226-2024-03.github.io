@@ -1,0 +1,20 @@
+---
+import FlechaDchHeader from "@/icons/FlechaDchHeader.astro";
+import FlechaIzqHeader from "@/icons/FlechaIzqHeader.astro";
+
+
+---
+
+ <header class=" w-full"> 
+    <div class=" w-full h-full flex flex-row justify-between relative">
+        <div class=" z-10 flex fle-row gap-2 mt-5 fixed px-8 " >
+            <button onclick="window.history.back();">
+                <FlechaIzqHeader/>
+            </button>
+            <button  onclick="window.history.forward();">
+                <FlechaDchHeader/>
+            </button>
+        </div>
+       
+</header>
+

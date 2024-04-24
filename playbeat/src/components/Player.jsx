@@ -1,10 +1,13 @@
 
-import { useState, useRef, useEffect } from "react";
+import { useRef,useState, useEffect } from "react";
 import {SongBar} from "./PlayerComp/SongBar.jsx"
 import {VolumeControl} from "./PlayerComp/VolumeControl"
 import {CancionActual} from "./PlayerComp/CancionActual"
 import {usePlayerState} from "@/globalState/playerState"
-
+import {getAudio} from "@/utils/getAudio.ts"
+import { getInfoAudio } from "@/utils/getInfoAudio.ts";
+import { Global } from "@/globalState/globalUrl.js";
+import { image } from "@nextui-org/react";
 
 
 
@@ -45,38 +48,83 @@ export const ListIcon = ({classname,color}) => (
 
 
 
-export function Player ({children}) {
+export function Player ({jws, children}) {
+
+    const [audioId, setAudioId] = useState('7')
+    const [primeraVez, setPrimerVez] = useState(false);
+    const [foto, setFoto] = useState(false)
+    const [aux, setAux] = useState(false)
+    const [info, setInfo] = useState({titulo: "", artistas: [""]})
+    async function fetchData(id) {
+      const request = await getAudio(jws, id);
+      const response = await getInfoAudio(jws,id)
+      setInfo(response)
+      audio.current.src = URL.createObjectURL(request);
+    }
+
     
-    const {play, setPlay,volume,loop,setLoop, shuffle, setShuffle, setQueue, queue, currSong, setCurrSong } = usePlayerState()
+    const {play, setPlay,volume,loop,setLoop, shuffle, setShuffle } = usePlayerState()
 
 
     const audio = useRef()
   
     useEffect(() => {
-        play
-          ? audio.current.play()
-          : audio.current.pause()
+      if(play===true) {
+        audio.current.play()
+      }else{
+        audio.current.pause()
+      }
       }, [play])
 
+      useEffect
+      (() => {
+        const fetchDataAsync = async () => {
+          await fetchData(audioId);
+          setPlay(true);
+        };
+        if(primeraVez){
+          fetchDataAsync();
+          setFoto(true)
+        }else{
+          setPrimerVez(true);
 
+        }
+      }, [audioId, aux])
+      function playSong() {
+        setPlay(false)
+        if(localStorage.getItem("cancion") === audioId){
+          setAux(!aux)
+        }
+          setAudioId(localStorage.getItem("cancion"))
+
+        
+        
+      }
+
+      document.addEventListener("playSong", playSong);
+      document.addEventListener("stopSong", () => {
+        setPlay(false)});
+      
       useEffect(() => {
         audio.current.volume = volume
       }, [volume])
 
-    useEffect(() => {
-    audio.current.src = '/public/music/better-day-186374.mp3'
-    },[])
+      useEffect(() => {
+        localStorage.setItem("loop", loop)
+      })
+
 
     const onClickHandlerPlay = () => {
         setPlay(!play)
     }
+
     
   return (
-    <div className="bg-grey h-full w-full flex flex-row justify-between p-2">
+    <div className="bg-grey bg-opacity-70 h-full w-full flex flex-row justify-between p-2">
 
         <div className="flex flex-row items-center text-white w-[300px]">
              {/* Add the song name and artist here */}
-             <CancionActual title='Better Day' artists='penguinmusic' image='/penguin.png'/>
+             <CancionActual title={info.titulo} artists={info.artistas} image={foto ? Global.url + "foto/" + info.imgAudio : null}/>
              
         </div>
 
@@ -92,18 +140,18 @@ export function Player ({children}) {
                 {play ? <Pause classname={"hover:opacity-100 opacity-70 transition"}/> : <Play classname={"hover:opacity-100 opacity-70 transition"}/>}
               </button>
               <button>
-                <NextSong classname={"hover:opacity-100 opacity-70 transition"}/>
+                <NextSong  classname={"hover:opacity-100 opacity-70 transition nextSong"}/>
               </button>
               
             </div>
             <SongBar audio={audio}/>
-            <audio ref={audio} />
+            <audio ref={audio} id="audioPlayer"/>
         </div>
 
       </div>
       <div className="flex flex-row items-center gap-3 w-[300px] justify-end ">
       <button onClick={()=> setLoop(!loop)}>
-           {loop ? <Loop classname={" hover:opacity-100 opacity-70 transition"} color={"#6985C0"}/> : <Loop classname={" hover:opacity-100 opacity-70 transition"} color={"white"}/>}
+           {loop ? <Loop classname={" hover:opacity-100 opacity-70 transition loop"} color={"#6985C0"}/> : <Loop classname={" hover:opacity-100 opacity-70 transition"} color={"white"}/>}
         </button>
         <button onClick={()=> setShuffle(!shuffle)}>
            {shuffle ? <Shuffle classname={" hover:opacity-100 opacity-70 transition"} color={"#6985C0"}/> : <Shuffle classname={" hover:opacity-100 opacity-70 transition"} color={"white"}/>}

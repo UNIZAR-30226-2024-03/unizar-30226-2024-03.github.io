@@ -1,0 +1,191 @@
+---
+import CreatorLayout from '@layouts/CreatorLayout.astro';
+import HeaderCreator from '@components/HeaderCreator.astro';
+import Stats3 from '@components/Stats3.astro';
+
+
+const canciones = [
+    {
+        date: "03/2024",
+        plays: "1,480,000",
+        diff: "+2,3%"
+    },
+    {
+      date: "03/2024",
+        plays: "1,480,000",
+        diff: "+2,3%"
+    },
+    {
+      date: "03/2024",
+        plays: "1,480,000",
+        diff: "+2,3%"
+    },
+    {
+      date: "03/2024",
+        plays: "1,480,000",
+        diff: "+2,3%"
+    },
+    {
+      date: "03/2024",
+        plays: "1,480,000",
+        diff: "+2,3%"
+    },
+    {
+      date: "03/2024",
+        plays: "1,480,000",
+        diff: "+2,3%"
+    },
+    {
+      date: "03/2024",
+        plays: "1,480,000",
+        diff: "+2,3%"
+    },
+    
+
+]
+---
+
+<CreatorLayout title="PlayBeat">
+    <div class=" h-full w-full bg-[rgb(51,51,51)] bg-opacity-60 flex flex-col items-center">
+        <HeaderCreator />
+        <div class=" w-full flex flex-col items-center gap-3 mt-16 px-16">
+            
+            <Stats3 name="Cancion1" num="24,359,200" idNum="4" />
+            <table class="mt-8 table-auto w-full">
+                <thead class="opacity-60">
+                    <tr class="text-left">
+                        <th class="pb-2 pl-3">Fecha</th>
+                        <th class="max-w-12">Visualizaciones</th>
+                        <th class="max-w-6">%</th>
+                    </tr>
+                </thead>
+                <tbody class="border-t-[1px] border-white border-opacity-60">
+                    {canciones.map((cancion) => (
+                          <tr class=" hover:bg-[#262626]" onclick="window.location='/stats/cancion1';">
+                            <td class="py-3 pl-3">{cancion.date}</td>
+                            <td class="max-w-12">{cancion.plays}</td>
+                            <td class="py-3 max-w-6 text-[#47d147]">{cancion.diff}</td>
+
+                        </tr>
+    
+                    ))
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</CreatorLayout>
+
+
+
+
+<script is:inline src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+<script is:inline>
+    function initCharts(){
+      
+    var options = {
+          series: [{
+          name: 'series1',
+          data: [31, 40, 28, 51, 42, 51, 68, 72, 60, 82, 100, 97, 81, 60, 88, 51, 42, 51, 68, 72, 60, 82, 100, 97]
+        }],
+          chart: {
+            height: 400,
+            width: "100%",
+            type: 'bar',
+            toolbar: {
+                show: false,
+            },
+            animations: {
+                enabled: true,
+                easing: 'easeinout',
+                speed: 800,
+                animateGradually: {
+                    enabled: true,
+                    delay: 150
+                },
+                dynamicAnimation: {
+                    enabled: true,
+                    speed: 350
+                }
+            }
+            ,
+        },
+
+        grid:{
+            show: true,
+            borderColor: '#ffffff56',
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          show: true,
+          width: 0,
+          colors: ['transparent']
+        },
+        xaxis: {
+          type: 'string',
+          categories: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic","Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+          labels:{
+            show:true,
+            style:{
+                colors: '#ffffff'
+            },
+          },
+          axisBorder:{
+            show: false,
+          },
+          axisTicks:{
+            show: false,
+          },
+
+        },
+        yaxis: {
+          type: 'string',
+          min: 0,
+          max: 100,
+          stepSize: 50,
+          showForNullSeries: false,
+          labels:{
+            show:true,
+            style:{
+                colors: '#ffffff'
+            }
+          }
+        },
+        tooltip: {
+          enabled: false
+          
+          
+
+        },        
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            columnWidth: '60%',
+            endingShape: 'rounded',
+            borderRadius: 5,
+          },
+        },
+        dataLabels: {
+          enabled: false
+        },
+ 
+        
+        };
+
+        var chart1 = new ApexCharts(document.querySelector("#chart"+4), options);
+        console.log("chart4", chart1)
+        if(chart1.el != null){
+            console.log("render")
+            chart1.render();
+        }
+
+    }
+
+    initCharts()
+
+      
+</script>
