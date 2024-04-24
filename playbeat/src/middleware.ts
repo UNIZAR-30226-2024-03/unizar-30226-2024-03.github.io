@@ -18,16 +18,13 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   // Get the token from cookies 
   const token = context.cookies.get(TOKEN)?.value;
-  //console.log(token);
-  // Verify the token 
+ 
 
   if(token === null || token === "" || token === undefined){
     return Response.redirect(new URL("/", context.url));
 
   }else {
-    console.log("next")
     return next();
-
   }
 
 
