@@ -5,7 +5,7 @@ import FlechaIzqHeader from "@/icons/FlechaIzqHeader.astro";
 import {ImgPerfil} from "@/components/ImgPerfil.jsx";
 
 
-const {nombreUsuario, email, imgPerfil, Seguidores} = Astro.locals.usuario;
+const {nombreUsuario, email, imgPerfil, Seguidores} = JSON.parse(Astro.cookies.get("usuario")?.value as any)
 
 const src = Global.url+"foto/"+imgPerfil
 ---

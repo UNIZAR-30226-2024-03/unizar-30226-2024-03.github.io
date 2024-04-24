@@ -4,6 +4,8 @@ import LogoBlanco from '@/icons/LogoBlanco.astro'
 import {TOKEN} from '@/constants.ts'
 
 import { loginUser } from '@/utils/login.ts'
+import { getFollowers } from '@/utils/getFollowers';
+import { getMyUserInfo } from '@/utils/getMyUserInfo';
 
 const errors = {email: "", password: "", peticion:"" };
 const values = {email: "", contrasegna: "" };
@@ -42,7 +44,8 @@ if (Astro.request.method ==="POST" ) {
       if (response && response.status === 200) { 
 
         Astro.cookies.set(TOKEN, response.data);
-
+        const user = await getMyUserInfo(response.data);
+        Astro.cookies.set("usuario", user.data)
         return Astro.redirect("/home");
       } else {
         errors.peticion = "Error intentelo de nuevo";

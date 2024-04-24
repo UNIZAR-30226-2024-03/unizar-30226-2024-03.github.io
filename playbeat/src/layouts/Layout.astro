@@ -38,7 +38,7 @@ const jws = Astro.cookies.get('token');
 				<slot />
 		  	</main>
 			<aside class="[grid-area:aside2]">
-				<Queue />
+				<Queue transition:persist/>
 			</aside>
 
 			<footer class="[grid-area:player] h-[72px]">
