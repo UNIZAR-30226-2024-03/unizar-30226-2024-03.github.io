@@ -14,7 +14,7 @@ const getHistorial = () => {
         },
         })
         .then(response => response.json())
-        .then((data) => {historial.value = data.cancion; console.log(data.cancion);})
+        .then((data) => {historial.value = data.cancion;})
         .catch((error) => {
         console.error('Error:', error);
         });

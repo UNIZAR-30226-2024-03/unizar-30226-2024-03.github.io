@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro'
 import Header from '../../components/Header.astro'
 import PlayIcon from '@/icons/PlayIcon.astro'
 import Heart from '@/icons/Heart.astro'
+import  HeartButton  from '@components/HeartButton.vue'
 
 import {TOKEN} from '@/constants.ts'
 import PlaylistOpt from '@components/PlaylistOpt.astro'
@@ -24,7 +25,7 @@ try {
 } catch (e) {
     console.error(e);
 }
-console.log(audio)
+// console.log(audio)
 
 const fecha = new Date(audio.fechaLanz);
 
@@ -60,6 +61,18 @@ const item = {
     Artistas: audio.artistas
 }
 
+
+const handleLike =  () => {
+
+    console.log("dentro de handleLike")
+    // try {
+    //     const response = await 
+    // } catch (error) {
+    //     console.error('There was a problem with the fetch operation: ' + error.message);
+    // }
+};
+
+
 ---
 
 <Layout title="PlayBeat">
@@ -77,9 +90,7 @@ const item = {
                             PLAY
                         </span>
                     </button>
-                    <button>
-                        <Heart/>
-                    </button>
+                    <HeartButton client:load/>
                 </div>
             </div>
             <div class="flex flex-col ml-8 self-center gap-1">
