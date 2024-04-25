@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import SearchTabs from "../components/SearchTabs.astro";
 import Carrousel from "@components/Carrousel.astro";
+import SearchResults from "@components/SearchResults.vue";
 
 
 const filter = ["All", "Cancion", "Podcast", "Usuario", "Album", "Playlist"];
@@ -22,15 +23,15 @@ const Canciones = [
         <section class="flex flex-row items-center w-[500px]">
             <form class="border-[1.5px] ml-10 border-white p-3 w-full h-12 flex justify-start items-center rounded-md form">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
-                <input type="text" class=" bg-background ml-3 w-full outline-none searchInput" placeholder="Buscar"/>
+                <input type="text" id="q" class=" bg-background ml-3 w-full outline-none searchInput" name="q" placeholder="Buscar" />
             </form>
         </section>
 
-        <section class="ml-10 mt-10 default">
+        <section class="ml-10 mt-10 default ">
             <SearchTabs subject="categories" component="search"/>
         </section>
-        <section class="searching hidden mt-12">
-            <form class="flex flex-row justify-between w-[460px] ml-10"> 
+            <SearchResults client:only/>
+            <!-- <form class="flex flex-row justify-between w-[460px] ml-10"> 
                 {filter.map((item, index) =>{
                     return (
                         <input type="radio" id={item} name="filter" class=" inputRadio hidden" checked={index == 0}/>
@@ -67,9 +68,8 @@ const Canciones = [
 
                     </li>)
                 })}
-            </div>
+            </div> -->
 
-        </section>
     </div> 
     <script is:inline> 
             document.addEventListener("astro:page-load",() => {
@@ -83,40 +83,76 @@ const Canciones = [
             const all = document.querySelector('.all') ;
             const canciones = document.querySelector('.canciones') ;
 
-            // Initially hide the component
-            searchInput.addEventListener('input', () => {
-                if (searchInput.value != '') {
-                    // Show the component when there's text in the input field
-                    start.style.display = 'none';
-                    searching.style.display = 'block';
-                } else {
-                    // Hide the component when the input field is empty
+             // Initially hide the component
+             searchInput.addEventListener('input', () => {
+                console.log("searchinput" + searchInput.value + searching)
+                 if (searchInput.value != '') {
+                     // Show the component when there's text in the input field
+                     start.style.display = 'none';
+                     searching.style.display = 'block';
+                 } else {
+                     // Hide the component when the input field is empty
 
-                    searching.style.display = 'none';
-                    start.style.display = 'block';
-                }
-            });
-            for(let i = 0; i < categories.length; i++){
-                categories[i].addEventListener('click', () => {      
-                    searchInput.value = categories[i].alt;
-                    form.submit();
-                })
-            }
-            for(let i = 0; i < filters.length; i++){
-                filters[i].addEventListener('click', () => { 
-                    if(filters[i].innerText == 'All'){
-                        all.style.display = 'block';
-                        canciones.style.display = 'none';
-                    }else{
-                        all.style.display = 'none';
-                        canciones.style.display = 'flex';
-                    }
-                })
-            }
+                     searching.style.display = 'none';
+                     start.style.display = 'block';
+                 }
+
+             });
+            // for(let i = 0; i < categories.length; i++){
+            //     categories[i].addEventListener('click', () => {      
+            //         searchInput.value = categories[i].alt;
+            //         form.submit();
+            //     })
+            // }
+            // for(let i = 0; i < filters.length; i++){
+            //     filters[i].addEventListener('click', () => { 
+            //         if(filters[i].innerText == 'All'){
+            //             all.style.display = 'block';
+            //             canciones.style.display = 'none';
+            //         }else{
+            //             all.style.display = 'none';
+            //             canciones.style.display = 'flex';
+            //         }
+            //     })
+            // }
         })
     </script>
     
 </Layout>
+<script >
+    import { Global } from '@/globalState/globalUrl';
+    document.addEventListener("astro:page-load", () => {
+        const jws = getCookie('token')
+        let timer : any;
+        const searchInput = document.getElementById('q') as HTMLInputElement;
+        searchInput?.addEventListener("input", () => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                console.log(searchInput.value);
+                const url = new URL(`${Global.url}search`);
+                url.searchParams.append('q', searchInput.value);
+                fetch(url.toString(), {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${jws}`
+                    }
+                }).then((data) => data.json()).then((data) => {console.log(data);localStorage.setItem("busqueda", JSON.stringify(data));window.dispatchEvent(new Event("buscar"))}).catch((e) => console.log(e))
+            }, 1000);
+        })
+    })
+    function getCookie(name: any) {
+    let cookieArr = document.cookie.split("; ");
+    
+    for(let i = 0; i < cookieArr.length; i++) {
+        let cookiePair = cookieArr[i].split("=");
+        
+        if(name == cookiePair[0]) {
+            return decodeURIComponent(cookiePair[1]);
+        }
+    }
+  }
+  
+</script>
 
 
 <style>
