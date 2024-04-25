@@ -90,7 +90,16 @@ const handleLike =  () => {
                             PLAY
                         </span>
                     </button>
-                    <HeartButton client:load/>
+                    <!-- <HeartButton client:load/> -->
+
+                    <button onclick="handleClick()">
+                        <Heart/>
+                    </button>
+                    <script>
+                        function handleClick() {
+                            console.log("click")
+                        }
+                    </script>
                 </div>
             </div>
             <div class="flex flex-col ml-8 self-center gap-1">
