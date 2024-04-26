@@ -71,20 +71,16 @@ const Canciones = [
             </div> -->
 
     </div> 
-    <script is:inline> 
+    <script> 
             document.addEventListener("astro:page-load",() => {
+                setTimeout(() => {
+                    const searchInput = document.querySelector('.searchInput') as HTMLInputElement;
+            const start = document.querySelector('.default') as HTMLElement; // replace '.component-to-display' with the actual selector of your component
+            const searching = document.querySelector('.searching') as HTMLElement; // replace '.component-to-display' with the actual selector of your component
 
-            const searchInput = document.querySelector('.searchInput') ;
-            const form = document.querySelector('.form') ;
-            const categories = document.querySelectorAll('.categories');
-            const start = document.querySelector('.default') ; // replace '.component-to-display' with the actual selector of your component
-            const searching = document.querySelector('.searching') ; // replace '.component-to-display' with the actual selector of your component
-            const filters = document.querySelectorAll('.filter') ;
-            const all = document.querySelector('.all') ;
-            const canciones = document.querySelector('.canciones') ;
 
              // Initially hide the component
-             searchInput.addEventListener('input', () => {
+             searchInput?.addEventListener('input', () => {
                 console.log("searchinput" + searchInput.value + searching)
                  if (searchInput.value != '') {
                      // Show the component when there's text in the input field
@@ -98,6 +94,8 @@ const Canciones = [
                  }
 
              });
+                }, 1000);
+            
             // for(let i = 0; i < categories.length; i++){
             //     categories[i].addEventListener('click', () => {      
             //         searchInput.value = categories[i].alt;
