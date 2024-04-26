@@ -31,44 +31,6 @@ const Canciones = [
             <SearchTabs subject="categories" component="search"/>
         </section>
             <SearchResults client:only/>
-            <!-- <form class="flex flex-row justify-between w-[460px] ml-10"> 
-                {filter.map((item, index) =>{
-                    return (
-                        <input type="radio" id={item} name="filter" class=" inputRadio hidden" checked={index == 0}/>
-                        <label for={item} class="text-white font-medium border-2 border-[#6985C0] rounded-md px-2 py-1 filter" >
-                            <span>{item}</span>
-                        </label>
-                    )
-                
-                })}
-
-            </form>
-            <div class="all">
-                {Canciones.map( (element) =>
-                    {
-                        return <Carrousel info={element} />
-                    }
-    
-                )}	
-            </div>
-            <div class="canciones h-full flex flex-row flex-wrap ml-8 mt-6"> 
-                {Canciones[0].items.map((item) => {
-                    return(
-                    <li class="flex flex-col p-2 text-sm w-[300px] ">
-                        <a href=`/library/${item.audio}` class="  relative inline-block imagen ">
-                            <img src="../../cancion.jpg" class:list={[" w-full rounded-md mb-1 hover:brightness-90"]}/>
-                            <div class="rounded-full w-10 h-10 hidden items-center justify-center botones">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-player-play-filled" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4v16a1 1 0 0 0 1.524 .852l13 -8a1 1 0 0 0 0 -1.704l-13 -8a1 1 0 0 0 -1.524 .852z" stroke-width="0" fill="currentColor" /></svg>
-                            </div>
-                        </a>
-                        <a href="/library/playlist1" class=" w-max hover:underline">
-                            <p class="text-base hover:underline">{item.audio}</p>
-                        </a>
-                        <a href=`/artist/${item.descripcion}` class="w-max hover:underline"><p class=" text-gray-400">{item.descripcion}</p></a>
-
-                    </li>)
-                })}
-            </div> -->
 
     </div> 
     <script> 
