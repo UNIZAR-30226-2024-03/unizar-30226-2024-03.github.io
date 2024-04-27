@@ -2,47 +2,91 @@
 import CreatorLayout from '@layouts/CreatorLayout.astro';
 import HeaderCreator from '@components/HeaderCreator.astro';
 import Stats3 from '@components/Stats3.astro';
+import { TOKEN } from '@/constants';
 
 
-const canciones = [
+const response = [
     {
-        date: "03/2024",
-        plays: "1,480,000",
-        diff: "+2,3%"
+        "month": 4,
+        "year": 2023,
+        "listens": 0
     },
     {
-      date: "03/2024",
-        plays: "1,480,000",
-        diff: "+2,3%"
+        "month": 5,
+        "year": 2023,
+        "listens": 0
     },
     {
-      date: "03/2024",
-        plays: "1,480,000",
-        diff: "+2,3%"
+        "month": 6,
+        "year": 2023,
+        "listens": 0
     },
     {
-      date: "03/2024",
-        plays: "1,480,000",
-        diff: "+2,3%"
+        "month": 7,
+        "year": 2023,
+        "listens": 0
     },
     {
-      date: "03/2024",
-        plays: "1,480,000",
-        diff: "+2,3%"
+        "month": 8,
+        "year": 2023,
+        "listens": 0
     },
     {
-      date: "03/2024",
-        plays: "1,480,000",
-        diff: "+2,3%"
+        "month": 9,
+        "year": 2023,
+        "listens": 0
     },
     {
-      date: "03/2024",
-        plays: "1,480,000",
-        diff: "+2,3%"
+        "month": 10,
+        "year": 2023,
+        "listens": 0
     },
-    
-
+    {
+        "month": 11,
+        "year": 2023,
+        "listens": 0
+    },
+    {
+        "month": 12,
+        "year": 2023,
+        "listens": 0
+    },
+    {
+        "month": 1,
+        "year": 2024,
+        "listens": 0
+    },
+    {
+        "month": 2,
+        "year": 2024,
+        "listens": 0
+    },
+    {
+        "month": 3,
+        "year": 2024,
+        "listens": 0
+    },
+    {
+        "month": 4,
+        "year": 2024,
+        "listens": 208
+    }
 ]
+const datos = response.map(cancion => cancion.listens)
+const firstNonZeroIndex = response.findIndex(cancion => cancion.listens !== 0);
+const canciones = response.slice(firstNonZeroIndex).reverse();
+let nombre = Astro.cookies.get("statsAudio")?.value
+const reproducciones = nombre?.split("|")[1]
+nombre = nombre?.split("|")[0]
+console.log(datos)
+//const token = Astro.cookies.get(TOKEN);
+// let response
+// try{
+//     response = await getStatsAudio(token?.value)
+//     response = response.data
+// }catch(e){
+//     console.log(e)
+// }
 ---
 
 <CreatorLayout title="PlayBeat">
@@ -50,7 +94,7 @@ const canciones = [
         <HeaderCreator />
         <div class=" w-full flex flex-col items-center gap-3 mt-16 px-16">
             
-            <Stats3 name="Cancion1" num="24,359,200" idNum="4" />
+            <Stats3 name={nombre || ""} num={reproducciones || "0"} idNum="4" />
             <table class="mt-8 table-auto w-full">
                 <thead class="opacity-60">
                     <tr class="text-left">
@@ -60,11 +104,11 @@ const canciones = [
                     </tr>
                 </thead>
                 <tbody class="border-t-[1px] border-white border-opacity-60">
-                    {canciones.map((cancion) => (
+                    {canciones.map((cancion, index) => (
                           <tr class=" hover:bg-[#262626]" onclick="window.location='/stats/cancion1';">
-                            <td class="py-3 pl-3">{cancion.date}</td>
-                            <td class="max-w-12">{cancion.plays}</td>
-                            <td class="py-3 max-w-6 text-[#47d147]">{cancion.diff}</td>
+                            <td class="py-3 pl-3">{cancion.month}/{cancion.year}</td>
+                            <td class="max-w-12">{cancion.listens}</td>
+                            <td class="py-3 max-w-6 text-[#47d147]">{index == 0 ? "100" : cancion.listens*100/Number(canciones[index-1])}%</td>
 
                         </tr>
     
@@ -82,13 +126,12 @@ const canciones = [
 
 <script is:inline src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
-<script is:inline>
+<script is:inline define:vars={{datos}}>
     function initCharts(){
-      
     var options = {
           series: [{
           name: 'series1',
-          data: [31, 40, 28, 51, 42, 51, 68, 72, 60, 82, 100, 97, 81, 60, 88, 51, 42, 51, 68, 72, 60, 82, 100, 97]
+          data: datos
         }],
           chart: {
             height: 400,
@@ -127,7 +170,7 @@ const canciones = [
         },
         xaxis: {
           type: 'string',
-          categories: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic","Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+          categories: ["Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic","Ene", "Feb", "Mar", "Abr"],
           labels:{
             show:true,
             style:{
@@ -145,8 +188,9 @@ const canciones = [
         yaxis: {
           type: 'string',
           min: 0,
-          max: 100,
-          stepSize: 50,
+          max: () => {
+            return Math.ceil(Math.max(...datos) / 50) * 50;
+          },
           showForNullSeries: false,
           labels:{
             show:true,
@@ -157,8 +201,6 @@ const canciones = [
         },
         tooltip: {
           enabled: false
-          
-          
 
         },        
         plotOptions: {

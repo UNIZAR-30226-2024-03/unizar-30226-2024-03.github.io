@@ -2,79 +2,20 @@
 import CreatorLayout from '@layouts/CreatorLayout.astro';
 import HeaderCreator from '@components/HeaderCreator.astro';
 import Stats1 from '@components/Stats1.astro';
-const canciones = [
-    {
-        title: "Cancion 1",
-        artist: "Artista 1",
-        album: "Album 1",
-        time: "2:30",
-        url: "/creator/stats/cancion1"
-    },
-    {
-        title: "Cancion 2",
-        artist: "Artista 2",
-        album: "Album 2",
-        time: "3:30",
-        url: "/creator/stats/cancion2"
-    },
-    {
-        title: "Cancion 3",
-        artist: "Artista 3",
-        album: "Album 3",
-        time: "4:30",
-        url: "/creator/stats/cancion3"
-    },
-    {
-        title: "Cancion 4",
-        artist: "Artista 4",
-        album: "Album 4",
-        time: "5:30",
-        url: "/creator/stats/cancion4"
-    },
-    {
-        title: "Cancion 5",
-        artist: "Artista 5",
-        album: "Album 5",
-        time: "6:30",
-        url: "/creator/stats/cancion5"
-    },
-    {
-        title: "Cancion 6",
-        artist: "Artista 6",
-        album: "Album 6",
-        time: "7:30",
-        url: "/creator/stats/cancion6"
-    },
-    {
-        title: "Cancion 7",
-        artist: "Artista 7",
-        album: "Album 7",
-        time: "8:30",
-        url: "/creator/stats/cancion7"
-    },
-    {
-        title: "Cancion 8",
-        artist: "Artista 8",
-        album: "Album 8",
-        time: "9:30",
-        url: "/creator/stats/cancion8"
-    },
-    {
-        title: "Cancion 9",
-        artist: "Artista 9",
-        album: "Album 9",
-        time: "10:30",
-        url: "/creator/stats/cancion9"
-    },
-    {
-        title: "Cancion 10",
-        artist: "Artista 10",
-        album: "Album 10",
-        time: "11:30",
-        url: "/creator/stats/cancion10"
-    }
+import { TOKEN } from '@/constants';
+import { getMyAudios } from '@/utils/getMyAudios';
+import { Global } from '@/globalState/globalUrl';
 
-]
+
+const token = Astro.cookies.get(TOKEN);
+let response
+try{
+    response = await getMyAudios(token?.value)
+    response = response.data
+}catch(e){
+    console.log(e)
+}
+
 ---
 
 <CreatorLayout title="PlayBeat">
@@ -90,44 +31,51 @@ const canciones = [
             <Stats1 name="Participaciones en playlists" num="143,500" idNum="3"/>
         </div>     
         <section class="px-16 w-full mt-12">
-          <div class="flex flex-row items-center w-[400px] ">
-            <form class="border-[1.5px] ml-10 border-white p-3 w-full h-12 flex justify-start items-center rounded-md">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
-                <input type="text" class=" ml-3 w-full outline-none " placeholder="Buscar"/>
-            </form>
-          </div>
           <table class="mt-8 table-auto w-full">
             <thead class="opacity-60">
                 <tr class="text-left">
                     <th class="pb-2 pl-3">Canción</th>
-                    <th>Álbum</th>
+                    <th>Artista</th>
                     <th class="max-w-6">Duración</th>
+                    <th class="w-9">Reproducciones</th>
                 </tr>
             </thead>
             <tbody class="border-t-[1px] border-white border-opacity-60">
-                {canciones.map((cancion) => (
-                      <tr class=" hover:bg-[#262626]" data-url={cancion.url} >
+                {response.cancion.map((cancion:any, index:number) => (
+                      <tr class=" hover:bg-[#262626]" data-url={"stats/"+cancion.idAudio}>
                         <td class="py-3 pl-3 flex flex-row items-center gap-3">
                             <div class=" h-12 aspect-square bg-black rounded-[4px]">
                             </div>
-                            {cancion.title}
-                            </td>
-                        <td class="py-3">{cancion.album}</td>
-                        <td class="py-3 max-w-6 ">{cancion.time}</td>
-                        <td class="max-w-3 cursor-pointer pr-3"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#6985C0" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg></td>
+                            <p>{cancion.titulo}</p>
+                        </td>
+                        <td class="py-3">                            
+                        {
+                                cancion && cancion.Artistas.map((artista :any, index:any) => 
+                                    
+                                        <p class="text-gray-400">{( index == cancion.Artistas?.length-1  )? artista.nombreUsuario : artista.nombreUsuario + ', '}</p>
+                                        
+
+                                )
+                            }</td>
+                        <td class="py-3 max-w-6 ">{cancion.duracionSeg}</td>
+                        <td class="max-w-3 cursor-pointer pr-3">
+                            <p>{cancion.vecesEscuchada}</p>
+                        </td>
                     </tr>
 
                 ))
                 }
             </tbody>
             <script>
+
                 document.addEventListener("DOMContentLoaded", function() {
                   var rows = document.querySelectorAll("tbody tr");
                   rows.forEach(function(row) {
                     row.addEventListener("click", function(this: HTMLElement) {
                       var url = this.getAttribute("data-url");
                       if (url) {
-                        window.location.href = url;
+                        document.cookie = "statsAudio=" + (row.children[0].children[1].textContent || "") + "|" + (row.children[3].textContent || "") + "; path=/";                        window.location.href = url;
+                        
                       }
                     });
                   });
