@@ -4,14 +4,169 @@ import HeaderCreator from '@components/HeaderCreator.astro';
 import Stats1 from '@components/Stats1.astro';
 import { TOKEN } from '@/constants';
 import { getMyAudios } from '@/utils/getMyAudios';
-import { Global } from '@/globalState/globalUrl';
+import { getMyUserInfo } from '@/utils/getMyUserInfo';
+import { getStatsUser } from '@/utils/getStatsUser';
 
 
 const token = Astro.cookies.get(TOKEN);
+
 let response
+let user
+let res
+let datosRep : any  
+let datosUser : any
+res={
+    "alcanceMensual": [
+        {
+            "month": 4,
+            "year": 2023,
+            "alcance": 0
+        },
+        {
+            "month": 5,
+            "year": 2023,
+            "alcance": 0
+        },
+        {
+            "month": 6,
+            "year": 2023,
+            "alcance": 0
+        },
+        {
+            "month": 7,
+            "year": 2023,
+            "alcance": 0
+        },
+        {
+            "month": 8,
+            "year": 2023,
+            "alcance": 0
+        },
+        {
+            "month": 9,
+            "year": 2023,
+            "alcance": 0
+        },
+        {
+            "month": 10,
+            "year": 2023,
+            "alcance": 0
+        },
+        {
+            "month": 11,
+            "year": 2023,
+            "alcance": 0
+        },
+        {
+            "month": 12,
+            "year": 2023,
+            "alcance": 0
+        },
+        {
+            "month": 1,
+            "year": 2024,
+            "alcance": 0
+        },
+        {
+            "month": 2,
+            "year": 2024,
+            "alcance": 0
+        },
+        {
+            "month": 3,
+            "year": 2024,
+            "alcance": 0
+        },
+        {
+            "month": 4,
+            "year": 2024,
+            "alcance": 1
+        }
+    ],
+    "escuchasUsuarioMensuales": [
+        {
+            "month": 4,
+            "year": 2023,
+            "escuchas": 0
+        },
+        {
+            "month": 5,
+            "year": 2023,
+            "escuchas": 0
+        },
+        {
+            "month": 6,
+            "year": 2023,
+            "escuchas": 0
+        },
+        {
+            "month": 7,
+            "year": 2023,
+            "escuchas": 0
+        },
+        {
+            "month": 8,
+            "year": 2023,
+            "escuchas": 0
+        },
+        {
+            "month": 9,
+            "year": 2023,
+            "escuchas": 0
+        },
+        {
+            "month": 10,
+            "year": 2023,
+            "escuchas": 0
+        },
+        {
+            "month": 11,
+            "year": 2023,
+            "escuchas": 0
+        },
+        {
+            "month": 12,
+            "year": 2023,
+            "escuchas": 0
+        },
+        {
+            "month": 1,
+            "year": 2024,
+            "escuchas": 0
+        },
+        {
+            "month": 2,
+            "year": 2024,
+            "escuchas": 0
+        },
+        {
+            "month": 3,
+            "year": 2024,
+            "escuchas": 0
+        },
+        {
+            "month": 4,
+            "year": 2024,
+            "escuchas": 374
+        }
+    ]
+}
 try{
+  // let date = new Date();
+  //   date.setFullYear(date.getFullYear() - 1);
+  //   let formattedDate = ("0" + (date.getMonth() + 1)).slice(-2) + "-" + date.getFullYear();
+  // res = await getStatsUser(token?.value, {date: formattedDate});
+  //   res = res.data
+    datosRep = res.escuchasUsuarioMensuales.map((r:any) => r.escuchas)
+    datosUser = res.alcanceMensual.map((r:any) => r.alcance)
     response = await getMyAudios(token?.value)
     response = response.data
+    user = await getMyUserInfo(token?.value)
+    user = user.data
+    console.log(datosRep + datosUser)
+
+
+
 }catch(e){
     console.log(e)
 }
@@ -26,9 +181,8 @@ try{
             <h2 class="text-6xl font-semibold">ESTADISTICAS</h2>
         </div>
         <div class=" w-full flex flex-row flex-wrap justify-center gap-4 mt-5">
-            <Stats1 name="Visualizaciones" num="1,359,200" idNum="1" />
-            <Stats1 name="Oyentes" num="580,100" idNum="2"/>
-            <Stats1 name="Participaciones en playlists" num="143,500" idNum="3"/>
+            <Stats1 name={["Reproducciones","Ultimos 30 dias","Totales"]} num={[res.escuchasUsuarioMensuales[res.escuchasUsuarioMensuales.length-1].escuchas,user.oyentesMensuales,user.nEscuchas]} idNum="1" />
+            <Stats1 name={["Oyentes","Ultimos 30 dias","Totales"]} num={[res.alcanceMensual[res.alcanceMensual.length-1].alcance, user.usuariosAlcanzados, user.usuariosAlcanzadosUltimoMes]} idNum="2"/>
         </div>     
         <section class="px-16 w-full mt-12">
           <table class="mt-8 table-auto w-full">
@@ -86,15 +240,19 @@ try{
         
     </div>
 </CreatorLayout>
-<script is:inline src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script is:inline src="https://cdn.jsdelivr.net/npm/apexcharts">
+import { tick } from "svelte";
+</script>
 
-<script is:inline>
-    function initCharts(){
-      
+<script is:inline define:vars={{datosUser, datosRep}} >
+    function initCharts(datosRep, datosUser){
+      console.log("datosRep" + datosRep)
+      console.log("datosUser" + datosUser)
+
     var options = {
           series: [{
           name: 'series1',
-          data: [31, 40, 28, 51, 42, 51, 68, 72, 60, 82, 100, 97,]
+          data: datosRep
         }],
           chart: {
             height: 250,
@@ -130,7 +288,7 @@ try{
         },
         xaxis: {
           type: 'string',
-          categories: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+          categories: ["Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic", "Ene", "Feb", "Mar", "Abr"],
           labels:{
             show:true,
             style:{
@@ -141,8 +299,76 @@ try{
         yaxis: {
           type: 'string',
           min: 0,
-          max: 100,
-          stepSize: 50,
+          max: () => {return Math.ceil(Math.max(...datosRep) / 100) * 100;},
+          tickAmount: 4,
+          labels:{
+            show:true,
+            style:{
+                colors: '#ffffff'
+            }
+          }
+        },
+        tooltip: {
+          enabled: false
+          
+          
+
+        },
+ 
+        
+        };
+        var options2 = {
+          series: [{
+          name: 'series1',
+          data: datosUser
+        }],
+          chart: {
+            height: 250,
+            width: "100%",
+            type: 'area',
+            toolbar: {
+                show: false,
+            },
+            animations: {
+                enabled: true,
+                easing: 'easeinout',
+                speed: 800,
+                animateGradually: {
+                    enabled: true,
+                    delay: 150
+                },
+                dynamicAnimation: {
+                    enabled: true,
+                    speed: 350
+                }
+            }
+            ,
+        },
+        grid:{
+            show: true,
+            borderColor: '#ffffff56',
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          curve: 'smooth'
+        },
+        xaxis: {
+          type: 'string',
+          categories: ["Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic", "Ene", "Feb", "Mar", "Abr"],
+          labels:{
+            show:true,
+            style:{
+                colors: '#ffffff'
+            }
+          }
+        },
+        yaxis: {
+          type: 'string',
+          min: 0,
+          max: () => {return Math.ceil(Math.max(...datosUser) / 10) * 10;},
+          tickAmount: 4,
           labels:{
             show:true,
             style:{
@@ -161,19 +387,17 @@ try{
         };
 
         var chart1 = new ApexCharts(document.querySelector("#chart1"), options);
-        var chart2 = new ApexCharts(document.querySelector("#chart2"), options);
-        var chart3 = new ApexCharts(document.querySelector("#chart3"), options);
+        var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
         console.log("chart1", chart1)
-        if(chart1.el != null  && chart2.el != null && chart3 != null){
+        if(chart1.el != null  && chart2.el != null){
             console.log("render")
-            chart1.render();
-            chart2.render();
-            chart3.render();
+            chart1.render(datosRep);
+            chart2.render(datosUser);
         }
 
     }
 
-    initCharts()
+    initCharts(datosRep,datosUser)
 
       
 </script>
