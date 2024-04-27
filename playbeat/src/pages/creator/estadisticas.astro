@@ -240,10 +240,7 @@ try{
         
     </div>
 </CreatorLayout>
-<script is:inline src="https://cdn.jsdelivr.net/npm/apexcharts">
-import { tick } from "svelte";
-</script>
-
+<script is:inline src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script is:inline define:vars={{datosUser, datosRep}} >
     function initCharts(datosRep, datosUser){
       console.log("datosRep" + datosRep)
@@ -388,7 +385,6 @@ import { tick } from "svelte";
 
         var chart1 = new ApexCharts(document.querySelector("#chart1"), options);
         var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
-        console.log("chart1", chart1)
         if(chart1.el != null  && chart2.el != null){
             console.log("render")
             chart1.render(datosRep);
@@ -396,8 +392,11 @@ import { tick } from "svelte";
         }
 
     }
+      setTimeout(() => {
+        initCharts(datosRep,datosUser)
+      }, 100); 
+    
 
-    initCharts(datosRep,datosUser)
 
       
 </script>
