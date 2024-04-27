@@ -3,90 +3,31 @@ import CreatorLayout from '@layouts/CreatorLayout.astro';
 import HeaderCreator from '@components/HeaderCreator.astro';
 import Stats3 from '@components/Stats3.astro';
 import { TOKEN } from '@/constants';
+import { getStatsAudio } from '@/utils/getStatsAudio';
 
 
-const response = [
-    {
-        "month": 4,
-        "year": 2023,
-        "listens": 0
-    },
-    {
-        "month": 5,
-        "year": 2023,
-        "listens": 0
-    },
-    {
-        "month": 6,
-        "year": 2023,
-        "listens": 0
-    },
-    {
-        "month": 7,
-        "year": 2023,
-        "listens": 0
-    },
-    {
-        "month": 8,
-        "year": 2023,
-        "listens": 0
-    },
-    {
-        "month": 9,
-        "year": 2023,
-        "listens": 0
-    },
-    {
-        "month": 10,
-        "year": 2023,
-        "listens": 0
-    },
-    {
-        "month": 11,
-        "year": 2023,
-        "listens": 0
-    },
-    {
-        "month": 12,
-        "year": 2023,
-        "listens": 0
-    },
-    {
-        "month": 1,
-        "year": 2024,
-        "listens": 0
-    },
-    {
-        "month": 2,
-        "year": 2024,
-        "listens": 0
-    },
-    {
-        "month": 3,
-        "year": 2024,
-        "listens": 0
-    },
-    {
-        "month": 4,
-        "year": 2024,
-        "listens": 208
-    }
-]
-const datos = response.map(cancion => cancion.listens)
-const firstNonZeroIndex = response.findIndex(cancion => cancion.listens !== 0);
-const canciones = response.slice(firstNonZeroIndex).reverse();
+
+
 let nombre = Astro.cookies.get("statsAudio")?.value
 const reproducciones = nombre?.split("|")[1]
 nombre = nombre?.split("|")[0]
-console.log(datos)
-//const token = Astro.cookies.get(TOKEN);
-// let response
-// try{
-//     response = await getStatsAudio(token?.value)
-//     response = response.data
-// }catch(e){
-//     console.log(e)
-// }
+const {id} = Astro.params
+const token = Astro.cookies.get(TOKEN);
+let res
+let datos :any = []
+let canciones :any = []
+try{
+  let date = new Date();
+  date.setFullYear(date.getFullYear() - 1);
+  let formattedDate = ("0" + (date.getMonth() + 1)).slice(-2) + "-" + date.getFullYear();
+  res = await getStatsAudio(token?.value, id ||"", {date: formattedDate});
+  res = res.data
+  datos = res.map((cancion:any )=> cancion.listens)
+  const firstNonZeroIndex = res.findIndex((cancion :any) => cancion.listens !== 0);
+  canciones = res.slice(firstNonZeroIndex).reverse();
+}catch(e){
+    console.log(e)
+}
 ---
 
 <CreatorLayout title="PlayBeat">
@@ -104,7 +45,7 @@ console.log(datos)
                     </tr>
                 </thead>
                 <tbody class="border-t-[1px] border-white border-opacity-60">
-                    {canciones.map((cancion, index) => (
+                    {canciones.map((cancion :any, index:any) => (
                           <tr class=" hover:bg-[#262626]" onclick="window.location='/stats/cancion1';">
                             <td class="py-3 pl-3">{cancion.month}/{cancion.year}</td>
                             <td class="max-w-12">{cancion.listens}</td>
