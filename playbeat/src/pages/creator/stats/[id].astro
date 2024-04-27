@@ -189,7 +189,7 @@ console.log(datos)
           type: 'string',
           min: 0,
           max: () => {
-            return Math.ceil(Math.max(...datos) / 50) * 50;
+            return Math.ceil(Math.max(...datos) / 100) * 100;
           },
           showForNullSeries: false,
           labels:{
@@ -197,7 +197,9 @@ console.log(datos)
             style:{
                 colors: '#ffffff'
             }
-          }
+          },
+          tickAmount: 5,
+          forceNiceScale: true,
         },
         tooltip: {
           enabled: false
