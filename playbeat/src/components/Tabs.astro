@@ -1,6 +1,6 @@
 ---
 import Queue from './Queue.vue';
-import History from './History.astro';
+import History from './History.vue';
 
 const tabsItem = [
   { id: 'Cola', label: 'Cola', content: "Cola" },
@@ -30,7 +30,7 @@ const {subject, class:className} = Astro.props;
   {tabsItem.map((tab)=> {
     return   (
       
-        <div class={className }>{tab.content == "Cola" ? <Queue client:load transition:persist/> : <History/>}</div>
+        <div class={className }>{tab.content == "Cola" ? <Queue client:only/> : <History client:only />}</div>
       
     )
   })}

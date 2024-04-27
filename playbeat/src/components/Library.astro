@@ -1,15 +1,15 @@
 ---
+import { Global } from '@/globalState/globalUrl'
 interface Info {
     
-    items: {
-        audio: string;
-        descripcion: string;
-    }[];
+    idLista: number
+    nombre: string
+    imgLista:string
     
 }
 
 interface Props {
-	info: Info;
+	info: Info[];
     title: string;
     
 }
@@ -23,19 +23,24 @@ const { info, title} = Astro.props;
 
 
 <section>
-    <header class="flex flex-row w-max items-center ml-[44px]">
+    <header class="flex flex-row w-max items-center ml-12">
         
         <h1 class="text-3xl font-bold mt-4">{title}</h1>
     </header>
     <div class="flex flex-row items-center mt-4 ">
             
-        <ul class="grid  mb-3  grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5   mx-auto">
-            {info.items.map( (item) => 
-                    <li class="flex flex-col p-8  text-sm h-full  ">
-                        <div class:list={[" w-[200px]  bg-grey rounded-md mb-1  aspect-square " ]}>
-                        </div>
-                        <p class="text-base">{item.audio}</p>
-                        <p class=" text-gray-400">{item.descripcion}</p>
+        <ul class="flex flex-row flex-wrap gap-10 mx-10 ">
+            {info && info.map( (item) => 
+                    <li class="flex flex-col p-2 snap-start text-sm h-full hijo " id={item.idLista+''}>
+                        <a href=`/library/${item.idLista}` class=" w-[200px] relative inline-block imagen ">
+                            <img class=" w-full rounded-md mb-1 hover:brightness-90 aspect-square" src={Global.url + "foto/" + item.imgLista}>
+
+                        </a>
+
+                        <a href=`/library/${item.idLista}` class=" w-max hover:underline">
+                            <p class="text-base hover:underline">{item.nombre}</p>
+                        </a>
+                        <a href=`/artist/yo` class="w-max hover:underline"><p class=" text-gray-400">@yo</p></a>
 
                     </li>
             )}

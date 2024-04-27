@@ -1,0 +1,70 @@
+---
+import { Global } from "@/globalState/globalUrl";
+import { SubHeaderUser } from "@components/SubHeaderUser.jsx";
+import {ImgPerfil} from "@/components/ImgPerfil.jsx";
+
+interface Props {
+    nombre: string,
+    email: string,
+    img: string,
+    followers: [],
+    following: [], 
+    id: number
+}
+
+const {nombre, email, img, followers, following, id} = Astro.props
+
+const idUsuario = JSON.parse(Astro.cookies.get("usuario")?.value as any)
+const token = (Astro.cookies.get('token') as { value: string }).value;
+
+
+
+
+
+
+let isFollower = false;
+
+for (let i = 0; i < followers.length; i++) {
+    if ((followers[i] as { seguidorId: number }).seguidorId === idUsuario) {
+        isFollower = true;
+        break;
+    }
+}
+
+
+
+ const src = Global.url+"foto/"+img
+
+---
+
+ <header class=" h-80 w-full"> 
+    <div class=" w-full h-full flex flex-row justify-between relative">
+        
+        <div class="  -z-40 w-full h-80 bg-[#9A9A9A]  blur-3xl"></div>
+        <div class=" ml-1 flex flex-row gap-2  absolute w-full mt-100">
+            <SubHeaderUser follow={isFollower} id={id} jws={token} followers={followers} nombre={nombre} email={email} src={src} client:load/>
+        </div>
+        
+        
+
+    </div>
+</header>
+
+<style>
+    .name{
+        bottom: 1vw;
+        left: 0.5vw;
+    }
+    .photo{
+        bottom: 2.5vw;
+        left: 42.2%;
+        
+    }
+    .edit{
+        bottom: 1vw;
+        right: 0.5vw;
+    }
+
+
+    
+</style>

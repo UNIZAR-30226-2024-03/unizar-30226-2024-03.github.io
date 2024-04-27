@@ -1,7 +1,67 @@
 ---
-import Logo from '@/icons/Logo.astro'
 import NormalLayout from '../layouts/NormalLayout.astro'
 import LogoBlanco from '@/icons/LogoBlanco.astro'
+import {TOKEN} from '@/constants.ts'
+
+import { loginUser } from '@/utils/login.ts'
+import { getFollowers } from '@/utils/getFollowers';
+import { getMyUserInfo } from '@/utils/getMyUserInfo';
+
+const errors = {email: "", password: "", peticion:"" };
+const values = {email: "", contrasegna: "" };
+
+
+if (Astro.request.method ==="POST" ) {
+
+  try{
+
+    const data = await Astro.request.formData();
+    const email = data.get("email");
+    values.email = email as string;
+    const password = data.get("password");
+    values.contrasegna = password as string;
+
+   
+
+    if (typeof email !== "string" || email.length < 1) {
+      errors.email += "Email no valido.";
+
+    }
+    if(email && !String(email).includes("@")){
+      errors.email += "Email no valido.";
+    }
+    if(email && !String(email).includes(".")){
+      errors.email += "Email no valido.";
+    }
+    if (typeof password !== "string" || password.length < 6) {
+      errors.password += "La contraseña debe tener seis caracteres o más.";
+
+    }
+    // Do something with the data
+    const hasErrors = Object.values(errors).some(msg => msg)
+    if (!hasErrors) { 
+      const response = await loginUser({email: values.email, contrasegna: values.contrasegna});
+      if (response && response.status === 200) { 
+
+        Astro.cookies.set(TOKEN, response.data);
+        const user = await getMyUserInfo(response.data);
+        Astro.cookies.set("usuario", user.data)
+        return Astro.redirect("/home");
+      } else {
+        errors.peticion = "Error intentelo de nuevo";
+      }
+    }
+
+
+  } catch (error) {
+    if (error instanceof TypeError) {
+      errors.peticion = "Error en la petición";
+    }
+
+  }
+  
+    
+}
 
 
 ---
@@ -12,12 +72,23 @@ import LogoBlanco from '@/icons/LogoBlanco.astro'
         <h1 class=" font-bold text-6xl text-[#6985C0]">PlayBeat</h1>
         <LogoBlanco/>
         <div class="flex flex-col gap-3">
-            <form class="flex flex-col -mt-2 w-96 text-white" onsubmit="">
+            <form class="flex flex-col -mt-2 w-96 text-white" novalidate method="POST">
                 <label>Correo electrónico:</label>
-                <input type="text" class="border-2 border-white bg-transparent  h-10 rounded-md p-2  outline-none" placeholder="Introduce tu correo electrónico"/>
+                <input type="email" class=" border-2 border-white bg-transparent  h-10 rounded-md p-2 outline-none" placeholder="Introduce tu correo electrónico" name="email" required  />
                 <label class="mt-4">Contraseña</label>
-                <input type="text" class=" border-2 border-white bg-transparent  h-10 rounded-md p-2 outline-none" placeholder="Introduce tu contraseña"/>
-                <button type="submit" class="bg-[#6985C0] p-2 rounded-md mt-8 font-semibold">Iniciar Sesión</button>
+                <input type="password" class=" border-2 border-white bg-transparent  h-10 rounded-md p-2 outline-none" placeholder="Introduce tu contraseña" name="password" required minlength="6"/>
+                {
+                  (errors.password || errors.email || errors.peticion)
+                  && 
+                  <div class=" bg-[#ee4a4a] bg-opacity-85  border-[#ff2626] border-3 p-3 mt-4 rounded-md"> 
+                      <p class="text-white font-semibold">Corrige los siguientes errores:</p>
+                      <p class="text-white ">{errors.email}</p>
+                      <p class="text-white ">{errors.password}</p>
+                      <p class="text-white ">{errors.peticion}</p>
+
+                  </div>
+              }
+                <input value="Iniciar Sesión" class="bg-[#6985C0] p-2 rounded-md mt-8 font-semibold" type="submit"/>
             </form>
             
             <!-- Botón google -->
