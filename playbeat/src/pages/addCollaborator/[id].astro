@@ -54,7 +54,7 @@ if (Astro.request.method ==="POST" ) {
         if(responseLista && responseLista.status === 200){
           //Revisar estas dos instucciones, en web quedarán bien pero si se abre el link desde el móvil no.
           Astro.cookies.set(TOKEN, response.data);
-          return Astro.redirect("/home");
+          return Astro.redirect("/logout");
         }else{
           errors.peticion = "Error intentelo de nuevo";
         }

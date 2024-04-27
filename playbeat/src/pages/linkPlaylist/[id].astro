@@ -1,14 +1,54 @@
 ---
 import Layout from '../../layouts/Layout.astro'
+import Header from '../../components/Header.astro'
+import Copy from '@/icons/Copy.astro';
 
 
+const {id} = Astro.params;
 
-
-
+const link = `https://unizar-30226-2024-03-github-io.vercel.app/addCollaborator/${id}`;
 ---
 
 
 <Layout title="PlayBeat">
+    <div class=" flex flex-col w-full   text-white">
+		<Header/>
+		<div class=" w-full h-full flex flex-col mt-16 p-1">
+            <h1 class="text-bluePB text-5xl font-semibold ml-10">INSTRUCCIONES PARA AÑADIR UN NUEVO COLABORADOR</h1>
+            <div class="flex flex-col w-full h-full items-start justify-center gap-6">
+                <div class="mx-10 mt-6 ">
+                    <ol class=" mx-8 mt-2 space-y-6 text-xl">
+                        <li><strong class="text-bluePB">Copia el sigueinte enlace:</strong> Haz clic en el botón para copiar el enlace.</li>
+                        <li class="mx-10 my-8">
+                            <div class="flex flex-row bg-grey rounded-lg p-4  justify-center w-max">
+
+                                <input type="text" id="playlist-link" value={link} size={link.length +4} readonly class=" w-3/4 bg-grey text-lg">
+                                <button class="ml-4 border-white border-1 p-2 rounded-md border-opacity-30 hover:border-opacity-80" onclick="copiarEnlace()">
+                                    <Copy/>
+                                </button>
+                            </div>
+
+                            <script is:inline>
+                                function copiarEnlace() {
+                                    var link = document.getElementById('playlist-link');
+                                    link.select();
+                                    document.execCommand('copy');
+                                    alert('El enlace ha sido copiado al portapapeles.');
+                                }
+                            </script>
+                        </li>
+                        <li><strong class="text-bluePB">Comparte el enlace:</strong> Envía el enlace a las personas que quieras añadir a tu lista.</li>
+                        <li><strong class="text-bluePB">Abre el enlace:</strong> Pide al colaborador que abra el enlace en su navegador web.</li>
+                        <li><strong class="text-bluePB">Inicia sesión:</strong> El colaborador debe iniciar sesión en su cuenta para acceder a la playlist. Si no tiene una cuenta, deberá crear una.</li>
+                        <li><strong class="text-bluePB">Empieza a colaborar:</strong> Una vez iniciada la sesión, el colaborador tendrá acceso a la playlist y podrá añadir, editar o eliminar canciones.</li>
+                      </ol>
+                </div>
+            </div>
+
+			
+			
+		</div>
+	</div>
    
 
 
