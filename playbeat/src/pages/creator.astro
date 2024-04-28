@@ -142,26 +142,26 @@ try{
         <div class="w-full flex flex-row justify-between mt-16 px-20 ">
             
             <div class="flex flex-col w-1/2 items-center rounded-sm">
-                <h3 class="text-xl p-2 font-semibold">REPRODUCCIONES ULTIMOS 30 DIAS</h3>
+                <a href="/creator/estadisticas"><h3 class="text-xl p-2 font-semibold hover:underline">REPRODUCCIONES ULTIMOS 30 DIAS</h3></a>
                 <div class="h-[150px] w-full flex justify-center items-center">
                     <Contador initial={0} final={user.nEscuchas}  client:load/>
                 </div>
             </div>
             <div class="flex flex-col w-1/2 items-center  rounded-sm">
-                <h3 class="text-xl p-2 font-semibold">OYENTE ULTIMOS 30 DIAS</h3>
+                <a href="/creator/estadisticas"><h3 class="text-xl p-2 font-semibold hover:underline">OYENTE ULTIMOS 30 DIAS</h3></a>
                 <div class="h-[150px] w-full flex justify-center items-center">
                     <Contador initial={0} final={user.oyentesMensuales}  client:load/>
                 </div>
             </div>
         </div>
-        <div class="w-full flex flex-row justify-between mt-10">
-            <div class="ml-20 flex flex-col items-center">
+        <div class="w-full flex flex-row justify-between mt-10 px-20 ">
+            <div class=" w-1/2 flex flex-col items-center">
                 <a href="/creator/tusaudios"><h3 class="text-4xl  font-semibold hover:underline">TUS CANCIONES</h3></a>
                 <div class="w-[600px]">
                     <!-- <CarrouselUser info={canciones} num={5}/> -->
                 </div>
             </div>
-            <div class="ml-8 w-[40%] flex flex-col mr-20">
+            <div class=" w-1/2 flex flex-col ">
                 <a href="/creator/tusalbums" class="self-center"><h3 class="text-4xl font-semibold  hover:underline">TUS ALBUMS</h3></a>
                 <Carrousel  info={canciones2} />
             </div>
