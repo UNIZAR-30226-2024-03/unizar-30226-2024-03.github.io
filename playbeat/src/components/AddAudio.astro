@@ -15,14 +15,18 @@ try{
     const data = await Astro.request.formData();
     const token = Astro.cookies.get(TOKEN);
     const file = data.get("photo")
+    const tags = data.getAll("tags")
+    const typeEtiqueta = data.get("tabsaudio") as string;
+    let esPodcast = false;
+    if(typeEtiqueta == "Podcast"){
+        esPodcast = true;
+    }
     if (file instanceof File) {
         if (file.size === 0) {
-            const tags = data.getAll("tags")
-            const typeEtiqueta = data.get("tabsaudio") as string;
             await createAudio({
                 titulo: data.get("titulo") as string,
                 esPrivada: data.get("esPrivada") as string == "on" || false,
-                esAlbum: false,
+                esAlbum: esPodcast,
                 esPodcast: false,
                 fechaLanz: new Date().toISOString(),
                 duracionSeg: parseFloat(data.get("duracion") as string) || 0,
@@ -33,42 +37,28 @@ try{
             
         }else{
             const img = await uploadImg(file)
-            const tags = data.getAll("tags")
-            const typeEtiqueta = data.get("tabsaudio") as string;
-            let esPodcast = false;
-    if(typeEtiqueta == "Podcast"){
-        esPodcast = true;
-    }
-    await createAudio({
-                titulo: data.get("titulo") as string,
-                esPrivada: data.get("esPrivada") as string == "on" || false,
-                img: img.id,
-                esAlbum: false,
-                esPodcast: esPodcast,
-                fechaLanz: new Date().toISOString(),
-                duracionSeg: parseFloat(data.get("duracion") as string) || 0,
-                cancion: data.get("cancion"), 
-                tipoEtiqueta: typeEtiqueta,
-                etiquetas: tags.join(",") // Convertimos tags a un string separados por comas, ya que asi lo pide la API
+            await createAudio({
+                        titulo: data.get("titulo") as string,
+                        esPrivada: data.get("esPrivada") as string == "on" || false,
+                        img: img.id,
+                        esAlbum: false,
+                        esPodcast: esPodcast,
+                        fechaLanz: new Date().toISOString(),
+                        duracionSeg: parseFloat(data.get("duracion") as string) || 0,
+                        cancion: data.get("cancion"), 
+                        tipoEtiqueta: typeEtiqueta,
+                        etiquetas: tags.join(",") // Convertimos tags a un string separados por comas, ya que asi lo pide la API
             }, token?.value)
-        
         }
     }
-    
-
-    const tags = data.getAll("tags")
-    const typeEtiqueta = data.get("tabsaudio") as string;
-    
-
-    
-    
-    // return Astro.redirect("/creator/tusaudios")
-
+    // setTimeout(() => {
+    //     // return Astro.redirect("/creator/tusaudios")
+    // }, 200);
 } catch (error) {
-//  if (error instanceof TypeError) {
-//    errors.peticion = "Error en la petición";
-//  }
-//
+ if (error instanceof TypeError) {
+   console.error("Error en la petición");
+ }
+
 }
  
 
