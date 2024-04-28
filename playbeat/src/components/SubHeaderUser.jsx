@@ -27,7 +27,7 @@ export const SubHeaderUser = ({follow,id, jws, followers, nombre, email, src}) =
 
     <div className=" mt-[23%]">
     
-    <div class=" ml-5 flex flex-col  absolute name">
+    <div className=" ml-5 flex flex-col  absolute name">
             <span className="text-3xl font-bold text-white">
                 {nombre}
             </span>
@@ -37,8 +37,8 @@ export const SubHeaderUser = ({follow,id, jws, followers, nombre, email, src}) =
 
             
         </div>
-        <div class=" flex flex-col flex-wrap content-center justify-center absolute photo gap-3 ">
-            <span class="text-3xl font-bold text-white ">
+        <div className=" flex flex-col flex-wrap content-center justify-center absolute photo gap-3 ">
+            <span className="text-3xl font-bold text-white ">
                 <ImgPerfil className="w-[180px] h-[180px]" classNames={{
                     base: "bg-gradient-to-br from-[#6985C0] from-30% to-[#CDD6EA]",
                     icon: "text-black/80 w-[180px] h-[180px] rounded-full text-7xl solid flex items-center justify-center",
@@ -48,12 +48,12 @@ export const SubHeaderUser = ({follow,id, jws, followers, nombre, email, src}) =
                   }} name={nombre} src={src} client:load/>
                 
             </span>
-            <div class="text-white text-3xl font-thin opacity-60 w-[180px] flex justify-center ">
+            <div className="text-white text-3xl font-thin opacity-60 w-[180px] flex justify-center ">
             {numFollow ? `${numFollow} ${numFollow === 1 ? 'Seguidor' : 'Seguidores'}` : '0 Seguidores'}  
 
             </div>
         </div>
-        <div class=" ml-5 flex flex-row gap-2  absolute edit mx-2">
+        <div className=" ml-5 flex flex-row gap-2  absolute edit mx-2">
         <button className="bg-bluePB rounded-md h-[50px] w-[140px]" onClick={handleButton}>
              {seguido ? "Dejar de seguir"  :  "Seguir"}
         </button>
