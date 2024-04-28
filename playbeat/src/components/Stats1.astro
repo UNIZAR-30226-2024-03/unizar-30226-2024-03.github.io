@@ -1,7 +1,7 @@
 ---
 interface Props{
-    name: string;
-    num: string;
+    name: string[];
+    num: string[];
     idNum: string;
 }
 
@@ -9,9 +9,16 @@ const {name, num, idNum} = Astro.props;
 ---
 
 
-<div class="bg-[#141414] w-[31%]  pr-4 rounded-sm">
-    <h2 class=" text-md ml-4 mt-3">{name}</h2>
-    <h2 class=" font-bold text-3xl ml-4">{num}</h2>
+<div class="bg-[#141414] w-[44%]  pr-4 rounded-sm flex flex-col">
+    <div class="flex flex-row justify-between px-3">
+        {num.map((data, index) => (
+            <div class="flex flex-col">
+                <h2 class=" text-md ml-4 mt-3">{name[index]}</h2>
+                <h2 class=" font-bold text-2xl ml-4">{data}</h2>
+            </div>
+        ))}
+    </div>
+
     <div id={"chart"+idNum}/>  
 </div>
 
