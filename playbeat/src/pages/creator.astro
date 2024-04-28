@@ -7,6 +7,7 @@ import CarrouselUser from '@components/CarrouselUser.astro';
 import {Contador} from '@components/Contador.tsx';
 import { getMyUserInfo } from "@/utils/getMyUserInfo";
 import {TOKEN} from '@/constants.ts'
+import { userTopSongs } from '@/utils/userTopSongs';
 
 
 const canciones = [
@@ -122,9 +123,13 @@ const canciones2 = {num:3,name:"Tu biblioteca", ref:"/creator/tusalbums", items:
 
 const token = Astro.cookies.get(TOKEN);
 let user
+let responseTop
+let top5
 try{
     user = await getMyUserInfo(token?.value)
     user = user.data
+    responseTop = await userTopSongs(token?.value || "", Number(user.idUsuario), 5);
+    top5 = responseTop.data;
 
 }catch(e){
     console.log(e)
@@ -158,7 +163,7 @@ try{
             <div class=" w-1/2 flex flex-col items-center">
                 <a href="/creator/tusaudios"><h3 class="text-4xl  font-semibold hover:underline">TUS CANCIONES</h3></a>
                 <div class="w-[600px]">
-                    <!-- <CarrouselUser info={canciones} num={5}/> -->
+                        <TopFive info={top5}/>
                 </div>
             </div>
             <div class=" w-1/2 flex flex-col ">
