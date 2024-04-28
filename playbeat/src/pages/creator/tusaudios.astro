@@ -30,7 +30,7 @@ try{
         </div>
         <section class="w-full mt-8 px-16">
             <AddAudio/>
-            <h2 class="text-xl font-medium">Tus audios</h2>
+            <h2 class="text-3xl font-semibold">Tus audios</h2>
             <table class="mt-8 table-auto w-full">
                 <thead class="opacity-60">
                     <tr class="text-left">
@@ -41,6 +41,39 @@ try{
                 </thead>
                 <tbody class="border-t-[1px] border-white border-opacity-60">
                     {response.cancion.map((cancion : any) => (
+                          <tr class=" hover:bg-[#262626]" onclick=`document.location = 'audio/${cancion.idAudio}'` >
+                            <td class="py-3 pl-3 flex flex-row items-center gap-3">
+                                <img class=" h-12 aspect-square  rounded-[4px]" src={Global.url + "foto/" + cancion.imgAudio}/>
+                                {cancion.titulo}
+                            </td>
+                            <td class="py-3">
+                                {cancion.Artistas.map((artista:any, index:any) => {
+                                    if(index == cancion.Artistas.length-1){
+                                        return artista.nombreUsuario
+                                    }else{
+                                        return artista.nombreUsuario + ', '
+                                    }
+                                })}
+                            </td>
+                            <td class="py-3 min-w-10 ">{cancion.duracionSeg}</td>
+                        </tr>
+    
+                    ))
+                    }
+                </tbody>
+
+            </table>
+            <hr class="mt-8 border-[1px] border-white border-opacity-60"/>
+            <table class="mt-8 table-auto w-full">
+                <thead class="opacity-60">
+                    <tr class="text-left">
+                        <th class="pb-2 pl-3 w-3/8">Podcast</th>
+                        <th class="w-3/6">Artista</th>
+                        <th class="max-w-6 w-1/8">Duración</th>
+                    </tr>
+                </thead>
+                <tbody class="border-t-[1px] border-white border-opacity-60">
+                    {response.podcast.map((cancion : any) => (
                           <tr class=" hover:bg-[#262626]" onclick=`document.location = 'audio/${cancion.idAudio}'` >
                             <td class="py-3 pl-3 flex flex-row items-center gap-3">
                                 <img class=" h-12 aspect-square  rounded-[4px]" src={Global.url + "foto/" + cancion.imgAudio}/>
