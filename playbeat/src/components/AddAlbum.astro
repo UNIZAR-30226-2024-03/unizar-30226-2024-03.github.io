@@ -1,5 +1,10 @@
 ---
+import { createAudio } from '@/utils/createAudio';
+import { uploadImg } from '@/utils/uploadImg';
 import TagsTabs from '@components/TagsTabs.astro';
+import {TOKEN} from '@/constants.ts'
+import { createPlaylist } from '@/utils/createPlaylist';
+import AddSongToPlaylist from '@/pages/addSongToPlaylist.astro';
 
 interface Props {
     title: string
@@ -7,11 +12,107 @@ interface Props {
 
 const {title} = Astro.props
 
+if (Astro.request.method ==="POST" ) {
+
+    try{
+
+    const data = await Astro.request.formData();
+    const token = Astro.cookies.get(TOKEN);
+    const file = data.get("photo")
+    console.log("hola")
+    if (file instanceof File) {
+        if (file.size === 0) {
+            const tags = data.getAll("tags")
+            const typeEtiqueta = data.get("tabsaudio") as string;
+            await createAudio({
+                titulo: data.get("titulo") as string,
+                esPrivada: data.get("esPrivada") as string == "on" || false,
+                esAlbum: false,
+                esPodcast: false,
+                fechaLanz: new Date().toISOString(),
+                duracionSeg: parseFloat(data.get("duracion") as string) || 0,
+                cancion: data.get("cancion"), 
+                tipoEtiqueta: typeEtiqueta,
+                etiquetas: tags.join(",") // Convertimos tags a un string separados por comas, ya que asi lo pide la API
+            }, token?.value)
+            
+        }else{
+            console.log("buenas")
+            const img = await uploadImg(file)
+            const tags = data.getAll("tags")
+            const typeEtiqueta = data.get("tabsaudio") as string;
+
+            let i = 0
+            let canciones = []
+            while(i < 50 && data.get("audio"+i) != null){   
+                const response = await createAudio({
+                titulo: data.get("name"+i) as string,
+                esPrivada: false,
+                img: img.id,
+                esAlbum: false,
+                esPodcast: false,
+                fechaLanz: new Date().toISOString(),
+                duracionSeg: parseFloat(data.get("duracion"+i) as string) || 0,
+                cancion: data.get("audio"+i), 
+                etiquetas: tags.join(",") // Convertimos tags a un string separados por comas, ya que asi lo pide la API
+                }, token?.value)
+                canciones.push(response.data.idaudio)
+                i++
+            }
+            console.log("canciones")
+            const user = JSON.parse(Astro.cookies.get("usuario")?.value as any)
+            await createPlaylist({
+            nombre: data.get("name") as string,
+            descripcion: "descripcion del album",
+            esPrivada:  false,
+            imgLista: img.id,
+            esAlbum: true,
+            tipoLista: "NORMAL",
+            idUsuario: user.idUsuario,
+            audios: canciones
+        }, token?.value)       
+        console.log("playlist")
+     
+            // for(let n = 0; n<i; n++){
+            //     fetch('https://playbeat.uksouth.cloudapp.azure.com/lista/audio/'+ response.data.idLista  +'/'+canciones[n] , {
+            //         method: 'POST',
+            //         headers: {
+            //             'Content-Type': 'application/json',
+            //             'Authorization': `Bearer ${token}` // Uncomment this line if you need to send a bearer token
+            //         },
+            //         })
+            //         .then(response => response.json())
+            //         .then(() => {window.history.back()})
+            //         .catch((error) => {
+            //             window.history.back();
+            //             console.error('Error:', error);
+            //         });
+            // }
+        }
+    }
+
+
+    const tags = data.getAll("tags")
+    const typeEtiqueta = data.get("tabsaudio") as string;
+
+
+
+
+// return Astro.redirect("/creator/tusaudios")
+
+} catch (error) {
+//  if (error instanceof TypeError) {
+//    errors.peticion = "Error en la petición";
+//  }
+//
+}
+}
+
 ---
 
 <div class="flex flex-col gap-3 px-8">
     <h2 class="text-xl font-medium">{title}</h2>
-    <form class="flex flex-col items-center gap-3 pt-4">
+    <form class="flex flex-col items-center gap-3 pt-4" method="POST" novalidate>
         <div class="flex flex-row items-center w-full gap-3">
 
             <section class="flex flex-col">
@@ -51,17 +152,18 @@ const {title} = Astro.props
     
                         <div class="flex flex-col gap-1">
                             <label>Nombre del audio</label>
-                            <input type="text" name="name" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Nombre" />
+                            <input type="text" name="name0" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Nombre" />
                         </div>
                         <div class="flex flex-col gap-1">
                             <label >Participantes</label>
-                            <input type="text" name="featurings" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Usuario" />
+                            <input type="text" name="featurings0" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Usuario" />
                         </div>
                     </div>
                 </section>
             </div>
-            <input type="file" id="file" name="audio"/>
-            <audio id="audio"  controls class="w-full mb-4" ></audio>
+            <input type="file" id="file0" name="audio0"/>
+            <input type="number" id="duracion0" name="duracion0" class="hidden"/>
+            <audio id="audio0"  controls class="w-full mb-4" ></audio>
         </div>
         <div class="flex flex-row">
             <svg id="addAudio" xmlns="http://www.w3.org/2000/svg"   width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-plus cursor-pointer "><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
@@ -96,20 +198,29 @@ const {title} = Astro.props
                     </div>
                 </section>
             </div>
-            <input type="file" id="file${audioCount}" name="audio"/>
+            <input type="file" id="file${audioCount}" name="audio${audioCount}"/>
+            <input type="number" id="duracion${audioCount}" name="duracion${audioCount}" class="hidden"/>
             <audio id="audio${audioCount}"  controls class="w-full mb-4"></audio>
         `;
         document.getElementById('audioContainer').appendChild(newAudioBlock);
+        // Check for BlobURL support
         var blob = window.URL || window.webkitURL;
+
         const inputFile = document.getElementById('file'+audioCount);
         const audio = document.getElementById('audio'+audioCount);
-        if(inputFile != null && audio != null){
+        const duracion = document.getElementById('duracion'+audioCount);
+
+        if(inputFile != null && audio != null && duracion != null){
             inputFile.addEventListener('change', function(){
-
-                var file = this.files[0],
-                fileURL = blob.createObjectURL(file);
-                audio.src = fileURL;
-
+                if(this.files !== null ){
+                    var file = this.files[0]
+                    var fileURL = blob.createObjectURL(file);
+                    audio.src = fileURL;
+                    audio.addEventListener('loadedmetadata', function() {
+                        duracion.value = audio.duration.toString();
+                    });
+                }
+                
             });
         }
         audioCount++;
@@ -134,16 +245,23 @@ const {title} = Astro.props
 
     // Check for BlobURL support
     var blob = window.URL || window.webkitURL;
-    const inputFile = document.getElementById('file');
-    const audio = document.getElementById('audio');
-    if(inputFile != null && audio != null){
-        inputFile.addEventListener('change', function(){
 
-            var file = this.files[0],
-            fileURL = blob.createObjectURL(file);
+const inputFile = document.getElementById('file0');
+const audio = document.getElementById('audio0');
+const duracion = document.getElementById('duracion0');
+
+if(inputFile != null && audio != null && duracion != null){
+    inputFile.addEventListener('change', function(){
+        if(this.files !== null ){
+            var file = this.files[0]
+            var fileURL = blob.createObjectURL(file);
             audio.src = fileURL;
-
-        });
-    }
+            audio.addEventListener('loadedmetadata', function() {
+                duracion.value = audio.duration.toString();
+            });
+        }
+        
+    });
+}
     
 </script>

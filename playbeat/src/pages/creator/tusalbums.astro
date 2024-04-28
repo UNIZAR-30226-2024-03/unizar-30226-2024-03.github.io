@@ -26,5 +26,29 @@ import AddAlbum from '@components/AddAlbum.astro';
         </div>
     </div>
 </CreatorLayout>
+<script>
+    document.addEventListener('astro:page-load', () => {
+        // Check for BlobURL support
+        var blob = window.URL || window.webkitURL;
 
+        const inputFile = document.getElementById('file') as HTMLInputElement;
+        const audio = document.getElementById('audio') as HTMLAudioElement;
+        const duracion = document.getElementById('duracion') as HTMLInputElement;
+
+        if(inputFile != null && audio != null && duracion != null){
+            inputFile.addEventListener('change', function(){
+                if(this.files !== null ){
+                    var file = this.files[0]
+                    var fileURL = blob.createObjectURL(file);
+                    audio.src = fileURL;
+                    audio.addEventListener('loadedmetadata', function() {
+                        duracion.value = audio.duration.toString();
+                    });
+                }
+                
+            });
+        }
+    })
+    
+</script>
 
