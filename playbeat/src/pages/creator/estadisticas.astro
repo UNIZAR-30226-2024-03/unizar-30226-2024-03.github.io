@@ -163,7 +163,6 @@ try{
     response = response.data
     user = await getMyUserInfo(token?.value)
     user = user.data
-    console.log(datosRep + datosUser)
 
 
 
@@ -222,7 +221,7 @@ try{
             </tbody>
             <script>
 
-                document.addEventListener("DOMContentLoaded", function() {
+                document.addEventListener("astro:page-load", function() {
                   var rows = document.querySelectorAll("tbody tr");
                   rows.forEach(function(row) {
                     row.addEventListener("click", function(this: HTMLElement) {
@@ -243,8 +242,6 @@ try{
 <script is:inline src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script is:inline define:vars={{datosUser, datosRep}} >
     function initCharts(datosRep, datosUser){
-      console.log("datosRep" + datosRep)
-      console.log("datosUser" + datosUser)
 
     var options = {
           series: [{
@@ -386,7 +383,6 @@ try{
         var chart1 = new ApexCharts(document.querySelector("#chart1"), options);
         var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
         if(chart1.el != null  && chart2.el != null){
-            console.log("render")
             chart1.render(datosRep);
             chart2.render(datosUser);
         }
