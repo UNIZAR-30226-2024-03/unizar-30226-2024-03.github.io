@@ -3,6 +3,23 @@ import CreatorLayout from '@layouts/CreatorLayout.astro';
 import HeaderCreator from '@components/HeaderCreator.astro';
 import AddAlbum from '@components/AddAlbum.astro';
 
+import {TOKEN} from '@/constants.ts'
+import {getPlaylistsFromUser} from "@/utils/getPlaylistsFromUser"
+import { Global } from "@/globalState/globalUrl"
+import Library from '@components/Library.astro';
+
+const token = Astro.cookies.get(TOKEN);
+const user = JSON.parse(Astro.cookies.get("usuario")?.value as any)
+
+let playlists
+try{
+    playlists = await getPlaylistsFromUser(user.idUsuario,token?.value)
+    playlists = playlists.data
+    console.log(playlists)
+    playlists= playlists.filter((playlist:any) => playlist.esAlbum === true);
+}catch(e){
+    console.log(e)
+}
 
 ---
 
@@ -15,14 +32,34 @@ import AddAlbum from '@components/AddAlbum.astro';
         </div>
         <div class="mt-4 px-8" >
             <AddAlbum title="Agrega un nuevo album" />
-
-            <!-- {Playlists.map( (element) =>
-                {
+            <section>
+                <header class="flex flex-row w-max items-center ml-12">
                     
-                    // return <Library info={element} title=''/>
-                }
-
-            )}	 -->
+                    <h1 class="text-3xl font-bold mt-4">Tus álbums</h1>
+                </header>
+                <div class="flex flex-row items-center mt-4 ">
+                        
+                    <ul class="flex flex-row flex-wrap gap-10 mx-10 ">
+                        {playlists && playlists.map( (item:any) => 
+                                <li class="flex flex-col p-2 snap-start text-sm h-full hijo " id={item.idLista+''}>
+                                    <a href=`/creator/album/${item.idLista}` class=" w-[200px] relative inline-block imagen ">
+                                        <img class=" w-full rounded-md mb-1 hover:brightness-90 aspect-square" src={Global.url + "foto/" + item.imgLista}>
+            
+                                    </a>
+            
+                                    <a href=`/creator/album/${item.idLista}` class=" w-max hover:underline">
+                                        <p class="text-base hover:underline">{item.nombre}</p>
+                                    </a>
+                                    <a href=`/creator/album/${item.idLista}` class="w-max hover:underline"><p class=" text-gray-400">@yo</p></a>
+            
+                                </li>
+                        )}
+                    </ul>
+                    
+                </div>
+            
+                  
+            </section>
         </div>
     </div>
 </CreatorLayout>
