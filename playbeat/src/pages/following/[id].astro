@@ -20,6 +20,11 @@ try{
 	console.error(e)
 }
 let user;
+
+let followingUsers = [];
+if (following.length > 0 && token) {
+  followingUsers = await Promise.all(following.map((us: string | undefined) => getFollowers(token, us)));
+}
 ---
 
 <Layout title="PlayBeat">
@@ -28,17 +33,16 @@ let user;
 		<div class=" w-full h-full flex flex-col mt-16 p-1">
             <h1 class="text-bluePB text-5xl font-semibold ml-10">SEGUIDOS</h1>
 			{
-				following.length > 0 ? following.map((us: string) => (
-					 user = getFollowers(token,us);
-					<div class="flex flex-row items-center justify-between w-11/12 mx-auto my-2 p-2 bg-gray-800 rounded-lg">
-						<div class="flex flex-row items-center">
-							<img src={`${Global.url}foto/${ user && user.imgPerfil}`} class="w-12 h-12 rounded-full" alt="user"/>
-							<h1 class="text-white text-lg ml-2">{user && user.nombreUsuario}</h1>
-						</div>
-						<a href={`/user/${ user && user.idUsuario}`} class="text-bluePB">Ver perfil</a>
+				followingUsers.length > 0 ? followingUsers.map(user => (
+				  <div class="flex flex-row items-center justify-between w-11/12 mx-auto my-2 p-2 bg-gray-800 rounded-lg">
+					<div class="flex flex-row items-center">
+					  <img src={`${Global.url}foto/${ user && user.imgPerfil}`} class="w-12 h-12 rounded-full" alt="user"/>
+					  <h1 class="text-white text-lg ml-2">{user && user.nombreUsuario}</h1>
 					</div>
+					<a href={`/user/${ user && user.idUsuario}`} class="text-bluePB">Ver perfil</a>
+				  </div>
 				)) : <h1 class="text-white text-lg text-center">No sigues a nadie</h1>
-			}
+			  }
 			
 		</div>
 	</div>
