@@ -18,20 +18,14 @@ const idUsuario = JSON.parse(Astro.cookies.get("usuario")?.value as any)
 const token = (Astro.cookies.get('token') as { value: string }).value;
 
 
-
-
-
-
 let isFollower = false;
 
 for (let i = 0; i < followers.length; i++) {
-    if ((followers[i] as { seguidorId: number }).seguidorId === idUsuario) {
+    if (followers[i]  === idUsuario.idUsuario) {
         isFollower = true;
         break;
     }
 }
-
-
 
  const src = Global.url+"foto/"+img
 
