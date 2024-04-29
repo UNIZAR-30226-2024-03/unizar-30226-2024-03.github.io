@@ -30,7 +30,7 @@ const {subject, class:className} = Astro.props;
   {tabsItem.map((tab)=> {
     return   (
       
-        <div class={className }>{tab.content == "Cola" ? <Queue client:load transition:persist/> : <History client:only />}</div>
+        <div class={className }>{tab.content == "Cola" ? <Queue client:only/> : <History client:only />}</div>
       
     )
   })}

@@ -1,14 +1,16 @@
 ---
-import NormalLayout from '../layouts/NormalLayout.astro'
+import NormalLayout from '@layouts/NormalLayout.astro'
 import LogoBlanco from '@/icons/LogoBlanco.astro'
 import {TOKEN} from '@/constants.ts'
 
 import { loginUser } from '@/utils/login.ts'
-import { getFollowers } from '@/utils/getFollowers';
-import { getMyUserInfo } from '@/utils/getMyUserInfo';
+import { addCollaborator } from '@/utils/addCollaborator.ts'
+import { userData } from '@/utils/userData'
 
 const errors = {email: "", password: "", peticion:"" };
 const values = {email: "", contrasegna: "" };
+
+const {id} = Astro.params;
 
 
 if (Astro.request.method ==="POST" ) {
@@ -43,10 +45,21 @@ if (Astro.request.method ==="POST" ) {
       const response = await loginUser({email: values.email, contrasegna: values.contrasegna});
       if (response && response.status === 200) { 
 
-        Astro.cookies.set(TOKEN, response.data);
-        const user = await getMyUserInfo(response.data);
-        Astro.cookies.set("usuario", user.data)
-        return Astro.redirect("/home");
+
+        const responseData = await userData(response.data);
+        //Añadir usuario a la lista
+        const responseLista = await addCollaborator(id,responseData.data.idUsuario);
+
+
+        if(responseLista && responseLista.status === 200){
+          //Revisar estas dos instucciones, en web quedarán bien pero si se abre el link desde el móvil no.
+          Astro.cookies.set(TOKEN, response.data);
+          return Astro.redirect("/logout");
+        }else{
+          errors.peticion = "Error intentelo de nuevo";
+        }
+
+
       } else {
         errors.peticion = "Error intentelo de nuevo";
       }

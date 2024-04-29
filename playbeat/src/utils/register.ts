@@ -1,3 +1,6 @@
+import { Global } from "@/globalState/globalUrl.js";
+import axios from 'axios';
+
 /**
  * Registra un nuevo usuario enviando una solicitud POST en el servidor.
  * 
@@ -8,10 +11,6 @@
  * @returns {Promise<object>} - Una promesa que se resuelve con el objeto de respuesta de la solicitud.
  * @throws {Error} - Si la solicitud de registro no se puede completar correctamente.
  */
-
-import { Global } from "@/globalState/globalUrl.js";
-import axios from 'axios';
-
 async function registerUser(data: { nombreUsuario: any; email: any; contrasegna: any; }) {
   try {
 
