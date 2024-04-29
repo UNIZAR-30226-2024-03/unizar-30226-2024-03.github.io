@@ -4,7 +4,6 @@ import { uploadImg } from '@/utils/uploadImg';
 import TagsTabs from '@components/TagsTabs.astro';
 import {TOKEN} from '@/constants.ts'
 import { createPlaylist } from '@/utils/createPlaylist';
-import AddSongToPlaylist from '@/pages/addSongToPlaylist.astro';
 
 interface Props {
     title: string
@@ -138,9 +137,6 @@ if (Astro.request.method ==="POST" ) {
                     </div>
 
                 </div>
-                <div class="w-full h-full">
-                    <TagsTabs subject="audio"/>
-                </div>
             </section>
         </div>
         <div id="audioContainer" class="w-full flex flex-col gap-2 ">
@@ -174,9 +170,10 @@ if (Astro.request.method ==="POST" ) {
     </form>
 
 </div>
-<script is:inline>
+<script>
+    
     var audioCount = 1;
-    document.getElementById('addAudio').addEventListener('click', function() {
+    document.getElementById('addAudio')?.addEventListener('click', function() {
         var newAudioBlock = document.createElement('div');
         newAudioBlock.className = "w-full flex flex-col gap-2";
         newAudioBlock.innerHTML = `
@@ -194,7 +191,6 @@ if (Astro.request.method ==="POST" ) {
                             <label >Participantes</label>
                             <input type="text" name="featurings${audioCount}" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Usuario" />
                         </div>
-    
                     </div>
                 </section>
             </div>
@@ -202,13 +198,14 @@ if (Astro.request.method ==="POST" ) {
             <input type="number" id="duracion${audioCount}" name="duracion${audioCount}" class="hidden"/>
             <audio id="audio${audioCount}"  controls class="w-full mb-4"></audio>
         `;
-        document.getElementById('audioContainer').appendChild(newAudioBlock);
+        
+        document.getElementById('audioContainer')?.appendChild(newAudioBlock);
         // Check for BlobURL support
         var blob = window.URL || window.webkitURL;
 
-        const inputFile = document.getElementById('file'+audioCount);
-        const audio = document.getElementById('audio'+audioCount);
-        const duracion = document.getElementById('duracion'+audioCount);
+        const inputFile = document.getElementById('file'+audioCount) as HTMLInputElement;
+        const audio = document.getElementById('audio'+audioCount) as HTMLAudioElement;
+        const duracion = document.getElementById('duracion'+audioCount) as HTMLInputElement;
 
         if(inputFile != null && audio != null && duracion != null){
             inputFile.addEventListener('change', function(){
@@ -225,30 +222,23 @@ if (Astro.request.method ==="POST" ) {
         }
         audioCount++;
     });
-    document.getElementById('minusAudio').addEventListener('click', function() {
+    document.getElementById('minusAudio')?.addEventListener('click', function() {
         if(audioCount > 1) {
             audioCount--;
             var audioContainer = document.getElementById('audioContainer');
-            audioContainer.removeChild(audioContainer.lastChild);
+            if (audioContainer?.lastChild) {
+                audioContainer.removeChild(audioContainer.lastChild);
+            }
         }
     });
-    function previewImage(event) {
-        var reader = new FileReader();
-        reader.onload = function(){
-            var output = document.getElementById('preview');
-            output.style.display = 'block';
-            output.src = reader.result;
-        };
-        reader.readAsDataURL(event.target.files[0]);
-    }
 
 
     // Check for BlobURL support
     var blob = window.URL || window.webkitURL;
 
-const inputFile = document.getElementById('file0');
-const audio = document.getElementById('audio0');
-const duracion = document.getElementById('duracion0');
+const inputFile = document.getElementById('file0') as HTMLInputElement;
+const audio = document.getElementById('audio0') as HTMLAudioElement;
+const duracion = document.getElementById('duracion0') as HTMLInputElement;
 
 if(inputFile != null && audio != null && duracion != null){
     inputFile.addEventListener('change', function(){
@@ -264,4 +254,18 @@ if(inputFile != null && audio != null && duracion != null){
     });
 }
     
+</script>
+<script is:inline>
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function(){
+            var output = document.getElementById('preview') ;
+            if(output != null){
+                output.style.display = 'block';
+                output.src = reader.result ;
+            }
+
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
 </script>
