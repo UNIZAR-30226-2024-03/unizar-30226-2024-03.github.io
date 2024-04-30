@@ -67,7 +67,13 @@ const changeFilter = (item, index) => {
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-player-play-filled" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4v16a1 1 0 0 0 1.524 .852l13 -8a1 1 0 0 0 0 -1.704l-13 -8a1 1 0 0 0 -1.524 .852z" stroke-width="0" fill="currentColor" /></svg>
                             </div>
                         </a>
-                        <a href="/library/playlist1" class=" w-max hover:underline">
+                        <a :href="filterItems === 'canciones' ||  filterItems === 'podcasts'
+                        ? '/audio/' + item.idAudio 
+                        : filterItems === 'usuarios' 
+                        ? '/user/' + item.idUsuario 
+                        : filterItems === 'listas' ||  filterItems === 'albums'
+                        ? '/library/' + item.idLista 
+                        : ''" class=" w-max hover:underline">
                             <p class="text-base hover:underline">
                                 {{ filterItems === 'canciones' ||  filterItems === 'podcasts'
                                 ? item.titulo 
@@ -79,13 +85,15 @@ const changeFilter = (item, index) => {
                                 }}
                             </p>
                         </a>
-                        <a :href="item.Propietarios && item.Propietarios[0] ? '/user/' + item.Propietarios[0].idUsuario : '#'" class="w-max hover:underline "><p class=" text-gray-400">
-                            {{ filterItems === 'canciones' 
-                            ? item.nombreUsuario 
+                        <a :href="filterItems === 'canciones' ||  filterItems === 'podcasts'
+                    ? '/user/' + item.Artistas[0].idUsuario 
+                    : filterItems === 'listas' ||  filterItems === 'albums'
+                    ? '/user/' + item.Propietarios[0].idUsuario 
+                    : ''" class="w-max hover:underline "><p class=" text-gray-400">
+                            {{ filterItems === 'canciones' || filterItems === 'podcasts'
+                            ? item.Artistas[0].nombreUsuario 
                             : filterItems === 'usuarios' 
                             ? '' 
-                            :  filterItems === 'podcasts'
-                            ? item.Artistas[0].nombreUsuario
                             : filterItems === 'listas' ||  filterItems === 'albums'
                             ? item.Propietarios[0].nombreUsuario 
                             : '' 
@@ -116,7 +124,13 @@ const changeFilter = (item, index) => {
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-player-play-filled" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4v16a1 1 0 0 0 1.524 .852l13 -8a1 1 0 0 0 0 -1.704l-13 -8a1 1 0 0 0 -1.524 .852z" stroke-width="0" fill="currentColor" /></svg>
                         </div>
                     </a>
-                    <a href="/library/playlist1" class=" w-max hover:underline">
+                    <a :href="filterItems === 'canciones' ||  filterItems === 'podcasts'
+                        ? '/audio/' + item.idAudio 
+                        : filterItems === 'usuarios' 
+                        ? '/user/' + item.idUsuario 
+                        : filterItems === 'listas' ||  filterItems === 'albums'
+                        ? '/library/' + item.idLista 
+                        : ''" class=" w-max hover:underline">
                         <p class="text-base hover:underline">
                             {{ filter === 'canciones' ||  filter === 'podcasts'
                             ? item.titulo 
@@ -128,13 +142,15 @@ const changeFilter = (item, index) => {
                             }}
                         </p>
                     </a>
-                    <a :href="item.Propietarios && item.Propietarios[0] ? '/user/' + item.Propietarios[0].idUsuario : '#'" class="w-max hover:underline"><p class=" text-gray-400">
-                        {{ filter === 'canciones' 
-                            ? item.nombreUsuario 
+                    <a :href="filter === 'canciones' ||  filter === 'podcasts'
+                    ? '/user/' + item.Artistas[0].idUsuario 
+                    : filter === 'listas' ||  filter === 'albums'
+                    ? '/user/' + item.Propietarios[0].idUsuario 
+                    : ''" class="w-max hover:underline"><p class=" text-gray-400">
+                        {{ filter === 'canciones' || filter === 'podcasts'
+                            ? item.Artistas[0].nombreUsuario
                             : filter === 'usuarios' 
                             ? '' 
-                            :  filter === 'podcasts'
-                            ? item.Artistas[0].nombreUsuario
                             : filter === 'listas' ||  filter === 'albums'
                             ? item.Propietarios[0].nombreUsuario 
                             : '' 
