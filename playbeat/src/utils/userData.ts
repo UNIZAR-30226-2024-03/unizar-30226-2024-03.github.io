@@ -1,3 +1,6 @@
+import { Global } from "@/globalState/globalUrl.js";
+import axios from 'axios';
+
 /**
  * Recupera datos de usuario haciendo una solicitud GET a la URL del servidor.
  * 
@@ -5,11 +8,6 @@
  * @returns {Promise<object>} - Una promesa que se resuelve con el objeto de respuesta de la solicitud.
  * @throws {Error} - Si la solicitud no se puede completar correctamente.
  */
-
-import { Global } from "@/globalState/globalUrl.js";
-
-import axios from 'axios';
-
 async function userData(jws: string) {
     try {
 

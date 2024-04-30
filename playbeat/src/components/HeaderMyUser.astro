@@ -3,15 +3,31 @@ import { Global } from "@/globalState/globalUrl";
 import FlechaDchHeader from "@/icons/FlechaDchHeader.astro";
 import FlechaIzqHeader from "@/icons/FlechaIzqHeader.astro";
 import {ImgPerfil} from "@/components/ImgPerfil.jsx";
+import { getFollowers } from "@/utils/getFollowers";
 
 
-const {nombreUsuario, email, imgPerfil, Seguidores} = JSON.parse(Astro.cookies.get("usuario")?.value as any)
+
+const {nombreUsuario, email, imgPerfil, idUsuario} = JSON.parse(Astro.cookies.get("usuario")?.value as any)
+
+
+
+let Seguidores;
+let Seguidos;
+
+try{
+    const responseFoll = await getFollowers(Astro.cookies.get("token")?.value as any)
+
+    Seguidores = responseFoll.data.Seguidores
+    Seguidos = responseFoll.data.Seguidos
+}catch(e){
+    console.error(e)
+}
 
 const src = Global.url+"foto/"+imgPerfil
 ---
 
  <header class=" h-80 w-full"> 
-    <div class=" w-full h-full flex flex-row justify-between relative">
+    <div class=" w-full h-full flex flex-row relative">
         <div class=" z-10 flex fle-row gap-2 mt-5 fixed px-8 " >
             <button onclick="window.history.back();">
                 <FlechaIzqHeader/>
@@ -31,7 +47,7 @@ const src = Global.url+"foto/"+imgPerfil
 
             
         </div>
-        <div class=" flex flex-col flex-wrap content-center justify-center absolute photo gap-3 ">
+        <div class=" flex flex-col flex-wrap items-center justify-center  absolute photo gap-3 -ml-[5%] ">
             <span class="text-3xl font-bold text-white ">
                 <ImgPerfil className="w-[180px] h-[180px]" classNames={{
                     base: "bg-gradient-to-br from-[#6985C0] from-30% to-[#CDD6EA]",
@@ -42,8 +58,17 @@ const src = Global.url+"foto/"+imgPerfil
                   }} name={nombreUsuario} src={src} client:load/>
                 
             </span>
-            <div class="text-white text-3xl font-thin opacity-60 w-[180px] flex justify-center ">
-                {Seguidores.length ? `${Seguidores.length} ${Seguidores.length === 1 ? 'Seguidor' : 'Seguidores'}` : '0 Seguidores'}
+            <div class="text-white text-3xl font-thin opacity-60 w-[360px] flex self-center flex-row justify-start  ">
+
+                { 
+                Seguidores.length ?  Seguidores.length === 1 ?
+                    <a href=`/followers/${idUsuario}` class="hover:underline ml-[10%]">{Seguidos.length} Seguidor</a> :
+                    <a href=`/followers/${idUsuario}` class="hover:underline">{Seguidos.length} Seguidores</a> :
+                    <a href=`/followers/${idUsuario}` class="hover:underline"> 0 Seguidores</a>
+                }
+                <p class="font-extralight text-4xl mx-3 -mt-1 mr-4"> | </p>
+                <a href=`/following/${idUsuario}` class="hover:underline">{Seguidos.length ? `${Seguidos.length} ${Seguidos.length === 1 ? 'Seguido' : 'Seguidos'}` : '0 Seguidos'}</a>
+
 
             </div>
         </div>

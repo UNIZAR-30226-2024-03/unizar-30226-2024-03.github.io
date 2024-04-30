@@ -1,6 +1,21 @@
 import { Global } from "@/globalState/globalUrl.js";
 import axios from 'axios';
 
+/**
+ * Función para obtener la lista de audios asociados al usuario autenticado desde el servidor.
+ * Utiliza una solicitud GET con autorización para recuperar la lista de audios del usuario.
+ *
+ * @param {string} token - Token de autenticación para la solicitud.
+ *
+ * @returns {Promise<Object>} - Devuelve una promesa que resuelve con la lista de audios del usuario si la solicitud se realiza con éxito.
+ * 
+ * @throws {Error} - Lanza un error si ocurre algún problema durante la solicitud.
+ *
+ * La función establece la cabecera `Authorization` con el token proporcionado para la solicitud GET.
+ * La URL utilizada es `Global.url + "usuario/audios"`.
+ * Si la solicitud se completa con éxito, devuelve la lista de audios del usuario como un objeto JSON.
+ * En caso de error, muestra un mensaje de error en la consola y lanza el error.
+ */
 async function getMyAudios( token: any) {
     try {
         axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}

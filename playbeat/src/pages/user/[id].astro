@@ -89,7 +89,7 @@ const fechaFormateada = `${dia}-${mes}-${anio}`;
 	<div class=" flex flex-col w-full   text-white">
 		<Header/>
 		<div class=" w-full h-full flex flex-col mt-16">
-            <HeaderUser nombre={user.nombreUsuario} email={user.email} img={user.imgPerfil} followers={followers} following={following} id={2}/>
+            {id && <HeaderUser nombre={user.nombreUsuario} email={user.email} img={user.imgPerfil} followers={followers} following={following} id={Number(id)}/>}
 			<div class="px-16 mt-10 flex flex-row flex-wrap">
                 <section class="w-4/6">
                     <h2 class="text-lg font-semibold">Top canciones</h2>
