@@ -43,14 +43,11 @@ const changeFilter = (item, index) => {
             </template>
 
         </form>
-        <!-- <div v-for="item of Canciones" class="all">
-            <Carrousel info={{item}} />
-        </div> -->
         <div  class="canciones h-full flex flex-col ml-8 mt-6"> 
             <div v-if="busqueda != null && filter == 'all'"  v-for="(filterItems,index) of filters" class=" flex flex-col">
                 <h1 v-if="filterItems != 'all' && resumen[filterItems] != undefined && resumen[filterItems].length>0" @click='() => {changeFilter(item, index)}' class="w-max font-semibold ml-2 text-xl hover:underline cursor-pointer">{{ nombreFilters[index] }}</h1>
                 <ul class="flex flex-row">
-                    <li v-if="busqueda != null && filter == 'all'" v-for="item of resumen[filterItems]" class="flex flex-col p-2 text-sm  elemento ">
+                    <li v-if="busqueda != null && filter == 'all'" v-for="item of resumen[filterItems]" class="flex flex-col p-2 text-sm  elemento w-max-1/5 ">
                         <a :href="filterItems === 'canciones' 
                         ? '/creator/audio/' + item.idAudio 
                         : filterItems === 'usuarios' 
@@ -91,7 +88,7 @@ const changeFilter = (item, index) => {
             </div>
         </div>
         <div  class="canciones h-full flex flex-row flex-wrap ml-8 mt-6"> 
-                <li v-if="busqueda != null && filter != 'all'" v-for="item of busqueda[filter]" class="flex flex-col p-2 text-sm elemento ">
+                <li v-if="busqueda != null && filter != 'all'" v-for="item of busqueda[filter]" class="flex flex-col p-2 text-sm elemento w-max-1/5">
                     <a :href="filter === 'canciones' 
                     ? '/creator/audio/' + item.idAudio 
                     : filter === 'usuarios' 
