@@ -50,7 +50,7 @@ const changeFilter = (item, index) => {
             <div v-if="busqueda != null && filter == 'all'"  v-for="(filterItems,index) of filters" class=" flex flex-col">
                 <h1 v-if="filterItems != 'all' && resumen[filterItems] != undefined && resumen[filterItems].length>0" @click='() => {changeFilter(item, index)}' class="w-max font-semibold ml-2 text-xl hover:underline cursor-pointer">{{ nombreFilters[index] }}</h1>
                 <ul class="flex flex-row">
-                    <li v-if="busqueda != null && filter == 'all'" v-for="item of resumen[filterItems]" class="flex flex-col p-2 text-sm w-[250px] elemento ">
+                    <li v-if="busqueda != null && filter == 'all'" v-for="item of resumen[filterItems]" class="flex flex-col p-2 text-sm  elemento ">
                         <a :href="filterItems === 'canciones' 
                         ? '/creator/audio/' + item.idAudio 
                         : filterItems === 'usuarios' 
@@ -132,8 +132,7 @@ const changeFilter = (item, index) => {
 
     </section>
 </template>
-
-<style>
+<style scoped>
 
 .elemento{
     width: calc(100% / 5);

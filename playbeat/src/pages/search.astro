@@ -27,39 +27,11 @@ const Canciones = [
             </form>
         </section>
 
-        <section class="ml-10 mt-10 default ">
-            <SearchTabs subject="categories" component="search"/>
-        </section>
+
             <SearchResults client:only/>
 
     </div> 
-    <script> 
-            document.addEventListener("astro:page-load",() => {
-                setTimeout(() => {
-                    const searchInput = document.querySelector('.searchInput') as HTMLInputElement;
-            const start = document.querySelector('.default') as HTMLElement; // replace '.component-to-display' with the actual selector of your component
-            const searching = document.querySelector('.searching') as HTMLElement; // replace '.component-to-display' with the actual selector of your component
 
-
-             // Initially hide the component
-             searchInput?.addEventListener('input', () => {
-                console.log("searchinput" + searchInput.value + searching)
-                 if (searchInput.value != '') {
-                     // Show the component when there's text in the input field
-                     start.style.display = 'none';
-                     searching.style.display = 'block';
-                 } else {
-                     // Hide the component when the input field is empty
-
-                     searching.style.display = 'none';
-                     start.style.display = 'block';
-                 }
-
-             });
-                }, 1000);
-            
-        })
-    </script>
     
 </Layout>
 <script >
