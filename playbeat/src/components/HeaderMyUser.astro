@@ -6,7 +6,11 @@ import {ImgPerfil} from "@/components/ImgPerfil.jsx";
 import { getFollowers } from "@/utils/getFollowers";
 
 
-const {nombreUsuario, email, imgPerfil} = JSON.parse(Astro.cookies.get("usuario")?.value as any)
+
+const {nombreUsuario, email, imgPerfil, idUsuario} = JSON.parse(Astro.cookies.get("usuario")?.value as any)
+
+
+
 let Seguidores;
 let Seguidos;
 
@@ -55,9 +59,16 @@ const src = Global.url+"foto/"+imgPerfil
                 
             </span>
             <div class="text-white text-3xl font-thin opacity-60 w-[360px] flex self-center flex-row justify-start  ">
-                <a>{Seguidores.length ? `${Seguidores.length} ${Seguidores.length === 1 ? 'Seguidor' : 'Seguidores'}` : '0 Seguidores'}</a>
+
+                { 
+                Seguidores.length ?  Seguidores.length === 1 ?
+                    <a href=`/followers/${idUsuario}` class="hover:underline ml-[10%]">{Seguidos.length} Seguidor</a> :
+                    <a href=`/followers/${idUsuario}` class="hover:underline">{Seguidos.length} Seguidores</a> :
+                    <a href=`/followers/${idUsuario}` class="hover:underline"> 0 Seguidores</a>
+                }
                 <p class="font-extralight text-4xl mx-3 -mt-1 mr-4"> | </p>
-                <a>{Seguidos.length ? `${Seguidos.length} ${Seguidos.length === 1 ? 'Seguido' : 'Seguidos'}` : '0 Seguidos'}</a>
+                <a href=`/following/${idUsuario}` class="hover:underline">{Seguidos.length ? `${Seguidos.length} ${Seguidos.length === 1 ? 'Seguido' : 'Seguidos'}` : '0 Seguidos'}</a>
+
 
             </div>
         </div>
