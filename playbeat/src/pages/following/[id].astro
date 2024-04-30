@@ -23,7 +23,6 @@ let user;
 let followingUsers = [];
 if (following.length > 0 && token) {
   followingUsers = await Promise.all(following.map((us: string | undefined) =>  getFollowers(token, us)));
-	console.log(followingUsers)
 }
 ---
 
