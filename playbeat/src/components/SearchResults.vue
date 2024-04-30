@@ -2,6 +2,7 @@
 
 import { onMounted } from 'vue';
 import {ref, computed } from 'vue'
+import { Global } from '@/globalState/globalUrl';
 const  nombreFilters = ["All", "Cancion", "Podcast", "Usuario", "Album", "Playlist"];
 const filters = ["all", "canciones", "podcasts", "usuarios", "albums", "listas"]
 
@@ -55,7 +56,13 @@ const changeFilter = (item, index) => {
                         : filterItems === 'listas' 
                         ? '/library/' + item.idLista 
                         : ''"  class="relative inline-block imagen ">
-                            <img src="cancion.jpg" :class="{ 'w-full rounded-md mb-1 hover:brightness-90': true }"/>
+                            <img :src="Global.url + 'foto/' + (filterItems === 'canciones' 
+                        ? item.imgAudio 
+                        : filterItems === 'usuarios' 
+                        ? item.imgUsuario 
+                        : filterItems === 'listas' 
+                        ? item.imgLista
+                        : '')" :class="{ 'w-full rounded-md mb-1 hover:brightness-90': true }"/>
                             <div class="rounded-full w-10 h-10 hidden items-center justify-center botones">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-player-play-filled" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4v16a1 1 0 0 0 1.524 .852l13 -8a1 1 0 0 0 0 -1.704l-13 -8a1 1 0 0 0 -1.524 .852z" stroke-width="0" fill="currentColor" /></svg>
                             </div>
@@ -96,7 +103,13 @@ const changeFilter = (item, index) => {
                     : filter === 'listas' 
                     ? '/library/' + item.idLista 
                     : ''"  class="relative inline-block imagen ">
-                        <img src="cancion.jpg" :class="{ 'w-full rounded-md mb-1 hover:brightness-90': true }"/>
+                        <img :src="Global.url + 'foto/' + (filter === 'canciones' 
+                        ? item.imgAudio 
+                        : filter === 'usuarios' 
+                        ? item.imgUsuario 
+                        : filter === 'listas' 
+                        ? item.imgLista
+                        : '')" :class="{ 'w-full rounded-md mb-1 hover:brightness-90': true }"/>
                         <div class="rounded-full w-10 h-10 hidden items-center justify-center botones">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-player-play-filled" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4v16a1 1 0 0 0 1.524 .852l13 -8a1 1 0 0 0 0 -1.704l-13 -8a1 1 0 0 0 -1.524 .852z" stroke-width="0" fill="currentColor" /></svg>
                         </div>
