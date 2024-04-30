@@ -49,18 +49,18 @@ const changeFilter = (item, index) => {
                 <h1 v-if="filterItems != 'all' && resumen[filterItems] != undefined && resumen[filterItems].length>0" @click='() => {changeFilter(item, index)}' class="w-max font-semibold ml-2 text-xl hover:underline cursor-pointer">{{ nombreFilters[index] }}</h1>
                 <ul class="flex flex-row">
                     <li v-if="busqueda != null && filter == 'all'" v-for="item of resumen[filterItems]" class="flex flex-col p-2 text-sm  elemento w-max-1/5 ">
-                        <a :href="filterItems === 'canciones' 
-                        ? '/creator/audio/' + item.idAudio 
+                        <a :href="filterItems === 'canciones' ||  filterItems === 'podcasts'
+                        ? '/audio/' + item.idAudio 
                         : filterItems === 'usuarios' 
                         ? '/user/' + item.idUsuario 
-                        : filterItems === 'listas' 
+                        : filterItems === 'listas' ||  filterItems === 'albums'
                         ? '/library/' + item.idLista 
                         : ''"  class="relative inline-block imagen ">
-                            <img :src="Global.url + 'foto/' + (filterItems === 'canciones' 
+                            <img :src="Global.url + 'foto/' + (filterItems === 'canciones' ||  filterItems === 'podcasts'
                         ? item.imgAudio 
                         : filterItems === 'usuarios' 
-                        ? item.imgUsuario 
-                        : filterItems === 'listas' 
+                        ? item.imgPerfil
+                        : filterItems === 'listas' ||  filterItems === 'albums'
                         ? item.imgLista
                         : '')" :class="{ 'w-full rounded-md mb-1 hover:brightness-90': true }"/>
                             <div class="rounded-full w-10 h-10 hidden items-center justify-center botones">
@@ -69,23 +69,25 @@ const changeFilter = (item, index) => {
                         </a>
                         <a href="/library/playlist1" class=" w-max hover:underline">
                             <p class="text-base hover:underline">
-                                {{ filterItems === 'canciones' 
+                                {{ filterItems === 'canciones' ||  filterItems === 'podcasts'
                                 ? item.titulo 
                                 : filterItems === 'usuarios' 
                                 ? item.nombreUsuario 
-                                : filterItems === 'listas' 
+                                : filterItems === 'listas' ||  filterItems === 'albums'
                                 ? item.nombre 
                                 : '' 
                                 }}
                             </p>
                         </a>
-                        <a href="'/artist/'+item.descripcion" class="w-max hover:underline"><p class=" text-gray-400">
-                            {{ filter === 'canciones' 
-                            ? item.idAudio 
-                            : filter === 'usuarios' 
-                            ? item.idUsuario 
-                            : filter === 'listas' 
-                            ? item.idLista 
+                        <a :href="item.Propietarios && item.Propietarios[0] ? '/user/' + item.Propietarios[0].idUsuario : '#'" class="w-max hover:underline "><p class=" text-gray-400">
+                            {{ filterItems === 'canciones' 
+                            ? item.nombreUsuario 
+                            : filterItems === 'usuarios' 
+                            ? '' 
+                            :  filterItems === 'podcasts'
+                            ? item.Artistas[0].nombreUsuario
+                            : filterItems === 'listas' ||  filterItems === 'albums'
+                            ? item.Propietarios[0].nombreUsuario 
                             : '' 
                             }}
                         </p></a>
@@ -96,18 +98,18 @@ const changeFilter = (item, index) => {
         </div>
         <div  class="canciones h-full flex flex-row flex-wrap ml-8 mt-6"> 
                 <li v-if="busqueda != null && filter != 'all'" v-for="item of busqueda[filter]" class="flex flex-col p-2 text-sm elemento w-max-1/5">
-                    <a :href="filter === 'canciones' 
-                    ? '/creator/audio/' + item.idAudio 
+                    <a :href="filter === 'canciones' ||  filter === 'podcasts'
+                    ? '/audio/' + item.idAudio 
                     : filter === 'usuarios' 
                     ? '/user/' + item.idUsuario 
-                    : filter === 'listas' 
+                    : filter === 'listas' ||  filter === 'albums'
                     ? '/library/' + item.idLista 
                     : ''"  class="relative inline-block imagen ">
-                        <img :src="Global.url + 'foto/' + (filter === 'canciones' 
+                        <img :src="Global.url + 'foto/' + (filter === 'canciones' ||  filter === 'podcasts'
                         ? item.imgAudio 
                         : filter === 'usuarios' 
                         ? item.imgUsuario 
-                        : filter === 'listas' 
+                        : filter === 'listas' ||  filter === 'albums'
                         ? item.imgLista
                         : '')" :class="{ 'w-full rounded-md mb-1 hover:brightness-90': true }"/>
                         <div class="rounded-full w-10 h-10 hidden items-center justify-center botones">
@@ -116,25 +118,27 @@ const changeFilter = (item, index) => {
                     </a>
                     <a href="/library/playlist1" class=" w-max hover:underline">
                         <p class="text-base hover:underline">
-                            {{ filter === 'canciones' 
+                            {{ filter === 'canciones' ||  filter === 'podcasts'
                             ? item.titulo 
                             : filter === 'usuarios' 
                             ? item.nombreUsuario 
-                            : filter === 'listas' 
+                            : filter === 'listas' ||  filter === 'albums'
                             ? item.nombre 
                             : '' 
                             }}
                         </p>
                     </a>
-                    <a href="'/artist/'+item.descripcion" class="w-max hover:underline"><p class=" text-gray-400">
+                    <a :href="item.Propietarios && item.Propietarios[0] ? '/user/' + item.Propietarios[0].idUsuario : '#'" class="w-max hover:underline"><p class=" text-gray-400">
                         {{ filter === 'canciones' 
-                        ? item.idAudio 
-                        : filter === 'usuarios' 
-                        ? item.idUsuario 
-                        : filter === 'listas' 
-                        ? item.idLista 
-                        : '' 
-                        }}
+                            ? item.nombreUsuario 
+                            : filter === 'usuarios' 
+                            ? '' 
+                            :  filter === 'podcasts'
+                            ? item.Artistas[0].nombreUsuario
+                            : filter === 'listas' ||  filter === 'albums'
+                            ? item.Propietarios[0].nombreUsuario 
+                            : '' 
+                            }}
                     </p></a>
 
                 </li>
