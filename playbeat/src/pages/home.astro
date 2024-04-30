@@ -26,7 +26,6 @@ const user = JSON.parse(Astro.cookies.get("usuario")?.value as any)
 const token = Astro.cookies.get("token")?.value as string
 
 let lastAudios;
-let last;
 try {
 	const responseLast = await getUserLastAudios(token,15);
 	lastAudios = responseLast.data;
@@ -35,7 +34,6 @@ try {
 	console.error("Error")
 }	
 
-console.log("lastAudios", lastAudios)
 
 const idAudioSet = new Set<number>();
 
@@ -53,10 +51,6 @@ for (const item of lastAudios.cancion) {
     }
 }
 
-// Muestra el resultado
-console.log(vectorSinDuplicados);
-
-
 ---
 <Layout title="PlayBeat">
 
@@ -67,7 +61,7 @@ console.log(vectorSinDuplicados);
 		<div class=" w-full h-full flex flex-col mt-16 p-1">
 			<Saludos name={user.nombreUsuario}/>
 			<section class="mt-10 w-full">
-				<h2 class="text-lg font-semibold ml-10">Último escuchados</h2>
+				<h2 class="text-lg font-semibold ml-10">Últimos escuchados</h2>
 				<CarrouselLast  info={vectorSinDuplicados}/>
 			</section>
 			<!-- {Canciones.map( (element) =>
