@@ -198,6 +198,9 @@ try{
 
     });
     const eliminar = document.getElementById("eliminar")
+    const idAudios = document.querySelectorAll(".audiosPlaylist tr")
+    let ids = Array.from(idAudios).map((audio: any) => audio.id);
+    console.log("ids: " + JSON.stringify(ids));
     eliminar?.addEventListener("click", () => {
         let pathArray = window.location.pathname.split('/');
         let id = pathArray[pathArray.length - 1];
@@ -208,6 +211,14 @@ try{
                     "Authorization": `Bearer ${token}`
                 }
             }).then(() => window.history.go(-1)).catch((e) => console.log(e))
+            for(let value of ids){
+                fetch(`${Global.url}audio/delete/${value}`, {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }).then(() => window.history.go(-1)).catch((e) => console.log(e))
+            }
         }
     })
 

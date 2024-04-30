@@ -107,6 +107,7 @@ try{
 <script>
     import { Global } from '@/globalState/globalUrl';
     import {getAudio} from '@/utils/getAudio'
+
     function getCookie(name: any) {
     let cookieArr = document.cookie.split("; ");
     
@@ -118,7 +119,8 @@ try{
         }
     }
   }
-  const jws = getCookie('token')
+  document.addEventListener("astro:page-load", async() => {
+    const jws = getCookie('token')
     var audio = document.getElementById('audio') as HTMLAudioElement;
             if(audio && jws){
                 try{
@@ -131,6 +133,24 @@ try{
                     console.log(e);
                 }
             }
+        // Check for BlobURL support
+        var blob = window.URL || window.webkitURL;
+
+const inputFile = document.getElementById('file') as HTMLInputElement;
+const duracion = document.getElementById('duracion') as HTMLInputElement;
+
+if(inputFile != null && audio != null && duracion != null){
+    inputFile.addEventListener('change', function(){
+        if(this.files !== null ){
+            var file = this.files[0]
+            var fileURL = blob.createObjectURL(file);
+            audio.src = fileURL;
+            audio.addEventListener('loadedmetadata', function() {
+                duracion.value = audio.duration.toString();
+            });
+        }
+    });
+}
 
     const eliminar = document.getElementById("eliminar")
     eliminar?.addEventListener("click", () => {
@@ -145,4 +165,6 @@ try{
             }).then(() => window.history.go(-1)).catch((e) => console.log(e))
         }
     })
+  })
+  
 </script>

@@ -171,8 +171,8 @@ if (Astro.request.method ==="POST" ) {
 
 </div>
 <script>
-    
-    var audioCount = 1;
+    document.addEventListener('astro:page-load', () => {
+        var audioCount = 1;
     document.getElementById('addAudio')?.addEventListener('click', function() {
         var newAudioBlock = document.createElement('div');
         newAudioBlock.className = "w-full flex flex-col gap-2";
@@ -252,6 +252,9 @@ if(inputFile != null && audio != null && duracion != null){
         }
     });
 }
+
+    })
+    
     
 </script>
 <script is:inline>
