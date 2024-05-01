@@ -181,7 +181,7 @@ try{
             let ids = Array.from(idAudios).map((audio: any) => audio.id);
             console.log("ids: " + JSON.stringify(ids));
             const file = data.get("photo")
-            idImg = await uploadImg(file)
+            idImg = await uploadImg(file, token)
         }else{
             console.log("afjaldkfjalsdkjfaklsdjf")
         }
