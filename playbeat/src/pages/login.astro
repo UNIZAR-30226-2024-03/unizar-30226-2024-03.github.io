@@ -16,13 +16,13 @@ import {getSession} from "auth-astro/server";
 import { sendInfo } from "@/utils/googleAuth";
 
 const session = await getSession(Astro.request);
-console.log(session);
+//console.log(session);
 
 const errors = {email: "", password: "", peticion:"" };
 const values = {email: "", contrasegna: "" };
 
 if (session !== null) {
-  console.log(session);
+  //console.log(session);
   try {
     const response = await sendInfo(session);
     // Si el usuario ya existia la API nos devolvera un status 200.
