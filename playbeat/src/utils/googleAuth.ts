@@ -13,7 +13,7 @@ async function sendInfo(response: any) {
         //console.log('Response:', response);
         const apiResponse = await axios.post(Global.url + "auth/google", response);
         //console.log(apiResponse);
-        return apiResponse; // Devolver el JWT que devuelve el servidor.
+        return apiResponse; // Devolver el status que devuelve el servidor.
     } catch (error) {
         console.error("Error logging in user:", error);
         throw error;
