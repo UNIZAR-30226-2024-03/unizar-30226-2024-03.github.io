@@ -53,7 +53,7 @@ try{
             const responseAlbums = await getPlaylistsFromUser(Number(id),jws.value);
 
             albumsAll = responseAlbums.data;
-            albumsAll = albumsAll.filter(lista => lista.tipoLista === 'NORMAL' && lista.esAlbum === true);
+            albumsAll = albumsAll.filter((lista: any)  => lista.tipoLista === 'NORMAL' && lista.esAlbum === true);
 
             const fecha = new Date(user.ultimoLanzamiento.fechaLanz);
 
