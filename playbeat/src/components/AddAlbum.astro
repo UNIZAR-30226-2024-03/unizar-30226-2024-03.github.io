@@ -11,101 +11,7 @@ interface Props {
 
 const {title} = Astro.props
 
-if (Astro.request.method ==="POST" ) {
 
-    try{
-
-    const data = await Astro.request.formData();
-    const token = Astro.cookies.get(TOKEN);
-    const file = data.get("photo")
-    console.log("hola")
-    if (file instanceof File) {
-        if (file.size === 0) {
-            const tags = data.getAll("tags")
-            const typeEtiqueta = data.get("tabsaudio") as string;
-            await createAudio({
-                titulo: data.get("titulo") as string,
-                esPrivada: data.get("esPrivada") as string == "on" || false,
-                esAlbum: false,
-                esPodcast: false,
-                fechaLanz: new Date().toISOString(),
-                duracionSeg: parseFloat(data.get("duracion") as string) || 0,
-                cancion: data.get("cancion"), 
-                tipoEtiqueta: typeEtiqueta,
-                etiquetas: tags.join(",") // Convertimos tags a un string separados por comas, ya que asi lo pide la API
-            }, token?.value)
-            
-        }else{
-            console.log("buenas")
-            const img = await uploadImg(file)
-            const tags = data.getAll("tags")
-            const typeEtiqueta = data.get("tabsaudio") as string;
-
-            let i = 0
-            let canciones = []
-            while(i < 50 && data.get("audio"+i) != null){   
-                const response = await createAudio({
-                titulo: data.get("name"+i) as string,
-                esPrivada: false,
-                img: img.id,
-                esAlbum: false,
-                esPodcast: false,
-                fechaLanz: new Date().toISOString(),
-                duracionSeg: parseFloat(data.get("duracion"+i) as string) || 0,
-                cancion: data.get("audio"+i), 
-                etiquetas: tags.join(",") // Convertimos tags a un string separados por comas, ya que asi lo pide la API
-                }, token?.value)
-                canciones.push(response.data.idaudio)
-                i++
-            }
-            console.log("canciones")
-            const user = JSON.parse(Astro.cookies.get("usuario")?.value as any)
-            await createPlaylist({
-            nombre: data.get("name") as string,
-            descripcion: "descripcion del album",
-            esPrivada:  false,
-            imgLista: img.id,
-            esAlbum: true,
-            tipoLista: "NORMAL",
-            idUsuario: user.idUsuario,
-            audios: canciones
-        }, token?.value)       
-        console.log("playlist")
-     
-            // for(let n = 0; n<i; n++){
-            //     fetch('https://playbeat.uksouth.cloudapp.azure.com/lista/audio/'+ response.data.idLista  +'/'+canciones[n] , {
-            //         method: 'POST',
-            //         headers: {
-            //             'Content-Type': 'application/json',
-            //             'Authorization': `Bearer ${token}` // Uncomment this line if you need to send a bearer token
-            //         },
-            //         })
-            //         .then(response => response.json())
-            //         .then(() => {window.history.back()})
-            //         .catch((error) => {
-            //             window.history.back();
-            //             console.error('Error:', error);
-            //         });
-            // }
-        }
-    }
-
-
-    const tags = data.getAll("tags")
-    const typeEtiqueta = data.get("tabsaudio") as string;
-
-
-
-
-// return Astro.redirect("/creator/tusaudios")
-
-} catch (error) {
-//  if (error instanceof TypeError) {
-//    errors.peticion = "Error en la petición";
-//  }
-//
-}
-}
 
 ---
 
@@ -270,4 +176,93 @@ if(inputFile != null && audio != null && duracion != null){
         };
         reader.readAsDataURL(event.target.files[0]);
     }
+</script>
+<script>
+    import { createAudio } from '@/utils/createAudio';
+    import { createPlaylist } from '@/utils/createPlaylist';
+    import {TOKEN} from '@/constants.ts'
+    import { uploadImg } from '@/utils/uploadImg';
+    function getCookie(name: any) {
+    let cookieArr = document.cookie.split("; ");
+    
+    for(let i = 0; i < cookieArr.length; i++) {
+        let cookiePair = cookieArr[i].split("=");
+        
+        if(name == cookiePair[0]) {
+            return decodeURIComponent(cookiePair[1]);
+        }
+    }
+  }
+
+    document.addEventListener("astro:page-load", async () => {
+        const form = document.querySelector("form");
+        form?.addEventListener("submit", async (event) => {
+        try{
+            event.preventDefault()
+        const data = new FormData(document.querySelector("form") as HTMLFormElement);
+const token = getCookie(TOKEN);
+const file = data.get("photo")
+if (file instanceof File) {
+    if (file.size === 0) {
+        const tags = data.getAll("tags")
+        const typeEtiqueta = data.get("tabsaudio") as string;
+        await createAudio({
+            titulo: data.get("titulo") as string,
+            esPrivada: data.get("esPrivada") as string == "on" || false,
+            esAlbum: false,
+            esPodcast: false,
+            fechaLanz: new Date().toISOString(),
+            duracionSeg: parseFloat(data.get("duracion") as string) || 0,
+            cancion: data.get("cancion"), 
+            tipoEtiqueta: typeEtiqueta,
+            etiquetas: tags.join(",") // Convertimos tags a un string separados por comas, ya que asi lo pide la API
+        }, token)
+        
+    }else{
+        const img = await uploadImg(file, token)
+        const tags = data.getAll("tags")
+        const typeEtiqueta = data.get("tabsaudio") as string;
+
+        let i = 0
+        let canciones = []
+        while(i < 50 && data.get("audio"+i) != null){   
+            const response = await createAudio({
+            titulo: data.get("name"+i) as string,
+            esPrivada: false,
+            img: img.id,
+            esAlbum: false,
+            esPodcast: false,
+            fechaLanz: new Date().toISOString(),
+            duracionSeg: parseFloat(data.get("duracion"+i) as string) || 0,
+            cancion: data.get("audio"+i), 
+            etiquetas: tags.join(",") // Convertimos tags a un string separados por comas, ya que asi lo pide la API
+            }, token)
+            canciones.push(response.data.idaudio)
+            i++
+        }
+        const user = JSON.parse(getCookie("usuario") as any)
+        createPlaylist({
+        nombre: data.get("name") as string,
+        descripcion: "descripcion del album",
+        esPrivada:  false,
+        imgLista: img.id,
+        esAlbum: true,
+        tipoLista: "NORMAL",
+        idUsuario: user.idUsuario,
+        audios: canciones
+    }, token).then(() => {
+            window.location.reload()
+    }).catch((error) => {
+        console.log(error)
+    })}
+}
+
+
+
+
+} catch (error) {
+
+}
+    })})
+    
 </script>

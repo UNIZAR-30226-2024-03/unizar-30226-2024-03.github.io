@@ -1,4 +1,4 @@
-x---
+---
 import { createAudio } from '@/utils/createAudio';
 import { uploadImg } from '@/utils/uploadImg';
 import TagsTabs from '@components/TagsTabs.astro';
@@ -76,7 +76,7 @@ try{
             </thead>
             <tbody class="border-t-[1px] border-white border-opacity-60 audiosPlaylist">
                 {playlist && playlist?.Audios?.map((cancion:any) => (
-                    <tr class=" hover:bg-[#323232] select-none" id={cancion.idAudio} onclick=`document.location = 'audioFromAlbum/${cancion.idAudio}'` >
+                    <tr class=" hover:bg-[#323232] select-none" id={cancion.idAudio} onclick=`document.location = 'audioFromAlbum/${cancion.idAudio}';` >
                         <td class="py-3 pl-3 flex flex-row items-center gap-3">
                             <img class=" h-12 aspect-square bg-black rounded-[4px]" src={Global.url + "foto/" + cancion.imgAudio}/>
                             {cancion.titulo}
@@ -125,7 +125,7 @@ try{
                 }
             </tbody>
         </table>
-        <button class=" bg-bluePB px-4 py-1 rounded-sm " onclick="window.location.href = window.location.pathname + `/addAudio`;" > Añadir audio</button>
+        <button class=" bg-bluePB px-4 py-1 rounded-sm " id="Añadir" > Añadir audio</button>
     </form>
 
 </div>
@@ -162,10 +162,10 @@ try{
   }
   document.addEventListener("astro:page-load", () => {
     let changeFoto = false
-    const preview = document.getElementById("preview")
-    console.log(preview)
+    const preview = document.getElementById("preview") as HTMLImageElement
+    let fotoAlbum = preview.src.split("/")[preview.src.split("/").length - 1]
+
     preview?.addEventListener("click", async (e) => {
-        console.log("true")
         changeFoto = true
     })
     const token = getCookie('token')
@@ -179,11 +179,14 @@ try{
         if(changeFoto){
             const idAudios = document.querySelectorAll(".audiosPlaylist tr")
             let ids = Array.from(idAudios).map((audio: any) => audio.id);
-            console.log("ids: " + JSON.stringify(ids));
             const file = data.get("photo")
-            idImg = await uploadImg(file, token)
-        }else{
-            console.log("afjaldkfjalsdkjfaklsdjf")
+            let res = await uploadImg(file, token)
+            idImg = res.id
+            for(let value of ids){
+                await modAudio({
+                    img: idImg
+                }, token, value)
+            }
         }
         await editPlaylist({
             nombre: data.get("name") as string,
@@ -192,7 +195,6 @@ try{
             imgLista: idImg,
             esAlbum: true,
             tipoLista: "NORMAL",
-            audios: [],
         }, token, id)
 
 
@@ -200,8 +202,8 @@ try{
     const eliminar = document.getElementById("eliminar")
     const idAudios = document.querySelectorAll(".audiosPlaylist tr")
     let ids = Array.from(idAudios).map((audio: any) => audio.id);
-    console.log("ids: " + JSON.stringify(ids));
-    eliminar?.addEventListener("click", () => {
+    eliminar?.addEventListener("click", (e) => {
+        e.preventDefault()
         let pathArray = window.location.pathname.split('/');
         let id = pathArray[pathArray.length - 1];
         if(id !== undefined){ 
@@ -217,11 +219,16 @@ try{
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
-            }).then(() => window.history.go(-1)).catch((e) => console.log(e))
+            }).catch((e) => console.log(e))
             }
         }
     })
+    document.getElementById("Añadir")?.addEventListener("click", (e) => {
+        e.preventDefault()
+        window.location.href = window.location.pathname + `/addAudio`; 
+        document.cookie = "fotoAlbum=" + fotoAlbum + "; path=/"; 
 
-  })
+    })
+    })
   
 </script>

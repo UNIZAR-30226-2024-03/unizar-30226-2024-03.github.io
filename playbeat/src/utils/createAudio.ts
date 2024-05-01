@@ -14,6 +14,7 @@ async function createAudio(data: {titulo: string;esPrivada: boolean,img?: string
                 "Content-Type": "multipart/form-data",            
             }
         });
+        console.log(response)
         return response;
     } catch (error) {
         console.error("Error registering user:", error);

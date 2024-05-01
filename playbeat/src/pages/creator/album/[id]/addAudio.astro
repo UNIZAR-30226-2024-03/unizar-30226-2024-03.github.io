@@ -1,10 +1,10 @@
 ---
 import CreatorLayout from '@layouts/CreatorLayout.astro';
 import HeaderCreator from '@components/HeaderCreator.astro';
-import AddAudioPlaylist from '@components/AddAudioPlaylist.astro';
 import { TOKEN } from '@/constants';
 import { getMyAudios } from '@/utils/getMyAudios';
 import { Global } from '@/globalState/globalUrl';
+import AddAudioAlbum from '@components/AddAudioAlbum.astro';
 
 
 const token = Astro.cookies.get(TOKEN);
@@ -29,7 +29,7 @@ try{
             <h2 class="text-6xl font-semibold">TUS AUDIOS</h2>
         </div>
         <section class="w-full mt-8 px-16">
-            <AddAudioPlaylist/>
+            <AddAudioAlbum/>
         </section>
         
     </div>
