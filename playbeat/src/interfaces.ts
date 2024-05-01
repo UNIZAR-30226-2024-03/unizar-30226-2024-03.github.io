@@ -18,3 +18,16 @@ export interface Audio {
     etiquetas?: Etiqueta[]; 
     vecesEscuchada: number; 
 }
+
+
+export interface Lista {
+    idLista: number,
+    nombre: string,
+    esAlbum: boolean,
+    esPrivada: boolean,
+    fechaUltimaMod: string,
+    tipoLista: string,
+    imgLista: string,
+    descripcion: string,
+    audios?: Audio[];
+}

@@ -1,0 +1,49 @@
+---
+import Header from '@components/Header.astro';
+import Layout from '@layouts/Layout.astro';
+import { Global } from '@/globalState/globalUrl';
+import { getFollowers } from '@/utils/getFollowers';
+
+
+const { id } = Astro.params;
+const token = Astro.cookies.get('token')?.value;
+
+let following = [];
+try{
+	if(token){
+		const responseFoll = await getFollowers(token,id);
+		following = responseFoll.data.Seguidores;
+	}
+
+}catch(e){
+	console.error(e)
+}
+
+
+let followersUsers = [];
+if (following.length > 0 && token) {
+	followersUsers = await Promise.all(following.map((us: string | undefined) =>  getFollowers(token, us)));
+}
+
+
+---
+
+<Layout title="PlayBeat">
+	<div class=" flex flex-col w-full  text-white">
+		<Header/>
+		<div class=" w-full h-full flex flex-col mt-16 p-1">
+            <h1 class="text-bluePB text-5xl font-semibold ml-10">SEGUIDORES</h1>
+			{
+				followersUsers.length > 0 ? followersUsers.map(user => (
+					
+				  <a href={`/user/${ user && user.data.idUsuario}`} class="flex flex-row items-center justify-between w-11/12 mx-auto my-2 p-2 bg-grey rounded-lg hover:bg-[#575757]">
+					<div class="flex flex-row items-center">
+					  <img src={`${Global.url}foto/${ user && user.data.imgPerfil}`} class="w-12 h-12 rounded-full" alt="user"/>
+					  <h1 class="text-white text-lg ml-2">{user && user.data.nombreUsuario}</h1>
+					</div>
+				  </a>
+				)) : <h1 class="text-white text-lg text-center">No te sigue nadie</h1>
+			  }
+		</div>
+	</div>
+</Layout>
