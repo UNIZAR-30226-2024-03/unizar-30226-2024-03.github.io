@@ -3,10 +3,8 @@ import Layout from '../layouts/Layout.astro';
 import HeaderMyUser from '../components/HeaderMyUser.astro';
 import {Global} from '@/globalState/globalUrl';
 import { getFollowers } from '@/utils/getFollowers';
-
 import TopFive from '@components/TopFive.astro';
 import CarrouselUser from '@components/CarrouselUser.astro';
-import { getFollowers } from '@/utils/getFollowers';
 import { userTopSongs } from '@/utils/userTopSongs';
 import { getSongsUser } from "@/utils/getSongsUser";
 import { getPodcastUser } from "@/utils/getPodcastUser";
@@ -15,7 +13,11 @@ import CarrouselListas from '@components/CarrouselListas.astro';
 
 
 const user = Astro.cookies.get("usuario")?.value;
-const userObj = JSON.parse(user);
+let userObj 
+if(user !== null && user !== undefined){
+
+   userObj = JSON.parse(user);
+}
 
 const userId = userObj.idUsuario;
 
@@ -51,7 +53,7 @@ try{
 
         albumsAll = responseAlbums.data;
 
-        albumsAll = albumsAll.filter(lista => lista.tipoLista === 'NORMAL' && lista.esAlbum === true);
+        albumsAll = albumsAll.filter(lista : any => lista.tipoLista === 'NORMAL' && lista.esAlbum === true);
     }
    
 
@@ -120,7 +122,7 @@ if(userObj.ultimoLanzamiento !== null){
                 </div>
             </section>
             {
-                cancionesAll.length > 0 && 
+                cancionesAll.length > 0 && user &&
                 <section class="mt-10 w-full">
                     <h2 class="text-2xl font-semibold ">Discografia</h2>
                         <h3 class="font-semibold text-lg">Canciones</h3>
@@ -129,10 +131,10 @@ if(userObj.ultimoLanzamiento !== null){
                  </section>
             }
             {
-                albumsAll.length > 0 &&
+                albumsAll.length > 0 && user &&
                 <section>
                     <h3 class="font-medium text-lg">Albums</h3>
-                    <CarrouselListas artista={user.nombreUsuario} artistaId={userId} audios={albumsAll} />
+                    <CarrouselListas artista={userObj.nombreUsuario} artistaId={userId} audios={albumsAll} />
                 </section>
             }
             
