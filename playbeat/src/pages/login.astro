@@ -25,7 +25,7 @@ if (session !== null) {
   console.log(session);
   try {
     const response = await sendInfo(session);
-    if (response && response.status === 200) { 
+    if (response && (response.status === 200 || response.status === 201)) { 
 
       Astro.cookies.set(TOKEN, response.data);
       const user = await getMyUserInfo(response.data);
