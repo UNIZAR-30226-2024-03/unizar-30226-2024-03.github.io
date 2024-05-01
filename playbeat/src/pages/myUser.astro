@@ -50,7 +50,7 @@ try{
         const responseAlbums = await getPlaylistsFromUser(userId,jws.value);
 
         albumsAll = responseAlbums.data;
-        console.log("albumsAll", albumsAll);
+
         albumsAll = albumsAll.filter(lista => lista.tipoLista === 'NORMAL' && lista.esAlbum === true);
     }
    
@@ -67,7 +67,7 @@ try{
 const followers = userObj.Seguidores;
 const following = userObj.Seguidos;
 
-if(userObj.ultimoLanzamiento === null){
+if(userObj.ultimoLanzamiento !== null){
     const fecha = new Date(userObj.ultimoLanzamiento.fechaLanz);
 
     // Extrae el día, mes y año de la fecha
@@ -89,7 +89,7 @@ if(userObj.ultimoLanzamiento === null){
          <HeaderMyUser/>
         <div class="px-16 mt-10 flex flex-row flex-wrap">
             <section class="w-4/6">
-                { canciones &&
+                { userObj.ultimoLanzamiento !== null &&
                     <h2 class="text-2xl font-semibold">Top canciones</h2>
                     <div>
                         <TopFive info={canciones}/>
@@ -98,9 +98,9 @@ if(userObj.ultimoLanzamiento === null){
                 </section>
             <section class=" w-1/8 flex flex-col items-start justify-between ml-16">
                 <div >
-                    <h2 class="text-2xl font-semibold -ml-2">Último lanzamiento</h2>
                     {
-                        userObj.ultimoLanzamiento &&
+                        userObj.ultimoLanzamiento !== null &&
+                        <h2 class="text-2xl font-semibold -ml-2">Último lanzamiento</h2>
                         <div class="bg-black w-44 h-44 rounded-md mt-4">
                             <img src={`${Global.url}foto/${userObj.ultimoLanzamiento.imgAudio}`} class="w-full h-full object-cover rounded-md" alt="Ultimo lanzamiento"/>
                             <div class="flex flex-col my-2 mb-3">
@@ -110,10 +110,13 @@ if(userObj.ultimoLanzamiento === null){
                         </div>
                     }
                 </div>
-                <hr class=" border-white border-0.5 w-[180px] mt-16"/>
+               { userObj.ultimoLanzamiento !== null &&  <hr class=" border-white border-0.5 w-[180px] mt-16"/>}
                 <div class="mt-3">
-                    <h2 class="text-2xl font-semibold -ml-1 ">Popularidad</h2>
-                    <span >{userObj.oyentesMensuales} oyentes mensuales</span>
+                    {
+                        userObj.ultimoLanzamiento !== null &&
+                        <h2 class="text-2xl font-semibold -ml-1 ">Popularidad</h2>
+                        <span >{userObj.oyentesMensuales} oyentes mensuales</span>
+                    }
                 </div>
             </section>
             {
