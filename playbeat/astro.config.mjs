@@ -12,5 +12,7 @@ export default defineConfig({
   integrations: [tailwind(), react(), svelte(), vue(), auth()],
   output: "server",
   adapter: vercel(),
-  prefetch: true,
+  prefetch: {
+    prefetchAll: false
+  }
 });
