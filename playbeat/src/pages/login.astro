@@ -1,4 +1,8 @@
 ---
+function redirect(arg0: string) {
+throw new Error('Function not implemented.');
+}
+
 import NormalLayout from '../layouts/NormalLayout.astro'
 import LogoBlanco from '@/icons/LogoBlanco.astro'
 import {TOKEN} from '@/constants.ts'
@@ -7,9 +11,33 @@ import { loginUser } from '@/utils/login.ts'
 import { getFollowers } from '@/utils/getFollowers';
 import { getMyUserInfo } from '@/utils/getMyUserInfo';
 
+import { SignIn,SignOut } from "auth-astro/components";
+import {getSession} from "auth-astro/server";
+import { sendInfo } from "@/utils/googleAuth";
+
+const session = await getSession(Astro.request);
+console.log(session);
+
 const errors = {email: "", password: "", peticion:"" };
 const values = {email: "", contrasegna: "" };
 
+if (session !== null) {
+  console.log(session);
+  try {
+    const response = await sendInfo(session);
+    if (response && response.status === 200) { 
+
+      Astro.cookies.set(TOKEN, response.data);
+      const user = await getMyUserInfo(response.data);
+      Astro.cookies.set("usuario", user.data)
+      return Astro.redirect("/home");
+    } else {
+      errors.peticion = "Error intentelo de nuevo";
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 if (Astro.request.method ==="POST" ) {
 
@@ -92,6 +120,7 @@ if (Astro.request.method ==="POST" ) {
             </form>
             
             <!-- Botón google -->
+            <SignIn provider="google">Google
             <button class="gsi-material-button">
                 <div class="gsi-material-button-state"></div>
                 <div class="gsi-material-button-content-wrapper">
@@ -106,8 +135,10 @@ if (Astro.request.method ==="POST" ) {
                 </div>
                 <span class="gsi-material-button-contents">Sign in with Google</span>
                 <span style="display: none;">Sign in with Google</span>
+                
                 </div>
             </button>
+          </SignIn>
         </div>
     </div>
 
