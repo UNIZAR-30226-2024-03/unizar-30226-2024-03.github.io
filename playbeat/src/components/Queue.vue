@@ -39,6 +39,9 @@ onMounted(() => {
         localStorage.setItem("cancion", primerElemento.id);
 
     })
+    window.addEventListener("previousSong" , (event) => {
+        previousSong()
+    })
     
 })
 const playSong = (index) => {
@@ -79,6 +82,35 @@ const playSongPlaylist = (item,index) => {
 		}, 1300);
 }
 
+const previousSong = () => {
+
+    let entirePlaylist = JSON.parse(localStorage.getItem('playlist'));
+    let playlistQueue = JSON.parse(localStorage.getItem('playlistQueue')) || [];
+    let cancion = JSON.parse(localStorage.getItem('cancion'));
+    let bucle = JSON.parse(localStorage.getItem('loop'))
+
+    if(!bucle && (entirePlaylist.length -1- playlistQueue.length )%entirePlaylist.length <= 0){
+        document.dispatchEvent(new Event('stopSong'))
+    }else{
+        playlistQueue.unshift({id:cancion})
+        cancion = entirePlaylist[(((entirePlaylist.length -1- playlistQueue.length )%entirePlaylist.length) + entirePlaylist.length) % entirePlaylist.length]
+        console.log("anterior" +   cancion)
+        localStorage.setItem('playlistQueue', JSON.stringify(playlistQueue))
+        localStorage.setItem('cancion', cancion.id)
+        playlist.value = playlistQueue
+        setTimeout(() => {
+                var event = new Event("playSong");
+                document.dispatchEvent(event);	
+                setTimeout(()=> {
+                    window.dispatchEvent(new Event('historialChange'))
+                }, 5000)		
+            }, 1300);
+    }
+
+    
+
+}
+
 
 const todosSeleccionado = computed(() => canciones?.value?.length >= 1 && canciones.value.every(cancion => cancion.checked))
 
@@ -108,7 +140,7 @@ const deseleccionarTodos = () => {
             </div>
             <div  v-if="canciones.length > 0" class="h-[1px] min-h-[1px] w-[80%] bg-white bg-opacity-80 self-center" :class="{'mb-10' : canciones.length == 0}" ></div>
             <ul v-if="canciones.length > 0" class="flex flex-col mt-4 items-start ">
-                <li v-for="(item,index) of canciones"  @dblclick="playSong(index)" class="grid grid-cols-9 items-center w-full p-3 hover:bg-[#262626] select-none cursor-default">
+                <li v-for="(item,index) of canciones" @dblclick="playSong(index)" class="grid grid-cols-9 items-center w-full p-3 hover:bg-[#262626] select-none cursor-default">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-playlist col-span-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                             <path d="M14 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
@@ -128,7 +160,8 @@ const deseleccionarTodos = () => {
             </div>
             <div  v-if="playlist.length > 0" class="h-[1px] min-h-[1px]  w-[80%] bg-white bg-opacity-80 self-center" ></div>
             <ul v-if="playlist.length > 0" class="flex flex-col  mt-4 h-[90%] items-start ">
-                <li v-for="(item,index) of playlist" @dblclick="playSongPlaylist(item, index)" class="grid grid-cols-9 items-center w-full p-3 hover:bg-[#262626] select-none cursor-default">
+                <li v-for="(item,index) of playlist"  @dblclick="playSongPlaylist(item, index)" class="grid grid-cols-9 items-center w-full p-3 hover:bg-[#262626] select-none cursor-default">
+                    <template v-if="item.titulo">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-playlist col-span-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                             <path d="M14 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
@@ -140,6 +173,7 @@ const deseleccionarTodos = () => {
                         <span class="col-span-4">{{ item.titulo }}</span>
                         <span class="col-span-2">{{item.duracion}}</span>
                         <input type="checkbox" class="col-span-1 rounded-full" v-model="item.checked"/>
+                    </template>
                 </li>
             </ul>
         </div>
