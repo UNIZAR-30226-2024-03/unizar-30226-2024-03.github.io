@@ -85,16 +85,16 @@ const changeFilter = (item, index) => {
                                 }}
                             </p>
                         </a>
-                        <a :href="filterItems === 'canciones' ||  filterItems === 'podcasts'
+                        <a :href="(filterItems === 'canciones' ||  filterItems === 'podcasts') && item.Artistas[0] != undefined
                     ? '/user/' + item.Artistas[0].idUsuario 
-                    : filterItems === 'listas' ||  filterItems === 'albums'
+                    : (filterItems === 'listas' ||  filterItems === 'albums') && item.Propietarios[0] != undefined
                     ? '/user/' + item.Propietarios[0].idUsuario 
                     : ''" class="w-max hover:underline "><p class=" text-gray-400">
-                            {{ filterItems === 'canciones' || filterItems === 'podcasts'
+                            {{ (filterItems === 'canciones' || filterItems === 'podcasts') && item.Artistas[0] != undefined
                             ? item.Artistas[0].nombreUsuario 
                             : filterItems === 'usuarios' 
                             ? '' 
-                            : filterItems === 'listas' ||  filterItems === 'albums'
+                            : (filterItems === 'listas' ||  filterItems === 'albums') && item.Propietarios[0] != undefined
                             ? item.Propietarios[0].nombreUsuario 
                             : '' 
                             }}
@@ -142,16 +142,16 @@ const changeFilter = (item, index) => {
                             }}
                         </p>
                     </a>
-                    <a :href="filter === 'canciones' ||  filter === 'podcasts'
+                    <a :href="(filter === 'canciones' ||  filter === 'podcasts') && item.Artistas[0] != undefined
                     ? '/user/' + item.Artistas[0].idUsuario 
-                    : filter === 'listas' ||  filter === 'albums'
+                    : (filter === 'listas' ||  filter === 'albums') && item.Propietarios[0] != undefined
                     ? '/user/' + item.Propietarios[0].idUsuario 
                     : ''" class="w-max hover:underline"><p class=" text-gray-400">
-                        {{ filter === 'canciones' || filter === 'podcasts'
+                        {{ (filter === 'canciones' || filter === 'podcasts') && item.Artistas[0] != undefined
                             ? item.Artistas[0].nombreUsuario
                             : filter === 'usuarios' 
                             ? '' 
-                            : filter === 'listas' ||  filter === 'albums'
+                            : (filter === 'listas' ||  filter === 'albums') && item.Propietarios[0] != undefined
                             ? item.Propietarios[0].nombreUsuario 
                             : '' 
                             }}
