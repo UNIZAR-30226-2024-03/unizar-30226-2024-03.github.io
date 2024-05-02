@@ -73,7 +73,6 @@ export function Player ({jws, children}) {
     useEffect(() => {
       if(play===true) {
         audio.current.play()
-        
         setInterval(sendSync, 500);  // Ejecuta myFunction cada 0.5 segundos
         console.log('Iniciando Sync');
       }else{
