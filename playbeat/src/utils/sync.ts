@@ -1,6 +1,12 @@
 import { socket, socketConnect } from "@/utils/webSocket.ts";
 
-export function sendMessage(JWT: string, currentRoom: number) {
+  // Función para conectar al WebSocket.
+  // De esta forma no tenemos que importar la función socketConnect en cada componente.
+  export function connectToSocket(JWT: string, currentRoom: number) {
+    socketConnect(JWT, currentRoom);
+  }
+
+  export function sendMessage(JWT: string, currentRoom: number) {
     let message = 'Hola, mundo!';
     const data = {
       room: currentRoom,
@@ -26,7 +32,7 @@ export function sendMessage(JWT: string, currentRoom: number) {
     console.log('Enviando Sync');
     const data = {
       currentTime: audio.currentTime,
-      idAudio: 2,
+      idAudio: audio,
       JWT: JWT
     };
     const message = JSON.stringify(data);
@@ -54,9 +60,5 @@ export function sendMessage(JWT: string, currentRoom: number) {
       interval = null;
   };
 
-  // Función para conectar al WebSocket.
-  // De esta forma no tenemos que importar la función socketConnect en cada componente.
-  export function connectToSocket(JWT: string, currentRoom: number) {
-    socketConnect(JWT, currentRoom);
-  }
+
   

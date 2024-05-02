@@ -55,6 +55,8 @@ export function Player ({jws, children}) {
     const [foto, setFoto] = useState(false)
     const [aux, setAux] = useState(false)
     const [info, setInfo] = useState({titulo: "", artistas: [""]})
+    const [interval, setInterval] = useState(null)
+    
     async function fetchData(id) {
       const request = await getAudio(jws, id);
       const response = await getInfoAudio(jws,id)
@@ -67,12 +69,17 @@ export function Player ({jws, children}) {
 
 
     const audio = useRef()
-  
+    // let interval = null;
     useEffect(() => {
       if(play===true) {
         audio.current.play()
+        
+        setInterval(sendSync, 500);  // Ejecuta myFunction cada 0.5 segundos
+        console.log('Iniciando Sync');
       }else{
         audio.current.pause()
+        setInterval(null);  // Pausamos la sincronización.
+        console.log('parando Sync');
       }
       }, [play])
 
@@ -100,6 +107,9 @@ export function Player ({jws, children}) {
         
         
       }
+      
+    
+  
 
       document.addEventListener("playSong", playSong);
       document.addEventListener("stopSong", () => {
