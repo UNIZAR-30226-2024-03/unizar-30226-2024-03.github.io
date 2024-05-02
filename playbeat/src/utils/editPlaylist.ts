@@ -25,7 +25,7 @@ import axios from 'axios';
  * Los datos de la lista de reproducción se envían como un objeto JSON.
  * 
  */
-async function editPlaylist(data: { nombre: string; descripcion: string; esPrivada: boolean; imgLista: string; esAlbum: boolean; tipoLista: any;  audios?: number[];}, token: any, id: any) {
+async function editPlaylist(data: { nombre: string; descripcion: string; esPrivada: boolean; imgLista?: string; esAlbum: boolean; tipoLista: any;  audios?: number[];}, token: any, id: any) {
 
     try {
 
