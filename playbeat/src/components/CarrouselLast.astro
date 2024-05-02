@@ -47,7 +47,13 @@ const itemsSongOpt = ["Añadir cola", "Añadir a playlist", "Añadir a favoritos
                         <a href=`/audio/${item.Audio.idAudio}` class=" w-max hover:underline">
                             <p class="text-base hover:underline">{item.Audio.titulo}</p>
                         </a>
-                        <a href=`/user/${item.descripcion}` class="w-max hover:underline"><p class=" text-gray-400">{item.descripcion}</p></a>
+                        {
+                            item.Audio.artistas && item.Audio.artistas.map((artista: { idUsuario: any; nombreUsuario: string; }, index: number) => 
+                                <a href=`/user/${artista.idUsuario}` class="w-max hover:underline mr-1">
+                                    <p class="text-gray-400">{( item.Audio.artistas && index == item.Audio.artistas?.length-1  )? artista.nombreUsuario : artista.nombreUsuario + ', '}</p>
+                                </a>
+                            )
+                        }
 
                     </li>
             )}
