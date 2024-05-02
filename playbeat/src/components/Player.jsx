@@ -8,6 +8,7 @@ import {getAudio} from "@/utils/getAudio.ts"
 import { getInfoAudio } from "@/utils/getInfoAudio.ts";
 import { Global } from "@/globalState/globalUrl.js";
 import { image } from "@nextui-org/react";
+import { syncPlay, stopPlay } from "@/utils/sync.ts"
 
 
 
@@ -55,7 +56,7 @@ export function Player ({jws, children}) {
     const [foto, setFoto] = useState(false)
     const [aux, setAux] = useState(false)
     const [info, setInfo] = useState({titulo: "", artistas: [""]})
-    const [interval, setInterval] = useState(null)
+    const [sync, setSync] = useState(false)
     
     async function fetchData(id) {
       const request = await getAudio(jws, id);
@@ -70,17 +71,27 @@ export function Player ({jws, children}) {
 
     const audio = useRef()
     // let interval = null;
+    let interval = null
     useEffect(() => {
-      if(play===true) {
+      if (play===true) {
         audio.current.play()
-        setInterval(sendSync, 500);  // Ejecuta myFunction cada 0.5 segundos
         console.log('Iniciando Sync');
-      }else{
-        audio.current.pause()
-        setInterval(null);  // Pausamos la sincronización.
+        setSync(true)
+        syncPlay( -1, audioId, jws, play); // Sincronizamos la canción el server.
+      } else {
+        audio.current.pause();
+        stopPlay();
         console.log('parando Sync');
       }
-      }, [play])
+    }, [play])
+
+      // useEffect(() => {
+      //   if(primeraVez){
+      //     if(sync){
+      //       sendPlay()
+      //     }
+      //   }
+      // },[sync])
 
       useEffect
       (() => {
@@ -96,6 +107,7 @@ export function Player ({jws, children}) {
 
         }
       }, [audioId, aux])
+
       function playSong() {
         setPlay(false)
         if(localStorage.getItem("cancion") === audioId){

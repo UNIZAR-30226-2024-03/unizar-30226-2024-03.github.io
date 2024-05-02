@@ -29,7 +29,7 @@ import { socket, socketConnect } from "@/utils/webSocket.ts";
   }
   
   function sendSync(JWT: string, room: number, audio: any) {
-    console.log('Enviando Sync');
+    console.log('Enviando Sync' + interval);
     const data = {
       currentTime: audio.currentTime,
       idAudio: audio,
@@ -47,15 +47,16 @@ import { socket, socketConnect } from "@/utils/webSocket.ts";
     const message = JSON.stringify(data);
     socket.emit('reload', message);
   }
+  let interval : any = null
   
-  
-  export function sendPlay(interval: any, room: number, audio: any, JWT: string) {
-    interval = setInterval(() => sendSync(JWT, room, audio), 500); // Ejecuta myFunction cada 0.5 segundos
+  export function syncPlay( room: number, audio: any, JWT: string) {
+    interval = setInterval(() => sendSync(JWT, room, audio), 2000); // Ejecuta myFunction cada 0.5 segundos
+    console.log("interval" + interval)
     console.log('Iniciando Sync');
   }
   
-  export function stopPlay (interval: any) {
-      console.log('Deteniendo Sync');
+  export function stopPlay () {
+      console.log('Deteniendo Sync' + interval);
       clearInterval(interval);
       interval = null;
   };

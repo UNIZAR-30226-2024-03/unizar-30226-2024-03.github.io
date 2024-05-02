@@ -88,8 +88,12 @@ const user = JSON.parse(Astro.cookies.get("usuario")?.value as any)
 				}
 			}
 		}
-		const token = getCookie("token") as string;
-		connectToSocket(token, -1); // Creamos la conexión con el websocket.
+		document.addEventListener("astro:page-load", () => {
+			console.log("conectado a sync")
+			const token = getCookie("token") as string;
+			connectToSocket(token, -1); // Creamos la conexión con el websocket.
+		})
+
 
 	  </script>
 
