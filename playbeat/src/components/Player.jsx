@@ -56,7 +56,6 @@ export function Player ({jws, children}) {
     const [foto, setFoto] = useState(false)
     const [aux, setAux] = useState(false)
     const [info, setInfo] = useState({titulo: "", artistas: [""]})
-    const [sync, setSync] = useState(false)
     
     async function fetchData(id) {
       const request = await getAudio(jws, id);
@@ -70,13 +69,10 @@ export function Player ({jws, children}) {
 
 
     const audio = useRef()
-    // let interval = null;
-    let interval = null
     useEffect(() => {
       if (play===true) {
         audio.current.play()
         console.log('Iniciando Sync');
-        setSync(true)
         syncPlay( -1, audioId, jws, play); // Sincronizamos la canción el server.
       } else {
         audio.current.pause();
@@ -85,13 +81,7 @@ export function Player ({jws, children}) {
       }
     }, [play])
 
-      // useEffect(() => {
-      //   if(primeraVez){
-      //     if(sync){
-      //       sendPlay()
-      //     }
-      //   }
-      // },[sync])
+
 
       useEffect
       (() => {
