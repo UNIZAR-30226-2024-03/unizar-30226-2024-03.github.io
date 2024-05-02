@@ -1,0 +1,165 @@
+---
+
+
+interface Props {
+  items: string[];
+  id?: number;
+}
+
+const { items, id } = Astro.props
+
+
+---
+<div class="divOpt" >
+            <button class="button solid " ><slot/></button>
+
+              <div class="dropdown" >
+                {items.map( (item) => {
+                    return <span id={id+''}>{item}</span>
+                })}
+              </div>
+              <div class="noScroll"/>
+            
+      
+</div>
+<script>
+  import {deletePlaylist} from '@/utils/deletePlaylist.js'
+
+  function getCookie(name: any) {
+    let cookieArr = document.cookie.split("; ");
+    
+    for(let i = 0; i < cookieArr.length; i++) {
+        let cookiePair = cookieArr[i].split("=");
+        
+        if(name == cookiePair[0]) {
+            return decodeURIComponent(cookiePair[1]);
+        }
+    }
+  }
+  document.addEventListener('astro:page-load', () => {
+   const items = document.querySelectorAll('.dropdown span') as NodeListOf<HTMLElement>;
+   for(let i = 0; i<items.length; i++){
+     items[i].addEventListener('click', () => {
+       if(items[i].innerText === "Eliminar playlist"){
+        let pathArray = window.location.pathname.split('/');
+          let id = pathArray[pathArray.length - 1];
+         if(id !== undefined){ 
+          deletePlaylist(parseInt(id), getCookie("token"))
+          window.history.back()
+        }
+          
+       }else if(items[i].innerText === "Editar playlist"){
+        let pathArray = window.location.pathname.split('/');
+        let id = pathArray[pathArray.length - 1];
+        if(id !== undefined){ 
+
+          window.location.href = `/editPlaylist/${id}`;
+        }
+       }else if(items[i].innerText === "Añadir a playlist"){
+        localStorage.setItem('addSongToPlaylist', items[i].id);
+        window.location.href = '/addSongToPlaylist';
+       }
+       else if(items[i].innerText === "Eliminar de la playlist"){
+        const token = getCookie('token');
+        let pathArray = window.location.pathname.split('/');
+        let id = pathArray[pathArray.length - 1];
+        if(id !== undefined){ 
+          fetch('https://playbeat.uksouth.cloudapp.azure.com/lista/audio/'+ id  +'/'+items[i].id , {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` // Uncomment this line if you need to send a bearer token
+          },
+          })
+          .then(response => response.json())
+          .then(() => {window.location.reload()})
+          .catch((error) => {
+          console.error('Error:', error);
+          window.location.reload();
+          });
+
+        }
+       }
+     })
+   }
+ })
+  
+</script>
+
+
+<style>
+
+.button {
+    padding-top: 6px;
+    cursor: pointer;
+}
+
+
+  
+.divOpt {
+  
+  display: inline-block;
+
+}
+
+.noScroll {
+  opacity: 0;
+  visibility: hidden;
+  position: fixed;
+  z-index: 900;
+  width: 83.3vw;
+  height: 47.1vw;
+  top: 0;
+  left:16.6%;
+}
+
+.dropdown {
+  display:none;
+  position:fixed;
+  background-color: #2f2f2f;
+  width: 200px;
+  border-radius: 10px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 999;
+
+}
+
+.dropdown span {
+  color: white;
+
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+}
+
+.dropdown span{
+  border-top: .5px solid white;
+
+}
+.dropdown span:first-child{
+  border-top: 0px;
+  border-top-left-radius:10px;
+  border-top-right-radius:10px;
+}
+.dropdown span:last-child{
+
+  border-bottom-left-radius:10px;
+  border-bottom-right-radius:10px;
+}
+
+.dropdown span:hover {background-color: #6e6e6e;}
+
+.button:focus ~ .noScroll {
+  opacity: 1;
+  visibility: visible;
+  }
+  .button:focus ~ .dropdown {
+    display: flex; flex-direction: column;
+
+  }
+
+
+
+
+</style>

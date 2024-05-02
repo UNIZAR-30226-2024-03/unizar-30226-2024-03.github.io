@@ -52,6 +52,7 @@ if (Astro.request.method ==="POST" ) {
                     if(tokenCookie){
                         const request = await editUser(tokenCookie.value,img.id,"img");
                         if (request.status === 201) {
+                            Astro.cookies.set("usuario", JSON.stringify({...user, imgPerfil: img.id}));
                             return Astro.redirect('/home');
                         }else{
                             error.photo = "Error en la petición";

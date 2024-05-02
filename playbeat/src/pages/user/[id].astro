@@ -9,9 +9,11 @@ import { getFollowers } from '@/utils/getFollowers';
 import { userTopSongs } from '@/utils/userTopSongs';
 import { getSongsUser } from "@/utils/getSongsUser";
 import { getPodcastUser } from "@/utils/getPodcastUser";
+import {getPlaylistsFromUser} from '@/utils/getPlaylistsFromUser';
 
 // import { getUserAudios } from '@/utils/getUserAudios';  
 import { Global } from "@/globalState/globalUrl.js";
+import CarrouselListas from '@components/CarrouselListas.astro';
 
 const { id } = Astro.params
 
@@ -20,6 +22,8 @@ let user;
 let canciones;
 let cancionesAll = [];
 let podcastAll = [];
+let albumsAll = [];
+let fechaFormateada;
 
 
 try{
@@ -29,26 +33,41 @@ try{
         // const responseFollowers = await getFollowers(jws.value, "444");
         const responseFollowers = await getFollowers(jws.value, id);
         user = responseFollowers.data;
+        if(user.ultimoLanzamiento !== null){
+             // const responseTop = await userTopSongs(jws.value, 444, 5);
+            const responseTop = await userTopSongs(jws.value, Number(id), 5);
+            canciones = responseTop.data;
+
+            // const responseLast = await getUserAudios(jws.value, Number(id));
+
+            // const responseCanciones = await getSongsUser(444);
+            const responseCanciones = await getSongsUser(Number(id));
+            cancionesAll = responseCanciones.data.cancion;
+
+            const responsePodcast = await getPodcastUser(Number(id));
+            // const responsePodcast = await getPodcastUser(id);
+            podcastAll = responsePodcast.data.podcast;
 
 
-        // const responseTop = await userTopSongs(jws.value, 444, 5);
-        const responseTop = await userTopSongs(jws.value, Number(id), 5);
-        canciones = responseTop.data;
-        // console.log(responseTop.data);
+            const responseAlbums = await getPlaylistsFromUser(Number(id),jws.value);
 
-        // const responseLast = await getUserAudios(jws.value, Number(id));
+            albumsAll = responseAlbums.data;
+            albumsAll = albumsAll.filter((lista: any)  => lista.tipoLista === 'NORMAL' && lista.esAlbum === true);
 
-        // const responseCanciones = await getSongsUser(444);
-        const responseCanciones = await getSongsUser(Number(id));
-        cancionesAll = responseCanciones.data.cancion;
+            const fecha = new Date(user.ultimoLanzamiento.fechaLanz);
 
-        const responsePodcast = await getPodcastUser(Number(id));
-        // const responsePodcast = await getPodcastUser(id);
+            // Extrae el día, mes y año de la fecha
+            const dia = String(fecha.getDate()).padStart(2, '0');
+            const mes = String(fecha.getMonth() + 1).padStart(2, '0');
+            const anio = fecha.getFullYear();
 
-        podcastAll = responsePodcast.data.podcast;
+            // Formatea la fecha como DD-MM-YYYY
+            const date = `${dia}-${mes}-${anio}`;
+            fechaFormateada = date;
 
+        }
 
-
+       
 
     }
    
@@ -66,21 +85,8 @@ const followers = user.Seguidores;
 const following = user.Seguidos;
 
 
-const fecha = new Date(user.ultimoLanzamiento.fechaLanz);
-
-// Extrae el día, mes y año de la fecha
-const dia = String(fecha.getDate()).padStart(2, '0');
-const mes = String(fecha.getMonth() + 1).padStart(2, '0');
-const anio = fecha.getFullYear();
-
-// Formatea la fecha como DD-MM-YYYY
-const fechaFormateada = `${dia}-${mes}-${anio}`;
-
-// Muestra la fecha formateada
 
 
-
-// const canciones2 = {items:[{audio:"Cancion1", descripcion:"Artista1"}, {audio:"Cancion2", descripcion:"Artista2"}, {audio:"Cancion3", descripcion:"Artista3"}, {audio:"Cancion4", descripcion:"Artista4"}, {audio:"Cancion5", descripcion:"Artista5"}, {audio:"audio6", descripcion:"Artista6"}, {audio:"audio7", descripcion:"Artista7"}, {audio:"audio8", descripcion:"Artista8"}, {audio:"audio9", descripcion:"Artista9"}, {audio:"audio10", descripcion:"Artista10"}, {audio:"audio11", descripcion:"Artista11"}, {audio:"audio12", descripcion:"Artista12"}, {audio:"audio13", descripcion:"Artista13"}, {audio:"audio14", descripcion:"Artista14"}, {audio:"audio15", descripcion:"Artista15"}, {audio:"audio16", descripcion:"Artista16"}, {audio:"audio17", descripcion:"Artista17"}, {audio:"audio18", descripcion:"Artista18"}, {audio:"audio19", descripcion:"Artista19"}, {audio:"audio20", descripcion:"Artista20"}, {audio:"audio21", descripcion:"Artista21"}, {audio:"audio22", descripcion:"Artista22"}, {audio:"audio23", descripcion:"Artista23"}, {audio:"audio24", descripcion:"Artista24"}, {audio:"audio25", descripcion:"Artista25"}, {audio:"audio26", descripcion:"Artista26"}, {audio:"audio27", descripcion:"Artista27"}, {audio:"audio28", descripcion:"Artista28"}, {audio:"audio29", descripcion:"Artista29"}, {audio:"audio30", descripcion:"Artista30"}, {audio:"audio31", descripcion:"Artista31"}, {audio:"audio32", descripcion:"Artista32"}]}
 
 ---
 
@@ -89,46 +95,61 @@ const fechaFormateada = `${dia}-${mes}-${anio}`;
 	<div class=" flex flex-col w-full   text-white">
 		<Header/>
 		<div class=" w-full h-full flex flex-col mt-16">
-            <HeaderUser nombre={user.nombreUsuario} email={user.email} img={user.imgPerfil} followers={followers} following={following} id={2}/>
+            {id && <HeaderUser nombre={user.nombreUsuario} email={user.email} img={user.imgPerfil} followers={followers} following={following} id={Number(id)}/>}
 			<div class="px-16 mt-10 flex flex-row flex-wrap">
-                <section class="w-4/6">
-                    <h2 class="text-lg font-semibold">Top canciones</h2>
-                    <div>
-                        <TopFive info={canciones}/>
-                    </div>
-                </section>
-                <section class=" w-1/8 flex flex-col items-start justify-between ml-16">
-                    <div >
-                        <h2 class="text-lg font-semibold">Último lanzamiento</h2>
-                        <div class="bg-black w-44 h-44 rounded-md mt-4">
-                            <img src={`${Global.url}foto/${user.ultimoLanzamiento.imgAudio}`} class="w-full h-full object-cover rounded-md" alt="Ultimo lanzamiento"/>
-                            <div class="flex flex-col my-2 mb-3">
-                                <h3 class="font-bold">{user.ultimoLanzamiento.titulo}</h3>
-                                <p>{fechaFormateada}</p>
+                {    user.ultimoLanzamiento !== null &&
+                    <section class="w-4/6">
+                        <h2 class="text-2xl font-semibold">Top canciones</h2>
+                        <div>
+                            <TopFive info={canciones}/>
+                        </div>
+                    </section>
+                }
+                {   user.ultimoLanzamiento !== null && 
+                    <section class=" w-1/8 flex flex-col items-start justify-between ml-16">
+                        <div >
+                            <h2 class="text-2xl font-semibold -ml-2">Último lanzamiento</h2>
+                            <div class="bg-black w-44 h-44 rounded-md mt-4">
+                                <img src={`${Global.url}foto/${user.ultimoLanzamiento.imgAudio}`} class="w-full h-full object-cover rounded-md" alt="Ultimo lanzamiento"/>
+                                <div class="flex flex-col my-2 mb-3">
+                                    <h3 class="font-bold">{user.ultimoLanzamiento.titulo}</h3>
+                                    <p>{fechaFormateada}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <hr class=" border-white border-0.5 w-[180px] mt-16"/>
-                    <div class="mt-3">
-                        <h2 class="text-lg font-semibold ">Popularidad</h2>
-                        <span >{user.oyentesMensuales} oyentes mensuales</span>
-                    </div>
-                </section>
-                {
-                    cancionesAll.length > 0 && 
-                    <section class="mt-10 w-full">
-                        <h2 class="text-lg font-semibold ">Discografia</h2>
-                        <CarrouselUser audios={cancionesAll} />
-                     </section>
-                }
+                        <hr class=" border-white border-0.5 w-[180px] mt-16"/>
+                        <div class="mt-3">
+                            <h2 class="text-2xl font-semibold -ml-1 ">Popularidad</h2>
+                            <span >{user.oyentesMensuales} oyentes mensuales</span>
+                        </div>
+                    </section>
+                    }
+                    {
+                        cancionesAll.length > 0 && 
+                        <section class="mt-10 w-full">
+                            <h2 class="text-2xl font-semibold ">Discografia</h2>
+                                <h3 class="font-semibold text-lg">Canciones</h3>
+                                <CarrouselUser audios={cancionesAll} />
+                            
+                        </section>
+                    }
+                    {
+                        albumsAll.length > 0 &&
+                        <section>
+                            <h3 class="font-medium text-lg">Albums</h3>
+                            <CarrouselListas artista={user.nombreUsuario} artistaId={Number(id)} audios={albumsAll} />
+                        </section>
+                    }
+                    
+                    {
+                        podcastAll.length > 0 &&
+                    
+                        <section class="mt-10 w-full">
+                            <h2 class="text-lg font-medium ">Podcast</h2>
+                            <CarrouselUser  audios={podcastAll}/>
+                        </section>
+                    }
                 
-                {
-                    podcastAll.length > 0 &&
-                
-                    <section class="mt-10 w-full">
-                        <h2 class="text-lg font-semibold ">Podcast</h2>
-                        <CarrouselUser  audios={podcastAll}/>
-                    </section>}
             </div>
 		</div>
 	</div>
