@@ -93,10 +93,10 @@ export function Player ({jws, children}) {
       }, [audioId, aux])
       function playSong() {
         setPlay(false)
-        if(localStorage.getItem("cancion") === audioId){
+        if(JSON.parse(localStorage.getItem("cancion")).id === audioId){
           setAux(!aux)
         }
-          setAudioId(localStorage.getItem("cancion"))
+          setAudioId(JSON.parse(localStorage.getItem("cancion")).id)
 
         
         
