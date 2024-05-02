@@ -204,19 +204,35 @@ const token = getCookie(TOKEN);
 const file = data.get("photo")
 if (file instanceof File) {
     if (file.size === 0) {
-        const tags = data.getAll("tags")
-        const typeEtiqueta = data.get("tabsaudio") as string;
-        await createAudio({
-            titulo: data.get("titulo") as string,
-            esPrivada: data.get("esPrivada") as string == "on" || false,
+        let i = 0
+        let canciones = []
+        while(i < 50 && data.get("audio"+i) != null){   
+            const response = await createAudio({
+            titulo: data.get("name"+i) as string,
+            esPrivada: false,
             esAlbum: false,
             esPodcast: false,
             fechaLanz: new Date().toISOString(),
-            duracionSeg: parseFloat(data.get("duracion") as string) || 0,
-            cancion: data.get("cancion"), 
-            tipoEtiqueta: typeEtiqueta,
-            etiquetas: tags.join(",") // Convertimos tags a un string separados por comas, ya que asi lo pide la API
-        }, token)
+            duracionSeg: parseFloat(data.get("duracion"+i) as string) || 0,
+            cancion: data.get("audio"+i), 
+            }, token)
+            canciones.push(response.data.idaudio)
+            i++
+        }
+        const user = JSON.parse(getCookie("usuario") as any)
+        createPlaylist({
+        nombre: data.get("name") as string,
+        descripcion: "descripcion del album",
+        esPrivada:  false,
+        esAlbum: true,
+        tipoLista: "NORMAL",
+        idUsuario: user.idUsuario,
+        audios: canciones
+    }, token).then(() => {
+            window.location.reload()
+    }).catch((error) => {
+        console.log(error)
+    })
         
     }else{
         const img = await uploadImg(file, token)
