@@ -13,16 +13,18 @@ import UserPlus from '@/icons/UserPlus.astro'
 
 const {id} = Astro.params
 const token = Astro.cookies.get(TOKEN);
+const user = JSON.parse(Astro.cookies.get("usuario")?.value as string)
 
 let playlist: any
 let idImg: any
+let propietarios : any
 try{
     if(id !== undefined){
 
         playlist = await getInfoPlaylist(parseInt(id), token?.value)
         playlist = playlist.data
         idImg = playlist.imgLista
-
+        propietarios = playlist.Propietarios.map((user: any) => user.idUsuario)
     }
 
 }catch(e){
@@ -55,9 +57,12 @@ try{
                     <a href=`/linkPlaylist/${id}`>
                         <UserPlus/>
                     </a>
-                    <PlaylistOpt items={["Eliminar playlist","Editar playlist"]}>                        
+                    {!playlist.esAlbum && propietarios.includes(user.idUsuario) &&
+                    <PlaylistOpt items={ ["Eliminar playlist","Editar playlist"]}>                        
+
+                    <!-- <PlaylistOpt items={["Eliminar playlist","Editar playlist"]}>                         -->
                         <svg  xmlns="http://www.w3.org/2000/svg"  width="25"  height="25"  viewBox="0 0 24 24"  fill="none"  stroke="#6985C0"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
-                    </PlaylistOpt> 
+                    </PlaylistOpt> }
                     
                 </div>
             </div>
