@@ -32,7 +32,7 @@ import { socket, socketConnect } from "@/utils/webSocket.ts";
     console.log('Enviando Sync' + interval);
     const data = {
       currentTime: audio.currentTime,
-      idAudio: audio,
+      idAudio: audio.id,
       JWT: JWT
     };
     const message = JSON.stringify(data);
