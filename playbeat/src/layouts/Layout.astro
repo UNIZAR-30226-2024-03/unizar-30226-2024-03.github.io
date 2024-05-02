@@ -180,13 +180,10 @@ const jws = Astro.cookies.get('token');
 
 				}
 		}
-		function previousSongFunction(){
-				window.dispatchEvent(new Event('previousSong'));
-		}
 		setTimeout( () => {
 			const previousSong = document.querySelector('.previousSong');
 			previousSong?.addEventListener('click', () => {
-				previousSongFunction()
+				window.dispatchEvent(new Event('previousSong'));
 			});
 		}, 2000)
 		setTimeout(	() => {	
