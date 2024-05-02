@@ -1,4 +1,4 @@
-import { socket } from "@/utils/webSocket.ts";
+import { socket, socketConnect } from "@/utils/webSocket.ts";
 
 export function sendMessage(JWT: string, currentRoom: number) {
     let message = 'Hola, mundo!';
@@ -53,4 +53,10 @@ export function sendMessage(JWT: string, currentRoom: number) {
       clearInterval(interval);
       interval = null;
   };
+
+  // Función para conectar al WebSocket.
+  // De esta forma no tenemos que importar la función socketConnect en cada componente.
+  export function connectToSocket(JWT: string, currentRoom: number) {
+    socketConnect(JWT, currentRoom);
+  }
   
