@@ -8,6 +8,7 @@ import { Global } from "@/globalState/globalUrl.js";
 import {getUserLastAudios} from '@/utils/getUserLastAudios.ts';
 import CarrouselUser from '@components/CarrouselUser.astro';
 import CarrouselLast from '@components/CarrouselLast.astro';
+import { getLastAudiosUploaded } from '@/utils/getLastAudiosUploaded';
 
 
 
@@ -19,9 +20,13 @@ const user = JSON.parse(Astro.cookies.get("usuario")?.value as any)
 const token = Astro.cookies.get("token")?.value as string
 
 let lastAudios;
+let lastSongsUploaded;
 try {
 	const responseLast = await getUserLastAudios(token,15);
 	lastAudios = responseLast.data;
+
+	const responesLastUploaded = await getLastAudiosUploaded(token)
+	lastSongsUploaded = responesLastUploaded.data.cancion;
 	
 } catch (error) {
 	console.error("Error")
@@ -56,6 +61,10 @@ for (const item of lastAudios.cancion) {
 			<section class="mt-10 w-full">
 				<h2 class="text-lg font-semibold ml-10">Últimos escuchados</h2>
 				<CarrouselLast  info={vectorSinDuplicados}/>
+			</section>
+			<section class="mt-10 w-full">
+				<h2 class="text-lg font-semibold ml-10">Últimos lanzamientos</h2>
+				<CarrouselUser  audios={lastSongsUploaded}/>
 			</section>
 			<!-- {Canciones.map( (element) =>
 				{
