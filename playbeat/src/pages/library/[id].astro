@@ -78,7 +78,7 @@ try{
                     })}
                 </h2>
                 <span class=" opacity-70">{playlist?.descripcion}</span>
-                <span>Lista de canciones | {playlist?.Audios?.length} canciones, 
+                <span> {playlist?.esAlbum ? "Álbum" : "Lista" } de canciones {playlist?.esPrivada ? "privada" : "pública" } | {playlist?.Audios?.length} canciones, 
                     {() => {
                         function convertirSegundos(segundos:any) {
                             let horas = Math.floor(segundos / 3600);
@@ -129,7 +129,35 @@ try{
                                 })}
                         </td>
                         <td class="py-3" >{cancion.album}</td>
-                        <td class="py-3 max-w-6 ">{cancion.duracionSeg}</td>
+                        <td class="py-3 max-w-6 ">{() => {
+                        function convertirSegundos(segundos:any) {
+                            let horas = Math.floor(segundos / 3600);
+                            segundos %= 3600;
+                            let minutos = Math.floor(segundos / 60);
+                            segundos %= 60;
+                            let res = ""
+                            if(horas >0 ){
+                                res+= horas + ":"
+                            }
+                            if(minutos >0 ){
+                                if(minutos < 10){
+                                    res+= "0"
+                                }
+                                res+= minutos + ":"
+                            }
+                            if(segundos >0 ){
+                                if(segundos < 10){
+                                    res+= "0"
+                                }
+                                res+= segundos
+
+                            }else{
+                                res += "00"
+                            }
+                            return res
+                        }
+                        return convertirSegundos(cancion.duracionSeg);
+                    }}</td>
                         <td class="max-w-3 cursor-pointer pr-3">
                             <PlaylistOpt items={["Añadir a playlist","Eliminar de la playlist", "Añadir cola"]} id={cancion.idAudio}>                        
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#6985C0" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
