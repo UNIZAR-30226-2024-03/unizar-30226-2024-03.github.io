@@ -39,10 +39,11 @@ onMounted(() => {
         localStorage.setItem("cancion", JSON.stringify(primerElemento));
 
     })
+    console.log("escuchandooooo")
     window.addEventListener("previousSong" , (event) => {
         console.log("locoo")
         previousSong()
-        
+
     })
     
 })
