@@ -24,7 +24,7 @@ import axios from 'axios';
  * Los datos de la lista de reproducción se envían como un objeto JSON.
  * 
  */
-async function createPlaylist(data: { nombre: string; descripcion: string; esPrivada: boolean; imgLista: string; esAlbum: boolean; tipoLista: any; idUsuario: number; audios: number[];}, token: any) {
+async function createPlaylist(data: { nombre: string; descripcion: string; esPrivada: boolean; imgLista?: string; esAlbum: boolean; tipoLista: any; idUsuario: number; audios: number[];}, token: any) {
     try {
 
         axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
