@@ -72,9 +72,9 @@ try{
                 <h2 class="text-2xl font-semibold text-[#6985C0]">
                     {playlist?.Propietarios?.map((user: any, index: any)=>{
                         if(index === playlist?.Propietarios.length - 1){
-                            return '@' + user.nombreUsuario
+                            return(<a href={"/user/"+user.idUsuario} class="hover:underline">@{user.nombreUsuario}</a>)
                         }
-                        return '@' + user.nombreUsuario + ", "
+                        return(<a href={"/user/"+user.idUsuario} class="hover:underline">@{user.nombreUsuario},</a>)
                     })}
                 </h2>
                 <span class=" opacity-70">{playlist?.descripcion}</span>
@@ -121,12 +121,12 @@ try{
                             </td>
                         <td class="py-3">                                
                             {cancion.Artistas?.map((artista:any, index:any) => {
-                                    if(index == cancion.Artistas.length-1){
-                                        return artista.nombreUsuario
-                                    }else{
-                                        return artista.nombreUsuario + ', '
-                                    }
-                                })}
+                                if( index == cancion.Artistas?.length-1  ){
+                                    return(<a href={"/user/"+artista.idUsuario} class="hover:underline">{artista.nombreUsuario}</a>)
+                                }else{
+                                    return(<a href={"/user/"+artista.idUsuario} class="hover:underline">{artista.nombreUsuario},</a>)
+                                }
+                            })}
                         </td>
                         <td class="py-3" >{cancion.album}</td>
                         <td class="py-3 max-w-6 ">{() => {
