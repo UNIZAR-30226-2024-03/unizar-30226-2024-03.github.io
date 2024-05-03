@@ -42,6 +42,7 @@ onMounted(() => {
     window.addEventListener("previousSong" , (event) => {
         console.log("locoo")
         previousSong()
+        
     })
     
 })
