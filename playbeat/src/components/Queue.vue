@@ -10,6 +10,9 @@ let playlist = ref([])
 
 
 onMounted(() => {
+    canciones.value = JSON.parse(window.localStorage.getItem('songsQueue'))
+    playlist.value = JSON.parse(window.localStorage.getItem('playlistQueue'))
+
     window.addEventListener("storageChange", (event) => {   
         canciones.value = JSON.parse(window.localStorage.getItem('songsQueue'))
         
@@ -40,11 +43,13 @@ onMounted(() => {
 
     })
     console.log("escuchandooooo")
-    window.addEventListener("previousSong" , (event) => {
-        console.log("locoo")
-        previousSong()
-
-    })
+    if (!window.previousSongAdded) {
+    window.addEventListener("previousSong", (event) => {
+        console.log("locoo");
+        previousSong();
+    });
+    window.previousSongAdded = true;
+}
     
 })
 const playSong = (index) => {
