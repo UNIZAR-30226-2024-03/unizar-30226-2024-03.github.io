@@ -1,10 +1,13 @@
 ---
+
+
 import TagsTabs from '@components/TagsTabs.astro';
 import { createAudio } from "@/utils/createAudio";
 import {TOKEN} from '@/constants.ts'
 import Imagen from '@/icons/Imagen.astro';
 import { uploadImg } from '@/utils/uploadImg';
 import type { Image } from 'astro:assets';
+import { searchUser } from '@/utils/searchUser';
 
 
 
@@ -20,6 +23,11 @@ try{
     let esPodcast = false;
     if(typeEtiqueta == "Podcast"){
         esPodcast = true;
+    }
+    const features = data.get("featurings") as string;
+    if(features){
+        const responseFeat = await searchUser(features, token?.value)
+
     }
     if (file instanceof File) {
         if (file.size === 0) {
