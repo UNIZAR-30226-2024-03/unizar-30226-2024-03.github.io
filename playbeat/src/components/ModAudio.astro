@@ -9,12 +9,14 @@ import {modAudio} from '@/utils/modAudio';
 const {id} = Astro.params
 
 let audio
+let mensaje = "";
 try{
 
     const token = Astro.cookies.get(TOKEN); 
     if(token != undefined && id != undefined){
         const response = await getInfoAudio(token?.value, id)
         audio = response
+        // console.log(audio)
     }
 }catch(e){
     console.log(e);
@@ -57,7 +59,10 @@ try{
 
     console.log(params)
     if(id){
-        const responseMod = modAudio(params, token?.value, id)
+        const responseMod = await modAudio(params, token?.value, id)
+        if(responseMod && responseMod.status === 200){
+        mensaje = "Audio modificado correctamente"
+        }
     }
     
 
@@ -101,7 +106,7 @@ try{
                     </div>
                     <div class="flex flex-row gap-2 items-center mt-4 ">
                         <label>Privado</label>
-                        <input type="checkbox" name="esPrivada" value={audio.esPrivada}/>
+                        <input type="checkbox" name="esPrivada" value={audio.esPrivada} checked={audio.esPrivada}/>
                     </div>
 
                 </div>
@@ -115,7 +120,14 @@ try{
             <input type="number" id="duracion" name="duracion" class="hidden"/>
             <audio id="audio"  controls class="w-full"></audio>
         </div>
-        <input type="submit" class=" bg-bluePB px-4 py-1 rounded-sm" value="Subir"/>
+        <input type="submit" class=" bg-bluePB px-4 py-1 rounded-md font-semibold" value="Guardar"/>
+        <div>
+            {mensaje &&
+                <div class="bg-bluePB text-white font-semibold p-2 rounded-md bg-opacity-70 border-2 border-bluePB">
+                    {mensaje}
+                </div>
+            }
+        </div>
     </form>
 </div>
 
