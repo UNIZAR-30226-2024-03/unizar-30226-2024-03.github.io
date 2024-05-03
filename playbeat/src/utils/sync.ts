@@ -49,8 +49,9 @@ import { socket, socketConnect } from "@/utils/webSocket.ts";
   }
   let interval : any = null
   
-  export function syncPlay( room: number, audio: any, JWT: string) {
-    interval = setInterval(() => sendSync(JWT, room, audio), 2000); // Ejecuta myFunction cada 0.5 segundos
+  export function syncPlay( room: number, audioId: number, audio:any, JWT: string) {
+    // Pasamos el objeto audio para poder acceder a la propiedad currentTime en tiempo real y que se actualice en el servidor.
+    interval = setInterval(() => sendSync(JWT, room, {id:audioId, currentTime: audio.current.currentTime}), 2000); // Ejecuta myFunction cada 2 segundos
     console.log("interval" + interval)
     console.log('Iniciando Sync');
   }
