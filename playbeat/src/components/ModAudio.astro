@@ -45,7 +45,7 @@ try{
     params["titulo"] = data.get("titulo") as string
     params["esPrivada"] = data.get("esPrivada") as string == "on" || false
     if(id){
-        modAudio(params, token?.value, id).then(() => window.history.back()).catch((e) => console.log(e))
+        modAudio(params, token?.value, id).then(() => {setTimeout(()=>{}, 300);return Astro.redirect("/creator/tusaudios")}).catch((e) => console.log(e)) 
     }
     
 
