@@ -79,6 +79,7 @@ export function Player ({jws, children}) {
       useEffect
       (() => {
         const fetchDataAsync = async () => {
+          console.log(audioId)
           await fetchData(audioId);
           setPlay(true);
         };
@@ -92,10 +93,10 @@ export function Player ({jws, children}) {
       }, [audioId, aux])
       function playSong() {
         setPlay(false)
-        if(localStorage.getItem("cancion") === audioId){
+        if(JSON.parse(localStorage.getItem("cancion")).id === audioId){
           setAux(!aux)
         }
-          setAudioId(localStorage.getItem("cancion"))
+          setAudioId(JSON.parse(localStorage.getItem("cancion")).id)
 
         
         
@@ -134,7 +135,7 @@ export function Player ({jws, children}) {
             <div className="flex flex-row gap-2 mb-0.5 mt-1.5">
 
               <button>
-                  <PreviousSong classname={"hover:opacity-100 opacity-70 transition"} />
+                  <PreviousSong classname={"hover:opacity-100 opacity-70 transition previousSong"} />
               </button>
               <button className="rounded-full " onClick={onClickHandlerPlay}>
                 {play ? <Pause classname={"hover:opacity-100 opacity-70 transition"}/> : <Play classname={"hover:opacity-100 opacity-70 transition"}/>}
