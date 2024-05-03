@@ -1,12 +1,20 @@
 ---
 import SongOpt from "./SongOpt.astro";
+import { Global } from "@/globalState/globalUrl";
+
 interface Info {
     num: number;
     name: string;
     ref?: string;
     items: {
-        audio: string;
-        descripcion: string;
+        idLista: number,
+        nombre: string,
+        esAlbum: boolean,
+        esPrivada: boolean,
+        descripcion: string,
+        imgLista: string,
+        tipoLista: string,
+        fechaUltimaMod: string
     }[];
     vari?: string;
 }
@@ -23,7 +31,6 @@ const nume = info.num;
 const variant = info.vari;
 
 const itemsSongOpt = ["Añadir cola", "Añadir a playlist", "Añadir a favoritos", "Descargar", "Eliminar"];
-
 ---
 
 <section>
@@ -34,10 +41,10 @@ const itemsSongOpt = ["Añadir cola", "Añadir a playlist", "Añadir a favoritos
     <div class="flex flex-row items-center ">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-compact-left opacity-0 hover:opacity-100 transition-opacity cursor-pointer" width="40" height="60" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13 20l-3 -8l3 -8" /></svg>
         <ul class=" flex flex-row w-full overflow-x-auto snap-x snap-mandatory scroll-smooth  carrusel">
-            {info.items.map( (item) => 
-                    <li class="flex flex-col p-2 snap-start text-sm h-full hijo ">
-                        <a href=`/library/${item.audio}` class="  relative inline-block imagen ">
-                            <img src="../../cancion.jpg" class:list={[" w-full rounded-md mb-1 hover:brightness-90", {"aspect-[16/11]" : variant==="wide"},  {"aspect-square" : variant!=="wide"}]}/>
+            {info && info.items && info.items.map( (item) => 
+                    <li class="flex flex-col p-2 snap-start text-sm h-full hijo w-max-1/5">
+                        <a href=`/library/${item.idLista}` class="  relative inline-block imagen ">
+                            <img src={`${Global.url}foto/${item.imgLista}`} class:list={[" w-full rounded-md mb-1 hover:brightness-90", {"aspect-[16/11]" : variant==="wide"},  {"aspect-square" : variant!=="wide"}]}/>
                             <div class="rounded-full w-10 h-10 hidden items-center justify-center botonesizq">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-player-play-filled" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4v16a1 1 0 0 0 1.524 .852l13 -8a1 1 0 0 0 0 -1.704l-13 -8a1 1 0 0 0 -1.524 .852z" stroke-width="0" fill="currentColor" /></svg>
                             </div>
@@ -46,11 +53,9 @@ const itemsSongOpt = ["Añadir cola", "Añadir a playlist", "Añadir a favoritos
                             </div>
                         </a>
 
-                        <a href=`/library/${item.audio}` class=" w-max hover:underline">
-                            <p class="text-base hover:underline">{item.audio}</p>
+                        <a href=`/library/${item.idLista}` class=" w-max hover:underline">
+                            <p class="text-base hover:underline">{item.nombre}</p>
                         </a>
-                        <a href=`/user/${item.descripcion}` class="w-max hover:underline"><p class=" text-gray-400">{item.descripcion}</p></a>
-
                     </li>
             )}
         </ul>

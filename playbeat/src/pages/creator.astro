@@ -2,13 +2,12 @@
 import CreatorLayout from '@layouts/CreatorLayout.astro';
 import HeaderCreator from '@components/HeaderCreator.astro';
 import TopFive from '@components/TopFive.astro';
-import Carrousel from '@components/Carrousel.astro';
-import CarrouselUser from '@components/CarrouselUser.astro';
 import {Contador} from '@components/Contador.tsx';
 import { getMyUserInfo } from "@/utils/getMyUserInfo";
 import {TOKEN} from '@/constants.ts'
 import { userTopSongs } from '@/utils/userTopSongs';
 import { getPlaylistsFromUser } from '@/utils/getPlaylistsFromUser';
+import CarrouselAlbums from '@components/CarrouselAlbums.astro';
 
 
 const canciones = [
@@ -173,7 +172,7 @@ let canciones2 = {num:3,name:"Tus albumes", ref:"/creator/tusalbums", items:play
             </div>
             <div class=" w-1/2 flex flex-col ">
                 <a href="/creator/tusalbums" class="self-center"><h3 class="text-4xl font-semibold  hover:underline">TUS ALBUMS</h3></a>
-                <Carrousel  info={canciones2} />
+                <CarrouselAlbums  info={canciones2} />
             </div>
         </div>
     </div>
