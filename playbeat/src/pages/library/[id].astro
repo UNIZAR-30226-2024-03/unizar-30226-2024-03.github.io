@@ -9,6 +9,7 @@ import {TOKEN} from '@/constants.ts'
 import PlaylistOpt from '@components/PlaylistOpt.astro'
 import { Global } from '@/globalState/globalUrl'
 import UserPlus from '@/icons/UserPlus.astro'
+import { setRoom } from '@/utils/sync.ts'
 
 
 const {id} = Astro.params
@@ -25,6 +26,14 @@ try{
 
     }
 
+}catch(e){
+    console.log(e)
+}
+
+try{
+    if(id != undefined){
+        setRoom((token?.value as string), Number.parseInt(id))
+    }
 }catch(e){
     console.log(e)
 }
@@ -173,6 +182,17 @@ try{
 
             })
     })
+    })
+</script>
+
+<script>
+    document.addEventListener("astro:page-load", () => {
+        document.addEventListener("recarga", () => {
+            location.reload()
+        })
+        window.addEventListener("recarga", () => {
+            location.reload()
+        })
     })
 </script>
 

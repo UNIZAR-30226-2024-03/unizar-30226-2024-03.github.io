@@ -1,6 +1,8 @@
 import { io } from "socket.io-client";
 
-const socket = io("http://playbeat.uksouth.cloudapp.azure.com:3001", {});
+
+
+ const socket = io("http://playbeat.uksouth.cloudapp.azure.com:3001", {});
 
 export function socketConnect(JWT: string, currentRoom: number) {
   // Aqui se crea el cliente de WebSocket.
@@ -30,7 +32,7 @@ socket.on('reload', function(message) {
     console.log('Recargando...');
     //esperar 1 segundo
     setTimeout(function(){
-    location.reload(); // Mejor volver a hacer un fetch
+      // location.reload(); // Mejor volver a hacer un fetch
     }, 1000);
 });
 

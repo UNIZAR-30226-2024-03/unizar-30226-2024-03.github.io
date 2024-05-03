@@ -18,6 +18,7 @@ import { socket, socketConnect } from "@/utils/webSocket.ts";
   }
   
   export function setRoom(JWT: string, currentRoom: number) {
+    console.log("setroom")
     socket.emit('leave', currentRoom);
     const data = {
       room: currentRoom,
