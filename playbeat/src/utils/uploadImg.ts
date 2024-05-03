@@ -1,6 +1,7 @@
 import { Global } from "@/globalState/globalUrl.js";
 import axios from 'axios';
 
+
 /**
  * Función para subir una imagen al servidor.
  * Utiliza una solicitud POST con datos de formulario para enviar la imagen al servidor.
@@ -17,16 +18,20 @@ import axios from 'axios';
  * Si la solicitud se completa con éxito, devuelve los datos de la respuesta de la solicitud.
  * En caso de error, muestra un mensaje de error en la consola y lanza el error.
  */
-async function uploadImg(image:any) {
+async function uploadImg( image:any , token?:any) {
+
     try {
+        let headers: { [key: string]: string } = {
+            "Content-Type": "multipart/form-data"
+        };
+
+        if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
+        }
         //console.log(image)
         let formData = new FormData();
         formData.append("image", image);
-        const response = await axios.post(Global.url + "foto/", formData, {
-            headers: {
-                "Content-Type": "multipart/form-data",            
-            }
-            });
+        const response = await axios.post(Global.url + "foto/", formData, {headers});
         return response.data;
     } catch (error) {
         console.error("Error registering user:", error);

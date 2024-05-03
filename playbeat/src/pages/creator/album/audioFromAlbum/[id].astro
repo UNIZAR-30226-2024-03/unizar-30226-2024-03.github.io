@@ -1,0 +1,53 @@
+---
+import CreatorLayout from '@layouts/CreatorLayout.astro';
+import HeaderCreator from '@components/HeaderCreator.astro';
+import ModAudioFromAlbum from '@components/ModAudioFromAlbum.astro';
+
+
+const {id} = Astro.props
+
+
+
+
+---
+
+
+<CreatorLayout title="PlayBeat">
+    <div class="h-full w-full bg-[#333] bg-opacity-60 flex flex-col items-center">
+        <HeaderCreator />
+        <div class="flex flex-col items-center mt-5 gap-3">
+            <h1 class="text-5xl text-bluePB font-bold">PLAYBEAT</h1>
+            <h2 class="text-6xl font-semibold">TUS AUDIOS</h2>
+        </div>
+        <section class="w-full mt-8 px-16">
+            <ModAudioFromAlbum audio={id}/>
+            
+        </section>
+        
+    </div>
+</CreatorLayout>
+<script is:inline>
+
+    // Check for BlobURL support
+    var blob = window.URL || window.webkitURL;
+    const inputFile = document.getElementById('file');
+    const audio = document.getElementById('audio');
+    if(inputFile != null && audio != null){
+        inputFile.addEventListener('change', function(){
+            var file = this.files[0],
+            fileURL = blob.createObjectURL(file);
+            audio.src = fileURL;
+        });
+    }
+    
+    document.addEventListener('astro:page-load', () => {
+        if(inputFile.files[0] != null){
+            var file = inputFile.files[0],
+            fileURL = blob.createObjectURL(file);
+            audio.src = fileURL
+        }
+    })
+    
+    
+</script>
+

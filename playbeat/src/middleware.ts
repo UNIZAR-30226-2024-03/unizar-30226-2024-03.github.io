@@ -20,12 +20,12 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const token = context.cookies.get(TOKEN)?.value;
  
 
-  if(token === null || token === "" || token === undefined){
+ /* if(token === null || token === "" || token === undefined){
     return Response.redirect(new URL("/", context.url));
 
   }else {
     return next();
-  }
-
+  }*/
+  return next();
 
 });

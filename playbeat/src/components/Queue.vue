@@ -61,7 +61,6 @@ const playSong = (index) => {
 
 const playSongPlaylist = (item,index) => {
     playlist.value = playlist.value.slice(index+1)
-    console.log("huju" + JSON.stringify(item))
     localStorage.setItem("playlistQueue", JSON.stringify(playlist.value))
     let songsQueue = JSON.parse(localStorage.getItem('songsQueue') || "null");
 	if(songsQueue === null){

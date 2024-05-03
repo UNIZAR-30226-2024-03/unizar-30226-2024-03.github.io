@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import SearchTabs from "../components/SearchTabs.astro";
 import Carrousel from "@components/Carrousel.astro";
+import SearchResults from "@components/SearchResults.vue";
 
 
 const filter = ["All", "Cancion", "Podcast", "Usuario", "Album", "Playlist"];
@@ -20,103 +21,53 @@ const Canciones = [
     <Header/>
     <div class="mt-16 p-4 px-14">
         <section class="flex flex-row items-center w-[500px]">
-            <form class="border-[1.5px] ml-10 border-white p-3 w-full h-12 flex justify-start items-center rounded-md form">
+            <div class="border-[1.5px] ml-10 border-white p-3 w-full h-12 flex justify-start items-center rounded-md form">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
-                <input type="text" class=" bg-background ml-3 w-full outline-none searchInput" placeholder="Buscar"/>
-            </form>
-        </section>
-
-        <section class="ml-10 mt-10 default">
-            <SearchTabs subject="categories" component="search"/>
-        </section>
-        <section class="searching hidden mt-12">
-            <form class="flex flex-row justify-between w-[460px] ml-10"> 
-                {filter.map((item, index) =>{
-                    return (
-                        <input type="radio" id={item} name="filter" class=" inputRadio hidden" checked={index == 0}/>
-                        <label for={item} class="text-white font-medium border-2 border-[#6985C0] rounded-md px-2 py-1 filter" >
-                            <span>{item}</span>
-                        </label>
-                    )
-                
-                })}
-
-            </form>
-            <div class="all">
-                {Canciones.map( (element) =>
-                    {
-                        return <Carrousel info={element} />
-                    }
-    
-                )}	
+                <input type="text" id="q" class=" bg-background ml-3 w-full outline-none searchInput" name="q" placeholder="Buscar" />
             </div>
-            <div class="canciones h-full flex flex-row flex-wrap ml-8 mt-6"> 
-                {Canciones[0].items.map((item) => {
-                    return(
-                    <li class="flex flex-col p-2 text-sm w-[300px] ">
-                        <a href=`/library/${item.audio}` class="  relative inline-block imagen ">
-                            <img src="../../cancion.jpg" class:list={[" w-full rounded-md mb-1 hover:brightness-90"]}/>
-                            <div class="rounded-full w-10 h-10 hidden items-center justify-center botones">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-player-play-filled" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4v16a1 1 0 0 0 1.524 .852l13 -8a1 1 0 0 0 0 -1.704l-13 -8a1 1 0 0 0 -1.524 .852z" stroke-width="0" fill="currentColor" /></svg>
-                            </div>
-                        </a>
-                        <a href="/library/playlist1" class=" w-max hover:underline">
-                            <p class="text-base hover:underline">{item.audio}</p>
-                        </a>
-                        <a href=`/artist/${item.descripcion}` class="w-max hover:underline"><p class=" text-gray-400">{item.descripcion}</p></a>
-
-                    </li>)
-                })}
-            </div>
-
         </section>
+
+
+            <SearchResults client:only/>
+
     </div> 
-    <script is:inline> 
-            document.addEventListener("astro:page-load",() => {
 
-            const searchInput = document.querySelector('.searchInput') ;
-            const form = document.querySelector('.form') ;
-            const categories = document.querySelectorAll('.categories');
-            const start = document.querySelector('.default') ; // replace '.component-to-display' with the actual selector of your component
-            const searching = document.querySelector('.searching') ; // replace '.component-to-display' with the actual selector of your component
-            const filters = document.querySelectorAll('.filter') ;
-            const all = document.querySelector('.all') ;
-            const canciones = document.querySelector('.canciones') ;
-
-            // Initially hide the component
-            searchInput.addEventListener('input', () => {
-                if (searchInput.value != '') {
-                    // Show the component when there's text in the input field
-                    start.style.display = 'none';
-                    searching.style.display = 'block';
-                } else {
-                    // Hide the component when the input field is empty
-
-                    searching.style.display = 'none';
-                    start.style.display = 'block';
-                }
-            });
-            for(let i = 0; i < categories.length; i++){
-                categories[i].addEventListener('click', () => {      
-                    searchInput.value = categories[i].alt;
-                    form.submit();
-                })
-            }
-            for(let i = 0; i < filters.length; i++){
-                filters[i].addEventListener('click', () => { 
-                    if(filters[i].innerText == 'All'){
-                        all.style.display = 'block';
-                        canciones.style.display = 'none';
-                    }else{
-                        all.style.display = 'none';
-                        canciones.style.display = 'flex';
-                    }
-                })
-            }
-        })
-    </script>
     
 </Layout>
+<script >
+    import { Global } from '@/globalState/globalUrl';
+    document.addEventListener("astro:page-load", () => {
+        const jws = getCookie('token')
+        let timer : any;
+        const searchInput = document.getElementById('q') as HTMLInputElement;
+        searchInput?.addEventListener("input", () => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                console.log(searchInput.value);
+                const url = new URL(`${Global.url}search`);
+                url.searchParams.append('q', searchInput.value);
+                fetch(url.toString(), {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${jws}`
+                    }
+                }).then((data) => data.json()).then((data) => {console.log(data);localStorage.setItem("busqueda", JSON.stringify(data));window.dispatchEvent(new Event("buscar"))}).catch((e) => console.log(e))
+            }, 1000);
+        })
+    })
+    function getCookie(name: any) {
+    let cookieArr = document.cookie.split("; ");
+    
+    for(let i = 0; i < cookieArr.length; i++) {
+        let cookiePair = cookieArr[i].split("=");
+        
+        if(name == cookiePair[0]) {
+            return decodeURIComponent(cookiePair[1]);
+        }
+    }
+  }
+  
+</script>
 
 
 <style>
