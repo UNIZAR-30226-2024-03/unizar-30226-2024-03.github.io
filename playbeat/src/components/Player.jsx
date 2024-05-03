@@ -73,7 +73,8 @@ export function Player ({jws, children}) {
       if (play===true) {
         audio.current.play()
         console.log('Iniciando Sync');
-        syncPlay( -1, audio, jws, true); // Sincronizamos la canción el server.
+        syncPlay( -1, {id: Number.parseInt(audioId), currentTime: audio.current.currentTime}, jws, true); // Sincronizamos la canción el server.
+        console.log(audioId, audio.current.currentTime)
       } else {
         audio.current.pause();
         stopPlay();
