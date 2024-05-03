@@ -1,8 +1,9 @@
 import { io } from "socket.io-client";
-
+import { EventEmitter } from 'events';
 
 
  const socket = io("http://playbeat.uksouth.cloudapp.azure.com:3001", {});
+ export const eventEmitter = new EventEmitter();
 
 export function socketConnect(JWT: string, currentRoom: number) {
   // Aqui se crea el cliente de WebSocket.
@@ -33,6 +34,8 @@ socket.on('reload', function(message) {
     //esperar 1 segundo
     setTimeout(function(){
       // location.reload(); // Mejor volver a hacer un fetch
+      eventEmitter.emit('recarga');
+
     }, 1000);
 });
 

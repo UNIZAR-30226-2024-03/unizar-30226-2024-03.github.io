@@ -10,7 +10,7 @@ import PlaylistOpt from '@components/PlaylistOpt.astro'
 import { Global } from '@/globalState/globalUrl'
 import UserPlus from '@/icons/UserPlus.astro'
 import { setRoom } from '@/utils/sync.ts'
-
+import { eventEmitter } from '@/utils/webSocket'
 
 const {id} = Astro.params
 const token = Astro.cookies.get(TOKEN);
@@ -30,13 +30,17 @@ try{
     console.log(e)
 }
 
-try{
-    if(id != undefined){
-        setRoom((token?.value as string), Number.parseInt(id))
-    }
-}catch(e){
-    console.log(e)
-}
+// try{
+//     if(id != undefined){
+//         setRoom((token?.value as string), Number.parseInt(id))
+//     }
+//     eventEmitter.on('recarga', () => {
+//         console.log("recargandooooooooooooooooooooooooo")
+//         Astro.redirect("/home")
+//     });
+// }catch(e){
+//     console.log(e)
+// }
 
 ---
 
@@ -194,5 +198,39 @@ try{
             location.reload()
         })
     })
+</script>
+<script>
+    
+    import { eventEmitter } from '@/utils/webSocket'
+    import { setRoom } from '@/utils/sync.ts'
+
+
+    function getCookie(name: any) {
+    let cookieArr = document.cookie.split("; ");
+    
+    for(let i = 0; i < cookieArr.length; i++) {
+        let cookiePair = cookieArr[i].split("=");
+        
+        if(name == cookiePair[0]) {
+            return decodeURIComponent(cookiePair[1]);
+        }
+    }
+  }
+    document.addEventListener("astro:page-load", () => {
+        const token = getCookie("token")
+        try{
+            const id = location.pathname.split("/")[location.pathname.split("/").length - 1]
+            if(id != undefined){
+                setRoom((token as string), Number.parseInt(id))
+            }
+            eventEmitter.on('recarga', () => {
+                console.log("recargandooooooooooooooooooooooooo")
+                location.reload()
+            });
+        }catch(e){
+            console.log(e)
+        }
+    })
+    
 </script>
 
