@@ -42,10 +42,8 @@ onMounted(() => {
         localStorage.setItem("cancion", JSON.stringify(primerElemento));
 
     })
-    console.log("escuchandooooo")
     if (!window.previousSongAdded) {
     window.addEventListener("previousSong", (event) => {
-        console.log("locoo");
         previousSong();
     });
     window.previousSongAdded = true;
@@ -75,7 +73,6 @@ const playSongPlaylist = (item,index) => {
 	}
 	const obj = {id: item.id, titulo: item.titulo, duracionSeg: item.duracion};
 	songsQueue.unshift(obj);
-    console.log(songsQueue)
 	localStorage.setItem('songsQueue', JSON.stringify(songsQueue));
 
 	window.dispatchEvent(new Event('storageChange'));
@@ -101,7 +98,6 @@ const previousSong = () => {
     }else{
         playlistQueue.unshift(cancion)
         cancion = entirePlaylist[(((entirePlaylist.length -1- playlistQueue.length )%entirePlaylist.length) + entirePlaylist.length) % entirePlaylist.length]
-        console.log("anterior" +   cancion)
         localStorage.setItem('playlistQueue', JSON.stringify(playlistQueue))
         localStorage.setItem('cancion', JSON.stringify(cancion))
         playlist.value = playlistQueue
