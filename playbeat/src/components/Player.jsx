@@ -131,19 +131,12 @@ export function Player ({jws, children}) {
         localStorage.setItem("shuffle", shuffle)
         if(shuffle){
           noShuffle.current = JSON.parse(localStorage.getItem("playlistQueue")) || []
-          console.log(JSON.stringify(noShuffle) + Array.isArray(noShuffle.current) )
-
           withShuffle.current = shuffleRandom(noShuffle.current) // Usar la función shuffleRandom
-          console.log(withShuffle.current)
           localStorage.setItem("playlistQueue", JSON.stringify(withShuffle.current))
           window.dispatchEvent(new Event("playlistChange"))
         }else{
           withShuffle.current = JSON.parse(localStorage.getItem("playlistQueue")) || []
-          let sortedArray = noShuffle.current.filter(item => withShuffle.current.find(x => x.id === item.id));          console.log(JSON.stringify(noShuffle.current));
-          console.log(JSON.stringify(withShuffle.current))
-          console.log( JSON.stringify(sortedArray))
-          console.log(withShuffle.current.includes(noShuffle.current[0]))
-          
+          let sortedArray = noShuffle.current.filter(item => withShuffle.current.find(x => x.id === item.id));       
           localStorage.setItem("playlistQueue", JSON.stringify(sortedArray))
            window.dispatchEvent(new Event("playlistChange"))
         }
