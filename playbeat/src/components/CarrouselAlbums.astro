@@ -4,7 +4,7 @@ import { Global } from "@/globalState/globalUrl";
 
 interface Info {
     num: number;
-    name: string;
+    name?: string;
     ref?: string;
     items: {
         idLista: number,
@@ -34,11 +34,11 @@ const itemsSongOpt = ["Añadir cola", "Añadir a playlist", "Añadir a favoritos
 ---
 
 <section>
-    <header class="flex flex-row w-max items-center hover:underline cursor-pointer ml-[44px]">
+    { info.name && (<header class="flex flex-row w-max items-center hover:underline cursor-pointer ml-[44px]">
         <a class=" text-xl font-semibold mt-2" href={info.ref}>{info.name}</a>
         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-right ml-2 mt-3" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>
-    </header>
-    <div class="flex flex-row items-center ">
+    </header>)}
+    <div class:list={["flex flex-row items-center ", {'mt-12' : info.name === undefined}]}>
             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-compact-left opacity-0 hover:opacity-100 transition-opacity cursor-pointer" width="40" height="60" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13 20l-3 -8l3 -8" /></svg>
         <ul class=" flex flex-row w-full overflow-x-auto snap-x snap-mandatory scroll-smooth  carrusel">
             {info && info.items && info.items.map( (item) => 
