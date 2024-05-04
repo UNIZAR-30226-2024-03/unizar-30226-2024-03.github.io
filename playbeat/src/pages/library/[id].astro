@@ -57,7 +57,7 @@ try{
                     <a href=`/linkPlaylist/${id}`>
                         <UserPlus/>
                     </a>
-                    {!playlist.esAlbum && propietarios.includes(user.idUsuario) &&
+                    {playlist && !playlist.esAlbum && propietarios.includes(user.idUsuario) &&
                     <PlaylistOpt items={ ["Eliminar playlist","Editar playlist"]}>                        
 
                     <!-- <PlaylistOpt items={["Eliminar playlist","Editar playlist"]}>                         -->

@@ -110,9 +110,44 @@ export function Player ({jws, children}) {
         audio.current.volume = volume
       }, [volume])
 
+      
       useEffect(() => {
         localStorage.setItem("loop", loop)
-      })
+      },[loop])
+
+
+      function shuffleRandom(array) {
+        let newArray = [...array]; // Hacer una copia del array
+        for (let i = newArray.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+        }
+        return newArray;
+    }
+
+      const noShuffle = useRef([])
+      const withShuffle = useRef([])
+      useEffect(() => {
+        localStorage.setItem("shuffle", shuffle)
+        if(shuffle){
+          noShuffle.current = JSON.parse(localStorage.getItem("playlistQueue")) || []
+          console.log(JSON.stringify(noShuffle) + Array.isArray(noShuffle.current) )
+
+          withShuffle.current = shuffleRandom(noShuffle.current) // Usar la función shuffleRandom
+          console.log(withShuffle.current)
+          localStorage.setItem("playlistQueue", JSON.stringify(withShuffle.current))
+          window.dispatchEvent(new Event("playlistChange"))
+        }else{
+          withShuffle.current = JSON.parse(localStorage.getItem("playlistQueue")) || []
+          let sortedArray = noShuffle.current.filter(item => withShuffle.current.find(x => x.id === item.id));          console.log(JSON.stringify(noShuffle.current));
+          console.log(JSON.stringify(withShuffle.current))
+          console.log( JSON.stringify(sortedArray))
+          console.log(withShuffle.current.includes(noShuffle.current[0]))
+          
+          localStorage.setItem("playlistQueue", JSON.stringify(sortedArray))
+           window.dispatchEvent(new Event("playlistChange"))
+        }
+      },[shuffle])
 
 
     const onClickHandlerPlay = () => {
@@ -155,7 +190,7 @@ export function Player ({jws, children}) {
            {loop ? <Loop classname={" hover:opacity-100 opacity-70 transition loop"} color={"#6985C0"}/> : <Loop classname={" hover:opacity-100 opacity-70 transition"} color={"white"}/>}
         </button>
         <button onClick={()=> setShuffle(!shuffle)}>
-           {shuffle ? <Shuffle classname={" hover:opacity-100 opacity-70 transition"} color={"#6985C0"}/> : <Shuffle classname={" hover:opacity-100 opacity-70 transition"} color={"white"}/>}
+           {shuffle ? <Shuffle classname={" hover:opacity-100 opacity-70 transition shuffle"} color={"#6985C0"}/> : <Shuffle classname={" hover:opacity-100 opacity-70 transition"} color={"white"}/>}
         </button>
 
         <button >
