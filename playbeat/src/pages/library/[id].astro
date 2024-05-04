@@ -2,7 +2,7 @@
 import Layout from '../../layouts/Layout.astro'
 import Header from '../../components/Header.astro'
 import PlayIcon from '@/icons/PlayIcon.astro'
-import Heart from '@/icons/Heart.astro'
+import HeartFill from '@/icons/HeartFill.astro'
 import Shuffle from '@/icons/Shuffle.astro'
 import {getInfoPlaylist} from "@/utils/getInfoPlaylist"
 import {TOKEN} from '@/constants.ts'
@@ -31,6 +31,9 @@ try{
     console.log(e)
 }
 
+const esPropietario = propietarios.includes(user.idUsuario)
+const seguida = playlist?.Seguidores?.map((user: any) => user.idUsuario).includes(user.idUsuario)
+
 ---
 
 <Layout title='PlayBeat'>
@@ -42,27 +45,27 @@ try{
 
                 </img>
                 <div class="mt-8 flex flex-row justify-between items-center">
-                    <button class="bg-[#6985C0] flex flex-row items-center p-1 px-3  gap-1 w-max rounded-md">
-                        <PlayIcon/>
-                        <span class=" font-semibold">
-                            PLAY
-                        </span>
-                    </button>
-                    <button>
-                        <Heart/>
-                    </button>
-                    <button>
-                        <Shuffle/>
-                    </button>
-                    <a href=`/linkPlaylist/${id}`>
-                        <UserPlus/>
-                    </a>
-                    {!playlist.esAlbum && propietarios.includes(user.idUsuario) &&
-                    <PlaylistOpt items={ ["Eliminar playlist","Editar playlist"]}>                        
-
-                    <!-- <PlaylistOpt items={["Eliminar playlist","Editar playlist"]}>                         -->
-                        <svg  xmlns="http://www.w3.org/2000/svg"  width="25"  height="25"  viewBox="0 0 24 24"  fill="none"  stroke="#6985C0"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
-                    </PlaylistOpt> }
+                    {
+                    !seguida ? <button class="bg-[#6985C0] flex flex-row items-center p-1 px-3  gap-1 w-max rounded-md" id="follow">
+                        <p class="font-semibold">AÑADIR</p>
+                        <HeartFill/>
+                    </button> :
+                    <button class="bg-[#6985C0] flex flex-row items-center p-1 px-3  gap-1 w-max rounded-md" id="unfollow">
+                        <p class="font-semibold">ELIMINAR</p>
+                        <HeartFill/>
+                    </button>}
+                    {
+                        esPropietario && 
+                        <a href=`/linkPlaylist/${id}` >
+                            <UserPlus/>
+                        </a>
+                    }
+                    { 
+                        !playlist.esAlbum && esPropietario &&
+                        <PlaylistOpt items={ ["Eliminar playlist","Editar playlist"]}>                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="25"  height="25"  viewBox="0 0 24 24"  fill="none"  stroke="#6985C0"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
+                        </PlaylistOpt>
+                     }
                     
                 </div>
             </div>
@@ -169,6 +172,7 @@ try{
             </tbody>
         </table>
     </div>
+    <input type="hidden" id="id" value={id}/>
 </Layout>
 
 
@@ -206,6 +210,40 @@ try{
 
             })
     })
+    })
+</script>
+
+<script>
+    import { followLista } from "@/utils/followLista";
+    import { unfollowLista } from "@/utils/unfollowLista";
+
+    function getCookie(name: any) {
+    let cookieArr = document.cookie.split("; ");
+    
+    for(let i = 0; i < cookieArr.length; i++) {
+        let cookiePair = cookieArr[i].split("=");
+        
+        if(name == cookiePair[0]) {
+            return decodeURIComponent(cookiePair[1]);
+        }
+    }
+  }
+
+    const token = getCookie('token')
+    const id = parseInt((document.getElementById("id") as HTMLInputElement).value);
+
+    document.getElementById("follow")?.addEventListener("click", async () => {
+        const res = await followLista(token, (id));
+
+        if(res.status === 201){
+            // window.location.reload()
+        }
+    })
+    document.getElementById("unfollow")?.addEventListener("click", async () => {
+        const res = await unfollowLista( token, (id))
+        if(res.status === 204){
+            // window.location.reload()
+        }
     })
 </script>
 
