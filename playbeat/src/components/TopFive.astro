@@ -37,15 +37,36 @@ const { info} = Astro.props;
                 
                 <ul class="flex flex-col min-w-full top">
                     
-                    {info && info.map(item => 
+                    {info && info.map((item: { idAudio: string; imgAudio: any; titulo: unknown; artistas: { idUsuario: number; nombreUsuario: string; }[]; count: unknown; duracionSeg: any; }) => 
                         <li id={item.idAudio + ''} class="grid grid-cols-12 p-1 items-center w-full snap-start text-sm h-full hijo hover:hover:bg-[#323232] rounded-sm ">
                             <div class="flex flex-row items-center gap-3 col-span-4">
                                 <img src={`${Global.url}foto/${item.imgAudio}`} class="w-12 h-12 rounded-sm" alt="imagen"/>
                                 <p class="text-base">{item.titulo}</p>
                             </div>
-                            <p class="col-span-2">{item.artistas.map(art => art.nombreUsuario)}</p>
+                            <p class="col-span-2">{item.artistas.map((art: {idUsuario: number, nombreUsuario: string}) => art.nombreUsuario)}</p>
                             <p class=" text-gray-400 col-span-3 text-right">{item.count} rep</p>
-                            <p class=" text-gray-400 col-span-2 text-right">{item.duracionSeg} s</p>
+                            <p></p>
+                            {() => {
+                                function convertirSegundos(segundos:any) {
+                                    let horas = Math.floor(segundos / 3600);
+                                    segundos %= 3600;
+                                    let minutos = Math.floor(segundos / 60);
+                                    segundos %= 60;
+                                    let res = ""
+                                    if(horas >0 ){
+                                        res+= horas + "h "
+                                    }
+                                    if(minutos >0 ){
+                                        res+= minutos + "m "
+                                    }
+                                    if(segundos >0 ){
+                                        res+= segundos + "s "
+                                    }
+                                    return res
+                                }
+                                
+                                return convertirSegundos(item.duracionSeg);
+                            }}
                         </li>
                     )}
                 </ul>
