@@ -24,11 +24,12 @@ try{
     if(typeEtiqueta == "Podcast"){
         esPodcast = true;
     }
-    let features = Astro.cookies.get('artistList').value || "[]"; 
-    features = features.slice(1, -1);
-    if(features && features.length > 0){
+    let features = Astro.cookies.get('artistList').value;
+    if(features=== undefined || features.length === 0){
         features = "";
-    }
+    }else{
+        features = features.slice(1, -1);
+    } 
     if (file instanceof File) {
         if (file.size === 0) {
             await createAudio({
