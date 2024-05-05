@@ -5,7 +5,7 @@ import {TOKEN} from '@/constants.ts'
 import { Global } from '@/globalState/globalUrl';
 import { uploadImg } from '@/utils/uploadImg';
 import {modAudio} from '@/utils/modAudio';
-import AddUserSearch from '@components/AddUserSearch.vue';
+import AddUserSearch  from '@/components/AddUserSearch.vue';
 
 const {id} = Astro.params
 
@@ -86,7 +86,7 @@ try{
                     </div>
                     <div class="flex flex-col gap-1">
                         <label >Participantes</label>
-                        <AddUserSearch client:only artistProps={audio.artistas}/>
+                        <AddUserSearch client:load artistProps={audio.artistas}/>
                     </div>
                     
 
