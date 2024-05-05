@@ -3,6 +3,7 @@ import { socket, socketConnect } from "@/utils/webSocket.ts";
   // Función para conectar al WebSocket.
   // De esta forma no tenemos que importar la función socketConnect en cada componente.
   export function connectToSocket(JWT: string, currentRoom: number) {
+    console.log("Estoy en connectToSocket");
     socketConnect(JWT, currentRoom);
   }
 
