@@ -186,14 +186,10 @@ const handleLike =  () => {
                 window.dispatchEvent(event);
                 var event = new Event("nextSongPlaylist");
                 window.dispatchEvent(event);
-                setTimeout(() => {
-                    var event = new Event("playSong");
-                    document.dispatchEvent(event);
+
                     setTimeout(()=> {
 								window.dispatchEvent(new Event('historialChange'))
 							}, 5000)	
-                }, 1000)
-
 
             })
     })
