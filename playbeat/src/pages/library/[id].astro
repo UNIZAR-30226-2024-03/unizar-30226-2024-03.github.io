@@ -9,7 +9,8 @@ import {TOKEN} from '@/constants.ts'
 import PlaylistOpt from '@components/PlaylistOpt.astro'
 import { Global } from '@/globalState/globalUrl'
 import UserPlus from '@/icons/UserPlus.astro'
-
+import { setRoom } from '@/utils/sync.ts'
+import { eventEmitter } from '@/utils/webSocket'
 
 const {id} = Astro.params
 const token = Astro.cookies.get(TOKEN);
@@ -222,8 +223,13 @@ const seguida = playlist?.Seguidores?.map((user: any) => user.idUsuario).include
 </script>
 
 <script>
+    
+    import { eventEmitter } from '@/utils/webSocket'
+    import { setRoom } from '@/utils/sync.ts'
+
     import { followLista } from "@/utils/followLista";
     import { unfollowLista } from "@/utils/unfollowLista";
+
 
     function getCookie(name: any) {
     let cookieArr = document.cookie.split("; ");
@@ -236,6 +242,24 @@ const seguida = playlist?.Seguidores?.map((user: any) => user.idUsuario).include
         }
     }
   }
+
+    document.addEventListener("astro:page-load", () => {
+        const token = getCookie("token")
+        try{
+            const id = location.pathname.split("/")[location.pathname.split("/").length - 1]
+            if(id != undefined){
+                setRoom((token as string), Number.parseInt(id))
+            }
+            eventEmitter.on('recarga', () => {
+
+                location.reload()
+            });
+        }catch(e){
+            console.log(e)
+        }
+    })
+    
+
 
     const token = getCookie('token')
     const id = parseInt((document.getElementById("id") as HTMLInputElement).value);
@@ -253,5 +277,6 @@ const seguida = playlist?.Seguidores?.map((user: any) => user.idUsuario).include
             // window.location.reload()
         }
     })
+
 </script>
 

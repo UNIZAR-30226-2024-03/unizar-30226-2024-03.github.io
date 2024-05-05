@@ -47,6 +47,8 @@ try{
 </Layout>
 
 <script>
+	import { updateWS } from "@/utils/sync";
+
   function getCookie(name: any) {
     let cookieArr = document.cookie.split("; ");
     
@@ -73,12 +75,21 @@ try{
 				'Authorization': `Bearer ${token}` // Uncomment this line if you need to send a bearer token
 			},
 			})
-			.then(response => response.json())
-			.then(() => {window.history.back()})
-			.catch((error) => {
+			.then(response => response.json)
+			.then(() => {
 				window.history.back();
+				if(token != undefined) {
+					// Avisamos a todos los que esten en la Playlist que se ha añadido una canción.
+					console.log("UPDATEE")
+					updateWS(token, Number.parseInt(listas[i].id));
+				}
+
+			})
+			.catch((error) => {
+				// window.history.back();
 				console.error('Error:', error);
 			});
+			
 		})
 	}
 </script>

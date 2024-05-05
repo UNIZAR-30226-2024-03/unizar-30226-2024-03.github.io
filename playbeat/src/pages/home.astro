@@ -106,6 +106,29 @@ for (const item of lastAudios.cancion) {
 
 		});
 	  </script>
+	  <script>
+		import { connectToSocket } from "@/utils/sync.ts";
+		
+		function getCookie(name: any) {
+			let cookieArr = document.cookie.split("; ");
+			
+			for(let i = 0; i < cookieArr.length; i++) {
+				let cookiePair = cookieArr[i].split("=");
+				
+				if(name == cookiePair[0]) {
+					return decodeURIComponent(cookiePair[1]);
+				}
+			}
+		}
+		document.addEventListener("astro:page-load", () => {
+			console.log("conectado a sync")
+			const token = getCookie("token") as string;
+			connectToSocket(token, -1); // Creamos la conexión con el websocket.
+		})
+
+
+	  </script>
+
 </Layout>
 
 
