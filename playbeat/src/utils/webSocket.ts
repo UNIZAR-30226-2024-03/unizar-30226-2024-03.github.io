@@ -8,29 +8,29 @@ import { EventEmitter } from 'events';
 export function socketConnect(JWT: string, currentRoom: number) {
   // Aqui se crea el cliente de WebSocket.
   socket.on("connect", function() {
-    //console.log("Connected to WS.io server");
+    console.log("Connected to WS.io server");
     const data = {
       room: currentRoom,
       JWT: JWT
     };
     const message = JSON.stringify(data);
-    //console.log(message);
+    console.log(message);
     socket.emit('join', message);    
   });
 }
 
 socket.on("disconnect", () => {
-  //console.log("Disconnected from WS.io server");
+  console.log("Disconnected from WS.io server");
 });
 
 // Escuchar cuando se recibe un mensaje
 socket.on('message', function(message) {
-  //console.log('Mensaje recibido: ' + message);
+  console.log('Mensaje recibido: ' + message);
 });
 
 // Escuchar cuando se recibe un mensaje de recarga
 socket.on('reload', function(message) {
-    //onsole.log('Recargando...');
+    console.log('Recargando...');
     //esperar 1 segundo
     setTimeout(function(){
       // location.reload(); // Mejor volver a hacer un fetch
