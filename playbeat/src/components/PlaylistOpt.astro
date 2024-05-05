@@ -40,12 +40,14 @@ const { items, id } = Astro.props
    const items = document.querySelectorAll('.dropdown span') as NodeListOf<HTMLElement>;
    for(let i = 0; i<items.length; i++){
      items[i].addEventListener('click', () => {
+      console.log("clickk")
        if(items[i].innerText === "Eliminar playlist"){
         let pathArray = window.location.pathname.split('/');
           let id = pathArray[pathArray.length - 1];
          if(id !== undefined){ 
+          console.log("id" + id) 
           deletePlaylist(parseInt(id), getCookie("token"))
-          window.history.back()
+          // window.history.back()
         }
           
        }else if(items[i].innerText === "Editar playlist"){

@@ -46,7 +46,14 @@ try{
                         <input type="text" id="playlistName" name="nombre" maxlength="40" class="text-4xl font-semibold appearance-none bg-background outline-none  max-w-[700px]  mr-4" placeholder="Nombre de playlist" value={playlist.nombre}/>
                         <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-pencil"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" /><path d="M13.5 6.5l4 4" /></svg>    
                     </div>
-                    <h2 class="text-2xl font-semibold text-[#6985C0] ">@{user.nombreUsuario}</h2>
+                    <h2 class="text-2xl font-semibold text-[#6985C0] ">
+                        {playlist?.Propietarios?.map((usuario: any, index: any)=>{
+                            if(index === playlist?.Propietarios.length - 1){
+                                return(<a href={"/user/"+usuario.idUsuario} class="hover:underline">@{usuario.nombreUsuario}</a>)
+                            }
+                            return(<a href={"/user/"+usuario.idUsuario} class="hover:underline">@{usuario.nombreUsuario},</a>)
+                        })}
+                    </h2>
                     <div class="flex flex-row items-center ">
                         <input type="text" id="playlistDescription" name="descripcion" maxlength="110" class="opacity-70 appearance-none bg-background outline-none mr-4 max-w-[700px]" placeholder="Descripción de la playlist" value={playlist.descripcion}/>
                         <svg  xmlns="http://www.w3.org/2000/svg"  class=" opacity-70"width="16"  height="16"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="1.75"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-pencil"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" /><path d="M13.5 6.5l4 4" /></svg>
