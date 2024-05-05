@@ -12,15 +12,17 @@ import { Global } from "@/globalState/globalUrl"
 import { getPlaylistsFollowedByUser } from "@/utils/getPlaylistsFollowedByUser"
 
 const token = Astro.cookies.get(TOKEN);
-let playlistsOwn
-let playlistsSeguidas
 let playlists = []
 try{
-    playlistsOwn = await getPlaylistsFromUser(-1,token?.value)
-    playlistsOwn = playlistsOwn.data
-    playlistsSeguidas = await getPlaylistsFollowedByUser(-1,token?.value)
-    playlistsSeguidas = playlistsSeguidas.data
-    playlists = playlistsOwn.concat(playlistsSeguidas)
+    let [playlistsOwnResponse, playlistsSeguidasResponse] = await Promise.all([
+        getPlaylistsFromUser(-1, token?.value),
+        getPlaylistsFollowedByUser(-1, token?.value)
+    ]);
+
+    let playlistsOwn = playlistsOwnResponse.data;
+    let playlistsSeguidas = playlistsSeguidasResponse.data;
+    playlists = playlistsOwn.concat(playlistsSeguidas);
+
 
 }catch(e){
     console.log(e)

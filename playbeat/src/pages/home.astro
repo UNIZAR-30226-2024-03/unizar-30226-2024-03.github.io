@@ -22,12 +22,13 @@ const token = Astro.cookies.get("token")?.value as string
 let lastAudios;
 let lastSongsUploaded;
 try {
-	const responseLast = await getUserLastAudios(token,15);
-	lastAudios = responseLast.data;
+	let [responseLast, responesLastUploaded] = await Promise.all([
+		getUserLastAudios(token, 15),
+		getLastAudiosUploaded(token)
+	]);
 
-	const responesLastUploaded = await getLastAudiosUploaded(token)
+	lastAudios = responseLast.data;
 	lastSongsUploaded = responesLastUploaded.data.cancion;
-	
 } catch (error) {
 	console.error("Error")
 }	

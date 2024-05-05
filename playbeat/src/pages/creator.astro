@@ -128,11 +128,14 @@ let playlists
 try{
     user = await getMyUserInfo(token?.value)
     user = user.data
-    responseTop = await userTopSongs(token?.value || "", Number(user.idUsuario), 5);
+
+    let [responseTop, playlistsResponse] = await Promise.all([
+        userTopSongs(token?.value || "", Number(user.idUsuario), 5),
+        getPlaylistsFromUser(Number(user.idUsuario), token?.value || "")
+    ]);
+
     top5 = responseTop.data;
-    playlists = await getPlaylistsFromUser(Number(user.idUsuario) , token?.value || "" );
-    console.log(playlists)
-    playlists = playlists.data
+    playlists = playlistsResponse.data;
     playlists = playlists.filter((playlist :any ) => playlist.esAlbum === true)
 }catch(e){
     console.log(e)
