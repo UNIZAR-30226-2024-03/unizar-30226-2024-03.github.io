@@ -30,7 +30,7 @@ import { socket, socketConnect } from "@/utils/webSocket.ts";
   }
   
   function sendSync(JWT: string, room: number, audio: any) {
-    console.log('Enviando Sync' + interval + audio.currentTime);
+    console.log('Enviando Sync' + ' ' + interval + ' ' + audio.currentTime);
     const data = {
       currentTime: audio.currentTime,
       idAudio: audio.id,
