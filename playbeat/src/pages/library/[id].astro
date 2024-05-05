@@ -24,7 +24,6 @@ try{
         playlist = await getInfoPlaylist(parseInt(id), token?.value)
         playlist = playlist.data
         idImg = playlist.imgLista
-        console.log("playlist" + JSON.stringify(playlist))
         propietarios = playlist.Propietarios.map((user: any) => user.idUsuario)
     }
 
