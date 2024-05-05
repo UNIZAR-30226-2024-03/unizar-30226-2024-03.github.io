@@ -1,29 +1,21 @@
-<script>
-export default {
-    props:{
-        artistProps: {
-            type: Array,
-            default: () => []
-        }
-    }
-} 
-</script>
 <script setup>
 import { ref } from 'vue';
 import { addArtistToAudio } from '@/utils/addArtistToAudio';
 
 const props = defineProps({
     artistProps: {
-        type: Array
-    }});
-console.log("props",props.artistProps);
+        type: Array,
+        default: () => []
+    }
+});
+
+// console.log("props", props.artistProps);
 
 let artistName = ref('');
 let artistList = ref(props.artistProps); // A list of artist objects
-let error = ref('')
+let error = ref('');
 
-console.log("props",artistList.value);
-
+console.log("artistList", artistList.value);
 
 
 const addArtist = async () => {
@@ -32,12 +24,12 @@ const addArtist = async () => {
         const response = await addArtistToAudio(artistName.value, token);
         if(response.status === 200){
             console.log('Artist added successfully');
-            console.log(response.data);
+            // console.log(response.data);
             artistList.value.push({
-                name: artistName.value,
+                nombreUsuario: artistName.value,
                 id:response.data.idUsuario 
             });
-            console.log(artistList.value);
+            // console.log(artistList.value);
             artistName.value = ''; // Clear the input field
             const lista = artistList.value.map(artist => artist.id)
             document.cookie = `artistList=${JSON.stringify(lista)}`;
@@ -82,7 +74,7 @@ const removeArtist = (id) => {
         <p v-if="error" class=" bg-[#ff0202] bg-opacity-60 rounded-md border-1 border-[#ff0202]">{{  error}}</p>
         <!-- Displaying list of artists -->
         <div v-for="artist in artistList" :key="artist.id" class="text-white bg-bluePB rounded-lg p-2 g-4 flex flex-row">
-            <span >{{ artist.name }}</span>
+            <span >{{ artist.nombreUsuario }}</span>
             <button type="button" @click="removeArtist(artist.id)" >
                 <svg   xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="1.5"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>            
             </button>

@@ -16,6 +16,7 @@ try{
     if(token != undefined && id != undefined){
         const response = await getInfoAudio(token?.value, id)
         audio = response
+        audio.artistas = audio.artistas.slice(1)
     }
 }catch(e){
     console.log(e);
@@ -85,7 +86,7 @@ try{
                     </div>
                     <div class="flex flex-col gap-1">
                         <label >Participantes</label>
-                        <AddUserSearch client:only artistProps={audio.Artistas}/>
+                        <AddUserSearch client:only artistProps={audio.artistas}/>
                     </div>
                     
 
