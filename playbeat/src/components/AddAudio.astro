@@ -24,7 +24,7 @@ try{
     if(typeEtiqueta == "Podcast"){
         esPodcast = true;
     }
-    let features = Astro.cookies.get('artistList').value || []; 
+    let features = Astro.cookies.get('artistList').value || "[]"; 
     features = features.slice(1, -1);
     if(features && features.length > 0){
         features = "";
