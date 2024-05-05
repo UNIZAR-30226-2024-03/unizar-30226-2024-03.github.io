@@ -24,11 +24,7 @@ try{
     if(typeEtiqueta == "Podcast"){
         esPodcast = true;
     }
-    const features = data.get("featurings") as string;
-    if(features){
-        const responseFeat = await searchUser(features, token?.value)
-
-    }
+    const features = Astro.cookies.get('artistList') || []; 
     if (file instanceof File) {
         if (file.size === 0) {
             await createAudio({
@@ -40,6 +36,7 @@ try{
                 duracionSeg: parseFloat(data.get("duracion") as string) || 0,
                 cancion: data.get("cancion"), 
                 tipoEtiqueta: typeEtiqueta,
+                idsUsuarios: features.value as string,
                 etiquetas: tags.join(",") // Convertimos tags a un string separados por comas, ya que asi lo pide la API
             }, token?.value)
             
@@ -54,6 +51,7 @@ try{
                         fechaLanz: new Date().toISOString(),
                         duracionSeg: parseFloat(data.get("duracion") as string) || 0,
                         cancion: data.get("cancion"), 
+                        idsUsuarios: features.value as string,
                         tipoEtiqueta: typeEtiqueta,
                         etiquetas: tags.join(",") // Convertimos tags a un string separados por comas, ya que asi lo pide la API
             }, token?.value)
