@@ -5,6 +5,7 @@ import {TOKEN} from '@/constants.ts'
 import { Global } from '@/globalState/globalUrl';
 import { uploadImg } from '@/utils/uploadImg';
 import {modAudio} from '@/utils/modAudio';
+import AddUserSearch from '@components/AddUserSearch.vue';
 
 const {id} = Astro.params
 
@@ -84,13 +85,14 @@ try{
                     </div>
                     <div class="flex flex-col gap-1">
                         <label >Participantes</label>
-                        <input type="text" name="featurings" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Usuario" />
+                        <AddUserSearch client:only artistProps={audio.Artistas}/>
                     </div>
-                    <div class="flex flex-row gap-2 items-center mt-4 ">
-                        <label>Privado</label>
-                        <input type="checkbox" name="esPrivada" value={audio.esPrivada}/>
-                    </div>
+                    
 
+                </div>
+                <div class="flex flex-row gap-2 items-center ">
+                    <label>Privado</label>
+                    <input type="checkbox" name="esPrivada" value={audio.esPrivada}/>
                 </div>
                 <div class="w-full h-full">
                     <TagsTabs subject="audio"/>
@@ -139,7 +141,7 @@ try{
                     const request = await getAudio(jws, '7');
                 audio.src = URL.createObjectURL(request);
                 audio.load()
-                audio.play();
+                // audio.play();
                 }catch(e){
                     console.log(e);
                 }

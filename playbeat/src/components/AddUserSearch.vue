@@ -1,10 +1,30 @@
+<script>
+export default {
+    props:{
+        artistProps: {
+            type: Array,
+            default: () => []
+        }
+    }
+} 
+</script>
 <script setup>
 import { ref } from 'vue';
 import { addArtistToAudio } from '@/utils/addArtistToAudio';
 
+const props = defineProps({
+    artistProps: {
+        type: Array
+    }});
+console.log("props",props.artistProps);
+
 let artistName = ref('');
-let artistList = ref([]); // A list of artist objects
+let artistList = ref(props.artistProps); // A list of artist objects
 let error = ref('')
+
+console.log("props",artistList.value);
+
+
 
 const addArtist = async () => {
     try{

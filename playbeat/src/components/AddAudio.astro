@@ -7,8 +7,10 @@ import {TOKEN} from '@/constants.ts'
 import Imagen from '@/icons/Imagen.astro';
 import { uploadImg } from '@/utils/uploadImg';
 import type { Image } from 'astro:assets';
-import { searchUser } from '@/utils/searchUser';
-import AddUserSearch from './AddUserSearch.vue';
+import AddUserSearch from '@components/AddUserSearch.vue';
+import { getAudio } from '@/utils/getAudio.ts';
+
+
 
 
 
@@ -103,7 +105,7 @@ try{
                     </div>
                     <div class="flex flex-col gap-1">
                         <label >Participantes</label>
-                        <AddUserSearch client:only/>
+                        <AddUserSearch client:only artistProps={[]}/>
                         <!-- <input type="text" name="featurings" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Usuario" /> -->
                     </div>
 
