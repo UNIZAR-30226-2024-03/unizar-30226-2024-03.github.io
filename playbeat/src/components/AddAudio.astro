@@ -1,17 +1,22 @@
 ---
+
+
 import TagsTabs from '@components/TagsTabs.astro';
 import { createAudio } from "@/utils/createAudio";
 import {TOKEN} from '@/constants.ts'
 import Imagen from '@/icons/Imagen.astro';
 import { uploadImg } from '@/utils/uploadImg';
 import type { Image } from 'astro:assets';
+import AddUserSearch from '@components/AddUserSearch.vue';
+import { getAudio } from '@/utils/getAudio.ts';
+
+
 
 
 
 if (Astro.request.method ==="POST" ) {
-
 try{
-
+    console.log("entra")
     const data = await Astro.request.formData();
     const token = Astro.cookies.get(TOKEN);
     const file = data.get("photo")
@@ -21,6 +26,12 @@ try{
     if(typeEtiqueta == "Podcast"){
         esPodcast = true;
     }
+    let features = Astro.cookies.get('artistList')?.value;
+    if(features=== undefined || features.length === 0){
+        features = "";
+    }else{
+        features = features.slice(1, -1);
+    } 
     if (file instanceof File) {
         if (file.size === 0) {
             await createAudio({
@@ -32,6 +43,7 @@ try{
                 duracionSeg: parseFloat(data.get("duracion") as string) || 0,
                 cancion: data.get("cancion"), 
                 tipoEtiqueta: typeEtiqueta,
+                idsUsuarios: features as string,
                 etiquetas: tags.join(",") // Convertimos tags a un string separados por comas, ya que asi lo pide la API
             }, token?.value)
             
@@ -46,11 +58,15 @@ try{
                         fechaLanz: new Date().toISOString(),
                         duracionSeg: parseFloat(data.get("duracion") as string) || 0,
                         cancion: data.get("cancion"), 
+                        idsUsuarios: features as string,
                         tipoEtiqueta: typeEtiqueta,
                         etiquetas: tags.join(",") // Convertimos tags a un string separados por comas, ya que asi lo pide la API
             }, token?.value)
         }
     }
+
+
+    
     // setTimeout(() => {
     //     // return Astro.redirect("/creator/tusaudios")
     // }, 200);
@@ -70,7 +86,7 @@ try{
 
 <div class="flex flex-col gap-3">
     <h2 class="text-xl font-medium">Agrega un nuevo audio</h2>
-    <form class="flex flex-col items-center gap-3 pt-4" novalidate method="POST">
+    <form class="flex flex-col items-center gap-3 pt-4" novalidate method="POST" onsubmit="">
         <div class="flex flex-row items-center w-full gap-3">
 
             <section class="flex flex-col">
@@ -89,13 +105,15 @@ try{
                     </div>
                     <div class="flex flex-col gap-1">
                         <label >Participantes</label>
-                        <input type="text" name="featurings" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Usuario" />
-                    </div>
-                    <div class="flex flex-row gap-2 items-center mt-4 ">
-                        <label>Privado</label>
-                        <input type="checkbox" name="esPrivada" />
+                        <AddUserSearch client:only artistProps={[]}/>
+                        <!-- <input type="text" name="featurings" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Usuario" /> -->
                     </div>
 
+
+                </div>
+                <div class="flex flex-row gap-2 items-center ">
+                    <label>Privado</label>
+                    <input type="checkbox" name="esPrivada" />
                 </div>
                 <div class="w-full h-full">
                     <TagsTabs subject="audio"/>
@@ -123,3 +141,4 @@ try{
     }
     
     </script>
+
