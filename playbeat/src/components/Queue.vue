@@ -36,7 +36,7 @@ onMounted(() => {
 
     window.addEventListener("nextSongPlaylist",(event) => {
         if (playlist.value.length == 0) {
-            console.log("buenasssssssssssssssss")
+
             const pl = JSON.parse(window.localStorage.getItem('playlist'));
             playlist.value = pl
         }

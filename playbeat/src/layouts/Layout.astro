@@ -188,7 +188,7 @@ const jws = Astro.cookies.get('token');
 					}else{
 						const token = getCookie('token');
 						// document.dispatchEvent(new Event('stopSong'))
-						console.log("infinito")
+						
 						fetch('https://playbeat.uksouth.cloudapp.azure.com/audio/random/5', {
 						method: 'GET',
 						headers: {
