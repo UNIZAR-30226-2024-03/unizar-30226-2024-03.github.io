@@ -72,13 +72,13 @@ export function Player ({jws, children}) {
     useEffect(() => {
       if (play===true) {
         audio.current.play()
-        console.log('Iniciando Sync');
+        //console.log('Iniciando Sync');
         syncPlay( -1, Number.parseInt(audioId), audio, jws, true); // Sincronizamos la canción el server.
-        console.log(audioId, audio.current.currentTime)
+        //console.log(audioId, audio.current.currentTime)
       } else {
         audio.current.pause();
         stopPlay();
-        console.log('parando Sync');
+        //console.log('parando Sync');
       }
     }, [play])
 
@@ -87,7 +87,7 @@ export function Player ({jws, children}) {
       useEffect
       (() => {
         const fetchDataAsync = async () => {
-          console.log(audioId)
+          //console.log(audioId)
           await fetchData(audioId);
           setPlay(true);
         };

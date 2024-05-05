@@ -20,17 +20,17 @@ export function socketConnect(JWT: string, currentRoom: number) {
 }
 
 socket.on("disconnect", () => {
-  console.log("Disconnected from WS.io server");
+  //console.log("Disconnected from WS.io server");
 });
 
 // Escuchar cuando se recibe un mensaje
 socket.on('message', function(message) {
-  console.log('Mensaje recibido: ' + message);
+  //console.log('Mensaje recibido: ' + message);
 });
 
 // Escuchar cuando se recibe un mensaje de recarga
 socket.on('reload', function(message) {
-    console.log('Recargando...');
+    //onsole.log('Recargando...');
     //esperar 1 segundo
     setTimeout(function(){
       // location.reload(); // Mejor volver a hacer un fetch

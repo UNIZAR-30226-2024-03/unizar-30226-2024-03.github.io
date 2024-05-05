@@ -18,19 +18,19 @@ import { socket, socketConnect } from "@/utils/webSocket.ts";
   }
   
   export function setRoom(JWT: string, currentRoom: number) {
-    console.log("setroom")
+    //console.log("setroom")
     socket.emit('leave', currentRoom);
     const data = {
       room: currentRoom,
       JWT: JWT
     };
     const message = JSON.stringify(data);
-    console.log(message);
+    //console.log(message);
     socket.emit('join', message);
   }
   
   function sendSync(JWT: string, room: number, audio: any) {
-    console.log('Enviando Sync' + interval + audio.currentTime);
+    //console.log('Enviando Sync' + interval + audio.currentTime);
     const data = {
       currentTime: audio.currentTime,
       idAudio: audio.id,
@@ -53,12 +53,12 @@ import { socket, socketConnect } from "@/utils/webSocket.ts";
   export function syncPlay( room: number, audioId: number, audio:any, JWT: string) {
     // Pasamos el objeto audio para poder acceder a la propiedad currentTime en tiempo real y que se actualice en el servidor.
     interval = setInterval(() => sendSync(JWT, room, {id:audioId, currentTime: audio.current.currentTime}), 2000); // Ejecuta myFunction cada 2 segundos
-    console.log("interval" + interval)
-    console.log('Iniciando Sync');
+    //("interval" + interval)
+    //console.log('Iniciando Sync');
   }
   
   export function stopPlay () {
-      console.log('Deteniendo Sync' + interval);
+      //onsole.log('Deteniendo Sync' + interval);
       clearInterval(interval);
       interval = null;
   };
