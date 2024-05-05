@@ -1,6 +1,7 @@
 import { Global } from "@/globalState/globalUrl.js";
 import axios from 'axios';
 
+
 /**
  * Función para modificar un archivo de audio existente en el servidor.
  * Utiliza una solicitud PUT con autorización para actualizar los datos del archivo de audio.
@@ -27,7 +28,8 @@ import axios from 'axios';
  * Si la solicitud se completa con éxito, devuelve la respuesta de la solicitud.
  * En caso de error, muestra un mensaje de error en la consola y lanza el error.
  */
-async function modAudio(data: {titulo?: string;esPrivada?: boolean,imgAudio?: string,esAlbum?: boolean,fechaLanz?: any,duracionSeg?: number,cancion?: any, esPodcast?:any}, token: any, id:string) {
+async function modAudio(data: {titulo?: string;esPrivada?: boolean,img?: string,esAlbum?: boolean,fechaLanz?: any,duracionSeg?: number,cancion?: any, esPodcast?:any}, token: any, id:string) {
+
     if(Object.keys(data).length !== 0){
         try {
             axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
@@ -35,12 +37,13 @@ async function modAudio(data: {titulo?: string;esPrivada?: boolean,imgAudio?: st
             Object.entries(data).forEach(([key, value]) => {
                 formData.append(key, value);
             });
+            // console.log(formData)
             const response = await axios.put(Global.url + "audio/update/"+ id, formData ,  {        
                 headers: {
                     "Content-Type": "multipart/form-data",            
                 }
             });
-            console.log(response)
+            // console.log(response)
             return response;
         } catch (error) {
             console.error("Error registering user:", error);

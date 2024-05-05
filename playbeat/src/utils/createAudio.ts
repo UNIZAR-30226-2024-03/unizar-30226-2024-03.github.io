@@ -1,6 +1,7 @@
 import { Global } from "@/globalState/globalUrl.js";
 import axios from 'axios';
 
+
 /**
  * Función para crear un audio en el servidor utilizando una solicitud POST.
  * Los datos del audio se envían como un objeto de tipo `FormData`.
@@ -26,7 +27,10 @@ import axios from 'axios';
  * Los datos del audio se envían como `FormData` para incluir archivos y otros tipos de datos.
  * 
  */
+
 async function createAudio(data: {titulo: string;esPrivada: boolean,img?: string,esAlbum: boolean,fechaLanz: any,duracionSeg: number,cancion: any, esPodcast:any, etiquetas: string, tipoEtiqueta: string, idsUsuarios?: string}, token: any) {
+
+
     try {
         axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
         let formData = new FormData();
@@ -38,7 +42,7 @@ async function createAudio(data: {titulo: string;esPrivada: boolean,img?: string
                 "Content-Type": "multipart/form-data",            
             }
         });
-        //console.log(response)
+        console.log(response)
         return response;
     } catch (error) {
         console.error("Error registering user:", error);

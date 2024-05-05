@@ -1,19 +1,21 @@
 ---
 
 import SongOpt from "./SongOpt.astro";
-import {type Audio} from "@/interfaces";
+import { type Lista} from "@/interfaces";
 
 import { Global } from "@/globalState/globalUrl.js";
 
 
 interface Props {
 
-    audios : Audio[];
+    audios : Lista[];
+    artista: string;
+    artistaId: number;
     
 }
  
 
-const { audios} = Astro.props;
+const { audios, artista , artistaId} = Astro.props;
 
 const nume = 5;
 
@@ -26,10 +28,10 @@ const itemsSongOpt = ["Añadir cola", "Añadir a playlist", "Añadir a favoritos
     <div class="flex flex-row items-center ">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-compact-left opacity-0 hover:opacity-100 transition-opacity cursor-pointer" width="40" height="60" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13 20l-3 -8l3 -8" /></svg>
         <ul class=" flex flex-row w-full overflow-x-auto snap-x snap-mandatory scroll-smooth  carrusel">
-            {audios.map( (item: Audio) => 
+            {audios.map( (item: Lista) => 
                     <li class="flex flex-col p-2 snap-start text-sm h-full hijo ">
-                        <a href=`/audio/${item.idAudio}` class="  relative inline-block imagen ">
-                            <img src={`${Global.url}foto/${item.imgAudio}`} class:list={[" w-56 rounded-md mb-1 hover:brightness-90 aspect-square " ]}/>
+                        <a href=`/library/${item.idLista}` class="  relative inline-block imagen ">
+                            <img src={`${Global.url}foto/${item.imgLista}`} class:list={[" w-56 rounded-md mb-1 hover:brightness-90 aspect-square " ]}/>
                             <div class="rounded-full w-10 h-10 hidden items-center justify-center botonesizq">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-player-play-filled" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4v16a1 1 0 0 0 1.524 .852l13 -8a1 1 0 0 0 0 -1.704l-13 -8a1 1 0 0 0 -1.524 .852z" stroke-width="0" fill="currentColor" /></svg>
                             </div>
@@ -38,18 +40,14 @@ const itemsSongOpt = ["Añadir cola", "Añadir a playlist", "Añadir a favoritos
                             </div>
                         </a>
 
-                        <a href=`/audio/${item.idAudio}` class=" w-max hover:underline">
-                            <p class="text-base hover:underline">{item.titulo}</p>
+                        <a href=`/library/${item.idLista}` class=" w-max hover:underline">
+                            <p class="text-base hover:underline">{item.nombre}</p>
                         </a>
                         <div class="flex flex-row">
-                        {
-                            item.artistas && item.artistas.map((artista, index) => 
-                                <a href=`/user/${artista.idUsuario}` class="w-max hover:underline mr-1">
-                                    <p class="text-gray-400">{( item.artistas && index == item.artistas?.length-1  )? artista.nombreUsuario : artista.nombreUsuario + ', '}</p>
-                                </a>
-                            )
-                        }
-                    </div>
+                            <a href=`/user/${artistaId}` class="w-max hover:underline mr-1">
+                                <p class="text-gray-400">{artista}</p>
+                            </a>
+                         </div>
 
                     </li>
             )}

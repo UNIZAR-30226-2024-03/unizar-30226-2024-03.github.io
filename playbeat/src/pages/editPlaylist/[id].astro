@@ -25,34 +25,6 @@ try{
     console.log(e)
 }
 
-if (Astro.request.method ==="POST" ) {
-
-try{
-
-    const data = await Astro.request.formData();
-    const token = Astro.cookies.get(TOKEN);
-    const file = data.get("photo")
-    const img = await uploadImg(file)
-    const response = await editPlaylist({
-            nombre: data.get("nombre") as string,
-            descripcion: data.get("descripcion") as string,
-            esPrivada: data.get("esPrivada") as string == "on" || false,
-            imgLista: img.id,
-            esAlbum: false,
-            tipoLista: "NORMAL",
-            audios: [],
-        }, token?.value, id)
-        
-    return Astro.redirect("/library/"+response?.data.idLista);
-
-} catch (error) {
-    console.log(error);
-    return Astro.redirect("/error");
-}
- 
-
-  
-}
 ---
 
 
@@ -103,6 +75,7 @@ try{
         };
         reader.readAsDataURL(event.target.files[0]);
     }
+
     document.addEventListener('astro:page-load', () => {
         const inputs = [document.getElementById('playlistName'), document.getElementById('playlistDescription')];
 
@@ -129,10 +102,74 @@ try{
 
             });
         });
+
+        
+        
+
     });
 
 
 
+</script>
+<script>
+    import { uploadImg } from "@/utils/uploadImg";
+    import { editPlaylist } from "@/utils/editPlaylist";
+
+    function getCookie(name:any) {
+    let cookieArr = document.cookie.split("; ");
+    
+    for(let i = 0; i < cookieArr.length; i++) {
+        let cookiePair = cookieArr[i].split("=");
+        
+        if(name == cookiePair[0]) {
+            return decodeURIComponent(cookiePair[1]);
+        }
+    }
+  }
+  document.addEventListener("astro:page-load", () => {
+    let nuevaFoto = false
+    document.getElementById("addFoto")?.addEventListener("change", (event) => {
+        nuevaFoto = true
+    });
+    
+    document.addEventListener("submit", async (event) => {
+            event.preventDefault()
+            try{
+
+            const data = new FormData(document.querySelector("form") as HTMLFormElement);
+            const token = getCookie("token");
+            const file = data.get("photo")
+            console.log("filex" + file)
+            const id = window.location.href.split("/")[window.location.href.split("/").length - 1]
+            if(nuevaFoto){
+                const img = await uploadImg( file,token)
+
+            await editPlaylist({
+                    nombre: data.get("nombre") as string,
+                    descripcion: data.get("descripcion") as string,
+                    esPrivada: data.get("esPrivada") == "on" || false,
+                    imgLista: img.id,
+                    esAlbum: false,
+                    tipoLista: "NORMAL",
+                }, token, id).then(() => window.history.go(-1))
+                
+            }else{
+                await editPlaylist({
+                    nombre: data.get("nombre") as string,
+                    descripcion: data.get("descripcion") as string,
+                    esPrivada: data.get("esPrivada") == "on" || false,
+                    esAlbum: false,
+                    tipoLista: "NORMAL",
+                }, token, id).then(() => window.history.go(-1))
+            }
+                
+            
+            } catch (error) {
+            console.log(error);
+            }
+        })
+  })
+    
 </script>
 
 

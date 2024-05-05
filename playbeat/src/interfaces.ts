@@ -14,7 +14,20 @@ export interface Audio {
     imgAudio: string;
     esPrivado: boolean;
     esPodcast: boolean;
-    Artistas?: [{idUsuario: number, nombreUsuario: string}];
+    artistas?: [{idUsuario: number, nombreUsuario: string}];
     etiquetas?: Etiqueta[]; 
     vecesEscuchada: number; 
+}
+
+
+export interface Lista {
+    idLista: number,
+    nombre: string,
+    esAlbum: boolean,
+    esPrivada: boolean,
+    fechaUltimaMod: string,
+    tipoLista: string,
+    imgLista: string,
+    descripcion: string,
+    audios?: Audio[];
 }

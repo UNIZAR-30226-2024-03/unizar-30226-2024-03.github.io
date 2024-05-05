@@ -13,7 +13,11 @@ export default {
 			white: "#ffffff",
 			bluePB: "#6985C0"
 		},
-		extend: {},
+		extend: {
+			width: {
+				'max-1/5': 'calc(100% / 5)'
+			}
+		},
 	},
 	darkMode: 'class',
 	plugins: [nextui({
