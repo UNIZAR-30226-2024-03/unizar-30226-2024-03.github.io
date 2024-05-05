@@ -1,0 +1,108 @@
+---
+import TagsTabs from '@components/TagsTabs.astro';
+import { createAudio } from "@/utils/createAudio";
+import {TOKEN} from '@/constants.ts'
+import Imagen from '@/icons/Imagen.astro';
+import { uploadImg } from '@/utils/uploadImg';
+import { Global } from '@/globalState/globalUrl';
+const img = Astro.cookies.get("fotoAlbum");
+
+
+
+---
+
+<div class="flex flex-col gap-3">
+    <h2 class="text-xl font-medium">Agrega un nuevo audio</h2>
+    <form class="flex flex-col items-center gap-3 pt-4" novalidate method="POST">
+        <div class="flex flex-row items-center w-full gap-3">
+
+            <section class="flex flex-col">
+                <div class=" w-64 aspect-square mt-2  bg-[#333] rounded-md border-2 border-[#c5c5c5] flex justify-center items-center">
+                    <img id="preview" class="w-64 aspect-square rounded-md" src={`${Global.url}foto/${img?.value}`}/>
+                </div>
+            </section>
+            <section class="h-64 flex flex-col items-start gap-4">
+                <div class="h-20 flex flex-row justify-start gap-4">
+
+                    <div class="flex flex-col gap-1">
+                        <label>Nombre del audio</label>
+                        <input type="text" name="titulo" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Nombre" />
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label >Participantes</label>
+                        <input type="text" name="featurings" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Usuario" />
+                    </div>
+                    <div class="flex flex-row gap-2 items-center mt-4 ">
+                        <label>Privado</label>
+                        <input type="checkbox" name="esPrivada" />
+                    </div>
+
+                </div>
+                <div class="w-full h-full">
+                    <TagsTabs subject="audio"/>
+                </div>
+            </section>
+        </div>
+        <div class="w-full flex flex-col gap-2">
+            <input type="file" id="file" name="cancion"/>
+            <input type="number" id="duracion" name="duracion" class="hidden"/>
+            <audio id="audio"  controls class="w-full"></audio>
+        </div>
+        <input type="submit" class=" bg-bluePB px-4 py-1 rounded-sm" value="Subir"/>
+    </form>
+</div>
+
+<script>
+    import { createAudio } from "@/utils/createAudio";
+    import {TOKEN} from '@/constants.ts'
+        function getCookie(name: any) {
+    let cookieArr = document.cookie.split("; ");
+    
+    for(let i = 0; i < cookieArr.length; i++) {
+        let cookiePair = cookieArr[i].split("=");
+        
+        if(name == cookiePair[0]) {
+            return decodeURIComponent(cookiePair[1]);
+        }
+    }
+  }
+    document.addEventListener("astro:page-load",() => {
+        const form = document.querySelector("form");
+        form?.addEventListener("submit", async (event) => {
+            event.preventDefault()
+            try{
+
+        const data = new FormData(document.querySelector("form") as HTMLFormElement);
+        const token = getCookie(TOKEN);
+        const tags = data.getAll("tags")
+        const typeEtiqueta = data.get("tabsaudio") as string;
+        const fotoAlbum = getCookie("fotoAlbum")
+        const res = await createAudio({
+            titulo: data.get("titulo") as string,
+            esPrivada: data.get("esPrivada") as string == "on" || false,
+            img: fotoAlbum,
+            esAlbum: false,
+            esPodcast: false,
+            fechaLanz: new Date().toISOString(),
+            duracionSeg: parseFloat(data.get("duracion") as string) || 0,
+            cancion: data.get("cancion")
+           }, token)
+        let url = window.location.href;
+        let parts = url.toString().split('/');
+        let penultimatePart = parts[parts.length - 2];
+        fetch('https://playbeat.uksouth.cloudapp.azure.com/lista/audio/'+ penultimatePart +'/'+res.data.idaudio , {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` // Uncomment this line if you need to send a bearer token
+        },
+        }).then(() => window.history.go(-1)).catch((error) => {
+            console.error('Error:', error);
+        });
+
+} catch (error) {
+
+}
+        })})
+    
+</script>

@@ -1,0 +1,78 @@
+---
+import CreatorLayout from '@layouts/CreatorLayout.astro';
+import HeaderCreator from '@components/HeaderCreator.astro';
+import { TOKEN } from '@/constants';
+import { getMyAudios } from '@/utils/getMyAudios';
+import { Global } from '@/globalState/globalUrl';
+import AddAudioAlbum from '@components/AddAudioAlbum.astro';
+
+
+const token = Astro.cookies.get(TOKEN);
+let response
+try{
+    response = await getMyAudios(token?.value)
+    response = response.data
+}catch(e){
+    console.log(e)
+}
+
+
+---
+
+
+
+<CreatorLayout title="PlayBeat">
+    <div class="h-full w-full bg-[#333] bg-opacity-60 flex flex-col items-center">
+        <HeaderCreator />
+        <div class="flex flex-col items-center mt-5 gap-3">
+            <h1 class="text-5xl text-bluePB font-bold">PLAYBEAT</h1>
+            <h2 class="text-6xl font-semibold">TUS AUDIOS</h2>
+        </div>
+        <section class="w-full mt-8 px-16">
+            <AddAudioAlbum/>
+        </section>
+        
+    </div>
+</CreatorLayout>
+
+<script>
+    document.addEventListener('astro:page-load', () => {
+      var rows = document.querySelectorAll("tbody tr");
+      rows.forEach(function(row) {
+        row.addEventListener("click", function(this: HTMLElement) {
+          var url = this.getAttribute("data-url");
+          if (url) {
+            window.location.href = url;
+          }
+        });
+      });
+    });
+  </script>
+
+<script>
+    document.addEventListener('astro:page-load', () => {
+        // Check for BlobURL support
+        var blob = window.URL || window.webkitURL;
+
+        const inputFile = document.getElementById('file') as HTMLInputElement;
+        const audio = document.getElementById('audio') as HTMLAudioElement;
+        const duracion = document.getElementById('duracion') as HTMLInputElement;
+
+        if(inputFile != null && audio != null && duracion != null){
+            inputFile.addEventListener('change', function(){
+                if(this.files !== null ){
+                    var file = this.files[0]
+                    var fileURL = blob.createObjectURL(file);
+                    audio.src = fileURL;
+                    audio.addEventListener('loadedmetadata', function() {
+                        duracion.value = audio.duration.toString();
+                    });
+                }
+                
+            });
+        }
+    })
+    
+</script>
+
+

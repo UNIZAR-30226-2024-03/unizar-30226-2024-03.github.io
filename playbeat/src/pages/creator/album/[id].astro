@@ -1,0 +1,53 @@
+---
+import CreatorLayout from '@layouts/CreatorLayout.astro';
+import HeaderCreator from '@components/HeaderCreator.astro';
+import ModAlbum from '@components/ModAlbum.astro';
+
+import {TOKEN} from '@/constants.ts'
+import {getPlaylistsFromUser} from "@/utils/getPlaylistsFromUser"
+import { Global } from "@/globalState/globalUrl"
+import Library from '@components/Library.astro';
+
+const token = Astro.cookies.get(TOKEN);
+const user = JSON.parse(Astro.cookies.get("usuario")?.value as any)
+
+---
+
+<CreatorLayout title="PlayBeat">
+    <div class="h-full w-full bg-[#333] bg-opacity-60 flex flex-col items-center">
+        <HeaderCreator />
+        <div class="flex flex-col items-center mt-5 gap-3">
+            <h1 class="text-5xl text-bluePB font-bold">PLAYBEAT</h1>
+            <h2 class="text-6xl font-semibold">TUS ALBUMS</h2>
+        </div>
+        <div class="mt-4 px-8" >
+            <ModAlbum title="Modifica tu álbum" />
+        </div>
+    </div>
+</CreatorLayout>
+<script>
+    document.addEventListener('astro:page-load', () => {
+        // Check for BlobURL support
+        var blob = window.URL || window.webkitURL;
+
+        const inputFile = document.getElementById('file') as HTMLInputElement;
+        const audio = document.getElementById('audio') as HTMLAudioElement;
+        const duracion = document.getElementById('duracion') as HTMLInputElement;
+
+        if(inputFile != null && audio != null && duracion != null){
+            inputFile.addEventListener('change', function(){
+                if(this.files !== null ){
+                    var file = this.files[0]
+                    var fileURL = blob.createObjectURL(file);
+                    audio.src = fileURL;
+                    audio.addEventListener('loadedmetadata', function() {
+                        duracion.value = audio.duration.toString();
+                    });
+                }
+                
+            });
+        }
+    })
+    
+</script>
+

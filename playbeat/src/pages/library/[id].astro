@@ -2,7 +2,7 @@
 import Layout from '../../layouts/Layout.astro'
 import Header from '../../components/Header.astro'
 import PlayIcon from '@/icons/PlayIcon.astro'
-import Heart from '@/icons/Heart.astro'
+import HeartFill from '@/icons/HeartFill.astro'
 import Shuffle from '@/icons/Shuffle.astro'
 import {getInfoPlaylist} from "@/utils/getInfoPlaylist"
 import {TOKEN} from '@/constants.ts'
@@ -14,33 +14,27 @@ import { eventEmitter } from '@/utils/webSocket'
 
 const {id} = Astro.params
 const token = Astro.cookies.get(TOKEN);
+const user = JSON.parse(Astro.cookies.get("usuario")?.value as string)
 
 let playlist: any
 let idImg: any
+let propietarios : any
 try{
     if(id !== undefined){
 
         playlist = await getInfoPlaylist(parseInt(id), token?.value)
         playlist = playlist.data
         idImg = playlist.imgLista
-
+        console.log("playlist" + JSON.stringify(playlist))
+        propietarios = playlist.Propietarios.map((user: any) => user.idUsuario)
     }
 
 }catch(e){
     console.log(e)
 }
 
-// try{
-//     if(id != undefined){
-//         setRoom((token?.value as string), Number.parseInt(id))
-//     }
-//     eventEmitter.on('recarga', () => {
-//         console.log("recargandooooooooooooooooooooooooo")
-//         Astro.redirect("/home")
-//     });
-// }catch(e){
-//     console.log(e)
-// }
+const esPropietario = propietarios.includes(user.idUsuario)
+const seguida = playlist?.Seguidores?.map((user: any) => user.idUsuario).includes(user.idUsuario)
 
 ---
 
@@ -53,25 +47,27 @@ try{
 
                 </img>
                 <div class="mt-8 flex flex-row justify-between items-center">
-                    <button class="bg-[#6985C0] flex flex-row items-center p-1 px-3  gap-1 w-max rounded-md">
-                        <PlayIcon/>
-                        <span class=" font-semibold">
-                            PLAY
-                        </span>
-                    </button>
-                    <button>
-                        <Heart/>
-                    </button>
-                    <button>
-                        <Shuffle/>
-                    </button>
-                    <a href=`/linkPlaylist/${id}`>
-                        <UserPlus/>
-                    </a>
-                    <PlaylistOpt items={["Eliminar playlist","Editar playlist"]}>                        
-                        <svg  xmlns="http://www.w3.org/2000/svg"  width="25"  height="25"  viewBox="0 0 24 24"  fill="none"  stroke="#6985C0"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
-                    </PlaylistOpt> 
-                    
+                    {
+                    !seguida ? <button class="bg-[#6985C0] flex flex-row items-center p-1 px-3  gap-1 w-max rounded-md" id="follow">
+                        <p class="font-semibold">AÑADIR</p>
+                        <HeartFill/>
+                    </button> :
+                    <button class="bg-[#6985C0] flex flex-row items-center p-1 px-3  gap-1 w-max rounded-md" id="unfollow">
+                        <p class="font-semibold">ELIMINAR</p>
+                        <HeartFill/>
+                    </button>}
+                    {
+                        esPropietario && 
+                        <a href=`/linkPlaylist/${id}` >
+                            <UserPlus/>
+                        </a>
+                    }
+                    { 
+                        esPropietario && playlist && !playlist.esAlbum && playlist.tipoLista === "NORMAL" &&
+                        <PlaylistOpt items={ ["Eliminar playlist","Editar playlist"]}>                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="25"  height="25"  viewBox="0 0 24 24"  fill="none"  stroke="#6985C0"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
+                        </PlaylistOpt>
+                     }
                 </div>
             </div>
             <div class="flex flex-col ml-8 self-center gap-1">
@@ -80,13 +76,13 @@ try{
                 <h2 class="text-2xl font-semibold text-[#6985C0]">
                     {playlist?.Propietarios?.map((user: any, index: any)=>{
                         if(index === playlist?.Propietarios.length - 1){
-                            return '@' + user.nombreUsuario
+                            return(<a href={"/user/"+user.idUsuario} class="hover:underline">@{user.nombreUsuario}</a>)
                         }
-                        return '@' + user.nombreUsuario + ", "
+                        return(<a href={"/user/"+user.idUsuario} class="hover:underline">@{user.nombreUsuario},</a>)
                     })}
                 </h2>
                 <span class=" opacity-70">{playlist?.descripcion}</span>
-                <span>Lista de canciones | {playlist?.Audios?.length} canciones, 
+                <span> {playlist?.esAlbum ? "Álbum" : "Lista" } de canciones {playlist?.esPrivada ? "privada" : "pública" } | {playlist?.Audios?.length} canciones, 
                     {() => {
                         function convertirSegundos(segundos:any) {
                             let horas = Math.floor(segundos / 3600);
@@ -129,19 +125,55 @@ try{
                             </td>
                         <td class="py-3">                                
                             {cancion.Artistas?.map((artista:any, index:any) => {
-                                    if(index == cancion.Artistas.length-1){
-                                        return artista.nombreUsuario
-                                    }else{
-                                        return artista.nombreUsuario + ', '
-                                    }
-                                })}
+                                if( index == cancion.Artistas?.length-1  ){
+                                    return(<a href={"/user/"+artista.idUsuario} class="hover:underline">{artista.nombreUsuario}</a>)
+                                }else{
+                                    return(<a href={"/user/"+artista.idUsuario} class="hover:underline">{artista.nombreUsuario},</a>)
+                                }
+                            })}
                         </td>
                         <td class="py-3" >{cancion.album}</td>
-                        <td class="py-3 max-w-6 ">{cancion.duracionSeg}</td>
+                        <td class="py-3 max-w-6 ">{() => {
+                        function convertirSegundos(segundos:any) {
+                            let horas = Math.floor(segundos / 3600);
+                            segundos %= 3600;
+                            let minutos = Math.floor(segundos / 60);
+                            segundos %= 60;
+                            let res = ""
+                            if(horas >0 ){
+                                res+= horas + ":"
+                            }
+                            if(minutos >0 ){
+                                if(minutos < 10){
+                                    res+= "0"
+                                }
+                                res+= minutos + ":"
+                            }
+                            if(segundos >0 ){
+                                if(segundos < 10){
+                                    res+= "0"
+                                }
+                                res+= segundos
+
+                            }else{
+                                res += "00"
+                            }
+                            return res
+                        }
+                            return convertirSegundos(cancion.duracionSeg);
+                        }}</td>
                         <td class="max-w-3 cursor-pointer pr-3">
-                            <PlaylistOpt items={["Añadir a playlist","Eliminar de la playlist", "Añadir cola"]} id={cancion.idAudio}>                        
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#6985C0" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
-                            </PlaylistOpt> 
+                            {   esPropietario && playlist && !playlist.esAlbum && playlist.tipoLista === "NORMAL" ?
+                                    
+                                <PlaylistOpt items={["Añadir a playlist","Eliminar de la playlist", "Añadir cola"]} id={cancion.idAudio}>                        
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#6985C0" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
+                                </PlaylistOpt> 
+                                :
+                                <PlaylistOpt items={["Añadir a playlist", "Añadir cola"]} id={cancion.idAudio}>                        
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#6985C0" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
+                                </PlaylistOpt> 
+                            }
+
                         </td>
                     </tr>
                 ))
@@ -149,6 +181,7 @@ try{
             </tbody>
         </table>
     </div>
+    <input type="hidden" id="id" value={id}/>
 </Layout>
 
 
@@ -190,19 +223,12 @@ try{
 </script>
 
 <script>
-    document.addEventListener("astro:page-load", () => {
-        document.addEventListener("recarga", () => {
-            location.reload()
-        })
-        window.addEventListener("recarga", () => {
-            location.reload()
-        })
-    })
-</script>
-<script>
     
     import { eventEmitter } from '@/utils/webSocket'
     import { setRoom } from '@/utils/sync.ts'
+
+    import { followLista } from "@/utils/followLista";
+    import { unfollowLista } from "@/utils/unfollowLista";
 
 
     function getCookie(name: any) {
@@ -216,6 +242,7 @@ try{
         }
     }
   }
+
     document.addEventListener("astro:page-load", () => {
         const token = getCookie("token")
         try{
@@ -224,7 +251,7 @@ try{
                 setRoom((token as string), Number.parseInt(id))
             }
             eventEmitter.on('recarga', () => {
-                console.log("recargandooooooooooooooooooooooooo")
+
                 location.reload()
             });
         }catch(e){
@@ -232,5 +259,24 @@ try{
         }
     })
     
+
+
+    const token = getCookie('token')
+    const id = parseInt((document.getElementById("id") as HTMLInputElement).value);
+
+    document.getElementById("follow")?.addEventListener("click", async () => {
+        const res = await followLista(token, (id));
+
+        if(res.status === 201){
+            // window.location.reload()
+        }
+    })
+    document.getElementById("unfollow")?.addEventListener("click", async () => {
+        const res = await unfollowLista( token, (id))
+        if(res.status === 204){
+            // window.location.reload()
+        }
+    })
+
 </script>
 

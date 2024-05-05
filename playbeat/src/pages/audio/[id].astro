@@ -83,24 +83,6 @@ const handleLike =  () => {
                 <img class=" w-60 h-60 rounded-md" src={Global.url + "foto/" + audio.imgAudio}>
 
                 </img>
-                <div class="mt-8 flex flex-row justify-start gap-8 items-center">
-                    <button class="bg-[#6985C0] flex flex-row items-center p-1 px-3  gap-1 w-max rounded-md">
-                        <PlayIcon/>
-                        <span class=" font-semibold">
-                            PLAY
-                        </span>
-                    </button>
-                    <!-- <HeartButton client:load/>
-
-                    <button onclick="handleClick()">
-                        <Heart/>
-                    </button> -->
-                    <script>
-                        function handleClick() {
-                            console.log("click")
-                        }
-                    </script>
-                </div>
             </div>
             <div class="flex flex-col ml-8 self-center gap-1">
                 <span class="font-medium"></span>
@@ -108,9 +90,9 @@ const handleLike =  () => {
                 <h2 class="text-2xl font-semibold text-[#6985C0]">
                     {audio?.artistas?.map((user: any, index: any)=>{
                         if(index === audio?.artistas?.length - 1){
-                            return '@' + user.nombreUsuario
+                            return(<a href={"/user/"+user.idUsuario} class="hover:underline">@{user.nombreUsuario}</a>)
                         }
-                        return '@' + user.nombreUsuario + ", "
+                        return(<a href={"/user/"+user.idUsuario} class="hover:underline">@{user.nombreUsuario},</a>)
                     })}
                 </h2>
                 
@@ -137,13 +119,37 @@ const handleLike =  () => {
                             {
                                 item && item.Artistas.map((artista :any, index:any) => 
                                     
-                                        <p class="text-gray-400">{( index == item.Artistas?.length-1  )? artista.nombreUsuario : artista.nombreUsuario + ', '}</p>
+                                        <p class="text-gray-400">{( index == item.Artistas?.length-1  )
+                                            ? <a href={"/user/"+artista.idUsuario} class="hover:underline">{artista.nombreUsuario}</a>
+                                            : <a href={"/user/"+artista.idUsuario} class="hover:underline">{artista.nombreUsuario},</a>}</p>
                                         
 
                                 )
                             }
                         </td>
-                        <td class="py-3 max-w-6 ">{audio.duracionSeg}</td>
+                        <td class="py-3 max-w-6 ">
+                            {() => {
+                                function convertirSegundos(segundos:any) {
+                                    let horas = Math.floor(segundos / 3600);
+                                    segundos %= 3600;
+                                    let minutos = Math.floor(segundos / 60);
+                                    segundos %= 60;
+                                    let res = ""
+                                    if(horas >0 ){
+                                        res+= horas + "h "
+                                    }
+                                    if(minutos >0 ){
+                                        res+= minutos + "m "
+                                    }
+                                    if(segundos >0 ){
+                                        res+= segundos + "s "
+                                    }
+                                    return res
+                                }
+                                
+                                return convertirSegundos(audio.duracionSeg);
+                            }}
+                        </td>
                         <td class="max-w-3 cursor-pointer pr-3">
                             <PlaylistOpt items={["Añadir a playlist", "Añadir a la cola"]} id={audio.idAudio}>                        
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#6985C0" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>

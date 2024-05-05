@@ -5,7 +5,7 @@ import { Global } from "@/globalState/globalUrl.js";
 
 interface Info {
     count: number;
-    id: number;
+    idAudio: number;
     titulo: string;
     path: string;
     duracionSeg: number;
@@ -27,7 +27,6 @@ const { info} = Astro.props;
 
 
 
-
 ---
 
 <section>
@@ -36,17 +35,46 @@ const { info} = Astro.props;
         <div class=" flex flex-row w-full mt-4 overflow-x-auto snap-x snap-mandatory scroll-smooth  carrusel">
             {Array(Math.ceil(info.length / 5)).fill(0).map((_, i) => 
                 
-                <ul class="flex flex-col min-w-full">
+                <ul class="flex flex-col min-w-full top">
                     
-                    {info.map(item => 
-                        <li class="grid grid-cols-12 p-1 items-center w-full snap-start text-sm h-full hijo hover:hover:bg-[#323232] rounded-sm">
+                    {info && info.map(item => 
+                        <li id={item.idAudio + ''} class="grid grid-cols-12 p-1 items-center w-full snap-start text-sm h-full hijo hover:hover:bg-[#323232] rounded-sm ">
                             <div class="flex flex-row items-center gap-3 col-span-4">
                                 <img src={`${Global.url}foto/${item.imgAudio}`} class="w-12 h-12 rounded-sm" alt="imagen"/>
                                 <p class="text-base">{item.titulo}</p>
                             </div>
-                            <p class="col-span-2">{item.artistas.map(art => art.nombreUsuario)}</p>
-                            <p class=" text-gray-400 col-span-3 text-right">{item.count}</p>
-                            <p class=" text-gray-400 col-span-2 text-right">{item.duracionSeg} s</p>
+                            <p class="col-span-2">
+                                {item.artistas?.map((artista:any, index:any) => {
+                                if( index == item.artistas?.length-1  ){
+                                    return(<a href={"/user/"+artista.idUsuario} class="hover:underline">{artista.nombreUsuario}</a>)
+                                }else{
+                                    return(<a href={"/user/"+artista.idUsuario} class="hover:underline">{artista.nombreUsuario},</a>)
+                                }
+                            })}
+                            </p>
+                            <p class=" text-gray-400 col-span-3 text-right">{item.count} rep</p>
+                            <p></p>
+                            {() => {
+                                function convertirSegundos(segundos:any) {
+                                    let horas = Math.floor(segundos / 3600);
+                                    segundos %= 3600;
+                                    let minutos = Math.floor(segundos / 60);
+                                    segundos %= 60;
+                                    let res = ""
+                                    if(horas >0 ){
+                                        res+= horas + "h "
+                                    }
+                                    if(minutos >0 ){
+                                        res+= minutos + "m "
+                                    }
+                                    if(segundos >0 ){
+                                        res+= segundos + "s "
+                                    }
+                                    return res
+                                }
+                                
+                                return convertirSegundos(item.duracionSeg);
+                            }}
                         </li>
                     )}
                 </ul>
@@ -56,4 +84,44 @@ const { info} = Astro.props;
             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-compact-right opacity-0 hover:opacity-100 transition-opacity cursor-pointer" width="40" height="60" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11 4l3 8l-3 8" /></svg>
         
     </div>
+</section>
+<script>
+
+    document.addEventListener('astro:page-load', () => {
+        const top = document.querySelector('.top') as HTMLUListElement
+        const canciones = top.children as HTMLCollection
+        [...canciones].forEach((cancion:any, key:any) => {
+            cancion.addEventListener("dblclick", () => {
+                // localStorage.setItem("playlist", canciones.id)
+                
+                const playlist = Array.from(canciones).map((cancion:any) => {
+                    const hijo = cancion.children
+
+                    return {
+                        id: cancion.id,
+                        titulo: hijo[0].innerText,
+                        artista: hijo[1].innerText,
+                        duracion: hijo[3].innerText
+                    }
+                })
+                localStorage.setItem("playlist", JSON.stringify(playlist))
+                let pl = playlist.slice(key)
+                localStorage.setItem("playlistQueue", JSON.stringify(pl))
+                var event = new Event("playlistChange");
+                window.dispatchEvent(event);
+                var event = new Event("nextSongPlaylist");
+                window.dispatchEvent(event);
+                setTimeout(() => {
+                    var event = new Event("playSong");
+                    document.dispatchEvent(event);
+                    setTimeout(()=> {
+								window.dispatchEvent(new Event('historialChange'))
+							}, 5000)	
+                }, 1000)
+
+
+            })
+    })
+    })
+</script>
 

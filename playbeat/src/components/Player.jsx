@@ -87,6 +87,7 @@ export function Player ({jws, children}) {
       useEffect
       (() => {
         const fetchDataAsync = async () => {
+          console.log(audioId)
           await fetchData(audioId);
           setPlay(true);
         };
@@ -101,10 +102,10 @@ export function Player ({jws, children}) {
 
       function playSong() {
         setPlay(false)
-        if(localStorage.getItem("cancion") === audioId){
+        if(JSON.parse(localStorage.getItem("cancion")).id === audioId){
           setAux(!aux)
         }
-          setAudioId(localStorage.getItem("cancion"))
+          setAudioId(JSON.parse(localStorage.getItem("cancion")).id)
 
         
         
@@ -121,9 +122,37 @@ export function Player ({jws, children}) {
         audio.current.volume = volume
       }, [volume])
 
+      
       useEffect(() => {
         localStorage.setItem("loop", loop)
-      })
+      },[loop])
+
+
+      function shuffleRandom(array) {
+        let newArray = [...array]; // Hacer una copia del array
+        for (let i = newArray.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+        }
+        return newArray;
+    }
+
+      const noShuffle = useRef([])
+      const withShuffle = useRef([])
+      useEffect(() => {
+        localStorage.setItem("shuffle", shuffle)
+        if(shuffle){
+          noShuffle.current = JSON.parse(localStorage.getItem("playlistQueue")) || []
+          withShuffle.current = shuffleRandom(noShuffle.current) // Usar la función shuffleRandom
+          localStorage.setItem("playlistQueue", JSON.stringify(withShuffle.current))
+          window.dispatchEvent(new Event("playlistChange"))
+        }else{
+          withShuffle.current = JSON.parse(localStorage.getItem("playlistQueue")) || []
+          let sortedArray = noShuffle.current.filter(item => withShuffle.current.find(x => x.id === item.id));       
+          localStorage.setItem("playlistQueue", JSON.stringify(sortedArray))
+           window.dispatchEvent(new Event("playlistChange"))
+        }
+      },[shuffle])
 
 
     const onClickHandlerPlay = () => {
@@ -146,7 +175,7 @@ export function Player ({jws, children}) {
             <div className="flex flex-row gap-2 mb-0.5 mt-1.5">
 
               <button>
-                  <PreviousSong classname={"hover:opacity-100 opacity-70 transition"} />
+                  <PreviousSong classname={"hover:opacity-100 opacity-70 transition previousSong"} />
               </button>
               <button className="rounded-full " onClick={onClickHandlerPlay}>
                 {play ? <Pause classname={"hover:opacity-100 opacity-70 transition"}/> : <Play classname={"hover:opacity-100 opacity-70 transition"}/>}
@@ -166,7 +195,7 @@ export function Player ({jws, children}) {
            {loop ? <Loop classname={" hover:opacity-100 opacity-70 transition loop"} color={"#6985C0"}/> : <Loop classname={" hover:opacity-100 opacity-70 transition"} color={"white"}/>}
         </button>
         <button onClick={()=> setShuffle(!shuffle)}>
-           {shuffle ? <Shuffle classname={" hover:opacity-100 opacity-70 transition"} color={"#6985C0"}/> : <Shuffle classname={" hover:opacity-100 opacity-70 transition"} color={"white"}/>}
+           {shuffle ? <Shuffle classname={" hover:opacity-100 opacity-70 transition shuffle"} color={"#6985C0"}/> : <Shuffle classname={" hover:opacity-100 opacity-70 transition"} color={"white"}/>}
         </button>
 
         <button >
