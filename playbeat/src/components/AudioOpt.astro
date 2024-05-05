@@ -40,7 +40,6 @@ const { items, id } = Astro.props
    const items = document.querySelectorAll('.dropdown span') as NodeListOf<HTMLElement>;
    for(let i = 0; i<items.length; i++){
      items[i].addEventListener('click', () => {
-      console.log("clickkkkk")
        if(items[i].innerText === "Eliminar playlist"){
         let pathArray = window.location.pathname.split('/');
           let id = pathArray[pathArray.length - 1];
