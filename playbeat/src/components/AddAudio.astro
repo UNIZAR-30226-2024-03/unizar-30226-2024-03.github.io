@@ -8,13 +8,13 @@ import Imagen from '@/icons/Imagen.astro';
 import { uploadImg } from '@/utils/uploadImg';
 import type { Image } from 'astro:assets';
 import { searchUser } from '@/utils/searchUser';
+import AddUserSearch from './AddUserSearch.vue';
 
 
 
 if (Astro.request.method ==="POST" ) {
-
 try{
-
+    console.log("entra")
     const data = await Astro.request.formData();
     const token = Astro.cookies.get(TOKEN);
     const file = data.get("photo")
@@ -78,7 +78,7 @@ try{
 
 <div class="flex flex-col gap-3">
     <h2 class="text-xl font-medium">Agrega un nuevo audio</h2>
-    <form class="flex flex-col items-center gap-3 pt-4" novalidate method="POST">
+    <form class="flex flex-col items-center gap-3 pt-4" novalidate method="POST" onsubmit="">
         <div class="flex flex-row items-center w-full gap-3">
 
             <section class="flex flex-col">
@@ -97,13 +97,15 @@ try{
                     </div>
                     <div class="flex flex-col gap-1">
                         <label >Participantes</label>
-                        <input type="text" name="featurings" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Usuario" />
-                    </div>
-                    <div class="flex flex-row gap-2 items-center mt-4 ">
-                        <label>Privado</label>
-                        <input type="checkbox" name="esPrivada" />
+                        <AddUserSearch client:only/>
+                        <!-- <input type="text" name="featurings" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Usuario" /> -->
                     </div>
 
+
+                </div>
+                <div class="flex flex-row gap-2 items-center ">
+                    <label>Privado</label>
+                    <input type="checkbox" name="esPrivada" />
                 </div>
                 <div class="w-full h-full">
                     <TagsTabs subject="audio"/>
@@ -131,3 +133,4 @@ try{
     }
     
     </script>
+
