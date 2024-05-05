@@ -37,7 +37,7 @@ try{
                 duracionSeg: parseFloat(data.get("duracion") as string) || 0,
                 cancion: data.get("cancion"), 
                 tipoEtiqueta: typeEtiqueta,
-                idsUsuarios: features.value as string,
+                idsUsuarios: features.value,
                 etiquetas: tags.join(",") // Convertimos tags a un string separados por comas, ya que asi lo pide la API
             }, token?.value)
             
@@ -52,7 +52,7 @@ try{
                         fechaLanz: new Date().toISOString(),
                         duracionSeg: parseFloat(data.get("duracion") as string) || 0,
                         cancion: data.get("cancion"), 
-                        idsUsuarios: features.value as string,
+                        idsUsuarios: features.value,
                         tipoEtiqueta: typeEtiqueta,
                         etiquetas: tags.join(",") // Convertimos tags a un string separados por comas, ya que asi lo pide la API
             }, token?.value)
