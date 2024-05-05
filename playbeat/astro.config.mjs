@@ -12,7 +12,7 @@ export default defineConfig({
   // site: 'https://unizar-30226-2024-03.github.io',
   integrations: [tailwind(), react(), svelte(), vue(), auth()],
   output: "server",
-  adapter: netlify(),
+  adapter: vercel(),
 
   prefetch: {
     prefetchAll: false
