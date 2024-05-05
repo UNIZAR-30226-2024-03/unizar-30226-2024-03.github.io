@@ -21,7 +21,7 @@ onMounted(() => {
     window.addEventListener("playlistChange", (event) => {   
 
         playlist.value = JSON.parse(window.localStorage.getItem('playlistQueue'))
-        console.log(JSON.stringify(playlist.value))
+        
 
     })
 
