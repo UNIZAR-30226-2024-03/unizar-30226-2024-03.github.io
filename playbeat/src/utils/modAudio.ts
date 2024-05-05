@@ -37,13 +37,13 @@ async function modAudio(data: {titulo?: string;esPrivada?: boolean,img?: string,
             Object.entries(data).forEach(([key, value]) => {
                 formData.append(key, value);
             });
-            console.log(formData)
+            // console.log(formData)
             const response = await axios.put(Global.url + "audio/update/"+ id, formData ,  {        
                 headers: {
                     "Content-Type": "multipart/form-data",            
                 }
             });
-            console.log(response)
+            // console.log(response)
             return response;
         } catch (error) {
             console.error("Error registering user:", error);
