@@ -151,6 +151,17 @@ const jws = Astro.cookies.get('token');
 
 		// 	})
 		// })
+		function getCookie(name: any) {
+			let cookieArr = document.cookie.split("; ");
+			
+			for(let i = 0; i < cookieArr.length; i++) {
+				let cookiePair = cookieArr[i].split("=");
+				
+				if(name == cookiePair[0]) {
+					return decodeURIComponent(cookiePair[1]);
+				}
+			}
+		}
 		function nextSongFunction(){
 				const queue = JSON.parse(localStorage.getItem("songsQueue") || "[]")
 				if(queue != null && queue.length != 0){
@@ -175,7 +186,39 @@ const jws = Astro.cookies.get('token');
 							}, 5000)		
 						}, 1300);
 					}else{
-						document.dispatchEvent(new Event('stopSong'))
+						const token = getCookie('token');
+						// document.dispatchEvent(new Event('stopSong'))
+						
+						fetch('https://playbeat.uksouth.cloudapp.azure.com/etiquetas/infinite/10/10', {
+						method: 'GET',
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': `Bearer ${token}` // Uncomment this line if you need to send a bearer token
+						},
+						})
+						.then((data) => data.json())
+						.then((data) => {
+							console.log("data" + data)
+							const lista = data.map((song: any) => {
+								return {id: song.idAudio, titulo: song.titulo, duracionSeg: song.duracionSeg}
+							})
+							localStorage.setItem('playlist', JSON.stringify(lista))
+							localStorage.setItem('playlistQueue', JSON.stringify(lista))
+							window.dispatchEvent(new Event('playlistChange'));
+							setTimeout(() => {
+									window.dispatchEvent(new Event('nextSongPlaylist'));
+								setTimeout(() => {
+									var event = new Event("playSong");
+									document.dispatchEvent(event);		
+									setTimeout(()=> {
+										window.dispatchEvent(new Event('historialChange'))
+									}, 5000)		
+								}, 1300);
+							}, 300)
+						})
+						.catch((error) => {
+							console.error('Error:', error);
+						});
 					}
 
 				}
@@ -187,11 +230,12 @@ const jws = Astro.cookies.get('token');
 				window.dispatchEvent(new Event('previousSong'));
 			});
 		}, 2000)
+		
 		setTimeout(	() => {	
 			const nextSong = document.querySelector('.nextSong');
 			nextSong?.addEventListener('click', () => {
 				nextSongFunction()
-}			)}, 1000);
+}			)}, 2000);
 		setTimeout(	() => {	
 			const audioPlayer = document.getElementById('audioPlayer');
 			audioPlayer?.addEventListener('ended', () => {

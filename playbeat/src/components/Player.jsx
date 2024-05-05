@@ -8,6 +8,7 @@ import {getAudio} from "@/utils/getAudio.ts"
 import { getInfoAudio } from "@/utils/getInfoAudio.ts";
 import { Global } from "@/globalState/globalUrl.js";
 import { image } from "@nextui-org/react";
+import { syncPlay, stopPlay } from "@/utils/sync.ts"
 
 
 
@@ -55,6 +56,7 @@ export function Player ({jws, children}) {
     const [foto, setFoto] = useState(false)
     const [aux, setAux] = useState(false)
     const [info, setInfo] = useState({titulo: "", artistas: [""]})
+    
     async function fetchData(id) {
       const request = await getAudio(jws, id);
       const response = await getInfoAudio(jws,id)
@@ -67,19 +69,25 @@ export function Player ({jws, children}) {
 
 
     const audio = useRef()
-  
     useEffect(() => {
-      if(play===true) {
+      if (play===true) {
         audio.current.play()
-      }else{
-        audio.current.pause()
+        console.log('Iniciando Sync');
+        syncPlay( -1, Number.parseInt(audioId), audio, jws, true); // Sincronizamos la canción el server.
+        console.log(audioId, audio.current.currentTime)
+      } else {
+        audio.current.pause();
+        stopPlay();
+        console.log('parando Sync');
       }
-      }, [play])
+    }, [play])
+
+
 
       useEffect
       (() => {
         const fetchDataAsync = async () => {
-          console.log(audioId)
+          console.log('El id del audio es: ' + audioId)
           await fetchData(audioId);
           setPlay(true);
         };
@@ -91,6 +99,7 @@ export function Player ({jws, children}) {
 
         }
       }, [audioId, aux])
+
       function playSong() {
         setPlay(false)
         if(JSON.parse(localStorage.getItem("cancion")).id === audioId){
@@ -101,6 +110,9 @@ export function Player ({jws, children}) {
         
         
       }
+      
+    
+  
 
       document.addEventListener("playSong", playSong);
       document.addEventListener("stopSong", () => {
@@ -110,9 +122,37 @@ export function Player ({jws, children}) {
         audio.current.volume = volume
       }, [volume])
 
+      
       useEffect(() => {
         localStorage.setItem("loop", loop)
-      })
+      },[loop])
+
+
+      function shuffleRandom(array) {
+        let newArray = [...array]; // Hacer una copia del array
+        for (let i = newArray.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+        }
+        return newArray;
+    }
+
+      const noShuffle = useRef([])
+      const withShuffle = useRef([])
+      useEffect(() => {
+        localStorage.setItem("shuffle", shuffle)
+        if(shuffle){
+          noShuffle.current = JSON.parse(localStorage.getItem("playlistQueue")) || []
+          withShuffle.current = shuffleRandom(noShuffle.current) // Usar la función shuffleRandom
+          localStorage.setItem("playlistQueue", JSON.stringify(withShuffle.current))
+          window.dispatchEvent(new Event("playlistChange"))
+        }else{
+          withShuffle.current = JSON.parse(localStorage.getItem("playlistQueue")) || []
+          let sortedArray = noShuffle.current.filter(item => withShuffle.current.find(x => x.id === item.id));       
+          localStorage.setItem("playlistQueue", JSON.stringify(sortedArray))
+           window.dispatchEvent(new Event("playlistChange"))
+        }
+      },[shuffle])
 
 
     const onClickHandlerPlay = () => {
@@ -155,7 +195,7 @@ export function Player ({jws, children}) {
            {loop ? <Loop classname={" hover:opacity-100 opacity-70 transition loop"} color={"#6985C0"}/> : <Loop classname={" hover:opacity-100 opacity-70 transition"} color={"white"}/>}
         </button>
         <button onClick={()=> setShuffle(!shuffle)}>
-           {shuffle ? <Shuffle classname={" hover:opacity-100 opacity-70 transition"} color={"#6985C0"}/> : <Shuffle classname={" hover:opacity-100 opacity-70 transition"} color={"white"}/>}
+           {shuffle ? <Shuffle classname={" hover:opacity-100 opacity-70 transition shuffle"} color={"#6985C0"}/> : <Shuffle classname={" hover:opacity-100 opacity-70 transition"} color={"white"}/>}
         </button>
 
         <button >

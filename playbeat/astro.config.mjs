@@ -5,6 +5,7 @@ import svelte from "@astrojs/svelte";
 import vue from "@astrojs/vue";
 import vercel from "@astrojs/vercel/serverless";
 import auth from "auth-astro";
+import netlify from '@astrojs/netlify';
 
 // https://astro.build/config
 export default defineConfig({
@@ -12,6 +13,7 @@ export default defineConfig({
   integrations: [tailwind(), react(), svelte(), vue(), auth()],
   output: "server",
   adapter: vercel(),
+
   prefetch: {
     prefetchAll: false
   }
