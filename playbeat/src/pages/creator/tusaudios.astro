@@ -55,7 +55,29 @@ try{
                                     }
                                 })}
                             </td>
-                            <td class="py-3 min-w-10 ">{cancion.duracionSeg}</td>
+                            <td class="py-3 max-w-6 ">
+                            {() => {
+                                function convertirSegundos(segundos:any) {
+                                    let horas = Math.floor(segundos / 3600);
+                                    segundos %= 3600;
+                                    let minutos = Math.floor(segundos / 60);
+                                    segundos %= 60;
+                                    let res = ""
+                                    if(horas >0 ){
+                                        res+= horas + "h "
+                                    }
+                                    if(minutos >0 ){
+                                        res+= minutos + "m "
+                                    }
+                                    if(segundos >0 ){
+                                        res+= segundos + "s "
+                                    }
+                                    return res
+                                }
+                                
+                                return convertirSegundos(cancion.duracionSeg);
+                            }}
+                        </td>
                         </tr>
     
                     ))
@@ -88,7 +110,29 @@ try{
                                     }
                                 })}
                             </td>
-                            <td class="py-3 min-w-10 ">{cancion.duracionSeg}</td>
+                            <td class="py-3 max-w-6 ">
+                            {() => {
+                                function convertirSegundos(segundos:any) {
+                                    let horas = Math.floor(segundos / 3600);
+                                    segundos %= 3600;
+                                    let minutos = Math.floor(segundos / 60);
+                                    segundos %= 60;
+                                    let res = ""
+                                    if(horas >0 ){
+                                        res+= horas + "h "
+                                    }
+                                    if(minutos >0 ){
+                                        res+= minutos + "m "
+                                    }
+                                    if(segundos >0 ){
+                                        res+= segundos + "s "
+                                    }
+                                    return res
+                                }
+                                
+                                return convertirSegundos(cancion.duracionSeg);
+                            }}
+                        </td>
                         </tr>
     
                     ))
