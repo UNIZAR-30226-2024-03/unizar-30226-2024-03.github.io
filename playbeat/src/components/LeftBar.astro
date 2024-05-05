@@ -9,12 +9,18 @@ import World from "@/icons/World.astro"
 import {TOKEN} from '@/constants.ts'
 import {getPlaylistsFromUser} from "@/utils/getPlaylistsFromUser"
 import { Global } from "@/globalState/globalUrl"
+import { getPlaylistsFollowedByUser } from "@/utils/getPlaylistsFollowedByUser"
 
 const token = Astro.cookies.get(TOKEN);
-let playlists
+let playlistsOwn
+let playlistsSeguidas
+let playlists = []
 try{
-    playlists = await getPlaylistsFromUser(-1,token?.value)
-    playlists = playlists.data
+    playlistsOwn = await getPlaylistsFromUser(-1,token?.value)
+    playlistsOwn = playlistsOwn.data
+    playlistsSeguidas = await getPlaylistsFollowedByUser(-1,token?.value)
+    playlistsSeguidas = playlistsSeguidas.data
+    playlists = playlistsOwn.concat(playlistsSeguidas)
 
 }catch(e){
     console.log(e)
