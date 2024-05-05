@@ -7,6 +7,7 @@ import { EventEmitter } from 'events';
 
 export function socketConnect(JWT: string, currentRoom: number) {
   // Aqui se crea el cliente de WebSocket.
+  console.log("Estoy en socket.on");
   socket.on("connect", function() {
     console.log("Connected to WS.io server");
     const data = {
