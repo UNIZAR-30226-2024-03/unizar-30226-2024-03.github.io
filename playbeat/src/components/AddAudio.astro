@@ -25,6 +25,7 @@ try{
         esPodcast = true;
     }
     const features = Astro.cookies.get('artistList') || []; 
+    features.value = features.value.slice(1, -1);
     if (file instanceof File) {
         if (file.size === 0) {
             await createAudio({
@@ -57,6 +58,9 @@ try{
             }, token?.value)
         }
     }
+
+
+    
     // setTimeout(() => {
     //     // return Astro.redirect("/creator/tusaudios")
     // }, 200);
