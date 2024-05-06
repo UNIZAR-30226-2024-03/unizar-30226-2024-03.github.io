@@ -145,7 +145,7 @@ const deseleccionarTodos = () => {
                 <button v-else @click="deseleccionarTodos" class=" self-end w-max mt-2 hover:underline">Deseleccionar</button>
             </div>
             <div  v-if=" canciones && canciones.length > 0" class="h-[1px] min-h-[1px] w-[80%] bg-white bg-opacity-80 self-center" :class="{'mb-10' : canciones && canciones.length == 0}" ></div>
-            <ul v-if="canciones && canciones.length > 0" class="flex flex-col mt-4 items-start ">
+            <ul v-if="canciones && canciones.length > 0" class="flex flex-col mt-4 items-center ">
                 <li v-if="canciones" v-for="(item,index) of canciones" @dblclick="playSong(index)" class="grid grid-cols-9 items-center w-full p-3 hover:bg-[#262626] select-none cursor-default">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-playlist col-span-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -155,7 +155,7 @@ const deseleccionarTodos = () => {
                             <path d="M3 9l10 0" />
                             <path d="M9 13h-6" />
                         </svg>
-                        <span class="col-span-4 mx-2 overflow-x-hidden">{{ item.titulo }}</span>
+                        <span class="col-span-5 mx-2 overflow-x-hidden">{{ item.titulo }}</span>
                         <span class="col-span-2">{{item.duracionSeg}}</span>
                         <input type="checkbox" class="col-span-1 rounded-full" v-model="item.checked"/>
                 </li>
@@ -165,7 +165,7 @@ const deseleccionarTodos = () => {
                 <h4 class="self-end">Playlist</h4>
             </div>
             <div  v-if="playlist && playlist.length > 0" class="h-[1px] min-h-[1px]  w-[80%] bg-white bg-opacity-80 self-center" ></div>
-            <ul v-if="playlist && playlist.length > 0" class="flex flex-col  mt-4 h-[90%] items-start ">
+            <ul v-if="playlist && playlist.length > 0" class="flex flex-col  mt-4 h-[90%] items-center ">
                 <li v-for="(item,index) of playlist"  @dblclick="playSongPlaylist(item, index)" class="grid grid-cols-9 items-center w-full p-3 hover:bg-[#262626] select-none cursor-default">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-playlist col-span-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -175,7 +175,7 @@ const deseleccionarTodos = () => {
                             <path d="M3 9l10 0" />
                             <path d="M9 13h-6" />
                         </svg>
-                        <span class="col-span-4 mx-2 overflow-x-hidden">{{ item.titulo }}</span>
+                        <span class="col-span-5 mx-2 overflow-x-hidden">{{ item.titulo }}</span>
                         <span class="col-span-2">{{item.duracion}}</span>
                         <input type="checkbox" class="col-span-1 rounded-full" v-model="item.checked"/>
                 </li>
