@@ -2,7 +2,7 @@ import { io } from "socket.io-client";
 import { EventEmitter } from 'events';
 
 
- const socket = io("http://playbeat.uksouth.cloudapp.azure.com:3001", {});
+ const socket = io("http://playbeat.uksouth.cloudapp.azure.com/ws:3001", {});
  export const eventEmitter = new EventEmitter();
 
 export function socketConnect(JWT: string, currentRoom: number) {
