@@ -152,17 +152,17 @@ res={
     ]
 }
 try{
-  // let date = new Date();
-  //   date.setFullYear(date.getFullYear() - 1);
-  //   let formattedDate = ("0" + (date.getMonth() + 1)).slice(-2) + "-" + date.getFullYear();
-  // res = await getStatsUser(token?.value, {date: formattedDate});
-  //   res = res.data
-    datosRep = res.escuchasUsuarioMensuales.map((r:any) => r.escuchas)
-    datosUser = res.alcanceMensual.map((r:any) => r.alcance)
-    response = await getMyAudios(token?.value)
-    response = response.data
-    user = await getMyUserInfo(token?.value)
-    user = user.data
+
+    datosRep = res.escuchasUsuarioMensuales.map((r:any) => r.escuchas);
+    datosUser = res.alcanceMensual.map((r:any) => r.alcance);
+
+    let [responseRes, userResponse] = await Promise.all([
+        getMyAudios(token?.value),
+        getMyUserInfo(token?.value)
+    ]);
+
+    response = responseRes.data;
+    user = userResponse.data;
 
 
 
