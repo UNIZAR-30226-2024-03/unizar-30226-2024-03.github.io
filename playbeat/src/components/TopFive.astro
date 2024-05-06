@@ -43,7 +43,7 @@ const { info} = Astro.props;
                                 <img src={`${Global.url}foto/${item.imgAudio}`} class="w-12 h-12 rounded-sm" alt="imagen"/>
                                 <p class="text-base overflow-x-hidden">{item.titulo}</p>
                             </div>
-                            <span class="col-span-3 ml-2 overflow-hidden">
+                            <span class="col-span-3 ml-2 h-6 overflow-hidden">
                                 {item.artistas?.map((artista:any, index:any) => {
                                 if( index == item.artistas?.length-1  ){
                                     return(<a href={"/user/"+artista.idUsuario} class="hover:underline">{artista.nombreUsuario}</a>)
