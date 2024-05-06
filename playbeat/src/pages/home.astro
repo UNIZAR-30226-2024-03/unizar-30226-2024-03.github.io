@@ -9,6 +9,8 @@ import {getUserLastAudios} from '@/utils/getUserLastAudios.ts';
 import CarrouselUser from '@components/CarrouselUser.astro';
 import CarrouselLast from '@components/CarrouselLast.astro';
 import { getLastAudiosUploaded } from '@/utils/getLastAudiosUploaded';
+import { getTops } from '@/utils/getTops';
+import { getRandomAudio } from '@/utils/getRandomAudio';
 
 
 
@@ -21,12 +23,23 @@ const token = Astro.cookies.get("token")?.value as string
 
 let lastAudios;
 let lastSongsUploaded;
+let tops;
+let random;
 try {
 	const responseLast = await getUserLastAudios(token,15);
 	lastAudios = responseLast.data;
 
 	const responesLastUploaded = await getLastAudiosUploaded(token)
 	lastSongsUploaded = responesLastUploaded.data.cancion;
+
+	const responseTops = await getTops(token);
+	tops = responseTops.data;
+	console.log("tops",tops)
+
+	const responseRandom = await getRandomAudio(token, 10);
+	random = responseRandom.data;
+	console.log("random",random)
+
 	
 } catch (error) {
 	console.error("Error")
@@ -65,6 +78,16 @@ for (const item of lastAudios.cancion) {
 			<section class="mt-10 w-full">
 				<h2 class="text-lg font-semibold ml-10">Últimos lanzamientos</h2>
 				<CarrouselUser  audios={lastSongsUploaded}/>
+			</section>
+			{
+				tops.length > 0 && <section class="mt-10 w-full">
+					<h2 class="text-lg font-semibold ml-10">Top diario</h2>
+					<CarrouselUser  audios={tops}/>
+				</section>
+			}
+			<section class="mt-10 w-full">
+				<h2 class="text-lg font-semibold ml-10">PlayBeat recomienda</h2>
+				<CarrouselUser  audios={random}/>
 			</section>
 			<!-- {Canciones.map( (element) =>
 				{
