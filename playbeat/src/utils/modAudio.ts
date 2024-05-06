@@ -28,7 +28,7 @@ import axios from 'axios';
  * Si la solicitud se completa con éxito, devuelve la respuesta de la solicitud.
  * En caso de error, muestra un mensaje de error en la consola y lanza el error.
  */
-async function modAudio(data: {titulo?: string;esPrivada?: boolean,img?: string,esAlbum?: boolean,fechaLanz?: any,duracionSeg?: number,cancion?: any, esPodcast?:any}, token: any, id:string) {
+async function modAudio(data: {titulo?: string;esPrivada?: boolean,img?: string,esAlbum?: boolean,fechaLanz?: any,duracionSeg?: number,cancion?: any, esPodcast?:any}, token: any, id?:string) {
 
     if(Object.keys(data).length !== 0){
         try {
@@ -37,13 +37,13 @@ async function modAudio(data: {titulo?: string;esPrivada?: boolean,img?: string,
             Object.entries(data).forEach(([key, value]) => {
                 formData.append(key, value);
             });
-            console.log(formData)
+            // console.log(formData)
             const response = await axios.put(Global.url + "audio/update/"+ id, formData ,  {        
                 headers: {
                     "Content-Type": "multipart/form-data",            
                 }
             });
-            console.log(response)
+            // console.log(response)
             return response;
         } catch (error) {
             console.error("Error registering user:", error);

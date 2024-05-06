@@ -40,52 +40,14 @@ const { items, id } = Astro.props
    const items = document.querySelectorAll('.dropdown span') as NodeListOf<HTMLElement>;
    for(let i = 0; i<items.length; i++){
      items[i].addEventListener('click', () => {
-       if(items[i].innerText === "Eliminar playlist"){
+       if(items[i].innerText === "Editar audio"){
         let pathArray = window.location.pathname.split('/');
           let id = pathArray[pathArray.length - 1];
          if(id !== undefined){ 
+          window.location.href = `/creator/audio/${id}`
          
-          deletePlaylist(parseInt(id), getCookie("token"))
-          window.history.back()
         }
           
-       }else if(items[i].innerText === "Editar playlist"){
-        let pathArray = window.location.pathname.split('/');
-        let id = pathArray[pathArray.length - 1];
-        if(id !== undefined){ 
-
-          window.location.href = `/editPlaylist/${id}`;
-        }
-       }else if(items[i].innerText === "Añadir a playlist"){
-        localStorage.setItem('addSongToPlaylist', items[i].id);
-        window.location.href = '/addSongToPlaylist';
-       }
-       else if(items[i].innerText === "Eliminar de la playlist"){
-        const token = getCookie('token');
-        let pathArray = window.location.pathname.split('/');
-        let id = pathArray[pathArray.length - 1];
-        if(id !== undefined){ 
-          fetch('https://playbeat.uksouth.cloudapp.azure.com/lista/audio/'+ id  +'/'+items[i].id , {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}` // Uncomment this line if you need to send a bearer token
-          },
-          })
-          .then(response => response.json())
-          .then(() => {window.location.reload()})
-          .catch((error) => {
-          console.error('Error:', error);
-          window.location.reload();
-          });
-
-        }
-       }else if(items[i].innerText === "Editar album"){
-        let pathArray = window.location.pathname.split('/');
-        let id = pathArray[pathArray.length - 1];
-        if(id !== undefined){ 
-          window.location.href = "/creator/album/"+id;
-        }
        }
      })
    }

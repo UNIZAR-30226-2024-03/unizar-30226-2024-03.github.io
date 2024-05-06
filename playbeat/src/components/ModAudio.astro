@@ -5,16 +5,21 @@ import {TOKEN} from '@/constants.ts'
 import { Global } from '@/globalState/globalUrl';
 import { uploadImg } from '@/utils/uploadImg';
 import {modAudio} from '@/utils/modAudio';
+import AddUserSearch  from '@/components/AddUserSearch.vue';
 
 const {id} = Astro.params
 
 let audio
+let mensaje = "";
 try{
 
     const token = Astro.cookies.get(TOKEN); 
     if(token != undefined && id != undefined){
         const response = await getInfoAudio(token?.value, id)
         audio = response
+
+        audio.artistas = audio.artistas.slice(1)
+
     }
 }catch(e){
     console.log(e);
@@ -26,7 +31,7 @@ try{
     interface Params {
         titulo?: string;
         esPrivada?: boolean;
-        imgAudio?: string;
+        img?: string;
         esAlbum?: boolean;
         esPodcast?: boolean;
         fechaLanz?: string;
@@ -35,18 +40,31 @@ try{
     }
     const data = await Astro.request.formData();
     const token = Astro.cookies.get(TOKEN);
-    const file = data.get("photo")
+    const file = data.get("photo") as File
     let params : Params ={}
+    if(file.size !== 0){
+        const img = await uploadImg(file, token?.value)
+        params["img"] = img.id
+    }
     let can = data.get("cancion") as File
     if(can.name != ""){
         params['cancion']= can
         params["duracionSeg"] = parseFloat(data.get("duracion") as string) || 0
     }
     params["titulo"] = data.get("titulo") as string
-    params["esPrivada"] = data.get("esPrivada") as string == "on" || false
-    if(id){
-        modAudio(params, token?.value, id).then(() => window.history.back()).catch((e) => console.log(e))
+    const esPrivada = data.get("esPrivada")
+    if(esPrivada === null){
+        params["esPrivada"] = false
+    }else{
+        params["esPrivada"] = true
     }
+
+    const responseMod = await modAudio(params, token?.value, id)
+    if(responseMod && responseMod.status === 200){
+      mensaje = "Audio modificado correctamente"
+    }
+
+    
     
 
 } catch (error) {
@@ -72,7 +90,8 @@ try{
             <section class="flex flex-col">
                 <input type="file" id="addFoto" name="photo" class=" text-white p-2 rounded-md hidden" onchange="previewImage(event)" />
                 <div class=" w-64 aspect-square mt-2 cursor-pointer bg-[#333] rounded-md border-2 border-[#c5c5c5] flex justify-center items-center" onclick="document.getElementById('addFoto').click();">
-                    <img id="preview" class="w-64 aspect-square rounded-md " src={Global.url + "foto/"+ audio.imgAudio}/>
+                    <img id="Photo" class="w-64 aspect-square rounded-md " src={Global.url + "foto/"+ audio.imgAudio}/>
+                    <img id="preview" class="w-64 aspect-square rounded-md hidden" />
                 </div>
             </section>
             <section class="h-64 flex flex-col items-start gap-4">
@@ -84,13 +103,16 @@ try{
                     </div>
                     <div class="flex flex-col gap-1">
                         <label >Participantes</label>
-                        <input type="text" name="featurings" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Usuario" />
-                    </div>
-                    <div class="flex flex-row gap-2 items-center mt-4 ">
-                        <label>Privado</label>
-                        <input type="checkbox" name="esPrivada" value={audio.esPrivada}/>
-                    </div>
 
+                        <AddUserSearch client:load artistProps={audio.artistas}/>
+
+                    </div>
+                    
+
+                </div>
+                <div class="flex flex-row gap-2 items-center ">
+                    <label>Privado</label>
+                    <input type="checkbox" name="esPrivada" value={audio.esPrivada}/>
                 </div>
                 <div class="w-full h-full">
                     <TagsTabs subject="audio"/>
@@ -102,7 +124,14 @@ try{
             <input type="number" id="duracion" name="duracion" class="hidden"/>
             <audio id="audio"  controls class="w-full"></audio>
         </div>
-        <input type="submit" class=" bg-bluePB px-4 py-1 rounded-sm" value="Subir"/>
+        <input type="submit" class=" bg-bluePB px-4 py-1 rounded-md font-semibold" value="Guardar"/>
+        <div>
+            {mensaje &&
+                <div class="bg-bluePB text-white font-semibold p-2 rounded-md bg-opacity-70 border-2 border-bluePB">
+                    {mensaje}
+                </div>
+            }
+        </div>
     </form>
 </div>
 
@@ -113,6 +142,11 @@ try{
             var output = document.getElementById('preview');
             output.style.display = 'block';
             output.src = reader.result;
+
+            var output2 = document.getElementById('Photo');
+            output2.style.display = 'hidden';
+            output2.src = null;
+
         };
         reader.readAsDataURL(event.target.files[0]);
     }
@@ -139,7 +173,6 @@ try{
                     const request = await getAudio(jws, '7');
                 audio.src = URL.createObjectURL(request);
                 audio.load()
-                audio.play();
                 }catch(e){
                     console.log(e);
                 }
