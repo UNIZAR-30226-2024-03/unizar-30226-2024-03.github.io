@@ -18,10 +18,13 @@ let playlistsOwn
 let playlistsSeguidas
 let playlists: any[] = []
 try{
-    playlistsOwn = await getPlaylistsFromUser(-1,token?.value)
-    playlistsOwn = playlistsOwn.data
-    playlistsSeguidas = await getPlaylistsFollowedByUser(-1,token?.value)
-    playlistsSeguidas = playlistsSeguidas.data
+	let [playlistsOwnResponse, playlistsSeguidasResponse] = await Promise.all([
+		getPlaylistsFromUser(-1, token?.value),
+		getPlaylistsFollowedByUser(-1, token?.value)
+	]);
+
+	playlistsOwn = playlistsOwnResponse.data;
+	playlistsSeguidas = playlistsSeguidasResponse.data;
     playlists = playlistsOwn.concat(playlistsSeguidas)
 	playlists.map((playlist:any) => {
 		delete playlist.esAlbum

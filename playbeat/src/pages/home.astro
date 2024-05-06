@@ -26,10 +26,12 @@ let lastSongsUploaded;
 let tops;
 let random;
 try {
-	const responseLast = await getUserLastAudios(token,15);
-	lastAudios = responseLast.data;
+	let [responseLast, responesLastUploaded] = await Promise.all([
+		getUserLastAudios(token, 15),
+		getLastAudiosUploaded(token)
+	]);
 
-	const responesLastUploaded = await getLastAudiosUploaded(token)
+	lastAudios = responseLast.data;
 	lastSongsUploaded = responesLastUploaded.data.cancion;
 
 	const responseTops = await getTops(token);
@@ -40,7 +42,6 @@ try {
 	random = responseRandom.data;
 	console.log("random",random)
 
-	
 } catch (error) {
 	console.error("Error")
 }	
@@ -93,7 +94,7 @@ for (const item of lastAudios.cancion) {
 				{
 					return <Carrousel info={element} />
 				}
-
+ 
 			)}	 -->
 			
 		</div>

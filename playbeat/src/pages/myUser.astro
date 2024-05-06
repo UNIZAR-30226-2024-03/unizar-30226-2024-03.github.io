@@ -34,22 +34,17 @@ try{
     if(jws !==null && jws !== undefined){
         
         
-        // const responseTop = await userTopSongs(jws.value, 444, 5);
-        const responseTop = await userTopSongs(jws.value,userId, 5);
+        let [responseTop, responseCanciones, responsePodcast, responseAlbums] = await Promise.all([
+            userTopSongs(jws.value, userId, 5),
+            getSongsUser(userId),
+            getPodcastUser(userId),
+            getPlaylistsFromUser(userId, jws.value)
+        ]);
+
         canciones = responseTop.data;
-
-        // const responseLast = await getUserAudios(jws.value, Number(id));
-
-        // const responseCanciones = await getSongsUser(444);
-        const responseCanciones = await getSongsUser(userId);
         cancionesAll = responseCanciones.data.cancion;
-
-        const responsePodcast = await getPodcastUser(userId);
-        // const responsePodcast = await getPodcastUser(id);
         podcastAll = responsePodcast.data.podcast;
-
-
-        const responseAlbums = await getPlaylistsFromUser(userId,jws.value);
+        albumsAll = responseAlbums.data;
 
         albumsAll = responseAlbums.data;
 

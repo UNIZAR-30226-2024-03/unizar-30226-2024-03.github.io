@@ -105,8 +105,8 @@ function convertirSegundos(segundos) {
     
 <ul class="flex flex-col  items-start ">
     <li v-for="item of historial" class="grid grid-cols-9 items-center w-full p-3  hover:bg-[#262626]">
-        <svg @dblclick="playSong(item)" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-playlist col-span-2 " width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M17 17v-13h4" /><path d="M13 5h-10" /><path d="M3 9l10 0" /><path d="M9 13h-6" /></svg> 
-        <span @dblclick="playSong(item)" class="col-span-4 select-none cursor-default">{{item.Audio.titulo}}</span>
+        <svg @dblclick="playSong(item)" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-playlist col-span-1 " width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M17 17v-13h4" /><path d="M13 5h-10" /><path d="M3 9l10 0" /><path d="M9 13h-6" /></svg> 
+        <span @dblclick="playSong(item)" class="col-span-4 select-none cursor-default mx-2 overflow-x-hidden">{{item.Audio.titulo}}</span>
         <span @dblclick="playSong(item)" class="col-span-2 selection-none cursor-default">{{convertirSegundos(item.Audio.duracionSeg)}}</span>
         <button @click="añadirACola(item)" class="col-span-1">
             <div class="relative w-full h-6" >
