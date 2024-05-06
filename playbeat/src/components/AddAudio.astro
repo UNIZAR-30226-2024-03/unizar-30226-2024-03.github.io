@@ -21,11 +21,15 @@ try{
     const token = Astro.cookies.get(TOKEN);
     const file = data.get("photo")
     const tags = data.getAll("tags")
-    const typeEtiqueta = data.get("tabsaudio") as string;
     let esPodcast = false;
-    if(typeEtiqueta == "Podcast"){
-        esPodcast = true;
+    let typeEtiqueta = "Cancion";
+    if(tags.length !== 0){
+        typeEtiqueta = data.get("tabsaudio") as string;
+        if(typeEtiqueta == "Podcast"){
+            esPodcast = true;
+        }
     }
+    
     let features = Astro.cookies.get('artistList')?.value;
     if(features=== undefined || features.length === 0){
         features = "";
@@ -44,7 +48,7 @@ try{
                 cancion: data.get("cancion"), 
                 tipoEtiqueta: typeEtiqueta,
                 idsUsuarios: features as string,
-                etiquetas: tags.join(",") // Convertimos tags a un string separados por comas, ya que asi lo pide la API
+                etiquetas: tags?.join(",") // Convertimos tags a un string separados por comas, ya que asi lo pide la API
             }, token?.value)
             
         }else{
