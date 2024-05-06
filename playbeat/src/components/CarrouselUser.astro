@@ -28,12 +28,12 @@ const itemsSongOpt = ["Añadir cola", "Añadir a playlist", "Añadir a favoritos
         <ul class=" flex flex-row w-full overflow-x-auto snap-x snap-mandatory scroll-smooth  carrusel">
             {audios.map( (item: Audio) => 
                     <li class="flex flex-col p-2 snap-start text-sm h-full hijo ">
-                        <a href=`/audio/${item.idAudio}` class="  relative inline-block imagen w-max">
+                        <a href=`/audio/${item.idAudio}` class="  relative inline-block imagen ">
                             <img src={`${Global.url}foto/${item.imgAudio}`} class:list={[" w-56 rounded-md mb-1 hover:brightness-90 aspect-square " ]}/>
                         </a>
 
                         <a href=`/audio/${item.idAudio}` class=" w-max hover:underline">
-                            <p class="text-base hover:underline">{item.titulo}</p>
+                            <p class="text-base hover:underline overflow-x-hidden">{item.titulo}</p>
                         </a>
                         <div class="flex flex-row">
                         {

@@ -39,9 +39,9 @@ const { info} = Astro.props;
                     
                     {info && info.map(item => 
                         <li id={item.idAudio + ''} class="grid grid-cols-12 p-1 items-center w-full snap-start text-sm h-full hijo hover:hover:bg-[#323232] rounded-sm ">
-                            <div class="flex flex-row items-center gap-3 col-span-4">
+                            <div class="flex flex-row items-center gap-3 col-span-5">
                                 <img src={`${Global.url}foto/${item.imgAudio}`} class="w-12 h-12 rounded-sm" alt="imagen"/>
-                                <p class="text-base">{item.titulo}</p>
+                                <p class="text-base overflow-x-hidden">{item.titulo}</p>
                             </div>
                             <p class="col-span-2">
                                 {item.artistas?.map((artista:any, index:any) => {
@@ -52,7 +52,7 @@ const { info} = Astro.props;
                                 }
                             })}
                             </p>
-                            <p class=" text-gray-400 col-span-3 text-right">{item.count} rep</p>
+                            <p class=" text-gray-400 col-span-2 text-right">{item.count} rep</p>
                             <p></p>
                             {() => {
                                 function convertirSegundos(segundos:any) {
@@ -62,13 +62,22 @@ const { info} = Astro.props;
                                     segundos %= 60;
                                     let res = ""
                                     if(horas >0 ){
-                                        res+= horas + "h "
+                                        res+= horas + ":"
                                     }
                                     if(minutos >0 ){
-                                        res+= minutos + "m "
+                                        if(minutos < 10){
+                                            res+= "0"
+                                        }
+                                        res+= minutos + ":"
                                     }
                                     if(segundos >0 ){
-                                        res+= segundos + "s "
+                                        if(segundos < 10){
+                                            res+= "0"
+                                        }
+                                        res+= segundos
+
+                                    }else{
+                                        res += "00"
                                     }
                                     return res
                                 }
