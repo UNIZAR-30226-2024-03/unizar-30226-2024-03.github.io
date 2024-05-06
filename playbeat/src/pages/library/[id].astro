@@ -45,12 +45,12 @@ const seguida = playlist?.Seguidores?.map((user: any) => user.idUsuario).include
                 <img class=" w-60 h-60 rounded-md" src={Global.url + "foto/" + idImg}>
 
                 </img>
-                <div class="mt-8 flex flex-row justify-between items-center">
+                <div class="mt-8 flex flex-row gap-3 items-center">
                     {
-                    !seguida ? <button class="bg-[#6985C0] flex flex-row items-center p-1 px-3  gap-1 w-max rounded-md" id="follow">
+                    !seguida && !esPropietario ? <button class="bg-[#6985C0] flex flex-row items-center p-1 px-3  gap-1 w-max rounded-md" id="follow">
                         <p class="font-semibold">AÑADIR</p>
                         <HeartFill/>
-                    </button> :
+                    </button> : !esPropietario && 
                     <button class="bg-[#6985C0] flex flex-row items-center p-1 px-3  gap-1 w-max rounded-md" id="unfollow">
                         <p class="font-semibold">ELIMINAR</p>
                         <HeartFill/>
