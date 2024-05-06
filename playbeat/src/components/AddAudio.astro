@@ -49,6 +49,7 @@ try{
             
         }else{
             const img = await uploadImg(file)
+            console.log("titulo", data.get("titulo") as string, "esPrivada", data.get("esPrivada") as string == "on" || false, "img", img.id, "esAlbum", false, "esPodcast", esPodcast, "fechaLanz", new Date().toISOString(), "duracionSeg", parseFloat(data.get("duracion") as string) || 0, "cancion", data.get("cancion"), "idsUsuarios", features as string, "tipoEtiqueta", typeEtiqueta, "etiquetas", tags.join(","), "token", token?.value)
             await createAudio({
                         titulo: data.get("titulo") as string,
                         esPrivada: data.get("esPrivada") as string == "on" || false,
