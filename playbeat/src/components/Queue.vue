@@ -30,6 +30,7 @@ onMounted(() => {
             const primerElemento = canciones.value.shift();
             window.localStorage.setItem('songsQueue', JSON.stringify(canciones.value));
             localStorage.setItem("cancion", JSON.stringify(primerElemento));
+			document.dispatchEvent(new Event("playSong"));	
             return primerElemento;
         }
     })
@@ -43,6 +44,7 @@ onMounted(() => {
         const primerElemento = playlist.value.shift();
         window.localStorage.setItem('playlistQueue', JSON.stringify(playlist.value));
         localStorage.setItem("cancion", JSON.stringify(primerElemento));
+        document.dispatchEvent(new Event("playSong"));	
 
     })
     if (!window.previousSongAdded) {

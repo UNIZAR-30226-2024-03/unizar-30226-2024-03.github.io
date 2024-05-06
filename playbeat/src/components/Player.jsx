@@ -107,8 +107,6 @@ export function Player ({jws, children}) {
         }
           setAudioId(JSON.parse(localStorage.getItem("cancion")).id)
 
-        
-        
       }
       
     
