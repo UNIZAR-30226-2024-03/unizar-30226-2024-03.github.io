@@ -36,7 +36,7 @@ try {
 	lastAudios = responseLast.data;
 	lastSongsUploaded = responesLastUploaded.data.cancion;
 	tops = responseTops.data;
-	console.log("tops",tops)
+	// console.log("tops",tops)
 	random = responseRandom.data;
 	// console.log("random",random)
 
@@ -81,7 +81,7 @@ for (const item of lastAudios.cancion) {
 				<CarrouselUser  audios={lastSongsUploaded}/>
 			</section>}
 			{
-				tops.length > 0 && <section class="mt-10 w-full">
+				tops && <section class="mt-10 w-full">
 					<h2 class="text-lg font-semibold ml-10">Top diario</h2>
 					<CarrouselTops  audios={tops}/>
 				</section>
