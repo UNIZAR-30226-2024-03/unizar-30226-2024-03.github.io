@@ -52,7 +52,7 @@ const Canciones = [
                         "Authorization": `Bearer ${jws}`
                     }
                 }).then((data) => data.json()).then((data) => {console.log(data);localStorage.setItem("busqueda", JSON.stringify(data));window.dispatchEvent(new Event("buscar"))}).catch((e) => console.log(e))
-            }, 1000);
+            }, 500);
         })
     })
     function getCookie(name: any) {

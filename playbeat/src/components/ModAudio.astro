@@ -190,11 +190,12 @@ try{
         }
     }
   }
+  let id = window.location.href.split('/')[window.location.href.split('/').length - 1]
   const jws = getCookie('token')
     var audio = document.getElementById('audio') as HTMLAudioElement;
             if(audio && jws){
                 try{
-                    const request = await getAudio(jws, '7');
+                    const request = await getAudio(jws, id);
                 audio.src = URL.createObjectURL(request);
                 audio.load()
                 }catch(e){

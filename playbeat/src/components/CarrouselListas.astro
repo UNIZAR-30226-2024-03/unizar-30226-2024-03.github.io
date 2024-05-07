@@ -32,20 +32,14 @@ const itemsSongOpt = ["Añadir cola", "Añadir a playlist", "Añadir a favoritos
                     <li class="flex flex-col p-2 snap-start text-sm h-full hijo ">
                         <a href=`/library/${item.idLista}` class="  relative inline-block imagen ">
                             <img src={`${Global.url}foto/${item.imgLista}`} class:list={[" w-56 rounded-md mb-1 hover:brightness-90 aspect-square " ]}/>
-                            <div class="rounded-full w-10 h-10 hidden items-center justify-center botonesizq">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-player-play-filled" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4v16a1 1 0 0 0 1.524 .852l13 -8a1 1 0 0 0 0 -1.704l-13 -8a1 1 0 0 0 -1.524 .852z" stroke-width="0" fill="currentColor" /></svg>
-                            </div>
-                            <div class="rounded-full w-10 h-10 hidden relative items-center justify-center botonesder ">
-                                <SongOpt items={itemsSongOpt}><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg></SongOpt>                            
-                            </div>
                         </a>
 
                         <a href=`/library/${item.idLista}` class=" w-max hover:underline">
-                            <p class="text-base hover:underline">{item.nombre}</p>
+                            <p class="text-base hover:underline overflow-x-hidden">{item.nombre}</p>
                         </a>
                         <div class="flex flex-row">
                             <a href=`/user/${artistaId}` class="w-max hover:underline mr-1">
-                                <p class="text-gray-400">{artista}</p>
+                                <p class="text-gray-400 overflow-x-hidden">{artista}</p>
                             </a>
                          </div>
 
@@ -71,26 +65,7 @@ const itemsSongOpt = ["Añadir cola", "Añadir a playlist", "Añadir a favoritos
 .hijo{
 	min-width: calc(var(--ancho-padre) / var(--nume));
 }
-.botonesizq{
-    position: absolute;
-    top: 75%;
-    left: 4%;
 
-}
-.imagen:hover .botonesizq{
-    display: flex;
-    background-color: rgba(0, 0, 0, 0.3);
-}
-.botonesder{
-    position: absolute;
-    top: 75%;
-    left: 65%;
-
-}
-.imagen:hover .botonesder{
-    display: flex;
-    background-color: rgba(0, 0, 0, 0.3);
-}
 
 
 
