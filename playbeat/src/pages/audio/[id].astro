@@ -142,13 +142,22 @@ const handleLike =  () => {
                                     segundos %= 60;
                                     let res = ""
                                     if(horas >0 ){
-                                        res+= horas + "h "
+                                        res+= horas + ":"
                                     }
                                     if(minutos >0 ){
-                                        res+= minutos + "m "
+                                        if(minutos < 10){
+                                            res+= "0"
+                                        }
+                                        res+= minutos + ":"
                                     }
                                     if(segundos >0 ){
-                                        res+= segundos + "s "
+                                        if(segundos < 10){
+                                            res+= "0"
+                                        }
+                                        res+= segundos
+
+                                    }else{
+                                        res += "00"
                                     }
                                     return res
                                 }
@@ -157,7 +166,7 @@ const handleLike =  () => {
                             }}
                         </td>
                         <td class="max-w-3 cursor-pointer pr-3">
-                            <PlaylistOpt items={["Añadir a playlist", "Añadir a la cola"]} id={audio.idAudio}>                        
+                            <PlaylistOpt items={["Añadir a playlist", "Añadir cola"]} id={audio.idAudio}>                        
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#6985C0" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
                             </PlaylistOpt> 
                         </td>
@@ -182,7 +191,7 @@ const handleLike =  () => {
                         id: hijo[0].parentElement.id,
                         titulo: hijo[0].innerText,
                         artista: hijo[1].innerText,
-                        duracion: hijo[3].innerText
+                        duracion: hijo[2].innerText
                     }
                 })
                 localStorage.setItem("playlist", JSON.stringify(playlist))

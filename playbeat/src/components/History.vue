@@ -47,7 +47,6 @@ const playSong = (item) => {
 	}
 	const obj = {id: item.Audio.idAudio, titulo: item.Audio.titulo, duracionSeg: item.Audio.duracionSeg};
 	songsQueue.unshift(obj);
-    console.log(songsQueue)
 	localStorage.setItem('songsQueue', JSON.stringify(songsQueue));
 
 	window.dispatchEvent(new Event('storageChange'));

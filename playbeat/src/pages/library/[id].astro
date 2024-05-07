@@ -199,7 +199,7 @@ const seguida = playlist?.Seguidores?.map((user: any) => user.idUsuario).include
                         id: hijo[0].parentElement.id,
                         titulo: hijo[0].innerText,
                         artista: hijo[1].innerText,
-                        duracion: hijo[3].innerText
+                        duracion: hijo[2].innerText
                     }
                 })
                 localStorage.setItem("playlist", JSON.stringify(playlist))
