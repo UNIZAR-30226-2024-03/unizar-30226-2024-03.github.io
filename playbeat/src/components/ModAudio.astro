@@ -1,11 +1,11 @@
 ---
-import TagsTabs from '@components/TagsTabs.astro';
 import { getInfoAudio } from '@/utils/getInfoAudio';
 import {TOKEN} from '@/constants.ts'
 import { Global } from '@/globalState/globalUrl';
 import { uploadImg } from '@/utils/uploadImg';
 import {modAudio} from '@/utils/modAudio';
 import AddUserSearch  from '@/components/AddUserSearch.vue';
+import TagsTabsModAudio from './TagsTabsModAudio.astro';
 
 const {id} = Astro.params
 
@@ -17,7 +17,7 @@ try{
     if(token != undefined && id != undefined){
         const response = await getInfoAudio(token?.value, id)
         audio = response
-        console.log("audio", audio)
+        // console.log("audio", audio)
 
     }
 }catch(e){
@@ -139,7 +139,7 @@ try{
                     
                 </div>
                 <div class="w-full h-full">
-                    <TagsTabs subject="audio"/>
+                    <TagsTabsModAudio esPodcast={audio.esPodcast} subject="audio"/>
                 </div>
             </section>
         </div>
