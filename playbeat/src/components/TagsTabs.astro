@@ -18,11 +18,12 @@ let tagsPodcast: Etiqueta[];
 
 try {
   const token = (Astro.cookies.get(TOKEN) as { value: string }).value;
-  const responseCancion = await getEtiquetaCancion(token);
-  //console.log(responseCancion.data);
-  tagsCancion  = responseCancion.data;
+  let [responseCancion, responsePodcast] = await Promise.all([
+    getEtiquetaCancion(token),
+    getEtiquetaPodcast(token)
+  ]);
 
-  const responsePodcast = await getEtiquetaPodcast(token);
+  tagsCancion  = responseCancion.data;
   tagsPodcast  = responsePodcast.data;
 
 } catch (error) {

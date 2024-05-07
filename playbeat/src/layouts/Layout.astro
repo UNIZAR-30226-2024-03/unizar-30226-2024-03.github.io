@@ -166,25 +166,17 @@ const jws = Astro.cookies.get('token');
 				const queue = JSON.parse(localStorage.getItem("songsQueue") || "[]")
 				if(queue != null && queue.length != 0){
 					window.dispatchEvent(new Event('nextSong'));
-					setTimeout(() => {
-							var event = new Event("playSong");
-							document.dispatchEvent(event);	
 							setTimeout(()=> {
 								window.dispatchEvent(new Event('historialChange'))
 							}, 5000)		
-						}, 1300);
 				}else{
 					let playlist = JSON.parse(localStorage.getItem("playlistQueue") || "[]")
 					const loop = JSON.parse(localStorage.getItem('loop') || "false")
 					if(loop || (playlist != null && playlist.length != 0)){
 						window.dispatchEvent(new Event('nextSongPlaylist'));
-						setTimeout(() => {
-							var event = new Event("playSong");
-							document.dispatchEvent(event);		
 							setTimeout(()=> {
 								window.dispatchEvent(new Event('historialChange'))
 							}, 5000)		
-						}, 1300);
 					}else{
 						const token = getCookie('token');
 						// document.dispatchEvent(new Event('stopSong'))
@@ -207,14 +199,10 @@ const jws = Astro.cookies.get('token');
 							window.dispatchEvent(new Event('playlistChange'));
 							setTimeout(() => {
 									window.dispatchEvent(new Event('nextSongPlaylist'));
-								setTimeout(() => {
-									var event = new Event("playSong");
-									document.dispatchEvent(event);		
 									setTimeout(()=> {
 										window.dispatchEvent(new Event('historialChange'))
 									}, 5000)		
-								}, 1300);
-							}, 300)
+							}, 200)
 						})
 						.catch((error) => {
 							console.error('Error:', error);
@@ -241,7 +229,7 @@ const jws = Astro.cookies.get('token');
 			audioPlayer?.addEventListener('ended', () => {
 				nextSongFunction()
 			});
-		}, 1000);
+		}, 2000);
 		document.addEventListener('astro:page-load', () => {
 
 		const buton = document.querySelectorAll('.button') as NodeListOf<HTMLElement>;
