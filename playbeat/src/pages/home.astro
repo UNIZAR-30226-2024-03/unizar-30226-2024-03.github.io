@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-import Carrousel from '../components/Carrousel.astro';
+import CarrouselTops from '@components/CarrouselTops.astro';
 import Header from '../components/Header.astro';
 import Saludos from '../components/Saludos.svelte';
 import { Global } from "@/globalState/globalUrl.js";
@@ -9,6 +9,8 @@ import {getUserLastAudios} from '@/utils/getUserLastAudios.ts';
 import CarrouselUser from '@components/CarrouselUser.astro';
 import CarrouselLast from '@components/CarrouselLast.astro';
 import { getLastAudiosUploaded } from '@/utils/getLastAudiosUploaded';
+import { getTops } from '@/utils/getTops';
+import { getRandomAudio } from '@/utils/getRandomAudio';
 
 
 
@@ -21,14 +23,23 @@ const token = Astro.cookies.get("token")?.value as string
 
 let lastAudios;
 let lastSongsUploaded;
+let tops;
+let random;
 try {
-	let [responseLast, responesLastUploaded] = await Promise.all([
+	let [responseLast, responesLastUploaded,responseTops, responseRandom] = await Promise.all([
 		getUserLastAudios(token, 15),
-		getLastAudiosUploaded(token)
+		getLastAudiosUploaded(token),
+		getTops(token),
+		getRandomAudio(token, 10)
 	]);
 
 	lastAudios = responseLast.data;
 	lastSongsUploaded = responesLastUploaded.data.cancion;
+	tops = responseTops.data;
+	// console.log("tops",tops)
+	random = responseRandom.data;
+	// console.log("random",random)
+
 } catch (error) {
 	console.error("Error")
 }	
@@ -59,13 +70,25 @@ for (const item of lastAudios.cancion) {
 
 		<div class=" w-full h-full flex flex-col mt-16 p-1">
 			<Saludos name={user.nombreUsuario}/>
+			{vectorSinDuplicados && 
 			<section class="mt-10 w-full">
 				<h2 class="text-lg font-semibold ml-10">Últimos escuchados</h2>
 				<CarrouselLast  info={vectorSinDuplicados}/>
-			</section>
+			</section>}
+			{lastSongsUploaded && 
 			<section class="mt-10 w-full">
 				<h2 class="text-lg font-semibold ml-10">Últimos lanzamientos</h2>
 				<CarrouselUser  audios={lastSongsUploaded}/>
+			</section>}
+			{
+				tops && <section class="mt-10 w-full">
+					<h2 class="text-lg font-semibold ml-10">Top diario</h2>
+					<CarrouselTops  audios={tops}/>
+				</section>
+			}
+			<section class="mt-10 w-full">
+				<h2 class="text-lg font-semibold ml-10">PlayBeat recomienda</h2>
+				<CarrouselUser  audios={random}/>
 			</section>
 			<!-- {Canciones.map( (element) =>
 				{
