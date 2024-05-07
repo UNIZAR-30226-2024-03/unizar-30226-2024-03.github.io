@@ -39,6 +39,7 @@
     "zustand": "^4.5.1"
   },
   "devDependencies": {
-    "@types/events": "^3.0.3"
+    "@types/events": "^3.0.3",
+    "@vitejs/plugin-basic-ssl": "^1.1.0"
   }
 }

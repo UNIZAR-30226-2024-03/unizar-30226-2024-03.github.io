@@ -22,7 +22,6 @@ export function socketConnect(JWT: string, currentRoom: number) {
   } catch (err) {
     console.log("Error en la conexión WebSocket: " + err);
   }
-  console.log("No conecta");
 }
 
 socket.on("disconnect", () => {

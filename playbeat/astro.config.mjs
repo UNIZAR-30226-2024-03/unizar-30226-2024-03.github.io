@@ -5,7 +5,7 @@ import svelte from "@astrojs/svelte";
 import vue from "@astrojs/vue";
 import vercel from "@astrojs/vercel/serverless";
 import auth from "auth-astro";
-import netlify from '@astrojs/netlify';
+import basicSsl from '@vitejs/plugin-basic-ssl';
 
 // https://astro.build/config
 export default defineConfig({
@@ -13,7 +13,12 @@ export default defineConfig({
   integrations: [tailwind(), react(), svelte(), vue(), auth()],
   output: "server",
   adapter: vercel(),
-
+  vite: {
+    plugins: [basicSsl()],
+    server: {
+      https: true,
+    },
+  },
   prefetch: {
     prefetchAll: false
   }
