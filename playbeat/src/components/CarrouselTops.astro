@@ -1,0 +1,65 @@
+---
+
+
+import { type Lista} from "@/interfaces";
+
+import { Global } from "@/globalState/globalUrl.js";
+
+
+interface Props {
+
+    audios : Lista[];
+    
+}
+ 
+
+const { audios} = Astro.props;
+
+const nume = 5;
+
+const itemsSongOpt = ["Añadir cola", "Añadir a playlist", "Añadir a favoritos"];
+
+
+---
+
+<section>
+    <div class="flex flex-row items-center ">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-compact-left opacity-0 hover:opacity-100 transition-opacity cursor-pointer" width="40" height="60" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13 20l-3 -8l3 -8" /></svg>
+        <ul class=" flex flex-row w-full overflow-x-auto snap-x snap-mandatory scroll-smooth  carrusel">
+            {audios.map( (item: Lista) => 
+                    <li class="flex flex-col p-2 snap-start text-sm h-full hijo ">
+                        <a href=`/library/${item.idLista}` class="  relative inline-block imagen ">
+                            <img src={`${Global.url}foto/${item.imgLista}`} class:list={[" w-56 rounded-md mb-1 hover:brightness-90 aspect-square " ]}/>
+                        </a>
+
+                        <a href=`/library/${item.idLista}` class=" w-max hover:underline">
+                            <p class="text-base hover:underline overflow-x-hidden">{item.nombre}</p>
+                        </a>
+                        <div class="flex flex-row">
+                    </div>
+
+                    </li>
+            )}
+        </ul>
+
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-compact-right opacity-0 hover:opacity-100 transition-opacity cursor-pointer" width="40" height="60" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11 4l3 8l-3 8" /></svg>
+        
+    </div>
+
+	  
+          
+ 
+</section>
+
+
+<style define:vars={{nume}}>
+    .carrusel{
+	scrollbar-width: none;
+	--ancho-padre: 100%;
+}
+.hijo{
+	min-width: calc(var(--ancho-padre) / var(--nume));
+}
+
+
+</style>
