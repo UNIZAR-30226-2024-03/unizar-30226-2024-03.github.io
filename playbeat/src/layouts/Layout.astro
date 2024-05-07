@@ -77,6 +77,9 @@ const jws = Astro.cookies.get('token');
 		}
 	}
 	setTimeout(funcion, 1500);
+	document.addEventListener('astro:page-load', () => {
+		setTimeout(funcion, 1500);
+	})
 	document.addEventListener('astro:after-swap', () => {
 		funcion()
 		let isClicked = localStorage.getItem('isClicked') === 'true';
@@ -211,7 +214,9 @@ const jws = Astro.cookies.get('token');
 
 				}
 		}
-		setTimeout( () => {
+		
+		document.addEventListener('astro:page-load', () => {
+			setTimeout( () => {
 			const previousSong = document.querySelector('.previousSong');
 			previousSong?.addEventListener('click', () => {
 				console.log("envioEvento")
@@ -230,8 +235,6 @@ const jws = Astro.cookies.get('token');
 				nextSongFunction()
 			});
 		}, 2000);
-		document.addEventListener('astro:page-load', () => {
-
 		const buton = document.querySelectorAll('.button') as NodeListOf<HTMLElement>;
 		const itemsOpt = document.querySelectorAll('.dropdown span');
 		for(let i = 0; i < itemsOpt.length; i++){
