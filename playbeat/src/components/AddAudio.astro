@@ -122,17 +122,21 @@ try{
     const tags = data.getAll("tags")
     let esPodcast = false;
     let typeEtiqueta = "Cancion";
-    if(tags.length !== 0){
-        typeEtiqueta = data.get("tabsaudio") as string;
-        if(typeEtiqueta == "Podcast"){
+    typeEtiqueta = data.get("tabsaudio") as string;
+    
+    if(typeEtiqueta == "Podcast"){
             esPodcast = true;
-        }
+    }
+    params["esPodcast"] = esPodcast
+    if(tags.length !== 0){
+        
+        
         params["tipoEtiqueta"] = typeEtiqueta
-        params["esPodcast"] = esPodcast
         params["etiquetas"] = tags.join(",")
     }
-
-
+    params["fechaLanz"] = new Date().toISOString()
+    params["esAlbum"] = false
+    console.log(params)
     const responseCreate = await createAudio(params, token?.value)
     if(responseCreate && responseCreate.status === 200){
       mensaje = "Audio subido correctamente"
