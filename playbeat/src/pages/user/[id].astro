@@ -34,22 +34,17 @@ try{
         const responseFollowers = await getFollowers(jws.value, id);
         user = responseFollowers.data;
         if(user.ultimoLanzamiento !== null){
-             // const responseTop = await userTopSongs(jws.value, 444, 5);
-            const responseTop = await userTopSongs(jws.value, Number(id), 5);
+            let [responseTop, responseCanciones, responsePodcast, responseAlbums] = await Promise.all([
+                userTopSongs(jws.value, Number(id), 5),
+                getSongsUser(Number(id)),
+                getPodcastUser(Number(id)),
+                getPlaylistsFromUser(Number(id), jws.value)
+            ]);
+
             canciones = responseTop.data;
-
-            // const responseLast = await getUserAudios(jws.value, Number(id));
-
-            // const responseCanciones = await getSongsUser(444);
-            const responseCanciones = await getSongsUser(Number(id));
             cancionesAll = responseCanciones.data.cancion;
-
-            const responsePodcast = await getPodcastUser(Number(id));
-            // const responsePodcast = await getPodcastUser(id);
             podcastAll = responsePodcast.data.podcast;
-
-
-            const responseAlbums = await getPlaylistsFromUser(Number(id),jws.value);
+            albumsAll = responseAlbums.data;
 
             albumsAll = responseAlbums.data;
             albumsAll = albumsAll.filter((lista: any)  => lista.tipoLista === 'NORMAL' && lista.esAlbum === true);

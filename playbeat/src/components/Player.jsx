@@ -55,6 +55,7 @@ export function Player ({jws, children}) {
     const [primeraVez, setPrimerVez] = useState(false);
     const [foto, setFoto] = useState(false)
     const [aux, setAux] = useState(false)
+    const [shufflePrimeraVez, setShufflePrimeraVez] = useState(false);
     const [info, setInfo] = useState({titulo: "", artistas: [""]})
     
     async function fetchData(id) {
@@ -107,8 +108,6 @@ export function Player ({jws, children}) {
         }
           setAudioId(JSON.parse(localStorage.getItem("cancion")).id)
 
-        
-        
       }
       
     
@@ -146,11 +145,12 @@ export function Player ({jws, children}) {
           withShuffle.current = shuffleRandom(noShuffle.current) // Usar la función shuffleRandom
           localStorage.setItem("playlistQueue", JSON.stringify(withShuffle.current))
           window.dispatchEvent(new Event("playlistChange"))
-        }else{
+          setShufflePrimeraVez(true)
+        }else if(shufflePrimeraVez){
           withShuffle.current = JSON.parse(localStorage.getItem("playlistQueue")) || []
           let sortedArray = noShuffle.current.filter(item => withShuffle.current.find(x => x.id === item.id));       
           localStorage.setItem("playlistQueue", JSON.stringify(sortedArray))
-           window.dispatchEvent(new Event("playlistChange"))
+          window.dispatchEvent(new Event("playlistChange"))
         }
       },[shuffle])
 

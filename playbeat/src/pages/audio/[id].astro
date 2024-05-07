@@ -125,9 +125,9 @@ const handleLike =  () => {
                             {
                                 item && item.Artistas.map((artista :any, index:any) => 
                                     
-                                        <p class="text-gray-400">{( index == item.Artistas?.length-1  )
+                                        <span class="text-gray-400">{( index == item.Artistas?.length-1  )
                                             ? <a href={"/user/"+artista.idUsuario} class="hover:underline">{artista.nombreUsuario}</a>
-                                            : <a href={"/user/"+artista.idUsuario} class="hover:underline">{artista.nombreUsuario},</a>}</p>
+                                            : <a href={"/user/"+artista.idUsuario} class="hover:underline">{artista.nombreUsuario}, </a>}</span>
                                         
 
                                 )
@@ -192,14 +192,10 @@ const handleLike =  () => {
                 window.dispatchEvent(event);
                 var event = new Event("nextSongPlaylist");
                 window.dispatchEvent(event);
-                setTimeout(() => {
-                    var event = new Event("playSong");
-                    document.dispatchEvent(event);
+
                     setTimeout(()=> {
 								window.dispatchEvent(new Event('historialChange'))
 							}, 5000)	
-                }, 1000)
-
 
             })
     })

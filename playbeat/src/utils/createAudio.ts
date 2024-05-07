@@ -30,7 +30,7 @@ import axios from 'axios';
 
 async function createAudio(data: {titulo?: string;esPrivada?: boolean,img?: string,esAlbum: boolean,fechaLanz: any,duracionSeg: number,cancion: any, esPodcast:any, etiquetas?: string, tipoEtiqueta?: string, idsUsuarios?: string}, token: any) {
 
-
+    console.log(data)
     try {
         axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
         let formData = new FormData();
