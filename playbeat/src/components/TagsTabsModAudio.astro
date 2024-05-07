@@ -1,17 +1,22 @@
 ---
-import Tags from '@components/Tags.astro';
+
 import { getEtiquetaCancion } from '@/utils/getEtiquetasCancion';
 import { getEtiquetaPodcast } from '@/utils/getEtiquetasPodcast';
 import {TOKEN} from '@/constants.ts';
 import {type Etiqueta} from '@/interfaces.ts';
+import TagsModAudio from './TagsModAudio.astro';
 
 interface Props{
     subject: string;
     class?: string;
     esPodcast: boolean;
+    etiquetas: number[];
 }
 
-const {subject, class:className, esPodcast} = Astro.props;
+const {subject, class:className, esPodcast, etiquetas} = Astro.props;
+
+
+console.log(etiquetas);
 
 let tabsItem: { id: string; label: string; content: string; }[];
 if(esPodcast){
@@ -60,7 +65,7 @@ try {
     return   (
       // Si se selecciona la pestaña de canción se muestran las etiquetas de canción, 
       // si se selecciona la pestaña de podcast se muestran las etiquetas de podcast
-      <div class={className}>{tab.content == "Canción" ? <Tags tags={tagsCancion}/> : <Tags tags={tagsPodcast}/>}</div>
+      <div class={className}>{tab.content == "Canción" ? <TagsModAudio values={etiquetas} tags={tagsCancion}/> : <TagsModAudio values={etiquetas} tags={tagsPodcast}/>}</div>
     )
   })}
 </div>

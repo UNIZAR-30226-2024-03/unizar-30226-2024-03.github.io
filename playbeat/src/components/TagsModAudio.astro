@@ -1,0 +1,43 @@
+---
+import {type Etiqueta} from '@/interfaces.ts';
+
+interface Props {
+    tags: Etiqueta[]
+    values: number[]
+}
+
+const {tags, values} = Astro.props;
+
+
+
+
+---
+
+<div class="h-24 flex flex-row flex-wrap gap-4">
+    
+    {tags.map((tag) => {
+        const isChecked = values.includes(tag.idEtiqueta);
+        // Iteramos sobre el vector de tags, y por cada uno de ellos, creamos un label de tipo checkbox con el nombre de la etiqueta 
+        // y el valor de su id.
+        return (
+            <label class=" w-max flex  h-max  rounded-full justify-center items-center cursor-pointer">
+                {
+                    isChecked ? <input type="checkbox" value={tag.idEtiqueta} class="hidden tag" name="tags" checked/> : <input type="checkbox" value={tag.idEtiqueta} class="hidden tag" name="tags"/>
+                }
+                
+                <span class="select-none w-max px-5 rounded-full h-max py-2 flex justify-center items-center border-2 border-bluePB bg-bluePB font-medium">{tag.nombre}</span>
+            </label>
+        )
+    
+    })}
+
+
+
+</div>
+
+<style>
+    .tag:checked + span{
+        border: 2px solid #fff;
+    }
+
+</style>

@@ -21,9 +21,7 @@ try{
         audio = response
         const responeTags = await etiquetasAudios(token?.value, [Number(id)])
         etiquetas = responeTags.data
-        console.log("etiquetas", JSON.stringify(etiquetas))
         etiquetas = etiquetas.map((etiqueta : {idAudio : string, etiquetas: {idEtiqueta: string, nombre:string}[]}) => etiqueta.etiquetas.map((etiqueta) => etiqueta.idEtiqueta))
-        console.log("etiquetas", etiquetas)
         // console.log("audio", audio)
 
     }
@@ -146,7 +144,7 @@ try{
                     
                 </div>
                 <div class="w-full h-full">
-                    <TagsTabsModAudio esPodcast={audio.esPodcast} subject="audio"/>
+                    <TagsTabsModAudio esPodcast={audio.esPodcast} etiquetas={etiquetas[0]} subject="audio"/>
                 </div>
             </section>
         </div>
