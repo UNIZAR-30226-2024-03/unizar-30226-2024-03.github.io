@@ -37,6 +37,8 @@ try{
         duracionSeg?: number;
         cancion?: any;
         idsUsuarios?: string;
+        tipoEtiqueta?: string;
+        etiquetas?: string;
     }
     const data = await Astro.request.formData();
     const token = Astro.cookies.get(TOKEN);
@@ -65,6 +67,23 @@ try{
     }else{
         params["idsUsuarios"] = features.slice(1, -1);
     }
+
+
+    const tags = data.getAll("tags")
+    let esPodcast = false;
+    let typeEtiqueta = "Cancion";
+    if(tags.length !== 0){
+        typeEtiqueta = data.get("tabsaudio") as string;
+        if(typeEtiqueta == "Podcast"){
+            esPodcast = true;
+        }
+        params["tipoEtiqueta"] = typeEtiqueta
+        params["esPodcast"] = esPodcast
+        params["etiquetas"] = tags.join(",")
+    }
+
+    
+
     console.log("params", params)
     const responseMod = await modAudio(params, token?.value, id)
     // console.log("responseMod", responseMod)
