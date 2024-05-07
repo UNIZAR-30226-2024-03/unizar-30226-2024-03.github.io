@@ -6,17 +6,24 @@ import { uploadImg } from '@/utils/uploadImg';
 import {modAudio} from '@/utils/modAudio';
 import AddUserSearch  from '@/components/AddUserSearch.vue';
 import TagsTabsModAudio from './TagsTabsModAudio.astro';
+import { etiquetasAudios } from '@/utils/etiquetasAudios';
 
 const {id} = Astro.params
 
 let audio
 let mensaje = "";
+let etiquetas;
 try{
 
     const token = Astro.cookies.get(TOKEN);
     if(token != undefined && id != undefined){
         const response = await getInfoAudio(token?.value, id)
         audio = response
+        const responeTags = await etiquetasAudios(token?.value, [Number(id)])
+        etiquetas = responeTags.data
+        console.log("etiquetas", JSON.stringify(etiquetas))
+        etiquetas = etiquetas.map((etiqueta : {idAudio : string, etiquetas: {idEtiqueta: string, nombre:string}[]}) => etiqueta.etiquetas.map((etiqueta) => etiqueta.idEtiqueta))
+        console.log("etiquetas", etiquetas)
         // console.log("audio", audio)
 
     }
