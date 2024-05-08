@@ -148,6 +148,7 @@ for (const item of lastAudios.cancion) {
 			console.log("conectado a sync")
 			const token = getCookie("token") as string;
 			connectToSocket(token, -1); // Creamos la conexión con el websocket.
+			connectToSocket(token, -1); // Creamos la conexión con el websocket.
 			console.log("Ya deberia estar conectado");
 		})
 
