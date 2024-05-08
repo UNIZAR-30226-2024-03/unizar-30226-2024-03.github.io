@@ -1,24 +1,28 @@
 ---
-import TagsTabs from '@components/TagsTabs.astro';
 import { getInfoAudio } from '@/utils/getInfoAudio';
 import {TOKEN} from '@/constants.ts'
 import { Global } from '@/globalState/globalUrl';
 import { uploadImg } from '@/utils/uploadImg';
 import {modAudio} from '@/utils/modAudio';
 import AddUserSearch  from '@/components/AddUserSearch.vue';
+import TagsTabsModAudio from './TagsTabsModAudio.astro';
+import { etiquetasAudios } from '@/utils/etiquetasAudios';
 
 const {id} = Astro.params
 
 let audio
 let mensaje = "";
+let etiquetas;
 try{
 
-    const token = Astro.cookies.get(TOKEN); 
+    const token = Astro.cookies.get(TOKEN);
     if(token != undefined && id != undefined){
         const response = await getInfoAudio(token?.value, id)
         audio = response
-
-        audio.artistas = audio.artistas.slice(1)
+        const responeTags = await etiquetasAudios(token?.value, [Number(id)])
+        etiquetas = responeTags.data
+        etiquetas = etiquetas.map((etiqueta : {idAudio : string, etiquetas: {idEtiqueta: string, nombre:string}[]}) => etiqueta.etiquetas.map((etiqueta) => etiqueta.idEtiqueta))
+        // console.log("audio", audio)
 
     }
 }catch(e){
@@ -37,6 +41,9 @@ try{
         fechaLanz?: string;
         duracionSeg?: number;
         cancion?: any;
+        idsUsuarios?: string;
+        tipoEtiqueta?: string;
+        etiquetas?: string;
     }
     const data = await Astro.request.formData();
     const token = Astro.cookies.get(TOKEN);
@@ -59,13 +66,35 @@ try{
         params["esPrivada"] = true
     }
 
-    const responseMod = await modAudio(params, token?.value, id)
-    if(responseMod && responseMod.status === 200){
-      mensaje = "Audio modificado correctamente"
+    let features = Astro.cookies.get('artistList')?.value;
+    if(features=== undefined || features.length === 2){
+        features = "";
+    }else{
+        params["idsUsuarios"] = features.slice(1, -1);
+    }
+
+
+    const tags = data.getAll("tags")
+    let esPodcast = false;
+    let typeEtiqueta = "Cancion";
+    if(tags.length !== 0){
+        typeEtiqueta = data.get("tabsaudio") as string;
+        if(typeEtiqueta == "Podcast"){
+            esPodcast = true;
+        }
+        params["tipoEtiqueta"] = typeEtiqueta
+        params["esPodcast"] = esPodcast
+        params["etiquetas"] = tags.join(",")
     }
 
     
-    
+
+    console.log("params", params)
+    const responseMod = await modAudio(params, token?.value, id)
+    // console.log("responseMod", responseMod)
+    if(responseMod && responseMod.status === 200){
+      mensaje = "Audio modificado correctamente"
+    }
 
 } catch (error) {
 //  if (error instanceof TypeError) {
@@ -74,8 +103,6 @@ try{
 //
 }
 }
-
-
 
 ---
 
@@ -107,15 +134,17 @@ try{
                         <AddUserSearch client:load artistProps={audio.artistas}/>
 
                     </div>
-                    
+
 
                 </div>
                 <div class="flex flex-row gap-2 items-center ">
                     <label>Privado</label>
-                    <input type="checkbox" name="esPrivada" value={audio.esPrivada}/>
+                    {audio.esPrivada && <input type="checkbox" name="esPrivada" value={audio.esPrivada} checked/>}
+                    {!audio.esPrivada && <input type="checkbox" name="esPrivada" value={audio.esPrivada}/>}
+                    
                 </div>
                 <div class="w-full h-full">
-                    <TagsTabs subject="audio"/>
+                    <TagsTabsModAudio esPodcast={audio.esPodcast} etiquetas={etiquetas[0]} subject="audio"/>
                 </div>
             </section>
         </div>
@@ -157,10 +186,10 @@ try{
     import {getAudio} from '@/utils/getAudio'
     function getCookie(name: any) {
     let cookieArr = document.cookie.split("; ");
-    
+
     for(let i = 0; i < cookieArr.length; i++) {
         let cookiePair = cookieArr[i].split("=");
-        
+
         if(name == cookiePair[0]) {
             return decodeURIComponent(cookiePair[1]);
         }
@@ -183,7 +212,7 @@ try{
     eliminar?.addEventListener("click", () => {
         let pathArray = window.location.pathname.split('/');
         let id = pathArray[pathArray.length - 1];
-        if(id !== undefined){ 
+        if(id !== undefined){
             fetch(`${Global.url}audio/delete/${id}`, {
                 method: "DELETE",
                 headers: {

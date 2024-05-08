@@ -27,7 +27,7 @@ export default {
                     console.log('Artist added successfully');
                     const newArtist = {
                         nombreUsuario: this.artistName,
-                        id: response.data.idUsuario
+                        idUsuario: response.data.idUsuario
                     };
                     this.artistList.push(newArtist);
 
@@ -35,7 +35,7 @@ export default {
                     this.artistName = '';
 
                     // Update artist list in the cookie
-                    const lista = this.artistList.map(artist => artist.id);
+                    const lista = this.artistList.map(artist => artist.idUsuario);
                     document.cookie = `artistList=${JSON.stringify(lista)}`;
                 } else {
                     console.log('Failed to add artist');
@@ -47,17 +47,23 @@ export default {
         changeArtist() {
             this.error = ''; // Clear error when input changes
         },
-        removeArtist(id) {
-            console.log("Removing artist with id: ", id);
+        removeArtist(idUsuario) {
             // Filter artistList to remove the specified artist
-            this.artistList = this.artistList.filter(artist => artist.id !== id);
+            this.artistList = this.artistList.filter(artist => artist.idUsuario !== idUsuario);
 
             // Update artist list in the cookie
-            const lista = this.artistList.map(artist => artist.id);
+            const lista = this.artistList.map(artist => artist.idUsuario);
             document.cookie = `artistList=${JSON.stringify(lista)}`;
         }
+    },
+    mounted() {
+        console.log('Artist list: ', this.artistList);
+        const lista = this.artistList.map(artist => artist.idUsuario);
+        document.cookie = `artistList=${JSON.stringify(lista)}`;
     }
 };
+
+
 </script>
 
 <template>
@@ -82,9 +88,9 @@ export default {
         </p>
 
         <!-- Displaying list of artists -->
-        <div v-for="artist in artistList" :key="artist.id" class="text-white bg-bluePB rounded-lg p-2 g-4 flex flex-row">
+        <div v-for="artist in artistList" :key="artist.idUsuario" class="text-white bg-bluePB rounded-lg p-2 g-4 flex flex-row">
             <span>{{ artist.nombreUsuario }}</span>
-            <button type="button" @click="removeArtist(artist.id)">
+            <button type="button" @click="removeArtist(artist.idUsuario)">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-x">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                     <path d="M18 6l-12 12" />
