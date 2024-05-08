@@ -22,10 +22,7 @@ import { getMyUserInfo } from "./getMyUserInfo";
  */
 async function getPlaylistsFromUser( id: any, token: any) {
     try {
-        if(id == -1){
-            const user = await getMyUserInfo(token);
-            id = user.data.idUsuario;
-        }
+        
         axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
 
         const response = await axios.get(Global.url + "lista/owned/" + id);

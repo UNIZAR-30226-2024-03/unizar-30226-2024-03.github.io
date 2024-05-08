@@ -4,6 +4,10 @@ import Library from '@components/Library.astro';
 import Header from '@components/Header.astro';
 import {getPlaylistsFromUser} from '@/utils/getPlaylistsFromUser';
 import {TOKEN} from '@/constants';
+import type { Lista } from '@/interfaces';
+
+const {idUsuario} = JSON.parse(Astro.cookies.get("usuario")?.value as any)
+
 const Biblioteca = [
 
     
@@ -14,21 +18,15 @@ const Biblioteca = [
 const token = Astro.cookies.get(TOKEN);
 let playlists : any
 try{
-    playlists = await getPlaylistsFromUser(-1,token?.value)
+    playlists = await getPlaylistsFromUser(idUsuario,token?.value)
     playlists = playlists.data
-	playlists.map((playlist:any) => {
-		delete playlist.esAlbum
-		delete playlist.esPrivada
-		delete playlist.fechaUltimaMod
-		delete playlist.tipoLista
-		delete playlist.descripcion
-		
-	})
 	console.log(playlists)
 
 }catch(e){
     console.log(e)
 }
+
+playlists = playlists.filter((playlists: Lista)  => playlists.tipoLista === 'NORMAL');
 ---
 
 <Layout title="PlayBeat">
