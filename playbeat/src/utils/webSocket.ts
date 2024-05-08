@@ -9,20 +9,29 @@ export function socketConnect(JWT: string, currentRoom: number) {
   // Aqui se crea el cliente de WebSocket.
   try {
     console.log("Estoy en socket.on");
-    socket.on("connect", function() {
-      console.log("Connected to WS.io server");
-      const data = {
-        room: currentRoom,
-        JWT: JWT
-      };
-      const message = JSON.stringify(data);
-      console.log(message);
-      socket.emit('join', message);    
-    });
+    console.log(socket);
+
+    const data = {
+      room: currentRoom,
+      JWT: JWT
+    };
+    const message = JSON.stringify(data);
+    console.log(message);
+    socket.emit('join', message); 
+    
+    // socket.on("connect", function() {
+    //   console.log("Connected to WS.io server");
+    //   const data = {
+    //     room: currentRoom,
+    //     JWT: JWT
+    //   };
+    //   const message = JSON.stringify(data);
+    //   console.log(message);
+    //   socket.emit('join', message);    
+    // });
   } catch (err) {
     console.log("Error en la conexión WebSocket: " + err);
   }
-  console.log("No conecta");
 }
 
 socket.on("disconnect", () => {

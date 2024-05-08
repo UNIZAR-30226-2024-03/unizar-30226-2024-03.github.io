@@ -77,7 +77,7 @@ if (Astro.request.method ==="POST" ) {
 
         Astro.cookies.set(TOKEN, response.data);
         const user = await getMyUserInfo(response.data);
-        Astro.cookies.set("usuario", user.data)
+        Astro.cookies.set("usuario", user.data);
         return Astro.redirect("/home");
       } else {
         errors.peticion = "Error intentelo de nuevo";

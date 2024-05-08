@@ -147,7 +147,7 @@ for (const item of lastAudios.cancion) {
 		document.addEventListener("astro:page-load", () => {
 			console.log("conectado a sync")
 			const token = getCookie("token") as string;
-			connectToSocket(token, -1); // Creamos la conexión con el websocket.
+			 // Creamos la conexión con el websocket.
 			connectToSocket(token, -1); // Creamos la conexión con el websocket.
 			console.log("Ya deberia estar conectado");
 		})
