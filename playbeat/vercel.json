@@ -4,5 +4,5 @@
             "source": "/ws",
             "destination": "https://playbeat.uksouth.cloudapp.azure.com:3001"
         }
-    ],
+    ]
 }
