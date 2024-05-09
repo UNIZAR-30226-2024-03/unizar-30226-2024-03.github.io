@@ -14,13 +14,14 @@ const Biblioteca = [
 	import { getPlaylistsFollowedByUser } from "@/utils/getPlaylistsFollowedByUser"
 
 const token = Astro.cookies.get(TOKEN);
+const {idUsuario} = JSON.parse(Astro.cookies.get("usuario")?.value as any)
 let playlistsOwn
 let playlistsSeguidas
 let playlists: any[] = []
 try{
 	let [playlistsOwnResponse, playlistsSeguidasResponse] = await Promise.all([
-		getPlaylistsFromUser(-1, token?.value),
-		getPlaylistsFollowedByUser(-1, token?.value)
+		getPlaylistsFromUser(idUsuario, token?.value),
+		getPlaylistsFollowedByUser(idUsuario, token?.value)
 	]);
 
 	playlistsOwn = playlistsOwnResponse.data;
