@@ -69,18 +69,17 @@ if (Astro.request.method ==="POST" ) {
     // Do something with the data
     const hasErrors = Object.values(errors).some(msg => msg)
     if (!hasErrors) { 
-      console.log("entra3");
+
       errors.peticion = "Error intentelo de nuevo";
       const response = await loginUser({email: values.email, contrasegna: values.contrasegna});
-      console.log("previo", response);
+
       if (response && response.status === 200) { 
-        console.log("entra2");
         Astro.cookies.set(TOKEN, response.data);
         const user = await getMyUserInfo(response.data);
         Astro.cookies.set("usuario", user.data)
         return Astro.redirect("/home");
       } 
-        console.log("entra");
+
         
       
     }
