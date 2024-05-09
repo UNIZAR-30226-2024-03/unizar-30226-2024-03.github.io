@@ -101,18 +101,18 @@ const following = user.Seguidos;
                     </section>
                 }
                 {   user.ultimoLanzamiento !== null && 
-                    <section class=" w-1/8 flex flex-col items-start justify-between ml-16">
+                    <section class=" w-1/8 flex flex-col gap-6 items-start justify-between ml-16">
                         <div >
                             <h2 class="text-2xl font-semibold -ml-2">Último lanzamiento</h2>
-                            <div class="bg-black w-44 h-44 rounded-md mt-4">
-                                <img src={`${Global.url}foto/${user.ultimoLanzamiento.imgAudio}`} class="w-full h-full object-cover rounded-md" alt="Ultimo lanzamiento"/>
+                            <div class=" rounded-md mt-4">
+                                <img src={`${Global.url}foto/${user.ultimoLanzamiento.imgAudio}`} class="w-44 h-44 object-cover rounded-md" alt="Ultimo lanzamiento"/>
                                 <div class="flex flex-col my-2 mb-3">
                                     <h3 class="font-bold">{user.ultimoLanzamiento.titulo}</h3>
                                     <p>{fechaFormateada}</p>
                                 </div>
                             </div>
                         </div>
-                        <hr class=" border-white border-0.5 w-[180px] mt-16"/>
+                        <hr class=" border-white border-0.5 w-[180px]"/>
                         <div class="mt-3">
                             <h2 class="text-2xl font-semibold -ml-1 ">Popularidad</h2>
                             <span >{user.oyentesMensuales} oyentes mensuales</span>
