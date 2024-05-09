@@ -192,17 +192,13 @@ const jws = Astro.cookies.get('token');
 				const queue = JSON.parse(localStorage.getItem("songsQueue") || "[]")
 				if(queue != null && queue.length != 0){
 					window.dispatchEvent(new Event('nextSong'));
-							setTimeout(()=> {
-								window.dispatchEvent(new Event('historialChange'))
-							}, 5000)		
+					window.dispatchEvent(new Event('historialChange'))
 				}else{
 					let playlist = JSON.parse(localStorage.getItem("playlistQueue") || "[]")
 					const loop = JSON.parse(localStorage.getItem('loop') || "false")
 					if(loop || (playlist != null && playlist.length != 0)){
 						window.dispatchEvent(new Event('nextSongPlaylist'));
-							setTimeout(()=> {
-								window.dispatchEvent(new Event('historialChange'))
-							}, 5000)		
+						window.dispatchEvent(new Event('historialChange'))
 					}else{
 						const token = getCookie('token');
 						// document.dispatchEvent(new Event('stopSong'))
@@ -225,9 +221,7 @@ const jws = Astro.cookies.get('token');
 							window.dispatchEvent(new Event('playlistChange'));
 							setTimeout(() => {
 									window.dispatchEvent(new Event('nextSongPlaylist'));
-									setTimeout(()=> {
-										window.dispatchEvent(new Event('historialChange'))
-									}, 5000)		
+									window.dispatchEvent(new Event('historialChange'))
 							}, 200)
 						})
 						.catch((error) => {
@@ -237,21 +231,22 @@ const jws = Astro.cookies.get('token');
 
 				}
 		}
-		
+		function handlePreviousSongEvent() {
+			console.log("envioEvento");
+			window.dispatchEvent(new Event('previousSong'));
+		}
 		document.addEventListener('astro:page-load', () => {
 			setTimeout( () => {
 			const previousSong = document.querySelector('.previousSong');
-			previousSong?.addEventListener('click', () => {
-				console.log("envioEvento")
-				window.dispatchEvent(new Event('previousSong'));
-			});
+			previousSong?.removeEventListener('click', handlePreviousSongEvent)
+			previousSong?.addEventListener('click', handlePreviousSongEvent)
 		}, 2000)
 		
 		setTimeout(	() => {	
 			const nextSong = document.querySelector('.nextSong');
-			nextSong?.addEventListener('click', () => {
-				nextSongFunction()
-}			)}, 2000);
+			nextSong?.removeEventListener('click', nextSongFunction)
+			nextSong?.addEventListener('click', nextSongFunction)}
+		, 2000);
 		setTimeout(	() => {	
 			const audioPlayer = document.getElementById('audioPlayer');
 			audioPlayer?.addEventListener('ended', () => {

@@ -121,9 +121,7 @@ const { info} = Astro.props;
                 window.dispatchEvent(event);
                 var event = new Event("nextSongPlaylist");
                 window.dispatchEvent(event);
-                    setTimeout(()=> {
-								window.dispatchEvent(new Event('historialChange'))
-							}, 5000)	
+                window.dispatchEvent(new Event('historialChange'))
             })
     })
     })

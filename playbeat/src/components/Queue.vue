@@ -1,7 +1,7 @@
 
 
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, onUnmounted } from 'vue';
 import {ref, computed } from 'vue'
 
 let canciones = ref([])
@@ -26,6 +26,7 @@ onMounted(() => {
     })
 
     window.addEventListener("nextSong",(event) => {
+        console.log("NEXTSONG")
         if (canciones.value.length > 0) {
             const primerElemento = canciones.value.shift();
             window.localStorage.setItem('songsQueue', JSON.stringify(canciones.value));
@@ -36,6 +37,7 @@ onMounted(() => {
     })
 
     window.addEventListener("nextSongPlaylist",(event) => {
+        console.log("NEXTSONGPLAYLIST")
         if (playlist.value.length == 0) {
 
             const pl = JSON.parse(window.localStorage.getItem('playlist'));
@@ -47,13 +49,15 @@ onMounted(() => {
         document.dispatchEvent(new Event("playSong"));	
 
     })
-    if (!window.previousSongAdded) {
-    window.addEventListener("previousSong", (event) => {
-        previousSong();
-    });
-    window.previousSongAdded = true;
-}
+    // if (!window.previousSongAdded) {
+    window.addEventListener("previousSong", previousSong);
+    // window.previousSongAdded = true;
+    // }
     
+})
+onUnmounted(() => {
+    window.removeEventListener("previousSong", previousSong);
+
 })
 const playSong = (index) => {
     canciones.value = canciones.value.slice(index)
@@ -63,9 +67,7 @@ const playSong = (index) => {
 	setTimeout(() => {
 			var event = new Event("playSong");
 			document.dispatchEvent(event);	
-			setTimeout(()=> {
-				window.dispatchEvent(new Event('historialChange'))
-			}, 5000)		
+			window.dispatchEvent(new Event('historialChange'))
 		}, 1300);
 }
 
@@ -85,14 +87,12 @@ const playSongPlaylist = (item,index) => {
 	setTimeout(() => {
 			var event = new Event("playSong");
 			document.dispatchEvent(event);	
-			setTimeout(()=> {
-				window.dispatchEvent(new Event('historialChange'))
-			}, 5000)		
+			window.dispatchEvent(new Event('historialChange'))
 		}, 1300);
 }
 
 const previousSong = () => {
-
+    console.log("PREVIOUSSONG")
     let entirePlaylist = JSON.parse(localStorage.getItem('playlist'));
     let playlistQueue = JSON.parse(localStorage.getItem('playlistQueue')) || [];
     let cancion = JSON.parse(localStorage.getItem('cancion'));
@@ -101,18 +101,18 @@ const previousSong = () => {
     if(!bucle && (entirePlaylist.length -1- playlistQueue.length )%entirePlaylist.length <= 0){
         document.dispatchEvent(new Event('stopSong'))
     }else{
+        console.log("cancion" + cancion)
+        console.log("playlistQueue" + playlistQueue)
+
         playlistQueue.unshift(cancion)
         cancion = entirePlaylist[(((entirePlaylist.length -1- playlistQueue.length )%entirePlaylist.length) + entirePlaylist.length) % entirePlaylist.length]
+        console.log("playlistQueue" + playlistQueue)
         localStorage.setItem('playlistQueue', JSON.stringify(playlistQueue))
         localStorage.setItem('cancion', JSON.stringify(cancion))
         playlist.value = playlistQueue
-        setTimeout(() => {
-                var event = new Event("playSong");
-                document.dispatchEvent(event);	
-                setTimeout(()=> {
-                    window.dispatchEvent(new Event('historialChange'))
-                }, 5000)		
-            }, 1300);
+        var event = new Event("playSong");
+        document.dispatchEvent(event);	
+        window.dispatchEvent(new Event('historialChange'))
     }
 
     

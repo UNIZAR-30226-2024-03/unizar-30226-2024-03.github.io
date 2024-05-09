@@ -54,9 +54,7 @@ const playSong = (item) => {
 	setTimeout(() => {
 			var event = new Event("playSong");
 			document.dispatchEvent(event);	
-			setTimeout(()=> {
 				window.dispatchEvent(new Event('historialChange'))
-			}, 5000)		
 		}, 1300);
 }
 
