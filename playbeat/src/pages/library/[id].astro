@@ -49,7 +49,7 @@ const seguida = playlist?.Seguidores?.map((user: any) => user.idUsuario).include
                 <div class="mt-8 flex flex-row gap-3 items-center">
                     {!esPropietario &&<HeartButton seguida={seguida} id={id} client:only />}
                     {
-                        (user.esAdmin || esPropietario) && 
+                        ((user.esAdmin || esPropietario) && (playlist && playlist.tipoLista === "NORMAL")) && 
                         <a href=`/linkPlaylist/${id}` >
                             <UserPlus/>
                         </a>
