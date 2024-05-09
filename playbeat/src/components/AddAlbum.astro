@@ -34,13 +34,6 @@ const {title} = Astro.props
                         <label>Nombre del album</label>
                         <input type="text" name="name" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Nombre" />
                     </div>
-                    <div class="flex flex-col gap-1">
-                        <label >Participantes</label>
-                        <input type="text" name="featurings" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Usuario" />
-                    </div>
-                    <div class="flex flex-row gap-2 items-center mt-4 ">
-                        
-                    </div>
 
                 </div>
             </section>
@@ -55,10 +48,6 @@ const {title} = Astro.props
                         <div class="flex flex-col gap-1">
                             <label>Nombre del audio</label>
                             <input type="text" name="name0" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Nombre" />
-                        </div>
-                        <div class="flex flex-col gap-1">
-                            <label >Participantes</label>
-                            <input type="text" name="featurings0" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Usuario" />
                         </div>
                     </div>
                 </section>
@@ -93,10 +82,7 @@ const {title} = Astro.props
                             <label>Nombre del audio</label>
                             <input type="text" name="name${audioCount}" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Nombre" />
                         </div>
-                        <div class="flex flex-col gap-1">
-                            <label >Participantes</label>
-                            <input type="text" name="featurings${audioCount}" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Usuario" />
-                        </div>
+
                     </div>
                 </section>
             </div>
