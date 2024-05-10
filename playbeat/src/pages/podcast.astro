@@ -52,10 +52,11 @@ for (const item of lastAudios.podcast) {
 				<h2 class="text-lg font-semibold ml-10">Últimos escuchados</h2>
 				<CarrouselLast  info={vectorSinDuplicados}/>
 			</section>
-			<section class="mt-10 w-full">
-				<h2 class="text-lg font-semibold ml-10">Últimos escuchados</h2>
-				<CarrouselUser  audios={lastPodcastUploaded}/>
-			</section>
+			{lastPodcastUploaded && 
+				<section class="mt-10 w-full">
+					<h2 class="text-lg font-semibold ml-10">Últimos lanzamientos</h2>
+					<CarrouselUser  audios={lastPodcastUploaded}/>
+				</section>}
 			<!-- {Podcasts.map( (element) =>
 				{
 					return <Carrousel info={element} />
