@@ -44,22 +44,26 @@ try {
 	console.error("Error")
 }	
 
+let vectorSinDuplicados
 
 const idAudioSet = new Set<number>();
+if(lastAudios){
+	// Crea un nuevo array para almacenar los elementos sin duplicados
+	const vec : typeof lastAudios.cancion = [];
 
-// Crea un nuevo array para almacenar los elementos sin duplicados
-const vectorSinDuplicados: typeof lastAudios.cancion = [];
-
-// Itera sobre el vector original
-for (const item of lastAudios.cancion) {
-    // Si el idAudio no está en el Set, añádelo
-    if (!idAudioSet.has(item.idAudio)) {
-        // Añade el idAudio al Set
-        idAudioSet.add(item.idAudio);
-        // Añade el elemento al nuevo array
-        vectorSinDuplicados.push(item);
-    }
+	// Itera sobre el vector original
+	for (const item of lastAudios.cancion) {
+		// Si el idAudio no está en el Set, añádelo
+		if (!idAudioSet.has(item.idAudio)) {
+			// Añade el idAudio al Set
+			idAudioSet.add(item.idAudio);
+			// Añade el elemento al nuevo array
+			vec.push(item);
+		}
+	}
+	vectorSinDuplicados = vec
 }
+
 
 ---
 <Layout title="PlayBeat">
