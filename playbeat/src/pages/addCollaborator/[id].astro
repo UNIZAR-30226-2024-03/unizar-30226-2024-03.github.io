@@ -19,9 +19,9 @@ const errors = {email: "", password: "", peticion:"" };
 const values = {email: "", contrasegna: "" };
 
 const {id} = Astro.params;
-
+console.log("Sin sesion");
 if (session !== null) {
-  //console.log(session);
+  console.log(session);
   try {
     const response = await sendInfo(session);
     // Si el usuario ya existia la API nos devolvera un status 200.
@@ -40,6 +40,7 @@ if (session !== null) {
       return Astro.redirect("/logout");
     } else {
       errors.peticion = "Error intentelo de nuevo";
+      console.log("Error en la petición");
     }
   } catch (error) {
     console.log(error);
