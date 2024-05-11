@@ -70,10 +70,6 @@ if (Astro.request.method ==="POST" ) {
     if(email && !String(email).includes(".")){
       errors.email += "Email no valido.";
     }
-    if (typeof password !== "string" || password.length < 6) {
-      errors.password += "La contraseña debe tener seis caracteres o más.";
-
-    }
     // Do something with the data
     const hasErrors = Object.values(errors).some(msg => msg)
     if (!hasErrors) { 
