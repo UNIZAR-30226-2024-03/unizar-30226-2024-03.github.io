@@ -78,7 +78,7 @@ try{
     console.log(params)
     const responseCreate = await createAudio(params, token?.value)
     if(responseCreate && responseCreate.status === 200){
-      mensaje = "Audio subido correctamente"
+      mensaje = "Audio subido correctamente";
     }
 } catch (error) {
  if (error instanceof TypeError) {
@@ -135,7 +135,8 @@ try{
             <input type="number" id="duracion" name="duracion" class="hidden"/>
             <audio id="audio"  controls class="w-full"></audio>
         </div>
-        <input type="submit" class=" bg-bluePB px-4 py-1 rounded-sm" value="Subir"/>
+        <input type="submit" class=" bg-bluePB px-4 py-1 rounded-sm" value="Subir" 
+        onclick="alert('El audio se está subiendo al servidor, por favor espere un momento');"/>
         <div>
             {mensaje &&
                 <div class="bg-bluePB text-white font-semibold p-2 rounded-md bg-opacity-70 border-2 border-bluePB">

@@ -15,7 +15,7 @@ async function getEtiquetaAll(token: any) {
         //console.log(response);
         return response;
     } catch (error) {
-        console.error("Error registering user:", error);
+        console.error("Error registering:", error);
         throw error;
     }
 }
