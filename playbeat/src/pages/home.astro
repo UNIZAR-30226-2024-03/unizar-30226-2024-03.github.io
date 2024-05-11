@@ -86,10 +86,10 @@ for (const item of lastAudios.cancion) {
 					<CarrouselTops  audios={tops}/>
 				</section>
 			}
-			<section class="mt-10 w-full">
+			{random && <section class="mt-10 w-full">
 				<h2 class="text-lg font-semibold ml-10">PlayBeat recomienda</h2>
 				<CarrouselUser  audios={random}/>
-			</section>
+			</section>}
 			<!-- {Canciones.map( (element) =>
 				{
 					return <Carrousel info={element} />

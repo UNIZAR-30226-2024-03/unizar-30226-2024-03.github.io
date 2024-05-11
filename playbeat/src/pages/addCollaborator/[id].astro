@@ -34,7 +34,7 @@ if (session !== null) {
       const user = await getMyUserInfo(response.data);
       const responseData = await userData(response.data);
       //Añadir usuario a la lista
-      console.log("ID del usuario a añadir" + responseData.data.idUsuario);
+      // console.log("ID del usuario a añadir" + responseData.data.idUsuario);
       const responseLista = await addCollaborator(id,responseData.data.idUsuario);
       Astro.cookies.set("usuario", user.data);
       return Astro.redirect("/logout");
