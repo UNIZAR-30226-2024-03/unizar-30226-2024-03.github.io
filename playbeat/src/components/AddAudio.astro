@@ -14,8 +14,175 @@ import { getAudio } from '@/utils/getAudio.ts';
 
 let mensaje = "";
 
-if (Astro.request.method ==="POST" ) {
+// if (Astro.request.method ==="POST" ) {
+//     console.log("post")
+// try{
+//     interface Params {
+//         titulo?: string;
+//         esPrivada?: boolean;
+//         img?: string;
+//         esAlbum?: boolean;
+//         esPodcast?: boolean;
+//         fechaLanz?: string;
+//         duracionSeg?: number;
+//         cancion?: any;
+//         idsUsuarios?: string;
+//         tipoEtiqueta?: string;
+//         etiquetas?: string;
+//     }
+//     const data = await Astro.request.formData();
+//     const token = Astro.cookies.get(TOKEN);
+//     const file = data.get("photo") as File
+//     let params : Params ={}
+//     if(file.size !== 0){
+//         const img = await uploadImg(file, token?.value)
+//         params["img"] = img.id
+//     }
+//     let can = data.get("cancion") as File
+//     if(can.name != ""){
+//         params['cancion']= can
+//         params["duracionSeg"] = parseFloat(data.get("duracion") as string) || 0
+//     }
+//     params["titulo"] = data.get("titulo") as string
+//     const esPrivada = data.get("esPrivada")
+//     if(esPrivada === null){
+//         params["esPrivada"] = false
+//     }else{
+//         params["esPrivada"] = true
+//     }
+
+//     let features = Astro.cookies.get('artistList')?.value;
+//     if(features=== undefined || features.length === 2){
+//         features = "";
+//     }else{
+//         params["idsUsuarios"] = features.slice(1, -1);
+//     }
+
+
+//     const tags = data.getAll("tags")
+//     let esPodcast = false;
+//     let typeEtiqueta = "Cancion";
+//     typeEtiqueta = data.get("tabsaudio") as string;
+    
+//     if(typeEtiqueta == "Podcast"){
+//             esPodcast = true;
+//     }
+//     params["esPodcast"] = esPodcast
+//     if(tags.length !== 0){
+        
+        
+//         params["tipoEtiqueta"] = typeEtiqueta
+//         params["etiquetas"] = tags.join(",")
+//     }
+//     params["fechaLanz"] = new Date().toISOString()
+//     params["esAlbum"] = false
+//     console.log(params)
+//     const responseCreate = await createAudio(params, token?.value)
+//     if(responseCreate && responseCreate.status === 200){
+//       mensaje = "Audio subido correctamente";
+//     }
+// } catch (error) {
+//  if (error instanceof TypeError) {
+//    console.error("Error en la petición");
+//  }
+
+// }
+ 
+
+  
+// }
+
+
+---
+
+<div class="flex flex-col gap-3">
+    <h2 class="text-xl font-medium">Agrega un nuevo audio</h2>
+    <form class="flex flex-col items-center gap-3 pt-4" >
+        <div class="flex flex-row items-center w-full gap-3">
+
+            <section class="flex flex-col">
+                <input type="file" id="addFoto" name="photo" class=" text-white p-2 rounded-md hidden" onchange="previewImage(event)" />
+                <div class=" w-64 aspect-square mt-2 cursor-pointer bg-[#333] rounded-md border-2 border-[#c5c5c5] flex justify-center items-center" onclick="document.getElementById('addFoto').click();">
+                    <img id="preview" class="w-64 aspect-square rounded-md hidden" />
+                    <Imagen/>
+                </div>
+            </section>
+            <section class="h-64 flex flex-col items-start gap-4">
+                <div class="h-20 flex flex-row justify-start gap-4">
+
+                    <div class="flex flex-col gap-1">
+                        <label>Nombre del audio</label>
+                        <input type="text" name="titulo" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Nombre" />
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label >Participantes</label>
+                        <AddUserSearch client:only artistProps={[]}/>
+                        <!-- <input type="text" name="featurings" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Usuario" /> -->
+                    </div>
+
+
+                </div>
+                <div class="flex flex-row gap-2 items-center ">
+                    <label>Privado</label>
+                    <input type="checkbox" name="esPrivada" />
+                </div>
+                <div class="w-full h-full">
+                    <TagsTabs subject="audio"/>
+                </div>
+            </section>
+        </div>
+        <div class="w-full flex flex-col gap-2">
+            <input type="file" id="file" name="cancion"/>
+            <input type="number" id="duracion" name="duracion" class="hidden"/>
+            <audio id="audio"  controls class="w-full"></audio>
+        </div>
+        <input type="submit" class=" bg-bluePB px-4 py-1 rounded-sm" value="Subir" 
+        onclick=""/>
+        <div>
+            {mensaje &&
+                <div class="bg-bluePB text-white font-semibold p-2 rounded-md bg-opacity-70 border-2 border-bluePB">
+                    {mensaje}
+                </div>
+            }
+        </div>
+    </form>
+</div>
+ 
+<script is:inline>
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function(){
+            var output = document.getElementById('preview');
+            output.style.display = 'block';
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+    
+    </script>
+
+<script>
+
+    import { createAudio } from "@/utils/createAudio";
+    import { uploadImg } from "@/utils/uploadImg";
+
+        function getCookie(name: any) {
+    let cookieArr = document.cookie.split("; ");
+    
+    for(let i = 0; i < cookieArr.length; i++) {
+        let cookiePair = cookieArr[i].split("=");
+        
+        if(name == cookiePair[0]) {
+            return decodeURIComponent(cookiePair[1]);
+        }
+    }
+  }
+  document.addEventListener("submit", async (event) => {
+    event.preventDefault()
+    let mensaje = ""
+  console.log("post")
 try{
+    alert('El audio se está subiendo al servidor, por favor espere un momento');
     interface Params {
         titulo?: string;
         esPrivada?: boolean;
@@ -29,12 +196,12 @@ try{
         tipoEtiqueta?: string;
         etiquetas?: string;
     }
-    const data = await Astro.request.formData();
-    const token = Astro.cookies.get(TOKEN);
+    const data = new FormData(document.querySelector("form") as HTMLFormElement);
+    const token = getCookie("token");
     const file = data.get("photo") as File
     let params : Params ={}
     if(file.size !== 0){
-        const img = await uploadImg(file, token?.value)
+        const img = await uploadImg(file, token)
         params["img"] = img.id
     }
     let can = data.get("cancion") as File
@@ -76,7 +243,7 @@ try{
     params["fechaLanz"] = new Date().toISOString()
     params["esAlbum"] = false
     console.log(params)
-    const responseCreate = await createAudio(params, token?.value)
+    const responseCreate = await createAudio(params, token)
     if(responseCreate && responseCreate.status === 200){
       mensaje = "Audio subido correctamente";
     }
@@ -86,77 +253,5 @@ try{
  }
 
 }
- 
-
-  
-}
-
-
----
-
-<div class="flex flex-col gap-3">
-    <h2 class="text-xl font-medium">Agrega un nuevo audio</h2>
-    <form class="flex flex-col items-center gap-3 pt-4" novalidate method="POST" onsubmit="">
-        <div class="flex flex-row items-center w-full gap-3">
-
-            <section class="flex flex-col">
-                <input type="file" id="addFoto" name="photo" class=" text-white p-2 rounded-md hidden" onchange="previewImage(event)" />
-                <div class=" w-64 aspect-square mt-2 cursor-pointer bg-[#333] rounded-md border-2 border-[#c5c5c5] flex justify-center items-center" onclick="document.getElementById('addFoto').click();">
-                    <img id="preview" class="w-64 aspect-square rounded-md hidden" />
-                    <Imagen/>
-                </div>
-            </section>
-            <section class="h-64 flex flex-col items-start gap-4">
-                <div class="h-20 flex flex-row justify-start gap-4">
-
-                    <div class="flex flex-col gap-1">
-                        <label>Nombre del audio</label>
-                        <input type="text" name="titulo" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Nombre" />
-                    </div>
-                    <div class="flex flex-col gap-1">
-                        <label >Participantes</label>
-                        <AddUserSearch client:only artistProps={[]}/>
-                        <!-- <input type="text" name="featurings" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Usuario" /> -->
-                    </div>
-
-
-                </div>
-                <div class="flex flex-row gap-2 items-center ">
-                    <label>Privado</label>
-                    <input type="checkbox" name="esPrivada" />
-                </div>
-                <div class="w-full h-full">
-                    <TagsTabs subject="audio"/>
-                </div>
-            </section>
-        </div>
-        <div class="w-full flex flex-col gap-2">
-            <input type="file" id="file" name="cancion"/>
-            <input type="number" id="duracion" name="duracion" class="hidden"/>
-            <audio id="audio"  controls class="w-full"></audio>
-        </div>
-        <input type="submit" class=" bg-bluePB px-4 py-1 rounded-sm" value="Subir" 
-        onclick="alert('El audio se está subiendo al servidor, por favor espere un momento');"/>
-        <div>
-            {mensaje &&
-                <div class="bg-bluePB text-white font-semibold p-2 rounded-md bg-opacity-70 border-2 border-bluePB">
-                    {mensaje}
-                </div>
-            }
-        </div>
-    </form>
-</div>
- 
-<script is:inline>
-    function previewImage(event) {
-        var reader = new FileReader();
-        reader.onload = function(){
-            var output = document.getElementById('preview');
-            output.style.display = 'block';
-            output.src = reader.result;
-        };
-        reader.readAsDataURL(event.target.files[0]);
-    }
-    
-    </script>
-
+  })
+</script>
