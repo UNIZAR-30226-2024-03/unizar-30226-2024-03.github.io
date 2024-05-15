@@ -26,7 +26,7 @@ try{
     console.log(e)
 }
 
-playlists = playlists.filter((playlists: Lista)  => playlists.tipoLista === 'NORMAL' && playlists.esAlbum === false);
+playlists = playlists.filter((playlists: Lista)  => (playlists.tipoLista === 'NORMAL' || playlists.tipoLista ==='MIS_FAVORITOS')&& playlists.esAlbum === false);
 ---
 
 <Layout title="PlayBeat">
