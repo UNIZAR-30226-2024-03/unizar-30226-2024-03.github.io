@@ -16,17 +16,26 @@ let res
 let datosRep : any  
 let datosUser : any
 
+let meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+    let date = new Date();
+    let mesActual = date.getMonth();
+
+    let vectorMeses = [];
+    for (let i = 0; i < 12; i++) {
+        vectorMeses.unshift(meses[(mesActual - i + 12) % 12]);
+    }
+    console.log(vectorMeses)
+
 try{
 
 
     let date = new Date();
     date.setFullYear(date.getFullYear() - 1);
 
-    let month = date.getMonth() + 1; // Los meses en JavaScript son 0-indexados
+    let month = date.getMonth() + 2; // Los meses en JavaScript son 0-indexados
     let year = date.getFullYear();
 
     let formattedDate = (month < 10 ? '0' : '') + month + '-' + year;
-    console.log(formattedDate)
     let [responseRes, userResponse, res] = await Promise.all([
         getMyAudios(token?.value),
         getMyUserInfo(token?.value),
@@ -36,7 +45,6 @@ try{
     datosUser = res.data.alcanceMensual.map((r:any) => r.alcance);
     response = responseRes.data;
     user = userResponse.data;
-    console.log(datosUser)
 
 
 }catch(e){
@@ -113,8 +121,8 @@ try{
     </div>
 </CreatorLayout>
 <script is:inline src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-<script is:inline define:vars={{datosUser, datosRep}} >
-    function initCharts(datosRep, datosUser){
+<script is:inline define:vars={{datosUser, datosRep, vectorMeses}} >
+    function initCharts(datosRep, datosUser, vectorMeses){
 
     var options = {
           series: [{
@@ -155,7 +163,7 @@ try{
         },
         xaxis: {
           type: 'string',
-          categories: ["Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic", "Ene", "Feb", "Mar", "Abr"],
+          categories: vectorMeses,
           labels:{
             show:true,
             style:{
@@ -223,7 +231,7 @@ try{
         },
         xaxis: {
           type: 'string',
-          categories: ["Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic", "Ene", "Feb", "Mar", "Abr"],
+          categories: vectorMeses,
           labels:{
             show:true,
             style:{
@@ -262,7 +270,7 @@ try{
 
     }
       setTimeout(() => {
-        initCharts(datosRep,datosUser)
+        initCharts(datosRep,datosUser, vectorMeses)
       }, 100); 
     
 
