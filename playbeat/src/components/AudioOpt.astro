@@ -74,9 +74,10 @@ const { items, id } = Astro.props
           })
           .then(response => response.json())
           .then(() => {
+            console.log("token",token)
             if(token != undefined) {
               // Avisamos a todos los que esten en la Playlist que se ha añadido una canción.
-              //console.log("UPDATEE")
+              console.log("UPDATEE")
               updateWS(token, Number.parseInt(id));
             }
 			    })
