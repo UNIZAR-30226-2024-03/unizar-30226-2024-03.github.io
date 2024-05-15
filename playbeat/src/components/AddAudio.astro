@@ -15,6 +15,7 @@ import { getAudio } from '@/utils/getAudio.ts';
 let mensaje = "";
 
 if (Astro.request.method ==="POST" ) {
+    console.log("post")
 try{
     interface Params {
         titulo?: string;
