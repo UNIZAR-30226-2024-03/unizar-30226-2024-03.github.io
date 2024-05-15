@@ -14,6 +14,7 @@ import { getMyUserInfo } from '@/utils/getMyUserInfo';
 import { SignIn,SignOut } from "auth-astro/components";
 import {getSession} from "auth-astro/server";
 import { sendInfo } from "@/utils/googleAuth";
+import { getAudio } from '@/utils/getAudio';
 
 const session = await getSession(Astro.request);
 
@@ -148,6 +149,7 @@ if (Astro.request.method ==="POST" ) {
 
         </div>
     </div>
+    
   
  
 
@@ -155,7 +157,26 @@ if (Astro.request.method ==="POST" ) {
 
 
 </NormalLayout>
+<script>
+import { getInfoAudio } from "@/utils/getInfoAudio";
 
+      function getCookie(name: any) {
+    let cookieArr = document.cookie.split("; ");
+    
+    for(let i = 0; i < cookieArr.length; i++) {
+        let cookiePair = cookieArr[i].split("=");
+        
+        if(name == cookiePair[0]) {
+            return decodeURIComponent(cookiePair[1]);
+        }
+    }
+  }
+  document.addEventListener("click")
+  while(getCookie("usuario") === undefined){
+  }
+    const response = await getInfoAudio(getCookie("token") as string,JSON.parse(("usuario")).idUltimoAudio)
+    window.localStorage.setItem("cancion",(response.data));
+</script>
 
 <style>
     .gsi-material-button {

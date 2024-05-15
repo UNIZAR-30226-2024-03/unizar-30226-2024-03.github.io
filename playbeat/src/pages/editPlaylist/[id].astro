@@ -60,7 +60,8 @@ try{
                     </div>
                     <div>
                         <label for="private">Privado</label>
-                        <input type="checkbox" name="esPrivada" id="private"/>
+                       {playlist.esPrivada &&  <input type="checkbox" name="esPrivada" id="private" checked/>}
+                       {playlist.esPrivada === false && <input type="checkbox" name="esPrivada" id="private"/>}
                     </div>
                 </div>
             </div>
