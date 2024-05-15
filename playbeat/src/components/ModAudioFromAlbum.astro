@@ -1,27 +1,102 @@
 ---
-import TagsTabs from '@components/TagsTabs.astro';
 import { getInfoAudio } from '@/utils/getInfoAudio';
 import {TOKEN} from '@/constants.ts'
 import { Global } from '@/globalState/globalUrl';
 import { uploadImg } from '@/utils/uploadImg';
 import {modAudio} from '@/utils/modAudio';
+import AddUserSearch  from '@/components/AddUserSearch.vue';
+import TagsTabsModAudio from './TagsTabsModAudio.astro';
+import { etiquetasAudios } from '@/utils/etiquetasAudios';
 
 const {id} = Astro.params
 
 let audio
+let mensaje = "";
+let etiquetas;
 try{
 
-    const token = Astro.cookies.get(TOKEN); 
+    const token = Astro.cookies.get(TOKEN);
     if(token != undefined && id != undefined){
         const response = await getInfoAudio(token?.value, id)
         audio = response
+        const responeTags = await etiquetasAudios(token?.value, [Number(id)])
+        etiquetas = responeTags.data
+        etiquetas = etiquetas.map((etiqueta : {idAudio : string, etiquetas: {idEtiqueta: string, nombre:string}[]}) => etiqueta.etiquetas.map((etiqueta) => etiqueta.idEtiqueta))
+        // console.log("audio", audio)
+
     }
 }catch(e){
     console.log(e);
 }
 
+if (Astro.request.method ==="POST" ) {
+
+try{
+    interface Params {
+        titulo?: string;
+        esPrivada?: boolean;
+        esAlbum?: boolean;
+        esPodcast?: boolean;
+        fechaLanz?: string;
+        duracionSeg?: number;
+        cancion?: any;
+        idsUsuarios?: string;
+        tipoEtiqueta?: string;
+        etiquetas?: string;
+    }
+    const data = await Astro.request.formData();
+    const token = Astro.cookies.get(TOKEN);
+    let params : Params ={}
+    let can = data.get("cancion") as File
+    if(can.name != ""){
+        params['cancion']= can
+        params["duracionSeg"] = parseFloat(data.get("duracion") as string) || 0
+    }
+    params["titulo"] = data.get("titulo") as string
+    const esPrivada = data.get("esPrivada")
+    if(esPrivada === null){
+        params["esPrivada"] = false
+    }else{
+        params["esPrivada"] = true
+    }
+
+    let features = Astro.cookies.get('artistList')?.value;
+    if(features=== undefined || features.length === 2){
+        features = "";
+    }else{
+        params["idsUsuarios"] = features.slice(1, -1);
+    }
 
 
+    const tags = data.getAll("tags")
+    let esPodcast = false;
+    let typeEtiqueta = "Cancion";
+    if(tags.length !== 0){
+        typeEtiqueta = data.get("tabsaudio") as string;
+        if(typeEtiqueta == "Podcast"){
+            esPodcast = true;
+        }
+        params["tipoEtiqueta"] = typeEtiqueta
+        params["esPodcast"] = esPodcast
+        params["etiquetas"] = tags.join(",")
+    }
+
+    
+
+    // console.log("params", params)
+    const responseMod = await modAudio(params, token?.value, id)
+    // console.log("responseMod", responseMod)
+    if(responseMod && responseMod.status === 200){
+      mensaje = "Audio modificado correctamente"
+    }
+
+} catch (error) {
+//  if (error instanceof TypeError) {
+//    errors.peticion = "Error en la petición";
+//  }
+//
+}
+}
 
 ---
 
@@ -34,8 +109,8 @@ try{
         <div class="flex flex-row items-center w-full gap-3">
 
             <section class="flex flex-col">
-                <div class=" w-64 aspect-square mt-2 bg-[#333] rounded-md border-2 border-[#c5c5c5] flex justify-center items-center" onclick="document.getElementById('addFoto').click();">
-                    <img id="preview" class="w-64 aspect-square rounded-md " src={Global.url + "foto/"+ audio.imgAudio}/>
+                <div class=" w-64 aspect-square mt-2 bg-[#333] rounded-md border-2 border-[#c5c5c5] flex justify-center items-center" >
+                    <img id="Photo" class="w-64 aspect-square rounded-md " src={Global.url + "foto/"+ audio.imgAudio}/>
                 </div>
             </section>
             <section class="h-64 flex flex-col items-start gap-4">
@@ -47,16 +122,21 @@ try{
                     </div>
                     <div class="flex flex-col gap-1">
                         <label >Participantes</label>
-                        <input type="text" name="featurings" class="w-80 h-10 rounded-md bg-[#333] border-2 border-[#c5c5c5] text-white p-2 outline-none" placeholder="Usuario" />
-                    </div>
-                    <div class="flex flex-row gap-2 items-center mt-4 ">
-                        <label>Privado</label>
-                        <input type="checkbox" name="esPrivada" value={audio.esPrivada}/>
+
+                        <AddUserSearch client:load artistProps={audio.artistas}/>
+
                     </div>
 
+
+                </div>
+                <div class="flex flex-row gap-2 items-center ">
+                    <label>Privado</label>
+                    {audio.esPrivada && <input type="checkbox" name="esPrivada" value={audio.esPrivada} checked/>}
+                    {!audio.esPrivada && <input type="checkbox" name="esPrivada" value={audio.esPrivada}/>}
+                    
                 </div>
                 <div class="w-full h-full">
-                    <TagsTabs subject="audio"/>
+                    <TagsTabsModAudio esPodcast={audio.esPodcast} etiquetas={etiquetas[0]} subject="audio"/>
                 </div>
             </section>
         </div>
@@ -65,102 +145,48 @@ try{
             <input type="number" id="duracion" name="duracion" class="hidden"/>
             <audio id="audio"  controls class="w-full"></audio>
         </div>
-        <input type="submit" class=" bg-bluePB px-4 py-1 rounded-sm" value="Subir" onclick="alert('El audio se está subiendo al servidor, por favor espere un momento');"/>
+        <input type="submit" class=" bg-bluePB px-4 py-1 rounded-md font-semibold" value="Guardar" onclick="alert('El audio se está subiendo al servidor, por favor espere un momento');"/>
+        <div>
+            {mensaje &&
+                <div class="bg-bluePB text-white font-semibold p-2 rounded-md bg-opacity-70 border-2 border-bluePB">
+                    {mensaje}
+                </div>
+            }
+        </div>
     </form>
 </div>
 <script>
     import { Global } from '@/globalState/globalUrl';
     import {getAudio} from '@/utils/getAudio'
-    import {TOKEN} from '@/constants.ts'
-    import {modAudio} from '@/utils/modAudio'
-
     function getCookie(name: any) {
     let cookieArr = document.cookie.split("; ");
-    
+
     for(let i = 0; i < cookieArr.length; i++) {
         let cookiePair = cookieArr[i].split("=");
-        
+
         if(name == cookiePair[0]) {
             return decodeURIComponent(cookiePair[1]);
         }
     }
   }
-  document.addEventListener("astro:page-load", async() => {
-    const jws = getCookie('token')
+  let id = window.location.href.split('/')[window.location.href.split('/').length - 1]
+  const jws = getCookie('token')
     var audio = document.getElementById('audio') as HTMLAudioElement;
             if(audio && jws){
                 try{
-                    let url = window.location.pathname.split('/')[window.location.pathname.split('/').length - 1];  
-                    const request = await getAudio(jws, url);
+                    const request = await getAudio(jws, id);
                 audio.src = URL.createObjectURL(request);
                 audio.load()
-                audio.play();
                 }catch(e){
                     console.log(e);
                 }
             }
-        // Check for BlobURL support
-        var blob = window.URL || window.webkitURL;
-
-const inputFile = document.getElementById('file') as HTMLInputElement;
-const duracion = document.getElementById('duracion') as HTMLInputElement;
-
-if(inputFile != null && audio != null && duracion != null){
-    inputFile.addEventListener('change', function(){
-        if(this.files !== null ){
-            var file = this.files[0]
-            var fileURL = blob.createObjectURL(file);
-            audio.src = fileURL;
-            audio.addEventListener('loadedmetadata', function() {
-                duracion.value = audio.duration.toString();
-            });
-        }
-    });
-}
-    const form = document.querySelector("form");
-    form?.addEventListener("submit", (event) => {
-        event.preventDefault()
-        try{
-    interface Params {
-        titulo?: string;
-        esPrivada?: boolean;
-        imgAudio?: string;
-        esAlbum?: boolean;
-        esPodcast?: boolean;
-        fechaLanz?: string;
-        duracionSeg?: number;
-        cancion?: any;
-    }
-    const data = new FormData(document.querySelector("form") as HTMLFormElement);
-    const token = getCookie(TOKEN);
-    const file = data.get("photo")
-    let params : Params ={}
-    let can = data.get("cancion") as File
-    if(can.name != ""){
-        params['cancion']= can
-        params["duracionSeg"] = parseFloat(data.get("duracion") as string) || 0
-    }
-    params["titulo"] = data.get("titulo") as string
-    params["esPrivada"] = data.get("esPrivada") as string == "on" || false
-    let id = window.location.href.split('/')[window.location.href.split('/').length - 1]
-    if(id){
-        modAudio(params, token, id).then(() => {window.history.go(-1);}).catch((e:any) => console.log(e))
-    }
-    
-
-} catch (error) {
-//  if (error instanceof TypeError) {
-//    errors.peticion = "Error en la petición";
-//  }
-//
-}
-    })
 
     const eliminar = document.getElementById("eliminar")
     eliminar?.addEventListener("click", () => {
         let pathArray = window.location.pathname.split('/');
         let id = pathArray[pathArray.length - 1];
-        if(id !== undefined){ 
+        if(id !== undefined){
             fetch(`${Global.url}audio/delete/${id}`, {
                 method: "DELETE",
                 headers: {
@@ -169,6 +195,4 @@ if(inputFile != null && audio != null && duracion != null){
             }).then(() => window.history.go(-1)).catch((e) => console.log(e))
         }
     })
-  })
-  
 </script>
