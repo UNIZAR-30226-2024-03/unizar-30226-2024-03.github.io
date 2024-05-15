@@ -6,7 +6,12 @@ import { TOKEN } from '@/constants';
 import { getMyAudios } from '@/utils/getMyAudios';
 import { getMyUserInfo } from '@/utils/getMyUserInfo';
 import { getStatsUser } from '@/utils/getStatsUser';
+import { Global } from '@/globalState/globalUrl';
 
+
+setTimeout(() => {
+    
+}, 100);
 
 const token = Astro.cookies.get(TOKEN);
 
@@ -198,6 +203,7 @@ try{
                       <tr class=" hover:bg-[#262626]" data-url={"stats/"+cancion.idAudio}>
                         <td class="py-3 pl-3 flex flex-row items-center gap-3">
                             <div class=" h-12 aspect-square bg-black rounded-[4px]">
+                                <img class="h-full w-full object-cover rounded-[4px]" src={`${Global.url}foto/${cancion.imgAudio}`} alt=""/>
                             </div>
                             <p>{cancion.titulo}</p>
                         </td>
