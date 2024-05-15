@@ -14,6 +14,7 @@ import { getMyUserInfo } from '@/utils/getMyUserInfo';
 import { SignIn,SignOut } from "auth-astro/components";
 import {getSession} from "auth-astro/server";
 import { sendInfo } from "@/utils/googleAuth";
+import { getAudio } from '@/utils/getAudio';
 
 const session = await getSession(Astro.request);
 
@@ -77,7 +78,7 @@ if (Astro.request.method ==="POST" ) {
         Astro.cookies.set(TOKEN, response.data);
         const user = await getMyUserInfo(response.data);
         Astro.cookies.set("usuario", user.data)
-        return Astro.redirect("/home");
+        return Astro.redirect("/postLogin");
       } 
 
         
@@ -148,6 +149,7 @@ if (Astro.request.method ==="POST" ) {
 
         </div>
     </div>
+    
   
  
 

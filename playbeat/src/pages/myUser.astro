@@ -25,6 +25,7 @@ let canciones;
 let cancionesAll = [];
 let podcastAll = [];
 let albumsAll = [];
+let playlistsAll = [];
 let fechaFormateada;
 
 
@@ -45,10 +46,13 @@ try{
         cancionesAll = responseCanciones.data.cancion;
         podcastAll = responsePodcast.data.podcast;
         albumsAll = responseAlbums.data;
+        playlistsAll = responseAlbums.data;
+
 
         albumsAll = responseAlbums.data;
 
         albumsAll = albumsAll.filter((lista: any) => lista.tipoLista === 'NORMAL' && lista.esAlbum === true); 
+        playlistsAll = playlistsAll.filter((lista: any)  => lista.tipoLista === 'NORMAL' && lista.esAlbum === false);
     }
    
 
@@ -126,20 +130,30 @@ if(userObj.ultimoLanzamiento !== null){
                  </section>
             }
             {
-                albumsAll.length > 0 && user &&
-                <section>
-                    <h3 class="font-medium text-lg">Albums</h3>
-                    <CarrouselListas artista={userObj.nombreUsuario} artistaId={userId} audios={albumsAll} />
-                </section>
-            }
-            
-            {
                 podcastAll.length > 0 &&
             
                 <section class="mt-10 w-full">
                     <h2 class="text-lg font-medium ">Podcast</h2>
                     <CarrouselUser  audios={podcastAll}/>
-                </section>}
+                </section>
+            }
+            {
+                albumsAll.length > 0 && user &&
+                <section class="mt-10 w-full">
+                    <h3 class="font-medium text-lg">Albums</h3>
+                    <CarrouselListas artista={userObj.nombreUsuario} artistaId={userId} audios={albumsAll} />
+                </section>
+            }
+            
+            
+
+            {
+                playlistsAll.length > 0 &&
+                <section class="mt-10 w-full">
+                    <h3 class="font-semibold text-lg">Playlist</h3>
+                    <CarrouselListas artista={userObj.nombreUsuario} artistaId={(userId)} audios={playlistsAll} />
+                </section>
+            }
         </div>
     </div>
 </Layout>

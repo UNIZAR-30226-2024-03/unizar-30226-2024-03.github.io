@@ -27,7 +27,7 @@ let tops;
 let random;
 try {
 	let [responseLast, responesLastUploaded,responseTops, responseRandom] = await Promise.all([
-		getUserLastAudios(token, 15),
+		getUserLastAudios(token, 30),
 		getLastAudiosUploaded(token),
 		getTops(token),
 		getRandomAudio(token, 10)

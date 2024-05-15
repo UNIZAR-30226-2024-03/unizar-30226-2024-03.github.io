@@ -51,7 +51,8 @@ export const ListIcon = ({classname,color}) => (
 
 export function Player ({jws, children}) {
 
-    const [audioId, setAudioId] = useState('7')
+    const ultimoAudio = JSON.parse(window.localStorage.getItem("cancion"))
+    const [audioId, setAudioId] = useState(ultimoAudio.id)
     const [primeraVez, setPrimerVez] = useState(false);
     const [foto, setFoto] = useState(false)
     const [aux, setAux] = useState(false)
@@ -92,14 +93,41 @@ export function Player ({jws, children}) {
           await fetchData(audioId);
           setPlay(true);
         };
+        const fetchDataAsync2 = async () => {
+          console.log('El id del audio es: ' + audioId)
+          await fetchData(audioId);
+        };
         if(primeraVez){
           fetchDataAsync();
           setFoto(true)
         }else{
+          fetchDataAsync2();
+          setFoto(true)
           setPrimerVez(true);
 
         }
       }, [audioId, aux])
+
+
+      // useEffect
+      // (() => {
+      //   const fetchDataAsync = async () => {
+      //     console.log('El id del audio es: ' + audioId)
+      //     await fetchData(audioId);
+      //     setPlay(true);
+      //   };
+      //   if(primeraVez){
+      //     fetchDataAsync();
+      //     setFoto(true)
+      //   }else{
+      //     fetchDataAsync();
+      //     setFoto(true)
+      //     setPlay(false);
+      //     setPrimerVez(true);
+
+      //   }
+      // }, [])
+
 
       function playSong() {
         setPlay(false)
