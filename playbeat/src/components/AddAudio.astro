@@ -137,7 +137,7 @@ let mensaje = "";
             <audio id="audio"  controls class="w-full"></audio>
         </div>
         <input type="submit" class=" bg-bluePB px-4 py-1 rounded-sm" value="Subir" 
-        onclick="alert('El audio se está subiendo al servidor, por favor espere un momento');"/>
+        onclick=""/>
         <div>
             {mensaje &&
                 <div class="bg-bluePB text-white font-semibold p-2 rounded-md bg-opacity-70 border-2 border-bluePB">
@@ -177,9 +177,12 @@ let mensaje = "";
         }
     }
   }
+  document.addEventListener("submit", async (event) => {
+    event.preventDefault()
     let mensaje = ""
   console.log("post")
 try{
+    alert('El audio se está subiendo al servidor, por favor espere un momento');
     interface Params {
         titulo?: string;
         esPrivada?: boolean;
@@ -250,4 +253,5 @@ try{
  }
 
 }
+  })
 </script>
