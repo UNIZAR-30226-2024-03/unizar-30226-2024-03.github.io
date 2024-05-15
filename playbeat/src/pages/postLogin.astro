@@ -1,12 +1,12 @@
 ---
 import { getInfoAudio } from "@/utils/getInfoAudio";
 
-let usuario :any;
+let usuario ;
 let response : any;
 
 const token = Astro.cookies.get("token").value;
 if(token){
-     usuario = JSON.parse(Astro.cookies.get("usuario")?.value) || "";
+     usuario = JSON.parse(Astro.cookies.get("usuario")?.value || ""); 
      if(usuario){
         response = await getInfoAudio(token,usuario.idUltimoAudio)
      }
