@@ -23,7 +23,8 @@ const { items, id } = Astro.props
       
 </div>
 <script>
-  import {deletePlaylist} from '@/utils/deletePlaylist.js'
+  import {deletePlaylist} from '@/utils/deletePlaylist.js';
+  import { updateWS } from "@/utils/sync";
 
   function getCookie(name: any) {
     let cookieArr = document.cookie.split("; ");
@@ -73,7 +74,16 @@ const { items, id } = Astro.props
           },
           })
           .then(response => response.json())
-          .then(() => {window.location.reload()})
+          .then(() => {
+            console.log(id);
+            console.log("El token es: " + token);
+            if(token != undefined) {
+              // Avisamos a todos los que esten en la Playlist que se ha añadido una canción.
+              //console.log("UPDATEE")
+              updateWS(token, Number.parseInt(id));
+            }
+            window.location.reload()
+          })
           .catch((error) => {
           console.error('Error:', error);
           window.location.reload();

@@ -81,10 +81,11 @@ const { items, id } = Astro.props
               //console.log("UPDATEE")
               updateWS(token, Number.parseInt(id));
             }
-            window.location.reload()})
+            window.location.reload()
+          })
           .catch((error) => {
-          console.error('Error:', error);
-          window.location.reload();
+            console.error('Error:', error);
+            window.location.reload();
           });
 
         }
