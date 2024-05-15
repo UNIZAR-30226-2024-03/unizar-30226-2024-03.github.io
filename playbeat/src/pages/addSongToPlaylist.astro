@@ -78,7 +78,7 @@ playlists = playlists.filter((playlists: Lista)  => (playlists.tipoLista === 'NO
 				window.history.back();
 				if(token != undefined) {
 					// Avisamos a todos los que esten en la Playlist que se ha añadido una canción.
-					console.log("UPDATEE")
+					//console.log("UPDATEE")
 					updateWS(token, Number.parseInt(listas[i].id));
 				}
 
