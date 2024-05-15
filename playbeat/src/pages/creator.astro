@@ -156,13 +156,13 @@ let canciones2 = {num:3, ref:"/creator/tusalbums", items:playlists}
             <div class="flex flex-col w-1/2 items-center rounded-sm">
                 <a href="/creator/estadisticas"><h3 class="text-xl p-2 font-semibold hover:underline">REPRODUCCIONES ULTIMOS 30 DIAS</h3></a>
                 <div class="h-[150px] w-full flex justify-center items-center">
-                    <Contador initial={0} final={user.nEscuchas}  client:load/>
+                    <Contador initial={0} final={user.oyentesMensuales}  client:load/>
                 </div>
             </div>
             <div class="flex flex-col w-1/2 items-center  rounded-sm">
                 <a href="/creator/estadisticas"><h3 class="text-xl p-2 font-semibold hover:underline">OYENTE ULTIMOS 30 DIAS</h3></a>
                 <div class="h-[150px] w-full flex justify-center items-center">
-                    <Contador initial={0} final={user.oyentesMensuales}  client:load/>
+                    <Contador initial={0} final={user.usuariosAlcanzadosUltimoMes}  client:load/>
                 </div>
             </div>
         </div>
