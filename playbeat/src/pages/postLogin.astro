@@ -7,7 +7,7 @@ let response : any;
 const token = Astro.cookies.get("token")?.value ;
 if(token){
      usuario = JSON.parse(Astro.cookies.get("usuario")?.value || ""); 
-     if(usuario){
+     if(usuario && usuario.idUltimoAudio){
         response = await getInfoAudio(token,usuario.idUltimoAudio)
      }
 }
@@ -19,18 +19,18 @@ if(token){
 
 
 <script is:inline define:vars={{response}}>
-
-        console.log("response" + JSON.stringify(response)) 
-   
-
-
-        const audio = {
-            id: response.idAudio,
-            titulo: response.titulo,
-            artista: response.artistas,
-            duracion: response.duracionSeg,
+        if(response){
+            console.log("response" + JSON.stringify(response)) 
+            const audio = {
+                id: response.idAudio,
+                titulo: response.titulo,
+                artista: response.artistas,
+                duracion: response.duracionSeg,
+            }
+            if(audio !== null){
+                window.localStorage.setItem("cancion",JSON.stringify(audio)); 
+            }
         }
-        window.localStorage.setItem("cancion",JSON.stringify(audio));
         
         window.location.href = '/home'
     
