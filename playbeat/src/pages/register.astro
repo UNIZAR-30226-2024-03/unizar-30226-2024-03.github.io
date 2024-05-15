@@ -36,9 +36,12 @@ if (Astro.request.method === "POST") {
     if(email && !String(email).includes(".")){
       errors.email += "Email no valido.";
     }
-    if (typeof password !== "string"  && password !== secondPassword) {
+    if (typeof password === "string"  && password !== secondPassword) {
       errors.password += "Las contraseñas no coinciden.";
 
+    }
+    if(password === null || values.password === ""){
+      errors.password += "Introduce una contraseña.";
     }
     // Do something with the data
     const hasErrors = Object.values(errors).some(msg => msg)
