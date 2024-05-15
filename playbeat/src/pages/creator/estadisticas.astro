@@ -15,155 +15,27 @@ let user
 let res
 let datosRep : any  
 let datosUser : any
-res={
-    "alcanceMensual": [
-        {
-            "month": 4,
-            "year": 2023,
-            "alcance": 0
-        },
-        {
-            "month": 5,
-            "year": 2023,
-            "alcance": 0
-        },
-        {
-            "month": 6,
-            "year": 2023,
-            "alcance": 0
-        },
-        {
-            "month": 7,
-            "year": 2023,
-            "alcance": 0
-        },
-        {
-            "month": 8,
-            "year": 2023,
-            "alcance": 0
-        },
-        {
-            "month": 9,
-            "year": 2023,
-            "alcance": 0
-        },
-        {
-            "month": 10,
-            "year": 2023,
-            "alcance": 0
-        },
-        {
-            "month": 11,
-            "year": 2023,
-            "alcance": 0
-        },
-        {
-            "month": 12,
-            "year": 2023,
-            "alcance": 0
-        },
-        {
-            "month": 1,
-            "year": 2024,
-            "alcance": 0
-        },
-        {
-            "month": 2,
-            "year": 2024,
-            "alcance": 0
-        },
-        {
-            "month": 3,
-            "year": 2024,
-            "alcance": 0
-        },
-        {
-            "month": 4,
-            "year": 2024,
-            "alcance": 1
-        }
-    ],
-    "escuchasUsuarioMensuales": [
-        {
-            "month": 4,
-            "year": 2023,
-            "escuchas": 0
-        },
-        {
-            "month": 5,
-            "year": 2023,
-            "escuchas": 0
-        },
-        {
-            "month": 6,
-            "year": 2023,
-            "escuchas": 0
-        },
-        {
-            "month": 7,
-            "year": 2023,
-            "escuchas": 0
-        },
-        {
-            "month": 8,
-            "year": 2023,
-            "escuchas": 0
-        },
-        {
-            "month": 9,
-            "year": 2023,
-            "escuchas": 0
-        },
-        {
-            "month": 10,
-            "year": 2023,
-            "escuchas": 0
-        },
-        {
-            "month": 11,
-            "year": 2023,
-            "escuchas": 0
-        },
-        {
-            "month": 12,
-            "year": 2023,
-            "escuchas": 0
-        },
-        {
-            "month": 1,
-            "year": 2024,
-            "escuchas": 0
-        },
-        {
-            "month": 2,
-            "year": 2024,
-            "escuchas": 0
-        },
-        {
-            "month": 3,
-            "year": 2024,
-            "escuchas": 0
-        },
-        {
-            "month": 4,
-            "year": 2024,
-            "escuchas": 374
-        }
-    ]
-}
+
 try{
 
-    datosRep = res.escuchasUsuarioMensuales.map((r:any) => r.escuchas);
-    datosUser = res.alcanceMensual.map((r:any) => r.alcance);
 
-    let [responseRes, userResponse] = await Promise.all([
+    let date = new Date();
+    date.setFullYear(date.getFullYear() - 1);
+
+    let month = date.getMonth() + 1; // Los meses en JavaScript son 0-indexados
+    let year = date.getFullYear();
+
+    let formattedDate = (month < 10 ? '0' : '') + month + '-' + year;
+    let [responseRes, userResponse, res] = await Promise.all([
         getMyAudios(token?.value),
-        getMyUserInfo(token?.value)
+        getMyUserInfo(token?.value),
+        getStatsUser(token?.value,{date:formattedDate})
     ]);
-
+    datosRep = res.data.escuchasUsuarioMensuales.map((r:any) => r.escuchas);
+    datosUser = res.data.alcanceMensual.map((r:any) => r.alcance);
     response = responseRes.data;
     user = userResponse.data;
-
+    console.log(datosUser)
 
 
 }catch(e){
@@ -180,8 +52,8 @@ try{
             <h2 class="text-6xl font-semibold">ESTADISTICAS</h2>
         </div>
         <div class=" w-full flex flex-row flex-wrap justify-center gap-4 mt-5">
-            <Stats1 name={["Reproducciones","Ultimos 30 dias","Totales"]} num={[res.escuchasUsuarioMensuales[res.escuchasUsuarioMensuales.length-1].escuchas,user.oyentesMensuales,user.nEscuchas]} idNum="1" />
-            <Stats1 name={["Oyentes","Ultimos 30 dias","Totales"]} num={[res.alcanceMensual[res.alcanceMensual.length-1].alcance, user.usuariosAlcanzados, user.usuariosAlcanzadosUltimoMes]} idNum="2"/>
+            <Stats1 name={["Reproducciones","Ultimos 30 dias","Totales"]} num={[datosRep[datosRep.length-1],user.oyentesMensuales,user.nEscuchas]} idNum="1" />
+            <Stats1 name={["Oyentes","Ultimos 30 dias","Totales"]} num={[datosUser[datosUser.length-1], user.usuariosAlcanzados, user.usuariosAlcanzadosUltimoMes]} idNum="2"/>
         </div>     
         <section class="px-16 w-full mt-12">
           <table class="mt-8 table-auto w-full">
