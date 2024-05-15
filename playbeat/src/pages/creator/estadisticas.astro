@@ -15,12 +15,13 @@ let user
 let res
 let datosRep : any  
 let datosUser : any
+let vectorMeses :any
 
 let meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
     let date = new Date();
     let mesActual = date.getMonth();
 
-    let vectorMeses = [];
+    vectorMeses = []
     for (let i = 0; i < 12; i++) {
         vectorMeses.unshift(meses[(mesActual - i + 12) % 12]);
     }
