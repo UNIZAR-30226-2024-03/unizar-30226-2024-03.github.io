@@ -1,6 +1,5 @@
 ---
 
-
 interface Props {
   items: string[];
   id?: number;
@@ -24,6 +23,7 @@ const { items, id } = Astro.props
 </div>
 <script>
   import {deletePlaylist} from '@/utils/deletePlaylist.js'
+  import { updateWS } from "@/utils/sync";
 
   function getCookie(name: any) {
     let cookieArr = document.cookie.split("; ");
@@ -73,6 +73,13 @@ const { items, id } = Astro.props
           },
           })
           .then(response => response.json())
+          .then(() => {
+            if(token != undefined) {
+              // Avisamos a todos los que esten en la Playlist que se ha añadido una canción.
+              //console.log("UPDATEE")
+              updateWS(token, Number.parseInt(id));
+            }
+			    })
           .then(() => {window.location.reload()})
           .catch((error) => {
           console.error('Error:', error);
