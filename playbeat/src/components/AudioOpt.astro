@@ -72,7 +72,7 @@ const { items, id } = Astro.props
             'Authorization': `Bearer ${token}` // Uncomment this line if you need to send a bearer token
           },
           })
-          .then(response => response.json())
+          .then(response => response.json)
           .then(() => {
             console.log("token",token)
             if(token != undefined) {
