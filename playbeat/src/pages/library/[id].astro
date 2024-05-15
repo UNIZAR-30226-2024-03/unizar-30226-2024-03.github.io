@@ -35,7 +35,6 @@ try{
 
 const esPropietario = propietarios.includes(user.idUsuario)
 const seguida = playlist?.Seguidores?.map((user: any) => user.idUsuario).includes(user.idUsuario)
-
 ---
 
 <Layout title='PlayBeat'>
@@ -49,20 +48,20 @@ const seguida = playlist?.Seguidores?.map((user: any) => user.idUsuario).include
                 <div class="mt-8 flex flex-row gap-3 items-center">
                     {!esPropietario &&<HeartButton seguida={seguida} id={id} client:only />}
                     {
-                        ((user.esAdmin || esPropietario) && (playlist && playlist.tipoLista === "NORMAL")) && 
+                        ((user.esAdmin || esPropietario) && (playlist && playlist.tipoLista === "NORMAL" && playlist.esAlbum ===false)) && 
                         <a href=`/linkPlaylist/${id}` >
                             <UserPlus/>
                         </a>
                     }
                     { 
-                        ((user.esAdmin && !playlist.esAlbum) || (esPropietario && playlist && !playlist.esAlbum && playlist.tipoLista === "NORMAL")) &&
+                        ((user.esAdmin && !playlist.esAlbum) || (esPropietario && playlist && playlist.esAlbum === false && playlist.tipoLista === "NORMAL")) &&
                         <PlaylistOpt items={ ["Eliminar playlist","Editar playlist"]}>                        
                             <svg  xmlns="http://www.w3.org/2000/svg"  width="25"  height="25"  viewBox="0 0 24 24"  fill="none"  stroke="#6985C0"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
                         </PlaylistOpt>
                         
                     }
                     { 
-                        (user.esAdmin && playlist.esAlbum) &&
+                        ((user.esAdmin || esPropietario )&& playlist.esAlbum === true) &&
                         <PlaylistOpt items={ ["Editar album"]}>                        
                             <svg  xmlns="http://www.w3.org/2000/svg"  width="25"  height="25"  viewBox="0 0 24 24"  fill="none"  stroke="#6985C0"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
                         </PlaylistOpt>
