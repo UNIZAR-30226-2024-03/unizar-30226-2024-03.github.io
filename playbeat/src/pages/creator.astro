@@ -10,114 +10,6 @@ import { getPlaylistsFromUser } from '@/utils/getPlaylistsFromUser';
 import CarrouselAlbums from '@components/CarrouselAlbums.astro';
 
 
-const canciones = [
-    {
-        title: 'Canción 1',
-        listeners: 1000000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 2',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 3',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 4',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 5',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 6',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 7',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 8',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 9',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 10',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 11',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 12',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 13',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 14',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 15',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 16',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 17',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 18',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 19',
-        listeners: 1000000,
-        time: '3:45'
-    },
-    {
-        title: 'Canción 20',
-        listeners: 1000000,
-        time: '3:45'
-    },
-
-    
-]
-
-
-
-
 
 
 const token = Astro.cookies.get(TOKEN);
@@ -156,13 +48,13 @@ let canciones2 = {num:3, ref:"/creator/tusalbums", items:playlists}
             <div class="flex flex-col w-1/2 items-center rounded-sm">
                 <a href="/creator/estadisticas"><h3 class="text-xl p-2 font-semibold hover:underline">REPRODUCCIONES ULTIMOS 30 DIAS</h3></a>
                 <div class="h-[150px] w-full flex justify-center items-center">
-                    <Contador initial={0} final={user.nEscuchas}  client:load/>
+                    <Contador initial={0} final={user.oyentesMensuales}  client:load/>
                 </div>
             </div>
             <div class="flex flex-col w-1/2 items-center  rounded-sm">
                 <a href="/creator/estadisticas"><h3 class="text-xl p-2 font-semibold hover:underline">OYENTE ULTIMOS 30 DIAS</h3></a>
                 <div class="h-[150px] w-full flex justify-center items-center">
-                    <Contador initial={0} final={user.oyentesMensuales}  client:load/>
+                    <Contador initial={0} final={user.usuariosAlcanzadosUltimoMes}  client:load/>
                 </div>
             </div>
         </div>
