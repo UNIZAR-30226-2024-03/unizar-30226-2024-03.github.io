@@ -78,7 +78,7 @@ if (Astro.request.method ==="POST" ) {
         Astro.cookies.set(TOKEN, response.data);
         const user = await getMyUserInfo(response.data);
         Astro.cookies.set("usuario", user.data)
-        return Astro.redirect("/home");
+        return Astro.redirect("/postLogin");
       } 
 
         
@@ -157,26 +157,7 @@ if (Astro.request.method ==="POST" ) {
 
 
 </NormalLayout>
-<script>
-import { getInfoAudio } from "@/utils/getInfoAudio";
 
-      function getCookie(name: any) {
-    let cookieArr = document.cookie.split("; ");
-    
-    for(let i = 0; i < cookieArr.length; i++) {
-        let cookiePair = cookieArr[i].split("=");
-        
-        if(name == cookiePair[0]) {
-            return decodeURIComponent(cookiePair[1]);
-        }
-    }
-  }
-  document.addEventListener("click")
-  while(getCookie("usuario") === undefined){
-  }
-    const response = await getInfoAudio(getCookie("token") as string,JSON.parse(("usuario")).idUltimoAudio)
-    window.localStorage.setItem("cancion",(response.data));
-</script>
 
 <style>
     .gsi-material-button {

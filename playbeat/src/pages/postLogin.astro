@@ -1,0 +1,31 @@
+---
+import { getInfoAudio } from "@/utils/getInfoAudio";
+
+const token = Astro.cookies.get("token").value;
+const usuario = JSON.parse(Astro.cookies.get("usuario").value);
+const response = await getInfoAudio(token,usuario.idUltimoAudio)
+
+---
+
+
+
+<script is:inline define:vars={{response}}>
+
+        console.log("response" + JSON.stringify(response)) 
+   
+
+
+        const audio = {
+            id: response.idAudio,
+            titulo: response.titulo,
+            artista: response.artistas,
+            duracion: response.duracionSeg,
+        }
+        window.localStorage.setItem("cancion",JSON.stringify(audio));
+        
+        window.location.href = '/home'
+    
+
+    
+</script>
+ 
