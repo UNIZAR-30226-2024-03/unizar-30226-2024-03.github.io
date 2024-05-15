@@ -26,6 +26,7 @@ try{
     let year = date.getFullYear();
 
     let formattedDate = (month < 10 ? '0' : '') + month + '-' + year;
+    console.log(formattedDate)
     let [responseRes, userResponse, res] = await Promise.all([
         getMyAudios(token?.value),
         getMyUserInfo(token?.value),
