@@ -135,6 +135,9 @@ const seguida = playlist?.Seguidores?.map((user: any) => user.idUsuario).include
                         <td class="py-3" >{cancion.album}</td>
                         <td class="py-3 max-w-6 ">{() => {
                         function convertirSegundos(segundos:any) {
+                            if(segundos <60 ){
+                                return "00:"+segundos
+                            }
                             let horas = Math.floor(segundos / 3600);
                             segundos %= 3600;
                             let minutos = Math.floor(segundos / 60);
