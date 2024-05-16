@@ -56,30 +56,15 @@ const link = " https://github.com/UNIZAR-30226-2024-03/Mobile/releases/download/
             </div>
         </div>
     </div>
-    <div>
-        <div class="w-full md:w-[35%] mx-4 md:mx-auto flex flex-col">
-            <div class="text-center mt-6">
-                <p class="text-xl md:text-3xl mt-2 font-semibold mb-3">Si quieres descargarte la <b class="text-bluePB">aplicación móvil</b> accede al siguiente link:  </p>
-               
-
-                <input type="text" id="playlist-link" value={link} size={link.length +7} readonly class=" w-1/2 bg-black bg-opacity-25 rounded-lg p-3 text-lg mb-5">
-                <button class="ml-2 border-white border-1 p-2 rounded-md border-opacity-30 hover:border-opacity-80" onclick="copiarEnlace()">
-                    <Copy/>
-                </button>
+    <div class="w-full md:w-[35%] mx-4 md:mx-auto flex flex-col">
+        <div class="text-center mt-6">
+            <p class="text-xl md:text-3xl mt-2 font-semibold mb-3">Si quieres descargarte la <b class="text-bluePB">aplicación móvil</b> accede al siguiente link:</p>
             
-
-            <script is:inline>
-                function copiarEnlace() {
-                    var link = document.getElementById('playlist-link');
-                    link.select();
-                    document.execCommand('copy');
-                    alert('El enlace ha sido copiado al portapapeles.');
-                }
-            </script>
-               
-            </div>
-            
+            <a href="{link}" target="_blank" class="text-lg bg-black bg-opacity-25 rounded-lg p-3 mb-5 inline-block w-1/2">
+                {link}
+            </a>
         </div>
     </div>
+
 </LayoutLanding>
 
