@@ -48,7 +48,7 @@ try{
             podcastAll = responsePodcast.data.podcast;
             albumsAll = responseAlbums.data;
             playlistsAll = responseAlbums.data;
-
+            console.log("playlistsAll", playlistsAll);
             albumsAll = responseAlbums.data;
             albumsAll = albumsAll.filter((lista: any)  => lista.tipoLista === 'NORMAL' && lista.esAlbum === true);
             playlistsAll = playlistsAll.filter((lista: any)  => lista.tipoLista === 'NORMAL' && lista.esAlbum === false);
@@ -64,6 +64,10 @@ try{
             const date = `${dia}-${mes}-${anio}`;
             fechaFormateada = date;
 
+        }else{
+            const responsePlaylist = await getPlaylistsFromUser(Number(id), jws.value);
+            playlistsAll = responsePlaylist.data;
+            playlistsAll = playlistsAll.filter((lista: any)  => lista.tipoLista === 'NORMAL' && lista.esAlbum === false);
         }
 
        
